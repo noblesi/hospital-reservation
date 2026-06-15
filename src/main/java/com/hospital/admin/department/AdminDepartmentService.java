@@ -1,4 +1,4 @@
-package com.hospital.admin;
+package com.hospital.admin.department;
 
 public class AdminDepartmentService {
 

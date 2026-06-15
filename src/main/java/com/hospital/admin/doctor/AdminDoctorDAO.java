@@ -1,4 +1,4 @@
-package com.hospital.admin;
+package com.hospital.admin.doctor;
 
 public class AdminDoctorDAO {
 
