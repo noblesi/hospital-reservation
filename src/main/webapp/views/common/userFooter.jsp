@@ -1,4 +1,5 @@
 <%-- /WEB-INF/views/common/userFooter.jsp --%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/common/taglib.jsp" %>
 
 <footer class="user-footer">
