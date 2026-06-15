@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * memberDTO
- */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -19,15 +17,15 @@ import lombok.ToString;
 public class MemberDTO {
 	private String patientNo;
 	private String loginId; 
-	private String passWord;
+	private String password;
 	private String name;
 	private Date birthDate;
 	private String genderFM;
 	private String phoneNumber;
 	private String email;
 	private String zipCode;
-	private String adress;
-	private String adressDetail;
+	private String address;
+	private String addressDetail;
 	private Date registeredAt;
 	private String hasMinorMemberYn;
 	private String ip;
