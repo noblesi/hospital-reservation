@@ -1,0 +1,15 @@
+﻿# Eclipse / Java web project build outputs
+/build/
+/target/
+*.class
+
+# Server / runtime generated files
+/.metadata/
+/Servers/
+*.log
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
