@@ -1,4 +1,4 @@
-package com.hospital.common;
+package com.hospital.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,12 +7,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 @ToString
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
 
-public class DoctorPositionDTO {
-	private String positionCode;
-	private String positionName;
+public class DoctorStatusDTO {
+	private String statusCode;
+	private String statusName;
 }// class

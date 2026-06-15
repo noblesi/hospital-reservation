@@ -1,4 +1,4 @@
-package com.hospital.common;
+package com.hospital.department.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,10 +12,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class DepartmentDTO {
-	private String deptNo;
-	private String deptName;
-	private String description;
+public class AdminDepartmentSearchDTO {
+
+	private int startNum;
+	private int endNum;
+	private String field;
+	private String keyword;
 	private String isActiveYn;
-	private String deptLoc;
+	
 }// class

@@ -1,4 +1,4 @@
-package com.hospital.common;
+package com.hospital.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
