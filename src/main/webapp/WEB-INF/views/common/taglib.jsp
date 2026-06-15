@@ -2,10 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%--
-  Spring Boot 3.x / Jakarta 환경
-  오류가 발생하면 아래 uri를 구버전 JSTL uri로 변경하세요.
-
-  구버전 예시:
-  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+  현재 프로젝트는 레거시 JSTL(javax) 환경을 기준으로 실행되므로
+  Jakarta 태그 URI가 아니라 구버전 JSTL URI를 사용합니다.
 --%>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
