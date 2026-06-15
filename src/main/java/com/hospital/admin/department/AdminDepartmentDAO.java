@@ -1,5 +1,10 @@
 package com.hospital.admin.department;
 
+import java.util.List;
+
+import com.hospital.common.AdminDepartmentSearchDTO;
+import com.hospital.common.DepartmentDTO;
+
 public class AdminDepartmentDAO {
 	private static AdminDepartmentDAO adminDepartmentDAO;
 	
@@ -15,11 +20,33 @@ public class AdminDepartmentDAO {
 	
 	public int selectDepartmentTotalCnt(AdminDepartmentSearchDTO searchDTO) {
 		
+		return 0;
 	}// selectDepartmentTotalCnt
-	+ selectDepartmentList(searchDTO : AdminDepartmentSearchDTO) : List
-	+ selectDepartmentDetail(deptNo : String) : DepartmentDTO
-	+ insertDepartment(departmentDTO : DepartmentDTO) : int
-	+ updateDepartment(departmentDTO : DepartmentDTO) : int
-	+ updateDepartmentActive(deptNo : String, isActiveYn : String) : int
-	+ selectDepartmentNameCnt(deptName : String) : int
+	
+	public List<AdminDepartmentSearchDTO> selectDepartmentList(AdminDepartmentSearchDTO searchDTO){
+		List<DepartmentDTO> departmentDTO = null;
+		List<AdminDepartmentSearchDTO> adminDepartmentSearchDTO = searchDTO;
+		
+		return adminDepartmentSearchDTO;
+	}//selectDepartmentList
+	
+	public DepartmentDTO selectDepartmentDetail(String deptNo) {
+		
+	}// selectDepartmentDetail
+	
+	public int insertDepartment(DepartmentDTO departmentDTO) {
+		
+	}// insertDepartment
+	
+	public int updateDepartment(DepartmentDTO departmentDTO) {
+		
+	}// updateDepartment
+	
+	public int updateDepartmentActive(String deptNo, String isActiveYn) {
+		
+	}// updateDepartmentActive
+	
+	public int selectDepartmentNameCnt(String deptName) {
+		
+	}//selectDepartmentNameCnt
 }// class
