@@ -2,8 +2,8 @@ package com.hospital.admin.department;
 
 import java.util.List;
 
+import com.hospital.admin.department.dto.AdminDepartmentSearchDTO;
 import com.hospital.common.dto.DepartmentDTO;
-import com.hospital.department.dto.AdminDepartmentSearchDTO;
 
 
 public class AdminDepartmentDAO {
