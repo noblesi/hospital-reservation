@@ -191,3 +191,27 @@ a {
     gap: 16px;
     font-size: 13px;
 }
+
+.common-message-area {
+    margin-bottom: 20px;
+}
+
+.common-message {
+    padding: 12px 16px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.common-message.success {
+    border-color: #b8dfc5;
+    background-color: #e8f6ed;
+    color: #17633a;
+}
+
+.common-message.error {
+    border-color: #f0c2c7;
+    background-color: #fdecee;
+    color: #9f2635;
+}
