@@ -23,13 +23,22 @@ public final class DBConnection {
         }
     }
 
+    /**
+     * 유틸리티 클래스의 인스턴스 생성을 막는 생성자입니다.
+     */
     private DBConnection() {
     }
 
+    /**
+     * 설정된 DB 접속 정보로 Connection을 생성하는 메서드입니다.
+     */
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
+    /**
+     * 전달받은 JDBC 자원을 순서대로 닫는 메서드입니다.
+     */
     public static void close(AutoCloseable... resources) {
         if (resources == null) {
             return;
@@ -45,6 +54,9 @@ public final class DBConnection {
         }
     }
 
+    /**
+     * 시스템 속성, 환경 변수, 기본값 순서로 설정 값을 가져오는 메서드입니다.
+     */
     private static String getConfig(String propertyName, String envName, String defaultValue) {
         String value = System.getProperty(propertyName);
 
