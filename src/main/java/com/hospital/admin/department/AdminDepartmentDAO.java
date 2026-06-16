@@ -19,7 +19,8 @@ public class AdminDepartmentDAO {
 		return adminDepartmentDAO;
 	}//getInstance
 	
-	public int selectDepartmentTotalCnt(AdminDepartmentSearchDTO searchDTO) {
+//	public int selectDepartmentTotalCnt(AdminDepartmentSearchDTO searchDTO) {
+	public int selectDepartmentTotalCnt() {
 		AdminDepartmentSearchDTO adminDepartmentSearchDTO = null;
 		
 		return 0;
