@@ -1,6 +1,4 @@
-<%-- /WEB-INF/views/common/userHeader.jsp --%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="/WEB-INF/views/common/taglib.jsp" %>
+<%-- /views/common/userHeader.jsp --%>
 
 <header class="user-header">
     <div class="user-header-top">

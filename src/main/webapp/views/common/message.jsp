@@ -1,6 +1,4 @@
-<%-- /WEB-INF/views/common/message.jsp --%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="/WEB-INF/views/common/taglib.jsp" %>
+<%-- /views/common/message.jsp --%>
 
 <c:set var="successMessage" value="${not empty requestScope.message ? requestScope.message : sessionScope.message}" />
 <c:set var="failMessage" value="${not empty requestScope.errorMessage ? requestScope.errorMessage : sessionScope.errorMessage}" />

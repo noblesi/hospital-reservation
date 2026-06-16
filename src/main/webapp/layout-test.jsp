@@ -1,8 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="/views/common/taglib.jsp" %>
 <%
     request.setAttribute("activeMenu", "hospital");
     request.setAttribute("depth1", "공통 레이아웃");
     request.setAttribute("depth2", "사용자 화면 테스트");
+    request.setAttribute("message", "공통 메시지 출력 영역이 정상적으로 연결되었습니다.");
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -13,14 +15,16 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css">
 </head>
 <body>
-    <%@ include file="/WEB-INF/views/common/userHeader.jsp" %>
-    <%@ include file="/WEB-INF/views/common/userBreadcrumb.jsp" %>
+    <%@ include file="/views/common/userHeader.jsp" %>
+    <%@ include file="/views/common/userBreadcrumb.jsp" %>
 
     <main class="user-container">
         <div class="page-title-area">
             <h2>공통 레이아웃 테스트</h2>
             <p>사용자 공통 헤더, breadcrumb, 콘텐츠 영역, footer를 확인하는 페이지입니다.</p>
         </div>
+
+        <%@ include file="/views/common/message.jsp" %>
 
         <section class="content-card">
             <div class="search-area">
@@ -62,7 +66,7 @@
         </section>
     </main>
 
-    <%@ include file="/WEB-INF/views/common/userFooter.jsp" %>
+    <%@ include file="/views/common/userFooter.jsp" %>
 
     <script src="${pageContext.request.contextPath}/resources/js/user-layout.js"></script>
 </body>
