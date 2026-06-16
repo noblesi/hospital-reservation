@@ -83,4 +83,4 @@ public class MemberRegisterService {
 		}//end catch
 		return mDTO;
 	}//searchRegiSter
-}//MemberRegisterService
+}//class

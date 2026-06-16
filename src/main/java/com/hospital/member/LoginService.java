@@ -43,4 +43,4 @@ public class LoginService {
         return mDTO;
     }// login
 
-}// LoginService
+}// class

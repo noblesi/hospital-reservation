@@ -189,4 +189,4 @@ public class MemberRegisterDAO {
 		
 		return mDTO;
 	}//selectRegisterResult
-}//MemberRegisterDAO
+}//class

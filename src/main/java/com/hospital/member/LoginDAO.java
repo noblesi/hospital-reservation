@@ -18,15 +18,15 @@ public class LoginDAO {
 
     private LoginDAO() {
 
-    }// LoginDAO
+    }//LoginDAO
 
     public static LoginDAO getInstance() {
         if (lDAO == null) {
             lDAO = new LoginDAO();
-        }// end if
+        }//end if
 
         return lDAO;
-    }// getInstance
+    }//getInstance
 
     /**
      * 로그인 아이디로 회원 정보 조회
@@ -66,13 +66,13 @@ public class LoginDAO {
                 mDTO.setPassword(rs.getString("password"));
                 mDTO.setName(rs.getString("name"));
                 mDTO.setIsWithdrawnYn(rs.getString("is_withdrawn_yn"));
-            }// end if
+            }//end if
 
         } finally {
             DBConnection.close(rs, pstmt, con);
-        }// end finally
+        }//end finally
 
         return mDTO;
-    }// selectMemberByLoginId
+    }//selectMemberByLoginId
 
-}// class
+}//class
