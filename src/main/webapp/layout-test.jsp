@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css">
 </head>
 <body>
-    <%@ include file="/WEB-INF/views/common/userHeader.jsp" %>
-    <%@ include file="/WEB-INF/views/common/userBreadcrumb.jsp" %>
+    <%@ include file="/views/common/userHeader.jsp" %>
+    <%@ include file="/views/common/userBreadcrumb.jsp" %>
 
     <main class="user-container">
         <div class="page-title-area">
@@ -62,7 +62,7 @@
         </section>
     </main>
 
-    <%@ include file="/WEB-INF/views/common/userFooter.jsp" %>
+    <%@ include file="/views/common/userFooter.jsp" %>
 
     <script src="${pageContext.request.contextPath}/resources/js/user-layout.js"></script>
 </body>

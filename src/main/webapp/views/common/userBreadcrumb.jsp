@@ -1,6 +1,6 @@
 <%-- /WEB-INF/views/common/userBreadcrumb.jsp --%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="/WEB-INF/views/common/taglib.jsp" %>
+<%@ include file="taglib.jsp" %>
 
 <div class="breadcrumb-bar">
     <div class="breadcrumb-inner">

@@ -1,0 +1,278 @@
+/* global */
+#mainWrap {
+	background-color: #f3f3f3;
+	width: 100%;
+	min-height: 1000px;
+	overflow: auto;
+}
+
+#container {
+	width: 1100px;
+	margin: 0px auto;
+}
+
+.focusBorder {
+	border: 5px solid #2763ba;
+}
+
+/* 예약 구역 헤더 */
+.conHeader {
+	height: 130px;
+	padding-top: 70px;
+	margin-bottom: 60px;
+}
+
+.title {
+	float: left;
+	font-size: 40px;
+	font-weight: 700;
+	margin: 0;
+}
+
+.telDiv {
+	float: right;
+	margin-top: 14px;
+}
+
+.telIcon {
+	width: 40px;
+	height: 40px;
+}
+
+.tel {
+	font-size: 22px;
+	font-weight: 700;
+	color: #2763ba;
+}
+
+/* 진료과 선택 구역 */
+.deptWrap {
+	width: 800px;
+	height: 310px;
+	float: left;
+	background-color: #ffffff;
+}
+
+/* 검색, 정렬 바 */
+.searchBar {
+	height: 70px;
+	margin-bottom: 10px;
+}
+
+.sortRadioDiv {
+	float: left;
+	margin-left: 40px;
+	margin-top: 23px;
+}
+
+.form-check-input {
+	width: 23px;
+	height: 23px;
+	margin-right: 5px;
+}
+
+.form-check-label {
+	margin-right: 15px;
+	font-size: 17px;
+	vertical-align: middle;
+}
+
+.dNameInputDiv {
+	float: right;
+	margin-top: 20px;
+	margin-right: 40px;
+}
+
+#searchBtn {
+	background-color: #2763ba;
+	padding: 0px;
+	width: 40px;
+	height: 40px;
+	border: none;
+	float: left;
+}
+
+.searchImg {
+	width: 23px;
+	height: 23px;
+}
+
+#dNameInput {
+	width: 200px;
+	height: 40px;
+	float: left;
+	border: 1px solid #cccccc;
+	padding-left: 5px;
+}
+
+#dNameInput:focus {
+	outline: none;
+}
+
+/* 진료과 목록 */
+.deptListDiv {
+	width: 750px;
+	height: 200px;
+	border-top: 2px solid #000000;
+	border-bottom: 1px solid #000000;
+	margin: 0px auto;
+}
+
+/* 진료과 목록 슬라이더 */
+.btnPrev {
+	float: left;
+}
+
+.btnNext {
+	float: left;
+}
+
+.btnNext, .btnPrev {
+	width: 20px;
+	height: 20px;
+	border: none;
+	background-color: #FFFFFF;
+	margin-top: 77px;
+}
+
+.arrowIcon {
+	width: 25px;
+	height: 25px;
+}
+
+.sliderWindow {
+	width: 700px;
+	height: 180px;
+	float: left;
+	overflow: hidden;
+}
+
+.sliderTrack {
+	width: 200%;
+	height: 180px;
+	position: relative;
+}
+
+.sliderPage {
+	width: 700px;
+	float: left;
+	padding-left: 70px;
+}
+
+.slTab {
+	margin-top: 10px;
+	font-size: 18px;
+}
+
+.slRow {
+	height: 60px;
+}
+
+.slCol {
+	width: 200px;
+}
+
+.selectDept {
+	color: #2763ba;
+	text-decoration: underline;
+}
+
+/* 선택한 정보 확인 구역 */
+.rsInfoWrap {
+	width: 280px;
+	height: 310px;
+	margin-left: 20px;
+	float: right;
+	background-color: #2763ba;
+	color: #FFFFFF;
+}
+
+.rsInfoTitle {
+	margin: 0px auto;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	font-size: 20px;
+	font-weight: 700;
+	width: 220px;
+	font-size: 22px;
+}
+
+.rsInfoElm {
+	width: 220px;
+	height: 40px;
+	margin: 0px auto;
+	font-size: 18px;
+}
+
+/* 의료진 목록 */
+.doctorListDiv {
+	width: 800px;
+	height: 870px;
+	margin-top: 20px;
+	margin-bottom: 100px;
+	padding: 30px;
+	float: left;
+	background-color: #FFFFFF;
+	float: left;
+	float: left;
+}
+
+.doctorListTitle {
+	font-size: 28px;
+	font-weight: 700;
+	margin-bottom: 30px;
+}
+
+.doctorListMain {
+	height: 740px;
+	border-top: 2px solid #333333;
+	border-bottom: 1px solid #000000;
+	border-top: 2px solid #333333;
+}
+
+.noResult {
+	color: #666666;
+	font-size: 20px;
+	text-align: center;
+	margin: 0;
+	height: 740px;
+	vertical-align: middle;
+	line-height: 740px;
+}
+
+/* 진료 일정 */
+.scheduleDiv {
+	width: 280px;
+	height: 870px;
+	margin-top: 20px;
+	margin-left: 20px;
+	float: right;
+}
+
+.scheduleCalDiv {
+	height: 750px;
+	background-color: #FFFFFF;
+	margin-bottom: 20px;
+	padding: 30px;
+}
+
+.schduleCalTitle {
+	font-size: 20px;
+	font-weight: 700;
+}
+
+.result {
+	color: #666666;
+	font-size: 20px;
+	text-align: center;
+	margin-top: 300px;
+}
+
+#appointBtn {
+	height: 100px;
+	width: 280px;
+	border: none;
+	background-color: #2763ba;
+	font-size: 24px;
+	color: #FFFFFF;
+}
