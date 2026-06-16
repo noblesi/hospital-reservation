@@ -5,6 +5,11 @@
     request.setAttribute("depth1", "공통 레이아웃");
     request.setAttribute("depth2", "사용자 화면 테스트");
     request.setAttribute("message", "공통 메시지 출력 영역이 정상적으로 연결되었습니다.");
+    request.setAttribute("baseUrl", "/layout-test.jsp");
+    request.setAttribute("currentPage", 3);
+    request.setAttribute("totalPage", 12);
+    request.setAttribute("startPage", 1);
+    request.setAttribute("endPage", 10);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -63,6 +68,8 @@
                     </tr>
                 </tbody>
             </table>
+
+            <%@ include file="/views/common/pagination.jsp" %>
         </section>
     </main>
 

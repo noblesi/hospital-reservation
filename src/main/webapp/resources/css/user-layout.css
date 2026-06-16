@@ -215,3 +215,36 @@ a {
     background-color: #fdecee;
     color: #9f2635;
 }
+
+.common-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 24px;
+}
+
+.pagination-page,
+.pagination-control {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 10px;
+    border: 1px solid #d8dee8;
+    background-color: #fff;
+    color: #444;
+    font-size: 14px;
+    line-height: 32px;
+    text-align: center;
+}
+
+.pagination-page.active {
+    border-color: #005bac;
+    background-color: #005bac;
+    color: #fff;
+    font-weight: 700;
+}
+
+.pagination-control.disabled {
+    color: #b8bec8;
+    background-color: #f6f8fb;
+}

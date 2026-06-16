@@ -96,6 +96,7 @@ src/main/webapp
     ├── common
     │   ├── taglib.jsp
     │   ├── message.jsp
+    │   ├── pagination.jsp
     │   ├── adminHeader.jsp
     │   ├── adminSidebar.jsp
     │   ├── userHeader.jsp
