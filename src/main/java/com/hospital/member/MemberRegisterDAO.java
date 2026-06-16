@@ -116,7 +116,7 @@ public class MemberRegisterDAO {
 	 * @param MinorDTO 미성년자 정보 
 	 * @return 추가될 행 수 
 	 */
-	public int insertMinorMember(MinorMemberDTO MinorDTO) throws SQLException{
+	public int insertMinorMember(MinorMemberDTO minorDTO) throws SQLException{
 		int rowCnt = 0;
 		
 		Connection con = null;
@@ -136,10 +136,10 @@ public class MemberRegisterDAO {
 			 
 			 pstmt = con.prepareStatement(insertMinorMember.toString());
 			 
-			 pstmt.setString(1, MinorDTO.getPatientNo());
-			 pstmt.setString(2, MinorDTO.getRelationship());
-			 pstmt.setString(3, MinorDTO.getMinorName());
-			 pstmt.setString(4, MinorDTO.getMinorBirthDate());
+			 pstmt.setString(1, minorDTO.getPatientNo());
+			 pstmt.setString(2, minorDTO.getRelationship());
+			 pstmt.setString(3, minorDTO.getMinorName());
+			 pstmt.setDate(4, minorDTO.getMinorBirthDate());
 			 
 			 rowCnt = pstmt.executeUpdate();
 		} finally {
