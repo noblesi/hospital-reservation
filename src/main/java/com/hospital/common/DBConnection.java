@@ -7,12 +7,13 @@ import java.sql.SQLException;
 public final class DBConnection {
     private static final String DRIVER = getConfig("hospital.db.driver", "HOSPITAL_DB_DRIVER",
             "oracle.jdbc.OracleDriver");
+    // 서비스명 형식 예비 URL: jdbc:oracle:thin:@//211.63.89.134:1521/orcl
     private static final String URL = getConfig("hospital.db.url", "HOSPITAL_DB_URL",
-            "jdbc:oracle:thin:@localhost:1521:xe");
+            "jdbc:oracle:thin:@211.63.89.134:1521:orcl");
     private static final String USER = getConfig("hospital.db.user", "HOSPITAL_DB_USER",
-            "hospital");
+            "scott");
     private static final String PASSWORD = getConfig("hospital.db.password", "HOSPITAL_DB_PASSWORD",
-            "hospital");
+            "tiger");
 
     static {
         try {
