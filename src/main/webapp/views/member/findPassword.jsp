@@ -137,7 +137,7 @@
                             <tr>
                                 <th>아이디</th>
                                 <td>
-                                    <input id="mailLoginId" name="LoginId" class="inputText" type="text" maxlength="20">
+                                    <input id="mailLoginId" name="loginId" class="inputText" type="text" maxlength="20">
                                 </td>
                             </tr>
                             <tr>
@@ -172,15 +172,57 @@
 
     <button type="button" class="layerCloseBtn">×</button>
 </section>
+<!-- 비밀번호 재설정 모달 -->
+<section class="layerWrap resetPasswordLayer">
+    <h1>비밀번호 재설정</h1>
 
+    <div class="layerContent resetLayerContent">
+        <form id="resetForm" action="<c:url value='resetPasswordProcess.jsp' />" method="post">
+
+            <div class="resetIcon">▣</div>
+
+            <h2>비밀번호 변경</h2>
+
+            <div class="resetFormBox">
+                <label for="newPassword">새 비밀번호</label>
+                <input type="password" id="newPassword" name="newPassword" class="inputText">
+
+                <label for="confirmPassword">새 비밀번호 확인</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="inputText">
+            </div>
+
+            <div class="btnWrap">
+                <button type="button" class="btnType03" id="resetPasswordBtn">확인하기</button>
+            </div>
+
+        </form>
+    </div>
+
+    <button type="button" class="layerCloseBtn">×</button>
+</section>
 <script src="<c:url value='/resources/js/user-layout.js' />"></script>
+<jsp:include page="../common/userFooter.jsp" />
 
 <!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- 아이디/비밀번호 찾기 전용 JS -->
 <script src="<c:url value='/resources/js/find-account.js' />"></script>
 
+<!-- 비밀번호 인증 성공 시 모달 자동 오픈 -->
+<c:if test="${param.reset eq 'Y'}">
+<script>
+$(function(){
 
+    // 기존 모달 전부 닫기
+    $(".layerWrap").removeClass("on");
+
+    // 재설정 모달만 열기
+    $(".layerDim").addClass("on");
+    $(".resetPasswordLayer").addClass("on");
+
+});
+</script>
+</c:if>
 
 </body>
 </html>

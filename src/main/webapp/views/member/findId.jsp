@@ -161,7 +161,7 @@
 </section>
 
 <script src="<c:url value='/resources/js/user-layout.js' />"></script>
-
+<jsp:include page="../common/userFooter.jsp" />
 
 <!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
