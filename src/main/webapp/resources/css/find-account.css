@@ -54,7 +54,6 @@
     background:#fff;
 }
 
-/* 선택된 탭 */
 .tabTypeCol2 li.current a{
     background:#1261c9;
     color:#fff;
@@ -80,7 +79,6 @@
     background:#fff;
 }
 
-/* 인증 방법 카드 */
 .memType03 a{
     flex:1;
     display:flex;
@@ -92,12 +90,14 @@
     border-right:1px solid #e1e4ea;
 }
 
-/* 마우스 오버 */
+.memType03 a:last-child{
+    border-right:0;
+}
+
 .memType03 a:hover{
     background:#f7faff;
 }
 
-/* 아이콘 영역 */
 .memType03 .icon{
     height:75px;
     margin-bottom:8px;
@@ -120,13 +120,12 @@
     z-index:1000;
 }
 
-/* 모달 배경 표시 */
 .layerDim.on{
     display:block;
 }
 
 /* =========================
-   모달 창
+   공통 모달
 ========================= */
 .layerWrap{
     display:none;
@@ -137,125 +136,209 @@
     width:500px;
     background:#fff;
     z-index:1001;
-    border:1px solid #b5b5b5;
-    box-shadow:0 8px 25px rgba(0,0,0,.25);
+
+    border:none;
+    outline:none;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.25);
 }
 
-/* 모달 열림 */
 .layerWrap.on{
     display:block;
 }
 
-/* 모달 제목 */
+/* =========================
+   모달 제목
+========================= */
 .layerWrap h1{
     margin:0;
-    padding:20px 30px;
+    height:72px;
+    padding:0 30px;
+
+    line-height:72px;
+
     background:#0096c9;
     color:#fff;
+
     font-size:24px;
     font-weight:700;
 }
 
-/* 모달 닫기 버튼 */
+/* =========================
+   X 버튼
+========================= */
 .layerCloseBtn{
     position:absolute;
-    right:22px;
-    top:17px;
-    width:32px;
-    height:32px;
-    border:0;
+
+    top:18px;
+    right:20px;
+
+    width:36px;
+    height:36px;
+
+    border:none;
     background:none;
+
     color:#fff;
     font-size:38px;
-    line-height:28px;
     cursor:pointer;
 }
 
 /* =========================
-   모달 내용 영역
+   모달 내용
 ========================= */
 .layerContent{
-    padding:75px 55px 55px;
+    padding:55px 50px 45px;
 }
 
-/* 접근성을 위한 legend 숨김 */
 .layerContent legend{
     position:absolute;
     left:-9999px;
 }
 
 /* =========================
-   입력 폼 테이블
+   입력 테이블
 ========================= */
+.boardTypeForm{
+    width:360px;
+    margin:0 auto;
+}
+
 .boardTypeForm table{
     width:100%;
     border-collapse:collapse;
-    border-top:2px solid #555;
-    border-bottom:2px solid #555;
+
+    border-top:2px solid #444;
+    border-bottom:2px solid #444;
 }
 
-/* 제목 셀 */
+.boardTypeForm tr{
+    border-bottom:1px solid #e5e5e5;
+}
+
+.boardTypeForm tr:last-child{
+    border-bottom:none;
+}
+
 .boardTypeForm th{
-    width:130px;
-    padding:16px 20px;
+    width:120px;
+    height:60px;
+
+    padding-left:15px;
+
     text-align:left;
+    vertical-align:middle;
+
+    color:#666;
     font-size:15px;
-    color:#777;
-    background:#fff;
-    border-bottom:1px solid #ddd;
+    font-weight:700;
 }
 
-/* 내용 셀 */
 .boardTypeForm td{
-    padding:12px 0;
-    border-bottom:1px solid #ddd;
+    height:60px;
+    vertical-align:middle;
 }
 
 /* =========================
    입력창
 ========================= */
 .inputText{
-    width:220px;
-    height:44px;
+    width:205px;
+    height:40px;
+
     padding:0 10px;
+
     border:1px solid #d5d5d5;
-    font-size:15px;
+    box-sizing:border-box;
+
+    font-size:14px;
 }
 
-/* 입력창 포커스 */
 .inputText:focus{
     outline:none;
     border-color:#1261c9;
 }
 
-/* 안내 문구 */
 .desc{
-    margin:8px 0 0;
-    font-size:14px;
-    color:#2f67bc;
+    margin-top:6px;
+
+    font-size:13px;
+    color:#1261c9;
 }
 
 /* =========================
-   버튼 영역
+   버튼
 ========================= */
 .btnWrap{
-    margin-top:32px;
+    margin-top:30px;
     text-align:center;
 }
 
-/* 확인 버튼 */
 .btnType03{
     width:110px;
     height:45px;
-    border:0;
+
+    border:none;
+
     background:#1261c9;
     color:#fff;
-    font-size:16px;
+
+    font-size:15px;
     font-weight:700;
+
     cursor:pointer;
 }
 
-/* 버튼 오버 */
 .btnType03:hover{
     background:#004792;
+}
+
+/* =========================
+   비밀번호 재설정 모달
+========================= */
+.resetPasswordLayer{
+    width:430px;
+}
+
+.resetLayerContent{
+    padding:45px 55px 40px;
+    text-align:center;
+}
+
+.resetIcon{
+    margin-bottom:20px;
+
+    color:#1261c9;
+    font-size:32px;
+}
+
+.resetPasswordLayer h2{
+    margin:0 0 25px;
+
+    font-size:24px;
+    font-weight:700;
+
+    color:#222;
+}
+
+.resetFormBox{
+    width:100%;
+    text-align:left;
+}
+
+.resetFormBox label{
+    display:block;
+
+    margin:12px 0 6px;
+
+    font-size:13px;
+    color:#555;
+}
+
+.resetFormBox .inputText{
+    width:100%;
+}
+
+.resetPasswordLayer .btnWrap{
+    margin-top:30px;
 }
