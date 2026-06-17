@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import com.hospital.common.DBConnection;
 import com.hospital.member.dto.FindAccountDTO;
 
+/**
+ * 아이디 찾기 및 비밀번호 찾기 관련 DB 작업을 처리하는 DAO 
+ */
 public class FindAccountDAO {
 
     private static FindAccountDAO fDAO;
@@ -24,6 +27,12 @@ public class FindAccountDAO {
         return fDAO;
     }// getInstance
 
+    /**
+     * 이름, 연락처 또는 이메일, 생년월일을 이용하여 회원의 아이디를 조회하는 일
+     * @param faDTO 이름, 연락처 또는 이메일, 생년월일 정보
+     * @return 조회된 아이디, 없으면 null
+     * @throws SQLException 
+     */
     public String selectId(FindAccountDTO faDTO) throws SQLException {
 
         String loginId = null;
@@ -46,7 +55,7 @@ public class FindAccountDAO {
                 selectId.append(" and phone_number = ? ");
             } else {
                 selectId.append(" and email = ? ");
-            }
+            }//end else
 
             pstmt = con.prepareStatement(selectId.toString());
 
@@ -57,7 +66,7 @@ public class FindAccountDAO {
                 pstmt.setString(3, faDTO.getPhoneNumber());
             } else {
                 pstmt.setString(3, faDTO.getEmail());
-            }
+            }//else
 
             rs = pstmt.executeQuery();
 
@@ -72,6 +81,14 @@ public class FindAccountDAO {
         return loginId;
     }// selectId
 
+    /**
+     * 비밀번호 재설정을 위한 회원 검증
+     * 입력받은 아이디, 이름, 핸드폰 번호 또는 이메일
+     * 생년월일 정보가 회원정보와 일치하는지 확인하는 일
+     * @param faDTO 아이디.이름,연락처 또는 이메일, 생년월일 정보
+     * @return  회원정보가 일치하면 true, 아니면 false
+     * @throws SQLException
+     */
     public boolean checkPassword(FindAccountDTO faDTO) throws SQLException {
 
         boolean result = false;
@@ -95,7 +112,7 @@ public class FindAccountDAO {
                 checkPassword.append(" and phone_number = ? ");
             } else {
                 checkPassword.append(" and email = ? ");
-            }
+            }//end else
 
             pstmt = con.prepareStatement(checkPassword.toString());
 
@@ -107,7 +124,7 @@ public class FindAccountDAO {
                 pstmt.setString(4, faDTO.getPhoneNumber());
             } else {
                 pstmt.setString(4, faDTO.getEmail());
-            }
+            }//end else
 
             rs = pstmt.executeQuery();
 
@@ -120,6 +137,15 @@ public class FindAccountDAO {
         return result;
     }// checkPassword
 
+    /**
+     * 회원의 비밀번호를 변경하는 일 
+     * 비밀번호 찾기에서 회원 검증이 완료된 후 
+     * 새로운 비밀번호를 수정한다.
+     * @param loginId 변경할 회원 아이디
+     * @param newPassword 새비밀번호
+     * @return 변경된 행 수 
+     * @throws SQLException 
+     */
     public int resetPassword(String loginId, String newPassword) throws SQLException {
 
         int rowCnt = 0;
