@@ -14,7 +14,7 @@ import lombok.ToString;
 
 public class DoctorDTO {
 	private int doctorLicenseNo;
-	private int deptNo;
+	private String deptNo;
 	private String name;
 	private String phoneNum;
 	private String positionCode;
