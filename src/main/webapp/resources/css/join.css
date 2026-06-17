@@ -1,0 +1,235 @@
+@charset "UTF-8";
+@charset "UTF-8";
+
+/* 회원가입 공통 레이아웃 */
+.memJoinContent{
+    width:1200px;
+    margin:0 auto;
+    padding:40px 0 70px;
+}
+
+.contHeadingWrap{
+    margin-bottom:25px;
+}
+
+.contHeadingWrap h2{
+    font-size:32px;
+    font-weight:bold;
+}
+
+/* STEP */
+.stepWrap{
+    display:flex;
+    width:100%;
+    margin:0 0 40px;
+    padding:0;
+    list-style:none;
+}
+
+.stepWrap li{
+    flex:1;
+    height:76px;
+    border:1px solid #d9d9d9;
+    border-right:none;
+    background:#fff;
+    color:#c4c4c4;
+    font-weight:bold;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-left:32px;
+}
+
+.stepWrap li:last-child{
+    border-right:1px solid #d9d9d9;
+}
+
+.stepWrap li b{
+    display:block;
+    font-size:14px;
+    margin-bottom:7px;
+}
+
+.stepWrap li.current{
+    background:#2f67bc;
+    color:#fff;
+}
+
+/* STEP01 회원유형 선택 */
+.memJoinWrap{
+    display:flex;
+    gap:30px;
+    width:100%;
+}
+
+.memJoinWrap .card{
+    flex:1;
+    min-height:360px;
+    background:#fff;
+    border:1px solid #ddd;
+    border-top:4px solid #2763ba;
+    padding:45px 35px 35px;
+    box-sizing:border-box;
+}
+
+.memJoinWrap .card-header{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.memJoinWrap .card-icon{
+    width:70px;
+    height:70px;
+    margin:0 auto 20px;
+    border-radius:50%;
+    background:#f2f6ff;
+}
+
+.memJoinWrap .card-header h3{
+    font-size:22px;
+    margin:0;
+}
+
+.memJoinWrap .title-child{
+    color:#eb8aa8;
+    font-weight:bold;
+}
+
+.memJoinWrap .title-common{
+    color:#2763ba;
+    font-weight:bold;
+}
+
+.memJoinWrap .button{
+    display:block;
+    width:100%;
+    height:52px;
+    line-height:52px;
+    background:#2763ba;
+    color:#fff;
+    text-align:center;
+    text-decoration:none;
+    font-weight:bold;
+    margin-bottom:25px;
+}
+
+.memJoinWrap .button:hover{
+    background:#1d4f99;
+}
+
+.memJoinWrap .note{
+    font-size:14px;
+    color:#555;
+    line-height:1.7;
+}
+
+.memJoinWrap .note p{
+    margin:0 0 5px;
+}
+
+.memJoinWrap .note .highlight{
+    color:#eb8aa8;
+    font-weight:bold;
+}
+
+.icon-child::before{
+    content:"👧";
+    display:block;
+    text-align:center;
+    line-height:70px;
+    font-size:34px;
+}
+
+.icon-common::before{
+    content:"👤";
+    display:block;
+    text-align:center;
+    line-height:70px;
+    font-size:34px;
+}
+
+/* STEP02 약관동의 */
+.title{
+    color:#2763ba;
+}
+
+.title.child{
+    color:#eb8aa8;
+}
+
+.joinStepDesc{
+    padding:30px;
+    margin-bottom:30px;
+    background:#f8f9fc;
+    border:1px solid #ddd;
+    line-height:1.8;
+}
+
+.joinStepDesc em{
+    color:#2763ba;
+    font-style:normal;
+    font-weight:bold;
+}
+
+.colorPoint{
+    color:#2763ba;
+    font-weight:bold;
+}
+
+.persInforWrap{
+    margin-bottom:35px;
+}
+
+.persInforWrap h4{
+    margin-bottom:15px;
+    font-size:20px;
+}
+
+.scrollBox{
+    border:1px solid #d9d9d9;
+    background:#fff;
+    height:250px;
+    overflow-y:auto;
+}
+
+.innerScroll{
+    padding:25px;
+    line-height:1.8;
+    font-size:14px;
+}
+
+.checkWrap{
+    padding:15px 0;
+    text-align:right;
+}
+
+.checkWrap label{
+    margin-left:5px;
+}
+
+.boxTypeGray{
+    background:#f5f5f5;
+    border:1px solid #ddd;
+    padding:18px 20px;
+    margin:25px 0;
+}
+
+/* 버튼 */
+.btnWrap{
+    margin-top:40px;
+    text-align:center;
+}
+
+.btnType03{
+    width:220px;
+    height:60px;
+    border:none;
+    background:#2763ba;
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.btnType03:hover{
+    background:#1c4f9e;
+}
