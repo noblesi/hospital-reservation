@@ -207,7 +207,7 @@ body{
             <div class="login-links">
                 <a href="<c:url value='findId.jsp' />">아이디/비밀번호 찾기</a>
                 <span>|</span>
-                <a href="<c:url value='/join.do' />">회원가입</a>
+                <a href="<c:url value='joinType.jsp' />">회원가입</a>
             </div>
 
         </div>
