@@ -16,9 +16,15 @@ a {
     text-decoration: none;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 .user-header {
     border-bottom: 1px solid #e5e5e5;
     background-color: #fff;
+    position: relative;
+    z-index: 10;
 }
 
 .user-header-inner {
@@ -50,6 +56,99 @@ a {
     align-items: center;
     gap: 14px;
     font-size: 13px;
+}
+
+.user-all-menu,
+.user-search-panel {
+    border-top: 1px solid #eef1f5;
+    background-color: #fff;
+    box-shadow: 0 12px 24px rgba(0, 40, 80, 0.08);
+}
+
+.user-all-menu-inner,
+.user-search-form {
+    width: 1180px;
+    margin: 0 auto;
+}
+
+.user-all-menu-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 0 18px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.user-all-menu-title strong {
+    font-size: 20px;
+    color: #111;
+}
+
+.menu-close-btn,
+.search-close-btn {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #d8dee8;
+    background-color: #fff;
+    color: #444;
+    font-size: 22px;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.user-all-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    padding: 26px 0 32px;
+}
+
+.user-all-menu-grid h2 {
+    margin: 0 0 14px;
+    color: #005bac;
+    font-size: 16px;
+}
+
+.user-all-menu-grid a {
+    display: block;
+    padding: 8px 0;
+    color: #444;
+    font-size: 14px;
+}
+
+.user-all-menu-grid a:hover {
+    color: #005bac;
+    font-weight: 600;
+}
+
+.user-search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 0;
+}
+
+.user-search-form label {
+    font-weight: 700;
+    color: #005bac;
+}
+
+.user-search-form input {
+    flex: 1;
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid #ccd5e2;
+    font-size: 14px;
+}
+
+.user-search-form button[type="submit"] {
+    width: 86px;
+    height: 42px;
+    border: 0;
+    background-color: #005bac;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .user-gnb ul {
