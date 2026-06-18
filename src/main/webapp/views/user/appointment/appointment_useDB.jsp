@@ -92,43 +92,7 @@
 							</button>
 							<div class="sliderWindow">
 								<div class="sliderTrack">
-									<%
-										for(int i = 0; i < totalCnt; i++) {
-											if(i % 9 == 0) {
-									%>
-												<div class="sliderPage">
-													<table class="slTab">							
-									<%
-											} // end if
-											
-											if(i % 3 == 0) {
-									%>
-												<tr class="slRow">
-									<%
-											} // end if
-											deptDTO = deptList.get(i);
-									%>
-											<td class="slCol">
-												<input 	type="radio" 
-														title="<%= deptDTO.getDeptName() %>" 
-														value="<%= deptDTO.getDeptNo() %>" 
-														class="deptRadio" 
-														id="deptx<%= i %>" 
-														style="display: none;"> 
-												<label for="deptx<%= i %>"><%= deptDTO.getDeptName() %></label>
-											</td>										
-									<%
-											if(i % 3 == 2 || i == totalCnt - 1) {
-												out.println("</tr>");
-											}
 									
-											if(i % 9 == 8 || i == totalCnt - 1) {
-												out.println("</table>");
-												out.println("</div>");
-											}
-									
-										} // end for
-									%>
 								</div>
 							</div>
 							<button type="button" class="btnNext">
