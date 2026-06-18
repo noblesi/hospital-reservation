@@ -243,6 +243,70 @@ a {
     color: #b9b9c8;
     background-color: #f4f4fb;
 }
+
+.dashboard-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.dashboard-summary-card {
+    min-height: 118px;
+    padding: 22px;
+    border: 1px solid #e5e5ef;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.dashboard-summary-card strong {
+    display: block;
+    margin-bottom: 14px;
+    color: #666;
+    font-size: 14px;
+}
+
+.dashboard-summary-card span {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.dashboard-summary-card em {
+    display: block;
+    margin-top: 10px;
+    color: #777;
+    font-size: 13px;
+    font-style: normal;
+}
+
+.dashboard-chart-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 24px;
+}
+
+.dashboard-chart-card {
+    min-height: 360px;
+}
+
+.admin-section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.admin-section-title h3 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.admin-section-title span {
+    color: #777;
+    font-size: 13px;
+}
+
+.admin-section-title a,
 .admin-action-link {
     display: inline-flex;
     align-items: center;
@@ -351,4 +415,85 @@ a {
     align-items: center;
     justify-content: center;
     background-color: #69707d;
+}
+
+.monthly-chart {
+    height: 260px;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 10px;
+    align-items: end;
+    padding-top: 20px;
+}
+
+.monthly-chart-item {
+    min-width: 0;
+    text-align: center;
+}
+
+.monthly-chart-bar-area {
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.monthly-chart-count {
+    color: #555;
+    font-size: 12px;
+}
+
+.monthly-chart-bar {
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    background-color: #4d5dfb;
+}
+
+.monthly-chart-item strong {
+    display: block;
+    margin-top: 8px;
+    color: #555;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.weekday-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 16px;
+}
+
+.weekday-chart-item {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) 44px;
+    align-items: center;
+    gap: 12px;
+}
+
+.weekday-chart-item strong {
+    color: #444;
+    font-size: 14px;
+}
+
+.weekday-chart-track {
+    height: 18px;
+    border-radius: 9px;
+    background-color: #eef0f8;
+    overflow: hidden;
+}
+
+.weekday-chart-bar {
+    display: block;
+    height: 18px;
+    border-radius: 9px;
+    background-color: #18a085;
+}
+
+.weekday-chart-item span {
+    color: #555;
+    font-size: 13px;
+    text-align: right;
 }
