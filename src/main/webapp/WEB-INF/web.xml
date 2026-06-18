@@ -34,6 +34,24 @@
     <welcome-file>default.xhtml</welcome-file>
   </welcome-file-list>
 
+  <servlet>
+    <servlet-name>boardListServlet</servlet-name>
+    <servlet-class>com.hospital.user.board.controller.BoardListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>boardListServlet</servlet-name>
+    <url-pattern>/board/notice/list.do</url-pattern>
+    <url-pattern>/board/faq/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>boardDetailServlet</servlet-name>
+    <servlet-class>com.hospital.user.board.controller.BoardDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>boardDetailServlet</servlet-name>
+    <url-pattern>/board/detail.do</url-pattern>
+  </servlet-mapping>
   <jsp-config>
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>
