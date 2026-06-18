@@ -178,7 +178,10 @@ body{
 
         <div class="login-left">
 
-            <div class="login-icon">👤</div>
+            <div class="login-icon">
+            	<img src="<c:url value='../../resources/images/security/login_Human24px.png' />"
+                     alt="사람 로그인 이미지">
+            </div>
 
             <h2>로그인</h2>
 
@@ -215,7 +218,7 @@ body{
         <div class="login-right">
 
             <div class="security-icon">
-                <img src="<c:url value='/resources/images/loginscreen_1.png' />"
+                <img src="<c:url value='../../resources/images/security/login_Shield.png' />"
                      alt="보안 로그인 이미지">
             </div>
 

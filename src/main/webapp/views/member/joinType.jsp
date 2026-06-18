@@ -48,11 +48,14 @@
 
         <div class="card">
             <div class="card-header">
-                <div class="card-icon icon-child"></div>
+                <div class="card-icon">
+                <img src="<c:url value='../../resources/images/security/login_child.png' />"
+                     alt="어린이 회원">
+                </div>
                 <h3>만 14세 미만 <span class="title-child">어린이</span> 회원</h3>
             </div>
 
-            <a href="<c:url value='joinAgree.jsp?join_type=TC' />" class="button">어린이 회원가입</a>
+            <a href="<c:url value='joinAgreeChild.jsp?join_type=TC' />" class="button">어린이 회원가입</a>
 
             <div class="note">
                 <p>※ 어린이 진료회원은 법정대리인 보호자의 실명인증이 필요합니다.</p>
@@ -63,11 +66,14 @@
 
         <div class="card">
             <div class="card-header">
-                <div class="card-icon icon-common"></div>
+                <div class="card-icon ">
+                 <img src="<c:url value='../../resources/images/security/login_TypeCommon.png' />"
+                     alt="일반 회원">
+                </div>
                 <h3>만 14세 이상 <span class="title-common">일반</span> 회원</h3>
             </div>
 
-            <a href="<c:url value='joinAgree.jsp?join_type=TG' />" class="button">일반 회원가입</a>
+            <a href="<c:url value='joinAgreeCommon.jsp?join_type=TG' />" class="button">일반 회원가입</a>
 
             <div class="note">
                 <p>※ 일반 회원은 본인인증 후 회원가입을 진행할 수 있습니다.</p>
@@ -79,8 +85,8 @@
 
 </main>
 
-<jsp:include page="../common/userFooter.jsp" />
 
+<jsp:include page="../common/userFooter.jsp" />
 <script src="<c:url value='/resources/js/user-layout.js' />"></script>
 
 </body>
