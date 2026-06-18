@@ -129,8 +129,38 @@ public class AdminDepartmentDAO{
 	}// selectDepartmentDetail
 	
 	public int insertDepartment(DepartmentDTO departmentDTO) {
+		int insertCnt=0;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		//ResultSet rs = null;
 		
-		return 0;
+		StringBuilder insertSql= new StringBuilder();
+		
+		insertSql
+		.append("	insert into department (dept_no, dept_name, description, dept_loc, is_active_yn)		")
+		.append("	values(dept_seq(),?,?,?,?);		");
+		
+		try {
+			conn = DBConnection.getConnection();
+			pstmt = conn.prepareStatement(insertSql.toString());
+			pstmt.setString(1, departmentDTO.getDeptName() );
+			pstmt.setString(2, departmentDTO.getDescription());
+			pstmt.setString(3, departmentDTO.getDeptLoc());
+			pstmt.setString(4, departmentDTO.getIsActiveYn());
+			
+			if(pstmt.execute()) {
+				insertCnt = 1;
+			}// end if
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt,conn);
+		}// end try catch
+		
+		return insertCnt;
 	}// insertDepartment
 	
 	public int updateDepartment(DepartmentDTO departmentDTO) {
