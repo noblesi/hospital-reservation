@@ -55,6 +55,7 @@ public class AdminDepartmentDAO{
 	}// selectDepartmentTotalCnt
 	
 	public List<AdminDepartmentSearchDTO> selectDepartmentList(AdminDepartmentSearchDTO searchDTO){
+		//searchDTO 관련 정리가 안됨
 		List<DepartmentDTO> departmentDTOList = new ArrayList<DepartmentDTO>();
 		List<AdminDepartmentSearchDTO> adminDepartmentSearchDTO = new ArrayList<AdminDepartmentSearchDTO>();
 		
@@ -149,11 +150,8 @@ public class AdminDepartmentDAO{
 			pstmt.setString(3, departmentDTO.getDeptLoc());
 			pstmt.setString(4, departmentDTO.getIsActiveYn());
 			
-			if(pstmt.execute()) {
-				insertCnt = 1;
-			}// end if
-			
-			
+			insertCnt = pstmt.executeUpdate();
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -164,13 +162,80 @@ public class AdminDepartmentDAO{
 	}// insertDepartment
 	
 	public int updateDepartment(DepartmentDTO departmentDTO) {
+		int updateCnt=0;
 		
-		return 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		//ResultSet rs = null;
+		
+		StringBuilder updateSql= new StringBuilder();
+		
+		updateSql
+		.append("	update department 		")
+		.append("	set dept_name = ?, description = ?, dept_loc = ?, is_active_yn = ?		")
+		.append("	where dept_no = ?; 		");
+		
+		try {
+			conn = DBConnection.getConnection();
+			
+			pstmt = conn.prepareStatement(updateSql.toString());
+			
+			pstmt.setString(1, departmentDTO.getDeptName() );
+			pstmt.setString(2, departmentDTO.getDescription());
+			pstmt.setString(3, departmentDTO.getDeptLoc());
+			pstmt.setString(4, departmentDTO.getIsActiveYn());
+			pstmt.setString(5, departmentDTO.getDeptNo());
+			
+			updateCnt = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt,conn);
+		}// end try catch
+		
+		return updateCnt;
 	}// updateDepartment
 	
 	public int updateDepartmentActive(String deptNo, String isActiveYn) {
+		int updateCnt=0;
 		
-		return 0;
+		String deptNoTemp = deptNo;
+		String isActiveYnTemp = isActiveYn;
+		
+		if(deptNoTemp == "" || deptNoTemp == null) {
+			return 0;
+		}// end if
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		//ResultSet rs = null;
+		
+		StringBuilder updateSql= new StringBuilder();
+		
+		updateSql
+		.append("	update department 		")
+		.append("	set is_active_yn = ?		")
+		.append("	where dept_no = ?; 		");
+		
+		try {
+			conn = DBConnection.getConnection();
+			
+			pstmt = conn.prepareStatement(updateSql.toString());
+			
+			pstmt.setString(1, deptNoTemp);
+			pstmt.setString(2, isActiveYnTemp);
+			
+			updateCnt = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt,conn);
+		}// end try catch
+		
+		return updateCnt;
 	}// updateDepartmentActive
 	
 	public int selectDepartmentNameCnt(String deptName) {
