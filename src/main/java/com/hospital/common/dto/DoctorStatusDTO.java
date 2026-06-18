@@ -13,6 +13,8 @@ import lombok.ToString;
 @NoArgsConstructor
 
 public class DoctorStatusDTO {
+	
 	private String statusCode;
 	private String statusName;
+	
 }// class

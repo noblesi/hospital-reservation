@@ -20,4 +20,5 @@ public class AdminDepartmentSearchDTO {
 	private String keyword;
 	private String isActiveYn;
 	
+	
 }// class

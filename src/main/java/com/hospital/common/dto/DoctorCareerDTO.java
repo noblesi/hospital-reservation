@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+
 @ToString
 @Getter
 @Setter
@@ -13,8 +14,10 @@ import lombok.ToString;
 @NoArgsConstructor
 
 public class DoctorCareerDTO {
+	
 	private int careerNo;
 	private int doctorLicenseNo;
 	private String careerYear;
 	private String careerContent;
+	
 }// class

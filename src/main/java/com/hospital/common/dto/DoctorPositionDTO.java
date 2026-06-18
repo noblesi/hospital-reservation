@@ -13,6 +13,8 @@ import lombok.ToString;
 @Getter
 
 public class DoctorPositionDTO {
+	
 	private String positionCode;
 	private String positionName;
+	
 }// class

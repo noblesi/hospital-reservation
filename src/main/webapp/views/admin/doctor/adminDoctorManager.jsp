@@ -67,6 +67,7 @@
     <script type="text/javascript">
         $(function(){
         	<% 
+        	
 			//JSON 데이터 저장
 			//진료과 데이터
 			List <DepartmentDTO> list = new ArrayList <DepartmentDTO>();

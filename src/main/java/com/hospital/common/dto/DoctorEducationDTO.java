@@ -13,8 +13,10 @@ import lombok.ToString;
 @AllArgsConstructor
 
 public class DoctorEducationDTO {
+	
 	private int educationNo;
 	private int doctorLicenseNo;
 	private String educationYear;
 	private String educationContent;
+	
 }//class

@@ -13,6 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 
 public class DoctorDTO {
+	
 	private int doctorLicenseNo;
 	private String deptNo;
 	private String name;
@@ -25,4 +26,5 @@ public class DoctorDTO {
 	private String createDate;
 	private String specialty;
 	private String statusCode;
+	
 }// class

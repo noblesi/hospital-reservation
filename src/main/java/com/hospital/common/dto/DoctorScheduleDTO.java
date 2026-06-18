@@ -13,10 +13,12 @@ import lombok.ToString;
 @NoArgsConstructor
 
 public class DoctorScheduleDTO {
+	
 	private int scheduleNo;
 	private int doctorLicenseNo;
 	private int dayOfWeek;
 	private String startTime;
 	private String endTime;
 	private String status;
+	
 }// class

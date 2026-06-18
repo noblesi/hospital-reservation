@@ -23,6 +23,7 @@ import lombok.ToString;
 @NoArgsConstructor
 
 public class AdminDoctorFormDTO {
+	
 	private DoctorDTO doctorDTO;
 	private List<DoctorScheduleDTO> scheduleList;
 	private List<DoctorEducationDTO> educationList;

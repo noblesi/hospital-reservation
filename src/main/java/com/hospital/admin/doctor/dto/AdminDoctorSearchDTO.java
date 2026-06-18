@@ -13,6 +13,7 @@ import lombok.ToString;
 @Setter
 
 public class AdminDoctorSearchDTO {
+	
 	private int statNum;
 	private int endNum;
 	private String deptNo;
@@ -20,4 +21,5 @@ public class AdminDoctorSearchDTO {
 	private String statusCode;
 	private String field;
 	private String keyword;
+	
 }// class

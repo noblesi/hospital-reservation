@@ -19,7 +19,9 @@ import lombok.ToString;
 @AllArgsConstructor
 
 public class AdminDoctorFormOptionDTO {
+
 	private List<DepartmentDTO> departmentList;
 	private List<DoctorPositionDTO> positionList;
 	private List<DoctorStatusDTO> statusList;
+	
 }// class
