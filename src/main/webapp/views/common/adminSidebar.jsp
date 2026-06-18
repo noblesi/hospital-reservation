@@ -1,6 +1,4 @@
-<%-- /WEB-INF/views/common/adminSidebar.jsp --%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="/views/common/taglib.jsp" %>
+<%-- /views/common/adminSidebar.jsp --%>
 
 <aside class="admin-sidebar">
     <nav aria-label="관리자 메뉴">
