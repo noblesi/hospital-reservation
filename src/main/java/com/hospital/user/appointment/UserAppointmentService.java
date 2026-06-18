@@ -1,20 +1,33 @@
-package com.hospital.reservation;
+package com.hospital.user.appointment;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.hospital.common.DepartmentDTO;
 import com.hospital.common.DoctorDTO;
 import com.hospital.common.DoctorScheduleDTO;
 
+import lombok.NoArgsConstructor;
+
 /**
  * 병원 진료 예약 업무를 구현하는 클래스
  */
+@NoArgsConstructor
 public class UserAppointmentService {
-
+	
+	UserAppointmentDAO uaDAO = UserAppointmentDAO.getInstance();
+	
 	public List<DepartmentDTO> searchDepartmentList() {
+		List<DepartmentDTO> deptList = null;
+		
+		try {
+			deptList = uaDAO.selectDepartmentList();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-		return null;
+		return deptList;
 	}
 
 	public List<DoctorDTO> searchDoctorList(String deptNo) {

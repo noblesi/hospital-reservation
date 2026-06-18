@@ -1,8 +1,14 @@
-package com.hospital.reservation;
+package com.hospital.user.appointment;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.hospital.common.DBConnection;
 import com.hospital.common.DepartmentDTO;
 import com.hospital.common.DoctorDTO;
 import com.hospital.common.DoctorScheduleDTO;
@@ -29,9 +35,50 @@ public class UserAppointmentDAO {
 		return userAppointmentDAO;
 	}
 
-	public List<DepartmentDTO> selectDepartmentList() {
-
-		return null;
+	public List<DepartmentDTO> selectDepartmentList() throws SQLException {
+		List<DepartmentDTO> deptList = new ArrayList<>();
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = DBConnection.getConnection();
+			
+			String selectDepts = "select dept_no, dept_name, description, is_active_yn, dept_loc from department";
+			pstmt = con.prepareStatement(selectDepts);
+			
+			rs = pstmt.executeQuery();
+			
+			DepartmentDTO deptDTO = null;
+			
+			if (rs != null) {
+				while (rs.next()) {
+					deptDTO = new DepartmentDTO();
+					
+					deptDTO.setDeptNo(rs.getString("dept_no"));
+					deptDTO.setDeptName(rs.getString("dept_name"));
+					deptDTO.setDescription(rs.getString("description"));
+					deptDTO.setIsActiveYn(rs.getString("is_active_yn"));
+					deptDTO.setDeptLoc(rs.getString("dept_loc"));
+					
+					deptList.add(deptDTO);
+				}
+			}
+			
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+		}
+		
+		return deptList;
 	}
 
 	public List<DoctorDTO> selectDoctorList(String deptNo) {

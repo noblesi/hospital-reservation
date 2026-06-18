@@ -1,4 +1,4 @@
-package com.hospital.reservation;
+package com.hospital.user.appointment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

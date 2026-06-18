@@ -133,41 +133,6 @@ ul {
 	float: left;
 }
 
-.doctorUl {
-	padding: 0px 25px;
-	height: 700px;
-	overflow: scroll;
-	margin-top: 30px;
-}
-
-.doctorLi {
-	width: 330px;
-	height: 250px;
-	float: left;
-	border: 1px solid #333;
-	padding: 10px;
-	overflow: hidden;
-}
-
-.doctorThumnail {
-	width: 110px;
-	height: 136px;
-	float: left;
-}
-
-.doctorInfoDiv {
-	float: left;
-}
-
-.doctorName {
-	float: left;
-}
-
-.selectDoctorBtn {
-	width: 110px;
-	height: 40px;
-}
-
 .btnNext,
 .btnPrev {
 	width: 20px;
@@ -272,6 +237,83 @@ ul {
 	border-top: 2px solid #333333;
 }
 
+.doctorUl {
+	height: 700px;
+	overflow: scroll;
+	margin-top: 30px;
+}
+
+.doctorLi {
+	width: 330px;
+	height: 230px;
+	float: left;
+	overflow: hidden;
+	padding: 20px 0px;
+}
+
+.col {
+	border-bottom: 1px solid #cccccc;
+	height: 250px;
+}
+
+.doctorThumnail {
+	width: 110px;
+	height: 136px;
+	float: left;
+}
+
+.doctorInfoDiv {
+	float: right;
+	width: 190px;
+	height: 220px;
+}
+
+.doctorName {
+	font-size: 20px;
+	font-weight: 400;
+	margin-bottom: 20px;
+}
+
+.searchBlueIcon {
+	width: 18px;
+	height: 18px;
+}
+
+.detail {
+	font-size: 16px;
+	font-weight: 400;
+	color: #666666;
+}
+
+.deptName {
+	font-size: 18px;
+	font-weight: 400;
+	color: #000000;
+	margin-bottom: 5px;
+}
+
+.selectDoctorBtn {
+	width: 110px;
+	height: 40px;
+	float: left;
+	margin-top: 15px;
+	background-color: #FFFFFF;
+	border: 1px solid #000000;
+	line-height: 25px;
+}
+
+.selectedBtn {
+	background-color: #2763ba;
+	color: white;
+	border: 0;
+}
+
+.checkIcon {
+	width: 20px;
+	height: 20px;
+	margin-bottom: 1px;
+}
+
 .noResult {
 	color: #666666;
 	font-size: 20px;
@@ -295,12 +337,60 @@ ul {
 	height: 750px;
 	background-color: #FFFFFF;
 	margin-bottom: 20px;
+}
+
+.scheduleCalTitle {
+	font-size: 20px;
+	font-weight: 700;
 	padding: 30px;
 }
 
-.schduleCalTitle {
-	font-size: 20px;
-	font-weight: 700;
+.scheduleCal {
+	padding: 5px;
+}
+
+.moveMonthBar {
+	width: 260px;
+	height: 50px;
+	text-align: center;
+	padding: 0px 20px;
+}
+
+.prevMonthBtn {
+	float: left;
+}
+
+.nextMonthBtn {
+	float: right;
+}
+.prevMonthBtn,
+.nextMonthBtn {
+	border: 0px;
+	background-color: #FFFFFF;
+	font-size: 30px;
+	color: #888888;
+}
+
+.nowMonthTitle {
+	float:left;
+	width: 135px;
+	height: 46px;
+	text-align: center;
+	line-height: 46px;
+	font-size: 18px;
+	font-weight: 400;
+}
+
+.calTab {
+	width: 260px;
+	height: 230px;
+	margin: 0px auto;
+	font-weight: 400;
+	text-align: center;
+}
+
+.weekTr th {
+	font-weight: 400;
 }
 
 .result {

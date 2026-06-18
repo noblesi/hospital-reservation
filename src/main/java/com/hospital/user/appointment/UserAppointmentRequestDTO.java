@@ -1,4 +1,4 @@
-package com.hospital.reservation;
+package com.hospital.user.appointment;
 
 import java.sql.Date;
 
@@ -13,15 +13,14 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAppointmentConfirmDTO {
-	private String appointmentNo;
+public class UserAppointmentRequestDTO {
 	private String patientNo;
-	private String patientName;
-	private String deptName;
-	private String doctorName;
+	private int doctorLicenseNo;
 	private Date appointmentDate;
 	private String appointmentTime;
 	private String requirement;
 	private String status;
 	private Date createdAt;
+	private String reservationTargetType;
+	private String guardianRelation;
 }

@@ -1,8 +1,26 @@
+<%@page import="java.util.Comparator"%>
+<%@page import="com.hospital.user.appointment.UserAppointmentService"%>
+<%@page import="com.hospital.common.DepartmentDTO"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-	<% request.setAttribute("activeMenu", "hospital" ); request.setAttribute("depth1", "공통 레이아웃" );
-		request.setAttribute("depth2", "사용자 화면 테스트" ); %>
-		<!DOCTYPE html>
-		<html lang="ko">
+<%
+	String sortType = request.getParameter("sortType");
+    if (sortType == null) sortType = "default"; // 기본값
+    
+	UserAppointmentService uas = new UserAppointmentService();
+	List<DepartmentDTO> deptList = uas.searchDepartmentList();
+	
+	if(sortType.equals("ascending")) {
+		deptList.sort(Comparator.comparing(DepartmentDTO :: getDeptName));
+	}
+	
+	int totalCnt = deptList.size();
+	DepartmentDTO deptDTO = null;
+%>
+<% request.setAttribute("activeMenu", "hospital" ); request.setAttribute("depth1", "공통 레이아웃" );
+	request.setAttribute("depth2", "사용자 화면 테스트" ); %>
+	<!DOCTYPE html>
+	<html lang="ko">
 
 		<head>
 			<meta charset="UTF-8">
@@ -49,10 +67,13 @@
 						<!-- 검색, 정렬 바 -->
 						<div class="searchBar">
 							<div class="sortRadioDiv">
-								<input type="radio" name="sort" value="default" id="deRadio" class="form-check-input"
-									checked="checked"> <label for="deRadio" class="form-check-label">기본</label> <input
-									type="radio" name="sort" value="ascending" id="ascRadio" class="form-check-input">
-								<label for="ascRadio" class="form-check-label">가나다순</label>
+								<form action="appointment_useDB.jsp" method="get" id="sortFrm">
+									<input type="radio" name="sortType" value="default" id="deRadio" class="form-check-input" <%= sortType.equals("default") ? "checked='checked'" : "" %>> 
+									<label for="deRadio" class="form-check-label">기본</label>
+										
+									<input type="radio" name="sortType" value="ascending" id="ascRadio" class="form-check-input" <%= sortType.equals("ascending") ? "checked='checked'" : "" %>>
+									<label for="ascRadio" class="form-check-label">가나다순</label>
+								</form>
 							</div>
 							<div class="dNameInputDiv">
 								<input type="text" placeholder="질병명 또는 의료진명" id="dNameInput">
@@ -71,99 +92,43 @@
 							</button>
 							<div class="sliderWindow">
 								<div class="sliderTrack">
-									<div class="sliderPage">
-										<table class="slTab">
-											<tr class="slRow">
-												<td class="slCol">
-													<input type="radio" title="내과" value="DP001" class="deptRadio" id="deptx1"
-														style="display: none;"> <label for="deptx1">내과0</label>
-												</td>
-												<td class="slCol">
-													<input type="radio" title="외과" value="DP002" class="deptRadio" id="deptx2"
-														style="display: none;"> <label for="deptx2">외과0</label>
-												</td>
-												<td class="slCol">
-													<input type="radio" title="소아과" value="DP003" class="deptRadio" id="deptx3"
-														style="display: none;"> <label for="deptx3">소아과0</label>
-												</td>
-											</tr>
-											<tr class="slRow">
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">내과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">외과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">소아과</label>
-												</td>
-											</tr>
-											<tr class="slRow">
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">내과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">외과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">소아과</label>
-												</td>
-											</tr>
-										</table>
-									</div>
-
-									<div class="sliderPage">
-										<table class="slTab">
-											<tr class="slRow">
-												<td class="slCol">
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">내과1</label>
-												</td>
-												<td class="slCol">
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">외과1</label>
-												</td>
-												<td class="slCol">
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">소아과1</label>
-												</td>
-											</tr>
-											<tr class="slRow">
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">내과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">외과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">소아과</label>
-												</td>
-											</tr>
-											<tr class="slRow">
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">내과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">외과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">소아과</label>
-												</td>
-											</tr>
-										</table>
-									</div>
+									<%
+										for(int i = 0; i < totalCnt; i++) {
+											if(i % 9 == 0) {
+									%>
+												<div class="sliderPage">
+													<table class="slTab">							
+									<%
+											} // end if
+											
+											if(i % 3 == 0) {
+									%>
+												<tr class="slRow">
+									<%
+											} // end if
+											deptDTO = deptList.get(i);
+									%>
+											<td class="slCol">
+												<input 	type="radio" 
+														title="<%= deptDTO.getDeptName() %>" 
+														value="<%= deptDTO.getDeptNo() %>" 
+														class="deptRadio" 
+														id="deptx<%= i %>" 
+														style="display: none;"> 
+												<label for="deptx<%= i %>"><%= deptDTO.getDeptName() %></label>
+											</td>										
+									<%
+											if(i % 3 == 2 || i == totalCnt - 1) {
+												out.println("</tr>");
+											}
+									
+											if(i % 9 == 8 || i == totalCnt - 1) {
+												out.println("</table>");
+												out.println("</div>");
+											}
+									
+										} // end for
+									%>
 								</div>
 							</div>
 							<button type="button" class="btnNext">
