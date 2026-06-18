@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const menuCloseBtn = document.querySelector(".menu-close-btn");
     const searchCloseBtn = document.querySelector(".search-close-btn");
     const searchInput = document.querySelector("#userHeaderKeyword");
+    const gnbItems = document.querySelectorAll(".user-gnb > ul > li");
 
     function setPanel(panel, button, isOpen) {
         if (!panel || !button) {
@@ -49,6 +50,32 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    gnbItems.forEach(function (gnbItem) {
+        gnbItem.addEventListener("mouseenter", function () {
+            closeMenu();
+            gnbItem.classList.add("is-open");
+        });
+        gnbItem.addEventListener("mouseleave", function () {
+            gnbItem.classList.remove("is-open");
+        });
+        gnbItem.addEventListener("focusin", function () {
+            closeMenu();
+            gnbItem.classList.add("is-open");
+        });
+        gnbItem.addEventListener("focusout", function () {
+            gnbItem.classList.remove("is-open");
+        });
+    });
+
+    document.addEventListener("mouseover", function (event) {
+        const gnbItem = event.target.closest(".user-gnb > ul > li");
+
+        if (gnbItem) {
+            closeMenu();
+            gnbItem.classList.add("is-open");
+        }
+    });
 
     if (searchBtn && searchPanel) {
         searchBtn.addEventListener("click", function () {
