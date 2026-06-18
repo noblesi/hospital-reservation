@@ -89,7 +89,6 @@
                     </tbody>
                 </table>
 
-                <c:set var="paginationQueryString" value="&searchType=${searchDTO.searchType}&keyword=${searchDTO.keyword}&displayYn=${searchDTO.displayYn}" />
                 <%@ include file="/views/common/pagination.jsp" %>
             </section>
         </main>

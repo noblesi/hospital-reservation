@@ -24,6 +24,15 @@ public class AdminBoardService {
         return adminBoardDAO.selectAdminBoardPostList(searchDTO);
     }
 
+    /**
+     * 관리자 게시글 목록과 pagination 정보를 한 번의 count 조회 흐름으로 함께 반환한다.
+     */
+    public AdminBoardPostPage getBoardPostPage(AdminBoardSearchDTO searchDTO) throws SQLException {
+        PaginationUtil.Pagination pagination = getPagination(searchDTO);
+        searchDTO.applyPagination(pagination);
+        return new AdminBoardPostPage(adminBoardDAO.selectAdminBoardPostList(searchDTO), pagination);
+    }
+
     public PaginationUtil.Pagination getPagination(AdminBoardSearchDTO searchDTO) throws SQLException {
         int totalCount = adminBoardDAO.selectAdminBoardPostCount(searchDTO);
         return PaginationUtil.create(searchDTO.getCurrentPage(), totalCount, searchDTO.getPageScale());
@@ -44,5 +53,32 @@ public class AdminBoardService {
 
     public void deleteBoardPost(int postId) throws SQLException {
         adminBoardDAO.deleteBoardPost(postId);
+    }
+
+    public static class AdminBoardPostPage {
+        private final List<BoardPostDTO> boardPostList;
+        private final PaginationUtil.Pagination pagination;
+
+        /**
+         * 관리자 게시글 목록 조회 결과와 pagination 정보를 묶는다.
+         */
+        public AdminBoardPostPage(List<BoardPostDTO> boardPostList, PaginationUtil.Pagination pagination) {
+            this.boardPostList = boardPostList;
+            this.pagination = pagination;
+        }
+
+        /**
+         * 조회된 관리자 게시글 목록을 반환한다.
+         */
+        public List<BoardPostDTO> getBoardPostList() {
+            return boardPostList;
+        }
+
+        /**
+         * 목록 조회에 사용한 pagination 정보를 반환한다.
+         */
+        public PaginationUtil.Pagination getPagination() {
+            return pagination;
+        }
     }
 }

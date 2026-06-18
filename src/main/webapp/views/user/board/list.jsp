@@ -71,9 +71,6 @@
                 </tbody>
             </table>
 
-            <c:if test="${not empty searchDTO.keyword}">
-                <c:set var="paginationQueryString" value="&searchType=${searchDTO.searchType}&keyword=${searchDTO.keyword}" />
-            </c:if>
             <%@ include file="/views/common/pagination.jsp" %>
         </section>
     </main>
