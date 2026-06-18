@@ -1,3 +1,5 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="com.hospital.common.dto.DoctorDTO"%>
 <%@page import="com.hospital.doctor.DoctorDAO"%>
 <%@page import="com.hospital.admin.doctor.AdminDoctorDAO"%>
@@ -73,10 +75,10 @@
 			list.add(new DepartmentDTO("DP003","안과","눈을 관리해주는 과","Y","별관2층"));
 			list.add(new DepartmentDTO("DP004","외과","외과인데 사용 안한다요","N",""));
 			
-			List <DoctorStatusDTO> statusList = new ArrayList<DoctorStatusDTO>();
-			statusList.add(new DoctorStatusDTO("CLS", "휴진"));
-			statusList.add(new DoctorStatusDTO("MT", "진료중"));
-			statusList.add(new DoctorStatusDTO("SRG", "수술"));
+			Map <String,DoctorStatusDTO> statusMap = new HashMap<String,DoctorStatusDTO>();
+			statusMap.put("CLS",new DoctorStatusDTO("CLS", "휴진"));
+			statusMap.put("MT",new DoctorStatusDTO("MT", "진료중"));
+			statusMap.put("SRG",new DoctorStatusDTO("SRG", "수술"));
 			
 			List<DoctorDTO> doctorDTOList = new ArrayList<DoctorDTO>();
 			doctorDTOList.add(new DoctorDTO(123456,"DP001","의사1","010-1234-5678","CRF","사랑니","사랑니는 잘못 나면 괴롭다","c:/image/thum.png","c:/image/tedail_image.png","2026-06-01","충치, 사랑니","MT"));	
@@ -118,12 +120,22 @@
                     		<td style="width: 120px;">
                     			<select id="selectDeptStatus">
                     				<%
-                    				for(int i=0; i < statusList.size(); i++){
+                    				//작업중
+                    				statusMap.forEach((key, doctorStatusDTO)->{
                     				%>
-                    					<option value="<%= statusList.get(i).getStatusCode() %>"><%= statusList.get(i).getStatusName() %></option>
+                    					<%-- <option value="<%= statusMap.get(key).getStatusCode() %>"><%= statusMap.get(key).getStatusName() %></option> --%>
+                    					<option value="<%= key %>"><%-- <%= doctorStatusDTO.getStatusName() %> --%></option>
+                    				<%	
+                    				});
+                    				%>
+                    			
+                    				<%-- <%
+                    				for(int i=0; i < .size(); i++){
+                    				%>
+                    					<option value="<%= statusMap.get(i).getStatusCode() %>"><%= statusMap.get(i).getStatusName() %></option>
                     				<%
                     				}// end for
-                    				%>
+                    				%> --%>
                     			</select>
                     		</td>
                     		<td style="width: 90px;">이름</td>
@@ -157,25 +169,26 @@
            						doctorPosition=doctorDTOList.get(i).getPositionCode();
             				%>
             				<tr>
-            					<td><%= i %><% //번호 %></td>
+            					<td><%= i+1 %><% //번호 %></td>
             					<td><%= dortorNameTemp %><% //이름 %></td>
             					<td><%= doctorDeptTemp %><% //진료과 %></td>
-            					<td><%= doctorPosition %><% //직급 %>></td>
+            					<td><%= doctorPosition %><% //직급 %></td>
             					<td>
             						<select>
-            							<%
+            							<%-- <%
+            							
             							String sel = "";
-	                    				for(int j=0; j < statusList.size(); j++){
-	                    					if(doctorDTOList.get(i).getStatusCode() == statusList.get(j).getStatusCode()){
+	                    				for(int j=0; j < statusMap.size(); j++){
+	                    					if(doctorDTOList.get(i).getStatusCode() == statusMap.get(j).getStatusCode()){
 	                    						sel=" selected='selected'";
 	                    					} else {
 	                    						sel = "";
 	                    					}// end else if
 	                    				%>
-	                    					<option value="<%= statusList.get(j).getStatusCode() %><%= sel %>"><%= statusList.get(j).getStatusName() %></option>
+	                    					<option value="<%= statusMap.get(j).getStatusCode() %>"<%= sel %>><%= statusMap.get(j).getStatusName() %></option>
 	                    				<%
 	                    				}// end for
-	                    				%>
+	                    				%> --%>
             						</select>
             					</td>
             				</tr>
