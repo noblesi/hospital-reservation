@@ -3,7 +3,7 @@
 <%@page import="com.hospital.common.DepartmentDTO"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%
+<%-- <%
 	String sortType = request.getParameter("sortType");
     if (sortType == null) sortType = "default"; // 기본값
     
@@ -16,7 +16,7 @@
 	
 	int totalCnt = deptList.size();
 	DepartmentDTO deptDTO = null;
-%>
+%> --%>
 <% request.setAttribute("activeMenu", "hospital" ); request.setAttribute("depth1", "공통 레이아웃" );
 	request.setAttribute("depth2", "사용자 화면 테스트" ); %>
 	<!DOCTYPE html>
@@ -68,10 +68,10 @@
 						<div class="searchBar">
 							<div class="sortRadioDiv">
 								<form action="appointment_useDB.jsp" method="get" id="sortFrm">
-									<input type="radio" name="sortType" value="default" id="deRadio" class="form-check-input" <%= sortType.equals("default") ? "checked='checked'" : "" %>> 
+									<input type="radio" name="sortType" value="default" id="deRadio" class="form-check-input" checked="checked"> 
 									<label for="deRadio" class="form-check-label">기본</label>
 										
-									<input type="radio" name="sortType" value="ascending" id="ascRadio" class="form-check-input" <%= sortType.equals("ascending") ? "checked='checked'" : "" %>>
+									<input type="radio" name="sortType" value="ascending" id="ascRadio" class="form-check-input">
 									<label for="ascRadio" class="form-check-label">가나다순</label>
 								</form>
 							</div>
