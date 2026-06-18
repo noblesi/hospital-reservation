@@ -1,5 +1,4 @@
 @charset "UTF-8";
-@charset "UTF-8";
 
 /* 회원가입 공통 레이아웃 */
 .memJoinContent{
@@ -55,13 +54,17 @@
     color:#fff;
 }
 
-/* STEP01 회원유형 선택 */
+/* =========================
+   STEP01 회원유형 선택
+========================= */
 .memJoinWrap{
     display:flex;
     gap:30px;
     width:100%;
+    height: 500px;
 }
 
+/* 회원유형 카드 */
 .memJoinWrap .card{
     flex:1;
     min-height:360px;
@@ -72,51 +75,86 @@
     box-sizing:border-box;
 }
 
+/* 카드 상단 영역 */
 .memJoinWrap .card-header{
     text-align:center;
     margin-bottom:35px;
 }
 
+/* =========================
+   회원 유형 아이콘
+========================= */
+
+/* 아이콘 영역 */
 .memJoinWrap .card-icon{
-    width:70px;
-    height:70px;
-    margin:0 auto 20px;
-    border-radius:50%;
-    background:#f2f6ff;
+    width:80px;
+    height:80px;
+    margin:0 auto 40px;
+
+    /* 이미지 가운데 정렬 */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    /* 기본 원형 배경 제거 */
+    background:none;
+    border-radius:0;
 }
 
+/* 아이콘 이미지 */
+.memJoinWrap .card-icon img{
+    max-width:80px;
+    max-height:80px;
+
+    /* 이미지 비율 유지 */
+    object-fit:contain;
+}
+
+/* 카드 제목 */
 .memJoinWrap .card-header h3{
     font-size:22px;
     margin:0;
 }
 
+/* 어린이 회원 강조 색상 */
 .memJoinWrap .title-child{
     color:#eb8aa8;
     font-weight:bold;
 }
 
+/* 일반 회원 강조 색상 */
 .memJoinWrap .title-common{
     color:#2763ba;
     font-weight:bold;
 }
 
+/* =========================
+   회원가입 버튼
+========================= */
 .memJoinWrap .button{
     display:block;
     width:100%;
     height:52px;
     line-height:52px;
+
     background:#2763ba;
     color:#fff;
+
     text-align:center;
     text-decoration:none;
     font-weight:bold;
+
     margin-bottom:25px;
 }
 
+/* 버튼 마우스 오버 */
 .memJoinWrap .button:hover{
     background:#1d4f99;
 }
 
+/* =========================
+   안내 문구
+========================= */
 .memJoinWrap .note{
     font-size:14px;
     color:#555;
@@ -127,28 +165,40 @@
     margin:0 0 5px;
 }
 
+/* 강조 문구 */
 .memJoinWrap .note .highlight{
     color:#eb8aa8;
     font-weight:bold;
 }
 
-.icon-child::before{
-    content:"👧";
-    display:block;
-    text-align:center;
-    line-height:70px;
-    font-size:34px;
-}
-
+/* /* =========================
+   일반 회원 임시 아이콘
+   (이미지 적용 전 사용)
+========================= 
 .icon-common::before{
     content:"👤";
+
     display:block;
     text-align:center;
-    line-height:70px;
-    font-size:34px;
-}
 
-/* STEP02 약관동의 */
+    line-height:80px;
+    font-size:34px;
+} */
+
+/*
+ * 기존 어린이 이모지 제거
+ * 현재는 login_child.png 사용
+ */
+/*
+.icon-child::before{
+    content:"👧";
+}
+*/
+/* =========================
+   STEP02 약관동의
+========================= */
+
+/* 제목 안 강조 글자 */
 .title{
     color:#2763ba;
 }
@@ -157,12 +207,17 @@
     color:#eb8aa8;
 }
 
+/* 안내 박스 */
 .joinStepDesc{
     padding:30px;
     margin-bottom:30px;
     background:#f8f9fc;
     border:1px solid #ddd;
     line-height:1.8;
+}
+
+.joinStepDesc p{
+    margin:6px 0;
 }
 
 .joinStepDesc em{
@@ -176,60 +231,342 @@
     font-weight:bold;
 }
 
+/* 약관 블록 */
 .persInforWrap{
     margin-bottom:35px;
 }
 
 .persInforWrap h4{
-    margin-bottom:15px;
+    margin:0 0 15px;
     font-size:20px;
+    font-weight:700;
+    color:#222;
 }
 
+/* 약관 스크롤 박스 */
 .scrollBox{
-    border:1px solid #d9d9d9;
-    background:#fff;
     height:250px;
     overflow-y:auto;
+    background:#fff;
+    border:1px solid #d9d9d9;
 }
 
 .innerScroll{
     padding:25px;
     line-height:1.8;
     font-size:14px;
+    color:#444;
 }
 
+/* 약관 내부 텍스트 */
+.innerScroll h3{
+    margin:18px 0 10px;
+    font-size:17px;
+    color:#222;
+}
+
+.innerScroll p{
+    margin:8px 0;
+}
+
+.innerScroll ul{
+    margin:8px 0 8px 20px;
+    padding:0;
+}
+
+.innerScroll li{
+    margin-bottom:5px;
+}
+
+/* 체크박스 영역 */
 .checkWrap{
     padding:15px 0;
     text-align:right;
 }
 
-.checkWrap label{
-    margin-left:5px;
+.checkWrap input{
+    vertical-align:middle;
 }
 
+.checkWrap label{
+    margin-left:5px;
+    font-size:14px;
+    color:#333;
+}
+
+/* 전체동의 박스 */
 .boxTypeGray{
     background:#f5f5f5;
     border:1px solid #ddd;
     padding:18px 20px;
     margin:25px 0;
+    box-sizing:border-box;
 }
 
-/* 버튼 */
+.boxTypeGray input{
+    vertical-align:middle;
+}
+
+.boxTypeGray label{
+    margin-left:6px;
+    font-size:15px;
+    color:#333;
+}
+
+/* 필수 텍스트 */
+.requiredTxt{
+    font-size:14px;
+}
+
+/* =========================
+   버튼 영역
+========================= */
 .btnWrap{
     margin-top:40px;
     text-align:center;
 }
+.btnWrap2{
+    margin-top:40px;
+	padding-left: 200px;
+}
 
+/* 기본 버튼 */
 .btnType03{
-    width:220px;
-    height:60px;
+    display:inline-block;
+
+    min-width:220px;
+    height:50px;
+
+    padding:0 30px;
+
     border:none;
+
     background:#2763ba;
     color:#fff;
+
     font-size:18px;
+    font-weight:700;
+
     cursor:pointer;
 }
 
+/* 기본 버튼 2 */
+.btnType02{
+	display:inline-block;
+	border: 3px solid #2763ba;
+    min-width:220px;
+    height:50px;
+
+    padding:0 30px;
+
+
+    background:#ffffff;
+    color:#4980ec;
+
+    font-size:18px;
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+/* 큰 버튼 */
+.btnBig{
+    min-width:400px;
+}
+
+/* 마우스 오버 */
 .btnType03:hover{
+    background:#1d4f99;
+}
+/* 마우스 오버 */
+.btnType02:hover{
+    background:#dee1e6;
+}
+/*=====================
+	회원가입 폼 
+=======================*/
+/* =========================
+   회원가입 입력폼
+========================= */
+
+.supText{
+    margin-bottom:15px;
+    text-align:right;
+    font-size:14px;
+    color:#666;
+}
+
+.required{
+    color:#d91e18;
+    font-weight:bold;
+}
+
+/* 폼 테이블 */
+.boardTypeForm{
+    width:100%;
+}
+
+.boardTypeForm table{
+    width:100%;
+    border-top:2px solid #2763ba;
+    border-collapse:collapse;
+}
+
+.boardTypeForm th{
+    width:180px;
+    padding:18px 20px;
+    background:#f8f9fc;
+    border-bottom:1px solid #e5e5e5;
+    text-align:left;
+    vertical-align:middle;
+    font-size:15px;
+    font-weight:600;
+}
+
+.boardTypeForm td{
+    padding:15px 20px;
+    border-bottom:1px solid #e5e5e5;
+    vertical-align:middle;
+}
+
+/* =========================
+   입력창
+========================= */
+
+.inputText{
+    width:260px;
+    height:40px;
+    padding:0 12px;
+    border:1px solid #d9d9d9;
+    box-sizing:border-box;
+}
+
+.inputText:focus{
+    outline:none;
+    border-color:#2763ba;
+}
+
+/* 작은 입력창 */
+.inputTextSmall{
+    width:90px;
+    height:40px;
+    padding:0 10px;
+    border:1px solid #d9d9d9;
+    box-sizing:border-box;
+}
+
+/* 주소 입력창 */
+.inputAddress{
+    width:500px;
+    height:40px;
+    margin-top:8px;
+    padding:0 12px;
+    border:1px solid #d9d9d9;
+    box-sizing:border-box;
+}
+
+/* =========================
+   셀렉트박스
+========================= */
+
+.selectTypeM,
+.selectTypeE,
+.dateYY,
+.dateMM,
+.dateDD{
+    height:40px;
+    padding:0 10px;
+    border:1px solid #d9d9d9;
+    box-sizing:border-box;
+}
+
+.dateYY{
+    width:120px;
+}
+
+.dateMM,
+.dateDD{
+    width:90px;
+}
+
+.selectTypeM{
+    width:100px;
+}
+
+.selectTypeE{
+    width:180px;
+}
+
+/* =========================
+   구분자
+========================= */
+
+.txtWrap{
+    margin:0 8px;
+    color:#666;
+}
+
+/* =========================
+   설명문구
+========================= */
+
+.desc{
+    display:block;
+    margin-top:8px;
+    font-size:13px;
+    color:#666;
+}
+
+.error{
+    margin-top:6px;
+    color:#d91e18;
+    font-size:13px;
+}
+
+/* =========================
+   성별
+========================= */
+
+.lblTxt{
+    margin-right:25px;
+    margin-left:6px;
+}
+
+/* =========================
+   중복확인 버튼
+========================= */
+
+.btnType01{
+    height:40px;
+    padding:0 16px;
+    margin-left:8px;
+    border:1px solid #2763ba;
+    background:#fff;
+    color:#2763ba;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.btnType01:hover{
+    background:#2763ba;
+    color:#fff;
+}
+
+/* =========================
+   주소찾기 버튼
+========================= */
+
+.addressBtn{
+    height:40px;
+    padding:0 16px;
+    margin-left:8px;
+    border:none;
+    background:#2763ba;
+    color:#fff;
+    cursor:pointer;
+}
+
+.addressBtn:hover{
     background:#1c4f9e;
 }
+
