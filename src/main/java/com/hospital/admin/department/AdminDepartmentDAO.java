@@ -93,6 +93,38 @@ public class AdminDepartmentDAO{
 	public DepartmentDTO selectDepartmentDetail(String deptNo) {
 		DepartmentDTO departmentDTO = null;
 		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		StringBuilder selectSql= new StringBuilder();
+		
+		selectSql
+		.append("	select dept_no, dept_name, description, dept_loc, is_active_yn		")
+		.append("	from department		")
+		.append("	where dept_no = ?		");
+		
+		try {
+			conn = DBConnection.getConnection();
+			pstmt = conn.prepareStatement(selectSql.toString());
+			pstmt.setString(1, deptNo);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				departmentDTO = new DepartmentDTO();
+				departmentDTO.setDeptNo(rs.getString("dept_no"));
+				departmentDTO.setDeptName(rs.getString("dept_name"));
+				departmentDTO.setDescription(rs.getString("description"));
+				departmentDTO.setDeptLoc(rs.getString("dept_loc"));
+				departmentDTO.setIsActiveYn(rs.getString("is_active_yn"));
+			}// end if
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(rs,pstmt,conn);
+		}// end try catch
+		
 		return departmentDTO;
 	}// selectDepartmentDetail
 	
