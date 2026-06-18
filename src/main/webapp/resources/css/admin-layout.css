@@ -243,3 +243,112 @@ a {
     color: #b9b9c8;
     background-color: #f4f4fb;
 }
+.admin-action-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 4px;
+    background-color: #263238;
+    color: #fff;
+    font-size: 14px;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.empty-cell {
+    color: #777;
+    text-align: center;
+}
+
+.admin-table-actions {
+    white-space: nowrap;
+}
+
+.admin-table-actions a,
+.admin-table-actions button {
+    min-width: 54px;
+    height: 30px;
+    border: 1px solid #d8d8e8;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #315dca;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.admin-table-actions form {
+    display: inline-block;
+    margin: 0 0 0 6px;
+}
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.admin-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #444;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.admin-form input,
+.admin-form select,
+.admin-form textarea {
+    width: 100%;
+    border: 1px solid #ccd0dd;
+    border-radius: 4px;
+    font: inherit;
+}
+
+.admin-form input,
+.admin-form select {
+    height: 40px;
+    padding: 0 12px;
+}
+
+.admin-form textarea {
+    padding: 12px;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+.admin-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.admin-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 10px;
+}
+
+.admin-form-actions button,
+.admin-form-actions a {
+    min-width: 84px;
+    height: 40px;
+    border: 0;
+    border-radius: 4px;
+    background-color: #4d5dfb;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.admin-form-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #69707d;
+}

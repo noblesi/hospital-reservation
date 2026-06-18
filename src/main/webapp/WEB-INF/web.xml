@@ -52,6 +52,42 @@
     <servlet-name>boardDetailServlet</servlet-name>
     <url-pattern>/board/detail.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>adminBoardListServlet</servlet-name>
+    <servlet-class>com.hospital.admin.board.controller.AdminBoardListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminBoardListServlet</servlet-name>
+    <url-pattern>/admin/notice/list.do</url-pattern>
+    <url-pattern>/admin/faq/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminBoardFormServlet</servlet-name>
+    <servlet-class>com.hospital.admin.board.controller.AdminBoardFormServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminBoardFormServlet</servlet-name>
+    <url-pattern>/admin/board/form.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminBoardSaveServlet</servlet-name>
+    <servlet-class>com.hospital.admin.board.controller.AdminBoardSaveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminBoardSaveServlet</servlet-name>
+    <url-pattern>/admin/board/save.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminBoardDeleteServlet</servlet-name>
+    <servlet-class>com.hospital.admin.board.controller.AdminBoardDeleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminBoardDeleteServlet</servlet-name>
+    <url-pattern>/admin/board/delete.do</url-pattern>
+  </servlet-mapping>
   <jsp-config>
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>
