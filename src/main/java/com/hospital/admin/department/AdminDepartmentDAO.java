@@ -103,6 +103,7 @@ public class AdminDepartmentDAO{
 		.append("	select dept_no, dept_name, description, dept_loc, is_active_yn		")
 		.append("	from department		")
 		.append("	where dept_no = ?		");
+		
 		try {
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(selectSql.toString());
