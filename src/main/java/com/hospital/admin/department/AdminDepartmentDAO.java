@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.hospital.admin.department.dto.AdminDepartmentSearchDTO;
-import com.hospital.common.DBConnection;
 import com.hospital.common.dto.DepartmentDTO;
+import com.hospital.common.util.DBConnection;
 
 
 public class AdminDepartmentDAO{

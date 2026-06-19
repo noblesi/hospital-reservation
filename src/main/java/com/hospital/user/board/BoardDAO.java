@@ -1,7 +1,7 @@
 package com.hospital.user.board;
 
-import com.hospital.common.DBConnection;
 import com.hospital.common.dto.BoardPostDTO;
+import com.hospital.common.util.DBConnection;
 import com.hospital.user.board.dto.BoardSearchDTO;
 
 import java.sql.Connection;

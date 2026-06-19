@@ -1,6 +1,6 @@
 package com.hospital.admin.dashboard;
 
-import com.hospital.common.DBConnection;
+import com.hospital.common.util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

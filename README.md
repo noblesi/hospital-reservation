@@ -141,7 +141,7 @@ src/main/webapp
 
 | 파일 | 쓰임새 |
 |---|---|
-| `com.hospital.common.DBConnection` | DB 접속 정보를 관리하고 `Connection` 생성 및 JDBC 자원 정리를 공통으로 처리한다. DAO에서 DB 연결이 필요할 때 사용한다. |
+| `com.hospital.common.util.DBConnection` | DB 접속 정보를 관리하고 `Connection` 생성 및 JDBC 자원 정리를 공통으로 처리한다. DAO에서 DB 연결이 필요할 때 사용한다. |
 | `com.hospital.common.dto.BaseSearchDTO` | 목록 조회 검색 DTO에서 공통으로 사용하는 `currentPage`, `pageScale`, `startNum`, `endNum` 필드를 제공한다. 기능별 검색 DTO가 상속해서 사용한다. |
 | `com.hospital.common.util.PaginationUtil` | 현재 페이지, 전체 데이터 수, 페이지 크기, 페이지 블록 크기를 기준으로 DAO 조회 범위와 JSP 페이지 번호 정보를 계산한다. |
 

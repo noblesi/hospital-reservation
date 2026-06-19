@@ -1,7 +1,7 @@
 package com.hospital.admin.board;
 
 import com.hospital.admin.board.dto.AdminBoardSearchDTO;
-import com.hospital.common.DBConnection;
+import com.hospital.common.util.DBConnection;
 import com.hospital.common.dto.BoardPostDTO;
 import com.hospital.user.board.BoardDAO;
 
