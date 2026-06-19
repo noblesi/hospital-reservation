@@ -14,12 +14,13 @@ import lombok.ToString;
 
 public class AdminDoctorSearchDTO {
 	
-	private int statNum;
+	private int startNum;
 	private int endNum;
+	private String doctorName;
 	private String deptNo;
 	private String positionCode;
 	private String statusCode;
 	private String field;
-	private String keyword;
+	private String specialty;
 	
 }// class
