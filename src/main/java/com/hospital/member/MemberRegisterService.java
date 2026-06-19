@@ -72,7 +72,7 @@ public class MemberRegisterService {
 	 * @param LoginId 가입한 회원 아이디
 	 * @return 회원 정보
 	 */
-	public MemberDTO searchRegiSter(String loginId) {
+	public MemberDTO searchRegister(String loginId) {
 		
 		MemberDTO mDTO = null;
 		
