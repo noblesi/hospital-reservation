@@ -51,17 +51,20 @@ public class MemberRegisterService {
 			
 			// 미성년자 회원인 경우 보호자 정보 저장
 			if (minorDTO != null) {
+				String patientNo = mrDAO.selectPatientNoByLoginId(mDTO.getLoginId());
+				if(patientNo == null ) {
+					return false;
+				}//end if
+				minorDTO.setPatientNo(patientNo);
 				
 				int minorRow = mrDAO.insertMinorMember(minorDTO);
 				
-				if(minorRow == 0 ) {
+				if(minorRow == 0) {
 					return false;
 				}//end if
-				
 			}// end if
 			return true;
 		} catch (SQLException se) {
-			
 			se.printStackTrace();
 			return false;
 		}//end catch
