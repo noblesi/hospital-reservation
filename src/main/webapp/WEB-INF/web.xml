@@ -72,6 +72,15 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>adminDepartmentListServlet</servlet-name>
+    <servlet-class>com.hospital.admin.department.controller.AdminDepartmentListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminDepartmentListServlet</servlet-name>
+    <url-pattern>/admin/department/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>adminBoardListServlet</servlet-name>
     <servlet-class>com.hospital.admin.board.controller.AdminBoardListServlet</servlet-class>
   </servlet>
