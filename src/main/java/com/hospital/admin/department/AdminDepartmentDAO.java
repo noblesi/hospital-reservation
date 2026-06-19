@@ -130,6 +130,8 @@ public class AdminDepartmentDAO{
 	}// selectDepartmentDetail
 	
 	public int insertDepartment(DepartmentDTO departmentDTO) {
+		DepartmentDTO departmentDTOTemp = departmentDTO;
+		
 		int insertCnt=0;
 
 		Connection conn = null;
@@ -145,10 +147,10 @@ public class AdminDepartmentDAO{
 		try {
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(insertSql.toString());
-			pstmt.setString(1, departmentDTO.getDeptName() );
-			pstmt.setString(2, departmentDTO.getDescription());
-			pstmt.setString(3, departmentDTO.getDeptLoc());
-			pstmt.setString(4, departmentDTO.getIsActiveYn());
+			pstmt.setString(1, departmentDTOTemp.getDeptName() );
+			pstmt.setString(2, departmentDTOTemp.getDescription());
+			pstmt.setString(3, departmentDTOTemp.getDeptLoc());
+			pstmt.setString(4, departmentDTOTemp.getIsActiveYn());
 			
 			insertCnt = pstmt.executeUpdate();
 		
@@ -162,6 +164,7 @@ public class AdminDepartmentDAO{
 	}// insertDepartment
 	
 	public int updateDepartment(DepartmentDTO departmentDTO) {
+		DepartmentDTO departmentDTOTemp = departmentDTO;
 		int updateCnt=0;
 		
 		Connection conn = null;
@@ -180,11 +183,11 @@ public class AdminDepartmentDAO{
 			
 			pstmt = conn.prepareStatement(updateSql.toString());
 			
-			pstmt.setString(1, departmentDTO.getDeptName() );
-			pstmt.setString(2, departmentDTO.getDescription());
-			pstmt.setString(3, departmentDTO.getDeptLoc());
-			pstmt.setString(4, departmentDTO.getIsActiveYn());
-			pstmt.setString(5, departmentDTO.getDeptNo());
+			pstmt.setString(1, departmentDTOTemp.getDeptName() );
+			pstmt.setString(2, departmentDTOTemp.getDescription());
+			pstmt.setString(3, departmentDTOTemp.getDeptLoc());
+			pstmt.setString(4, departmentDTOTemp.getIsActiveYn());
+			pstmt.setString(5, departmentDTOTemp.getDeptNo());
 			
 			updateCnt = pstmt.executeUpdate();
 			
@@ -239,7 +242,40 @@ public class AdminDepartmentDAO{
 	}// updateDepartmentActive
 	
 	public int selectDepartmentNameCnt(String deptName) {
+		int deptNameCnt = 0;
+		String deptNameTemp = deptName;
 		
-		return 0;
+		if(deptNameTemp == "" || deptNameTemp == null) {
+			return 0;
+		}// end if
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		StringBuilder selectSql = new StringBuilder();
+		selectSql
+		.append("	select count(*) from department		")
+		.append("	where = ?;		");
+		
+		try {
+			conn = DBConnection.getConnection();
+			pstmt = conn.prepareStatement(selectSql.toString());
+			
+			pstmt.setString(1, deptNameTemp);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				deptNameCnt=rs.getInt(0);
+			}// end if
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(rs,pstmt,conn);
+		}// end try catch
+		
+		return deptNameCnt;
 	}//selectDepartmentNameCnt
 }// class
