@@ -16,7 +16,7 @@ public class AdminDoctorSearchDTO {
 	
 	private int startNum;
 	private int endNum;
-	private String doctorName;
+	private String name;
 	private String deptNo;
 	private String positionCode;
 	private String statusCode;
