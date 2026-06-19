@@ -111,6 +111,37 @@ public class MemberRegisterDAO {
 		return rowCnt;
 	}//insertMember
 	
+	public String selectPatientNoByLoginId(String loginId) throws SQLException {
+		String patientNo = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = DBConnection.getConnection();
+			StringBuilder selectPatientNo = new StringBuilder();
+			
+			selectPatientNo
+				.append("	select patient_no ")
+				.append("	from member		  ")
+				.append("	where login_id = ? ");
+			
+			pstmt = con.prepareStatement(selectPatientNo.toString());
+			pstmt.setString(1, loginId);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				patientNo = rs.getString("patient_no");
+			}//end if
+		}finally {
+			DBConnection.close(rs, pstmt, con);
+			
+		}//end finally
+		return patientNo;
+	}//selectPatientNoByLoginId
+	
 	/**
 	 * 미성년자 정보 추가
 	 * @param MinorDTO 미성년자 정보 
@@ -166,9 +197,9 @@ public class MemberRegisterDAO {
 			
 			StringBuilder selectResult = new StringBuilder();
 			selectResult
-			.append("select login_id, name, registered_at")
-			.append("from member")
-			.append("where login_id = ? ");
+			.append(" select login_id, name, registered_at ")
+			.append(" from member ")
+			.append(" where login_id = ? ");
 			
 			pstmt = con.prepareStatement(selectResult.toString());
 			pstmt.setString(1, loginId);
