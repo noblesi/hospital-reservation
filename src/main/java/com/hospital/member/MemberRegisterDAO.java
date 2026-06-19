@@ -166,7 +166,7 @@ public class MemberRegisterDAO {
 			
 			StringBuilder selectResult = new StringBuilder();
 			selectResult
-			.append("select login_id, name, refistered_at")
+			.append("select login_id, name, registered_at")
 			.append("from member")
 			.append("where login_id = ? ");
 			
