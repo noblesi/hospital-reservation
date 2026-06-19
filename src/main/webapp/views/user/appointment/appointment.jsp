@@ -1,8 +1,12 @@
+<%@page import="java.util.Comparator"%>
+<%@page import="com.hospital.user.appointment.UserAppointmentService"%>
+<%@page import="com.hospital.common.DepartmentDTO"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-	<% request.setAttribute("activeMenu", "hospital" ); request.setAttribute("depth1", "공통 레이아웃" );
-		request.setAttribute("depth2", "사용자 화면 테스트" ); %>
-		<!DOCTYPE html>
-		<html lang="ko">
+<% request.setAttribute("activeMenu", "hospital" ); request.setAttribute("depth1", "공통 레이아웃" );
+	request.setAttribute("depth2", "사용자 화면 테스트" ); %>
+	<!DOCTYPE html>
+	<html lang="ko">
 
 		<head>
 			<meta charset="UTF-8">
@@ -49,10 +53,13 @@
 						<!-- 검색, 정렬 바 -->
 						<div class="searchBar">
 							<div class="sortRadioDiv">
-								<input type="radio" name="sort" value="default" id="deRadio" class="form-check-input"
-									checked="checked"> <label for="deRadio" class="form-check-label">기본</label> <input
-									type="radio" name="sort" value="ascending" id="ascRadio" class="form-check-input">
-								<label for="ascRadio" class="form-check-label">가나다순</label>
+								<form action="appointment_useDB.jsp" method="get" id="sortFrm">
+									<input type="radio" name="sortType" value="default" id="deRadio" class="form-check-input" checked="checked"> 
+									<label for="deRadio" class="form-check-label">기본</label>
+										
+									<input type="radio" name="sortType" value="ascending" id="ascRadio" class="form-check-input">
+									<label for="ascRadio" class="form-check-label">가나다순</label>
+								</form>
 							</div>
 							<div class="dNameInputDiv">
 								<input type="text" placeholder="질병명 또는 의료진명" id="dNameInput">
@@ -71,99 +78,7 @@
 							</button>
 							<div class="sliderWindow">
 								<div class="sliderTrack">
-									<div class="sliderPage">
-										<table class="slTab">
-											<tr class="slRow">
-												<td class="slCol">
-													<input type="radio" title="내과" value="DP001" class="deptRadio" id="deptx1"
-														style="display: none;"> <label for="deptx1">내과0</label>
-												</td>
-												<td class="slCol">
-													<input type="radio" title="외과" value="DP002" class="deptRadio" id="deptx2"
-														style="display: none;"> <label for="deptx2">외과0</label>
-												</td>
-												<td class="slCol">
-													<input type="radio" title="소아과" value="DP003" class="deptRadio" id="deptx3"
-														style="display: none;"> <label for="deptx3">소아과0</label>
-												</td>
-											</tr>
-											<tr class="slRow">
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">내과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">외과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">소아과</label>
-												</td>
-											</tr>
-											<tr class="slRow">
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">내과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">외과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">소아과</label>
-												</td>
-											</tr>
-										</table>
-									</div>
-
-									<div class="sliderPage">
-										<table class="slTab">
-											<tr class="slRow">
-												<td class="slCol">
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">내과1</label>
-												</td>
-												<td class="slCol">
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">외과1</label>
-												</td>
-												<td class="slCol">
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">소아과1</label>
-												</td>
-											</tr>
-											<tr class="slRow">
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">내과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">외과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">소아과</label>
-												</td>
-											</tr>
-											<tr class="slRow">
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">내과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">외과</label>
-												</td>
-												<td>
-													<input type="radio" value="진료과코드" class="deptRadio"
-														style="display: none;"> <label for="dept1">소아과</label>
-												</td>
-											</tr>
-										</table>
-									</div>
+									
 								</div>
 							</div>
 							<button type="button" class="btnNext">
@@ -192,89 +107,19 @@
 					<div class="doctorListDiv">
 						<h2 class="doctorListTitle">의료진 목록</h2>
 						<div class="doctorListMain">
-							<p class="noResult"">
+							<p class="noResult">
 								위에서 <strong>진료과 선택</strong> 또는 <strong>질병명/의료진</strong> 검색을 먼저 해주세요.
 							</p>
-							
 						</div>
 					</div>
 
 					<div class="scheduleDiv">
 						<div class="scheduleCalDiv">
 							<h2 class="scheduleCalTitle">진료일정</h2>
-							<p class="result" style="display: none;">
+							<p class="result">
 								의료진을 선택하시면<br> 진료일정을 확인 하실 수<br> 있습니다.
 							</p>
 							<div class="scheduleCal">
-								<div class="moveMonthBar">
-									<button class="prevMonthBtn">
-										<i class="bi bi-arrow-left-circle"></i>
-									</button>
-									<h4 class="nowMonthTitle">2026년 6월</h4>
-									<button class="nextMonthBtn">
-										<i class="bi bi-arrow-right-circle"></i>
-									</button>
-								</div>
-								<table class="calTab">
-									<thead>
-										<tr class="weekTr">
-											<th style="color: #ee1c24">일</th>
-											<th>월</th>
-											<th>화</th>
-											<th>수</th>
-											<th>목</th>
-											<th>금</th>
-											<th style="color: #02348b">토</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>1</td>
-											<td>2</td>
-											<td>3</td>
-											<td>4</td>
-											<td>5</td>
-											<td>6</td>
-											<td>7</td>
-										</tr>
-										<tr>
-											<td>8</td>
-											<td>9</td>
-											<td>10</td>
-											<td>11</td>
-											<td>12</td>
-											<td>13</td>
-											<td>14</td>
-										</tr>
-										<tr>
-											<td>15</td>
-											<td>16</td>
-											<td>17</td>
-											<td>18</td>
-											<td>19</td>
-											<td>20</td>
-											<td>21</td>
-										</tr>
-										<tr>
-											<td>22</td>
-											<td>23</td>
-											<td>24</td>
-											<td>25</td>
-											<td>26</td>
-											<td>27</td>
-											<td>28</td>
-										</tr>
-										<tr>
-											<td>29</td>
-											<td>30</td>
-											<td>1</td>
-											<td>2</td>
-											<td>3</td>
-											<td>4</td>
-											<td>5</td>
-										</tr>
-									</tbody>
-								</table>
 							</div>
 						</div>
 						<button id="appointBtn">예약확정하기</button>

@@ -30,6 +30,9 @@ $(function() {
     /*의료진 선택 시*/
     $(".doctorListMain").on("click", ".selectDoctorBtn", handleDoctorSelect);
 
+	/* 달력 버튼 클릭 시 */
+	$(".scheduleCal").on("click", ".nextMonthBtn", nextMonth);
+	$(".scheduleCal").on("click", ".prevMonthBtn", prevMonth);
 });
 
 function moveRightPage(curPage) {
@@ -58,15 +61,15 @@ function moveLeftPage(curPage) {
     return curPage;
 }
 
+/* 진료과를 정렬하는 업무 */
 function sortDept() {
     var selectedSort = $(this).val(); // "default" 또는 "ascending"
 
     $.ajax({
-        url: "appointment_ajax.jsp",     // [어디로?] 호출할 자바 파일 주소 (Model 1이므로 JSP 지정)
-        type: "GET",                    // [어떻게?] 데이터 전송 방식
-        data: {action: "sort", sort: selectedSort },   // [뭘 들고?] 자바 파일로 보낼 파라미터 (sort=값)
-        success: function(receivedHtml) { // [성공하면?] 자바가 out.print로 뱉어낸 HTML이 담김
-
+        url: "appointment_ajax.jsp",    
+        type: "GET",                   
+        data: {action: "sort", sort: selectedSort },   
+        success: function(receivedHtml) {
             $(".sliderTrack").html(receivedHtml);
 
             curPage = 0;
@@ -79,6 +82,7 @@ function sortDept() {
 	
 }
 
+/* 진료과를 선택한 후 업무 */
 function deptHandler() {
     /* 선택한 진료과에 CSS 적용 */
     $(".slTab label").removeClass("selectDept");
@@ -87,65 +91,84 @@ function deptHandler() {
     $(".deptWrap").removeClass("focusBorder");
     $(".doctorListDiv").addClass("focusBorder");
 
-    /*예약 정보 확인에 선택한 과 출력*/
-    $(".rsInfoDept").html($(this).attr("title"));
-
     /* 기존에 있던 진료과 선택 문구 태그를 지운다. */
     $(".noResult").remove();
 
     /* 선택한 진료과 코드를 가져온다. */
     var deptNo = $(this).val();
+	var deptName = $("label[for='" + deptNo +"']").text();
 
+	/*예약 정보 확인에 선택한 과 출력*/
+	$(".rsInfoDept").html(deptName);
+	
     /* HTML 태그를 생성한다 */
-    var listTag = `<ul class="doctorUl">
-								<div class="col">
-									<li class="doctorLi">
-										<img class="doctorThumnail"
-											src="http://localhost/hospital-reservation/resources/images/appointment/tempdoctor.jpg">
-										<div class="doctorInfoDiv">
-											<h4 class="doctorName">구본권 <a href="#void"><img class="searchBlueIcon" src="http://localhost/hospital-reservation/resources/images/appointment/search_blue.png"></a></h4>
-											<p class="detail">
-												<strong class="deptName">순환기내과</strong><br>
-												세부전공: 협십증, 흉통, 관상동맥, 심근경색, 심장
-											</p>
-										</div>
-										<button class="selectDoctorBtn">
-											<i class="bi bi-check-circle checkIcon"></i>
-											선택
-										</button>
-                                        </li>
-                                        <li class="doctorLi" style="margin-left: 20px;	">
-										<img class="doctorThumnail"
-                                        src="http://localhost/hospital-reservation/resources/images/appointment/tempdoctor.jpg">
-										<div class="doctorInfoDiv">
-                                        <h4 class="doctorName">구본권 <a href="#void"><img class="searchBlueIcon" src="http://localhost/hospital-reservation/resources/images/appointment/search_blue.png"></a></h4>
-                                        <p class="detail">
-                                        <strong class="deptName">순환기내과</strong><br>
-                                        세부전공: 제2형당뇨병, 제1형당뇨병, 가족성당뇨병, 임신성당뇨병, 고지혈증, 비만, 대사증후군
-                                        </p>
-										</div>
-										<button class="selectDoctorBtn">
-											<img class="checkIcon" src="http://localhost/hospital-reservation/resources/images/appointment/check.png">
-											선택
-										</button>
-									</li>
-								</div>`;
-
-    /* 생성한 태그를 div 박스 안으로 넣는다. */
-    $(".doctorListMain").html(listTag);
+	$.ajax({
+		url: "appointment_ajax.jsp",
+		type: "GET",
+		data: {action: "doctorList", deptNo: deptNo, deptName: deptName},
+		success: function(receivedHtml) {
+			/* 생성된 HTML 태그를 보여준다 */
+			$(".doctorListMain").html(receivedHtml)
+		}
+		
+	});
+	
 }
 
+/* 의료진 선택 후 업무 */
 function handleDoctorSelect() {
+	/* CSS 강조 설정 */
     $(".selectDoctorBtn").removeClass("selectedBtn");
     $(".doctorThumnail").removeAttr("style");
+    $(".result").attr("style", "display: none;");
     $(".doctorListDiv").removeClass("focusBorder");
-    $(".result").remove();
-
+	
     $(".scheduleCalDiv").addClass("focusBorder");
-
-
     $(this).addClass("selectedBtn");
     $(this).closest(".doctorLi").find(".doctorThumnail").attr("style", "border: 2px solid #2763ba");
+	
+	renderCal();
 }
 
-/*진료 일정 달력*/
+/* 달력 출력 */
+function renderCal(year, month) {
+	var dln = $(".selectedBtn").val();
+	
+	$.ajax({
+			url: "appointment_ajax.jsp",
+			type: "GET",
+			data: {action: "schedule", dln: dln, year: year, month: month},
+			success: function(recivedHtml) {
+				$(".scheduleCal").html(recivedHtml);
+			}
+		});
+}
+
+function nextMonth() {
+	var year = Number($(".year").text());
+	var month = Number($(".month").text());
+	
+	month = month + 1;
+	
+	if(month == 13) {
+		month = 1;
+		year = year + 1;
+	}
+	
+	renderCal(year, month);
+}
+
+function prevMonth() {
+	var year = Number($(".year").text());
+	var month = Number($(".month").text());
+	
+	month = month - 1;
+	
+	if(month == 0) {
+		month = 12;
+		year = year - 1;
+	}
+	
+	renderCal(year, month);
+}
+

@@ -4,9 +4,12 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.hospital.common.DepartmentDTO;
-import com.hospital.common.DoctorDTO;
-import com.hospital.common.DoctorScheduleDTO;
+import com.hospital.common.dto.DepartmentDTO;
+import com.hospital.common.dto.DoctorDTO;
+import com.hospital.common.dto.DoctorScheduleDTO;
+import com.hospital.user.appointment.dto.UserAppointmentConfirmDTO;
+import com.hospital.user.appointment.dto.UserAppointmentOptionDTO;
+import com.hospital.user.appointment.dto.UserAppointmentRequestDTO;
 
 import lombok.NoArgsConstructor;
 
@@ -31,8 +34,15 @@ public class UserAppointmentService {
 	}
 
 	public List<DoctorDTO> searchDoctorList(String deptNo) {
+		List<DoctorDTO> doctorList = null;
+		
+		try {
+			doctorList = uaDAO.selectDoctorList(deptNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-		return null;
+		return doctorList;
 	}
 
 	public UserAppointmentOptionDTO searchDoctorDetail(int doctorLicenseNo) {
@@ -41,8 +51,15 @@ public class UserAppointmentService {
 	}
 
 	public List<DoctorScheduleDTO> searchDoctorSchedule(int doctorLicenseNo) {
-
-		return null;
+		List<DoctorScheduleDTO> dsList = null;
+		
+		try {
+			dsList = uaDAO.selectDoctorSchedule(doctorLicenseNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return dsList;
 	}
 
 	/**

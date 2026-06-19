@@ -382,15 +382,44 @@ ul {
 }
 
 .calTab {
-	width: 260px;
-	height: 230px;
+	width: 250px;
+	min-height: 230px;
 	margin: 0px auto;
 	font-weight: 400;
 	text-align: center;
 }
 
+.calTab tr {
+	height: 40px;
+}
+
 .weekTr th {
 	font-weight: 400;
+}
+
+.calTab td {
+	border: 3px solid #FFF;
+}
+
+
+.available {
+	cursor: pointer;
+	background-repeat: no-repeat;
+    background-position: center;  
+    background-size: contain;
+    border-radius: 10px;
+}
+
+.allDay {
+	background-image: url("http://localhost/hospital-reservation/resources/images/appointment/tempdoctor.jpg");
+}
+
+.calTab .am {
+	background-color: #efbad3;
+}
+
+.pm {
+	background-color: #ccbfe2;
 }
 
 .result {

@@ -1,0 +1,29 @@
+package com.hospital.common.dto;
+
+import java.sql.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+@ToString
+public class DoctorDTO {
+	private int doctorLicenseNo;
+	private String deptNo;
+	private String name;
+	private String phoneNum;
+	private String positionCode;
+	private String introTitle;
+	private String introContent;
+	private String thumbnailUrl;
+	private String detailImageUrl;
+	private Date createdDate;
+	private String specialty;
+	private String statusCode;
+}
