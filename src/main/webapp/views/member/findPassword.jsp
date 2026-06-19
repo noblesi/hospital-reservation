@@ -68,7 +68,7 @@
 
     <div class="layerContent">
         <form id="hForm" name="hForm"
-              action="<c:url value='findPasswordCheck.jsp' />"
+              action="<c:url value='process/findPasswordProcess.jsp' />"
               method="post">
 
             <input type="hidden" name="findType" value="tel">
@@ -123,7 +123,7 @@
 
     <div class="layerContent">
         <form id="mForm" name="mForm"
-              action="<c:url value='findPasswordCheck.jsp' />"
+              action="<c:url value='process/findPasswordProcess.jsp' />"
               method="post">
 
             <input type="hidden" name="findType" value="email">
@@ -177,7 +177,7 @@
     <h1>비밀번호 재설정</h1>
 
     <div class="layerContent resetLayerContent">
-        <form id="resetForm" action="<c:url value='resetPasswordProcess.jsp' />" method="post">
+        <form id="resetForm" action="<c:url value='process/resetPasswordProcess.jsp' />" method="post">
 
             <div class="resetIcon">▣</div>
 

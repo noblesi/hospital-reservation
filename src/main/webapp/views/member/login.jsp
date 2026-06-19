@@ -190,7 +190,7 @@ body{
             </p>
 
             <form class="login-form"
-                  action="<c:url value='loginCheck.jsp' />"
+                  action="<c:url value='process/loginProcess.jsp' />"
                   method="post">
 
                 <input type="text"

@@ -67,7 +67,7 @@
 
     <div class="layerContent">
         <form id="hForm" name="hForm"
-              action="<c:url value='findIdCheck.jsp' />"
+              action="<c:url value='process/findIdProcess.jsp' />"
               method="post">
 
             <input type="hidden" name="findType" value="tel">
@@ -116,7 +116,7 @@
 
     <div class="layerContent">
         <form id="mForm" name="mForm"
-              action="<c:url value='findIdCheck.jsp' />"
+              action="<c:url value='process/findIdProcess.jsp' />"
               method="post">
 
             <input type="hidden" name="findType" value="email">
