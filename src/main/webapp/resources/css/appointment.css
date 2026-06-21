@@ -333,20 +333,21 @@ ul {
 	float: right;
 }
 
-.scheduleCalDiv {
-	height: 750px;
-	background-color: #FFFFFF;
-	margin-bottom: 20px;
-}
-
 .scheduleCalTitle {
 	font-size: 20px;
 	font-weight: 700;
 	padding: 30px;
 }
 
+.scheduleCalDiv {
+	height: 750px;
+	background-color: #FFFFFF;
+	margin-bottom: 20px;
+}
+
 .scheduleCal {
-	padding: 5px;
+	width: 270px;
+	min-height: 200px;
 }
 
 .moveMonthBar {
@@ -397,29 +398,70 @@ ul {
 	font-weight: 400;
 }
 
-.calTab td {
-	border: 3px solid #FFF;
+.calTab span,
+.ex {
+    display: inline-block; 
+    width: 33px; 
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-radius: 50%;
+    margin: 0px 1px;
 }
-
 
 .available {
 	cursor: pointer;
-	background-repeat: no-repeat;
-    background-position: center;  
-    background-size: contain;
-    border-radius: 10px;
 }
 
 .allDay {
-	background-image: url("http://localhost/hospital-reservation/resources/images/appointment/tempdoctor.jpg");
+	background-color: #3587ff;
 }
 
-.calTab .am {
+.am {
 	background-color: #efbad3;
 }
 
 .pm {
 	background-color: #ccbfe2;
+}
+
+.selectedDay {
+	color : #fff;
+	background-color: #2763ba;
+}
+
+.infoCal {
+	margin-top: 15px;
+}
+
+.ex {
+	width: 25px; 
+    height: 25px;
+	margin-left: 10px;
+	position: relative;
+	top: 5px;
+}
+
+.timeTableDiv {
+	width: 100%;
+	min-height: 30px;
+	margin-top: 10px;
+	padding: 10px 10px 0px 10px;
+	overflow: auto;
+}
+
+.timeTableUl {
+	min-height: 30px;
+}
+
+.timeTableLi {
+	width: 52px;
+	height: 30px;
+	float: left;
+	font-size: 18px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	text-align: center;
 }
 
 .result {

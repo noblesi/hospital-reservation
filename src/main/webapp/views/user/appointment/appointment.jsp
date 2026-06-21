@@ -1,6 +1,5 @@
 <%@page import="java.util.Comparator"%>
 <%@page import="com.hospital.user.appointment.UserAppointmentService"%>
-<%@page import="com.hospital.common.DepartmentDTO"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% request.setAttribute("activeMenu", "hospital" ); request.setAttribute("depth1", "공통 레이아웃" );
@@ -120,6 +119,8 @@
 								의료진을 선택하시면<br> 진료일정을 확인 하실 수<br> 있습니다.
 							</p>
 							<div class="scheduleCal">
+							</div>
+							<div class="timeTableDiv">
 							</div>
 						</div>
 						<button id="appointBtn">예약확정하기</button>

@@ -132,6 +132,14 @@ public class UserAppointmentDAO {
 		return null;
 	}
 
+	
+	/**
+	 * 의사의 진료 요일, 시작 시간, 끝 시간 검색.
+	 * 
+	 * @param dln
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<DoctorScheduleDTO> selectDoctorSchedule(int dln) throws SQLException {
 		List<DoctorScheduleDTO> dsList = new ArrayList<>();
 		
@@ -180,11 +188,42 @@ public class UserAppointmentDAO {
 	/**
 	 * @param doctorLicenseNo
 	 * @param appointmentDate
-	 * @return 선택한 의사와 날짜의 예약된 시간들을 반환.
+	 * @return 이미 예약된 진료 시간.
 	 */
-	public List selectReservedTime(int doctorLicenseNo, Date appointmentDate) {
+	public List<String> selectReservedTime(int dln, Date appointmentDate) throws SQLException {
+		List<String> reservedTimes = new ArrayList<String>();
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-		return null;
+		try {
+			con = DBConnection.getConnection();
+
+			StringBuilder querySb = new StringBuilder();
+			querySb //
+					.append("	select 	DOCTOR_LICENSE_NO, APPOINTMENT_DATE, APPOINTMENT_TIME	")
+					.append("	from 	appointment	") //
+					.append("	where DOCTOR_LICENSE_NO = ? and APPOINTMENT_DATE = ?	");
+
+			pstmt = con.prepareStatement(querySb.toString());
+			
+			pstmt.setInt(1, dln);
+			pstmt.setDate(2, appointmentDate);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs != null) {
+				while (rs.next()) {
+					reservedTimes.add(rs.getString("APPOINTMENT_TIME"));
+				}
+			}
+
+		} finally {
+			DBConnection.close(rs, pstmt, con);
+		}
+		
+		return reservedTimes;
 	}
 
 	public int selectAppointmentConflict(UserAppointmentRequestDTO requestDTO) {

@@ -2,6 +2,8 @@ package com.hospital.user.appointment;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hospital.common.dto.DepartmentDTO;
@@ -63,13 +65,51 @@ public class UserAppointmentService {
 	}
 
 	/**
-	 * @param doctorLicenseNo
-	 * @param appointmentDate
+	 * @param doctorLicenseNo 진료 받고 싶은 의사 번호
+	 * @param appointmentDate 진료 받고 싶은 날짜
 	 * @return 진료 가능한 시간대 목록
+	 * @throws SQLException 
 	 */
-	public List searchAvailableTime(int doctorLicenseNo, Date appointmentDate) {
-
-		return null;
+	public List<String> searchAvailableTime(int doctorLicenseNo, Date appointmentDate) {
+		List<String> availableTimes = new ArrayList<String>();
+		List<String> reservedTimes = null;
+		List<DoctorScheduleDTO> dsList = null;
+		
+		try {
+			reservedTimes = uaDAO.selectReservedTime(doctorLicenseNo, appointmentDate);
+			dsList = uaDAO.selectDoctorSchedule(doctorLicenseNo);
+			
+			DoctorScheduleDTO dsDTO = null;
+			
+			int appointDayOfWeek = appointmentDate.toLocalDate().getDayOfWeek().getValue(); 
+			
+			for(int i = 0; i < dsList.size(); i++) {
+				dsDTO = dsList.get(i);
+				
+				if (dsDTO.getDayOfWeek() == appointDayOfWeek) {
+					break;
+				}
+			}
+			
+			LocalTime startTime = LocalTime.parse(dsDTO.getStartTime());
+			LocalTime endTime = LocalTime.parse(dsDTO.getEndTime());
+			
+			LocalTime timeLd = startTime;
+			
+			while(!timeLd.equals(endTime)) {
+				if (!reservedTimes.contains(timeLd.toString())) {
+					availableTimes.add(timeLd.toString());
+				}
+					
+				timeLd = timeLd.plusMinutes(30);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return availableTimes;
 	}
 
 	public boolean checkReservable(UserAppointmentRequestDTO requestDTO) {
