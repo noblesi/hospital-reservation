@@ -170,7 +170,7 @@
 <script type="text/javascript">
     $(function(){
 
-        $("#searchBtn").on("click", function () {
+        $("#searchBtn").click(function () {
             const dept = $("#dept").val();
             const status = $("#status").val();
             const name = $("#name").val();
@@ -179,9 +179,9 @@
             alert("검색 조건\n진료과: " + dept + "\n상태: " + status + "\n이름: " + name);
         });
 
-        $("#registerBtn").on("click", function () {
+        $("#registerBtn").click(function () {
             alert("의료진 등록 페이지로 이동");
-            // location.href = "<c:url value='/admin/doctor/register.do' />";
+             location.href = "<c:url value='adminDoctorDetail.jsp' />";
         });
 
         $(".status-select").on("change", function () {
@@ -192,7 +192,7 @@
             // 여기서 AJAX로 상태 업데이트 가능
         });
 
-        $(".pagination-wrap button").not(".arrow").on("click", function () {
+        $(".pagination-wrap button").not(".arrow").click(function () {
             $(".pagination-wrap button").removeClass("active");
             $(this).addClass("active");
         });
