@@ -466,6 +466,12 @@
 
     	      $('#btnLicenseSearchTop').click( function () {
     	        var licenseNo = $.trim($('#licenseNo').val());
+    	        if(licenseNo.length < 6) {
+    	        	alert('숫자 6자를 입력해주세요');
+      	        	$('#licenseNo').focus();
+      	        	return;
+    	        }
+    	        
     	        if (!licenseNo) {
     	          alert('면허 번호를 입력해주세요.');
     	          $('#licenseNo').focus();
@@ -493,7 +499,7 @@
 
     <main class="admin-content">
         <div class="admin-page-title">
-            <h2>진료과 관리</h2>
+            <h2>의료진 등록 / 수정</h2>
         </div>
 
         <section class="admin-card">
@@ -501,82 +507,79 @@
                 <div class="admin-view-area">
 
 					<div class="doctor-register-form">
-					  
-					
 					  <div class="doctor-layout">
 					    <div class="doctor-register-title">의료진 등록 / 수정</div>
-					
-					    <div class="doctor-top-area">
-					      <div class="doctor-left-form">
-					        <div class="doctor-field-row">
-					          <label class="doctor-label" for="licenseNo">의사 면허 번호</label>
-					          <input type="text" class="doctor-input" id="licenseNo" name="licenseNo" value="${doctor.licenseNo}" />
-					          <button type="button" class="doctor-btn doctor-btn-primary" id="btnLicenseSearchTop">면허번호 조회</button>
-					        </div>
-					
-					        <div class="doctor-field-row">
-					          <label class="doctor-label" for="doctorName">이름</label>
-					          <input type="text" class="doctor-input" id="doctorName" name="doctorName" value="${doctor.name}" />
-					          <div></div>
-					        </div>
-					
-					        <div class="doctor-field-row">
-					          <label class="doctor-label" for="department">진료과</label>
-					          <select class="doctor-select" id="department" name="department">
-					            <option value="">진료과 선택</option>
-					            <option value="내과">내과</option>
-					            <option value="외과">외과</option>
-					            <option value="정형외과">정형외과</option>
-					            <option value="신경과">신경과</option>
-					            <option value="소아청소년과">소아청소년과</option>
-					          </select>
-					          <div></div>
-					        </div>
-					
-					        <div class="doctor-field-row">
-					          <label class="doctor-label" for="position">직급</label>
-					          <select class="doctor-select" id="position" name="position">
-					            <option value="">직급 선택</option>
-					            <option value="교수">교수</option>
-					            <option value="과장">과장</option>
-					            <option value="전문의">전문의</option>
-					            <option value="전임의">전임의</option>
-					            <option value="레지던트">레지던트</option>
-					          </select>
-					          <div></div>
-					        </div>
-					
-					        <div class="doctor-field-row">
-					          <label class="doctor-label" for="specialty">전문분야</label>
-					          <input type="text" class="doctor-input" id="specialty" name="specialty" value="${doctor.specialty}" />
-					          <div></div>
-					        </div>
-					
-					        <div class="doctor-field-row">
-					          <label class="doctor-label" for="phone">연락처</label>
-					          <input type="text" class="doctor-input" id="phone" name="phone" value="${doctor.phone}" />
-					          <div></div>
-					        </div>
-					      </div>
-					
-					      <div class="doctor-photo-grid">
-					        <div class="doctor-photo-item">
-					          <div class="doctor-photo-preview" id="thumbPreview">
-					            <div class="doctor-photo-text">썸네일 사진</div>
-					          </div>
-					          <button type="button" class="doctor-btn doctor-btn-primary" id="thumbUploadBtn">썸네일 사진 등록</button>
-					          <input type="file" id="thumbFile" name="thumbFile" accept="image/*" hidden />
-					        </div>
-					
-					        <div class="doctor-photo-item">
-					          <div class="doctor-photo-preview" id="detailPreview">
-					            <div class="doctor-photo-text">상세 사진</div>
-					          </div>
-					          <button type="button" class="doctor-btn doctor-btn-primary" id="detailUploadBtn">상세 사진 등록</button>
-					          <input type="file" id="detailFile" name="detailFile" accept="image/*" hidden />
-					        </div>
-					      </div>
-					    </div>
+						    <div class="doctor-top-area">
+						      <div class="doctor-left-form">
+						        <div class="doctor-field-row">
+						          <label class="doctor-label" for="licenseNo">의사 면허 번호</label>
+						          <input type="text" class="doctor-input" id="licenseNo" maxlength="6" name="licenseNo" value="${doctor.licenseNo}" />
+						          <button type="button" class="doctor-btn doctor-btn-primary" id="btnLicenseSearchTop">면허번호 조회</button>
+						        </div>
+						
+						        <div class="doctor-field-row">
+						          <label class="doctor-label" for="doctorName">이름</label>
+						          <input type="text" class="doctor-input" id="doctorName" name="doctorName" value="${doctor.name}" />
+						          <div></div>
+						        </div>
+						
+						        <div class="doctor-field-row">
+						          <label class="doctor-label" for="department">진료과</label>
+						          <select class="doctor-select" id="department" name="department">
+						            <option value="">진료과 선택</option>
+						            <option value="내과">내과</option>
+						            <option value="외과">외과</option>
+						            <option value="정형외과">정형외과</option>
+						            <option value="신경과">신경과</option>
+						            <option value="소아청소년과">소아청소년과</option>
+						          </select>
+						          <div></div>
+						        </div>
+						
+						        <div class="doctor-field-row">
+						          <label class="doctor-label" for="position">직급</label>
+						          <select class="doctor-select" id="position" name="position">
+						            <option value="">직급 선택</option>
+						            <option value="교수">교수</option>
+						            <option value="과장">과장</option>
+						            <option value="전문의">전문의</option>
+						            <option value="전임의">전임의</option>
+						            <option value="레지던트">레지던트</option>
+						          </select>
+						          <div></div>
+						        </div>
+						
+						        <div class="doctor-field-row">
+						          <label class="doctor-label" for="specialty">전문분야</label>
+						          <input type="text" class="doctor-input" id="specialty" name="specialty" value="${doctor.specialty}" />
+						          <div></div>
+						        </div>
+						
+						        <div class="doctor-field-row">
+						          <label class="doctor-label" for="phone">연락처</label>
+						          <input type="text" class="doctor-input" id="phone" name="phone" value="${doctor.phone}" />
+						          <div></div>
+						        </div>
+						      </div>
+						
+						      <div class="doctor-photo-grid">
+						        <div class="doctor-photo-item">
+						          <div class="doctor-photo-preview" id="thumbPreview">
+						            <div class="doctor-photo-text">썸네일 사진</div>
+						          </div>
+						          <button type="button" class="doctor-btn doctor-btn-primary" id="thumbUploadBtn">썸네일 사진 등록</button>
+						          <input type="file" id="thumbFile" name="thumbFile" accept="image/*" hidden />
+						        </div>
+						
+						        <div class="doctor-photo-item">
+						          <div class="doctor-photo-preview" id="detailPreview">
+						            <div class="doctor-photo-text">상세 사진</div>
+						          </div>
+						          <button type="button" class="doctor-btn doctor-btn-primary" id="detailUploadBtn">상세 사진 등록</button>
+						          <input type="file" id="detailFile" name="detailFile" accept="image/*" hidden />
+						        </div>
+						      </div>
+						    </div>
 					
 					    <div class="doctor-mid-area">
 					      <div class="doctor-schedule-section">
@@ -868,11 +871,8 @@
 					      <button type="button" class="doctor-btn doctor-btn-secondary" id="doctorCancelBtn">취소</button>
 					    </div>
 					  </div>
-
   
 					</div>
-
-
                 </div>
             </form>
         </section>
