@@ -56,7 +56,6 @@ function sample6_execDaumPostcode(){
 </script>
 <!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="<c:url value='/resources/js/join.js' />"></script>
 </head>
 
 <body>
@@ -77,7 +76,7 @@ function sample6_execDaumPostcode(){
         <li><b>STEP 04</b>가입완료</li>
     </ul>
 
-    <form id="memberVo" name="hForm" action="joinComplete.jsp" method="post">
+    <form id="memberVo" name="hForm" action="process/joinProcess.jsp" method="post">
         <input id="join_type" name="join_type" type="hidden" value="${param.join_type}">
         <fieldset>
 
@@ -215,10 +214,10 @@ function sample6_execDaumPostcode(){
                         <tr>
                             <th scope="row"><span class="required">*</span> 성별</th>
                             <td>
-                                <input type="radio" name="sex" id="male" value="M">
+                                <input type="radio" name="gender" id="male" value="M">
                                 <label for="male" class="lblTxt">남자</label>
 
-                                <input type="radio" name="sex" id="female" value="F">
+                                <input type="radio" name="gender" id="female" value="F">
                                 <label for="female" class="lblTxt">여자</label>
 
                                 <span class="desc">정확히 선택해 주십시오.</span>
@@ -234,7 +233,9 @@ function sample6_execDaumPostcode(){
             <button type="button" class="btnType03 btnBig" id="gFormNextBtn">다음단계</button>
         </div>
     </form>
-
+	<form id="idCheckFrm" action="process/idCheckProcess.jsp" method="get">
+		<input type="hidden" id="checkLoginId" name="loginId">
+	</form>
 </main>
 
 <jsp:include page="../common/userFooter.jsp" />

@@ -51,7 +51,6 @@ function sample6_execDaumPostcode(){
 </script>
 <!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="<c:url value='/resources/js/join.js' />"></script>
 </head>
 
 <body>
@@ -72,7 +71,7 @@ function sample6_execDaumPostcode(){
         <li><b>STEP 04</b>가입완료</li>
     </ul>
 
-    <form id="memberVo" name="hForm" action="joinComplete.jsp" method="post">
+    <form id="memberVo" name="hForm" action="process/joinProcess.jsp" method="post">
         <input id="join_type" name="join_type" type="hidden" value="${param.join_type}">
 
         <fieldset>
@@ -120,6 +119,7 @@ function sample6_execDaumPostcode(){
                         <tr>
                             <th scope="row"><span class="required">*</span> 보호자 생년월일</th>
                             <td>
+                            	<input id="birth" name="birth" type="hidden" value="">
                                 <select id="year" name="year" class="dateYY">
                                     <option value="">연도</option>
                                     <%
@@ -155,6 +155,7 @@ function sample6_execDaumPostcode(){
                         <tr>
                             <th scope="row"><span class="required">*</span> 휴대전화</th>
                             <td>
+                            	<input id="hp_no" name="hp_no" type="hidden" value="">
                                 <select id="hp1" name="hp1" class="selectTypeM">
                                     <option value="">선택</option>
                                     <option value="010">010</option>
@@ -175,6 +176,7 @@ function sample6_execDaumPostcode(){
                         <tr>
                             <th scope="row"><span class="required">*</span> 이메일</th>
                             <td>
+                            	<input id="email" name="email" type="hidden" value="">
                                 <input type="text" name="email1" id="email1" class="inputText">
                                 <span class="txtWrap">@</span>
                                 <input type="text" name="email2" id="email2" class="inputText">
@@ -208,10 +210,10 @@ function sample6_execDaumPostcode(){
                         <tr>
                             <th scope="row"><span class="required">*</span> 보호자 성별</th>
                             <td>
-                                <input type="radio" name="sex" id="male" value="M">
+                                <input type="radio" name="gender" id="male" value="M">
                                 <label for="male" class="lblTxt">남자</label>
 
-                                <input type="radio" name="sex" id="female" value="F">
+                                <input type="radio" name="gender" id="female" value="F">
                                 <label for="female" class="lblTxt">여자</label>
                             </td>
                         </tr>
@@ -233,6 +235,7 @@ function sample6_execDaumPostcode(){
                         <tr>
                             <th scope="row"><span class="required">*</span> 환자 이름</th>
                             <td>
+                            
                                 <input id="childName" name="childName" class="inputText" type="text" maxlength="20">
                             </td>
                         </tr>
@@ -274,10 +277,10 @@ function sample6_execDaumPostcode(){
                         <tr>
                             <th scope="row"><span class="required">*</span> 환자 성별</th>
                             <td>
-                                <input type="radio" name="childSex" id="childMale" value="M">
+                                <input type="radio" name="childGender" id="childMale" value="M">
                                 <label for="childMale" class="lblTxt">남자</label>
 
-                                <input type="radio" name="childSex" id="childFemale" value="F">
+                                <input type="radio" name="childGender" id="childFemale" value="F">
                                 <label for="childFemale" class="lblTxt">여자</label>
                             </td>
                         </tr>
@@ -287,8 +290,8 @@ function sample6_execDaumPostcode(){
                             <td>
                                 <select id="relationshipType" name="relationshipType" class="selectTypeE">
                                     <option value="">선택</option>
-                                    <option value="father">부</option>
-                                    <option value="mother">모</option>
+                                    <option value="부">부</option>
+                                    <option value="모">모</option>
                                     <option value="etc">기타</option>
                                 </select>
                             </td>
@@ -303,11 +306,14 @@ function sample6_execDaumPostcode(){
             <button type="button" class="btnType03 btnBig" id="gFormNextBtn">다음단계</button>
         </div>
     </form>
+    <form id="idCheckFrm" action="process/idCheckProcess.jsp" method="get">
+    	<input type="hidden" id="checkLoginId" name="loginId">
+	</form>
 
 </main>
 
 <jsp:include page="../common/userFooter.jsp" />
-
+<script src="<c:url value='/resources/js/join.js' />"></script>
 <script src="<c:url value='/resources/js/user-layout.js' />"></script>
 
 </body>

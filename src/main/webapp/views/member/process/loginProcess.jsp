@@ -17,6 +17,7 @@ if(loginMember != null){
 	<script>
 	alert("로그인 성공");
 	location.href="login.jsp";
+	//메인 화면이 없어서 로그인 성고해도 login.jsp로 보냄 
 	</script>
 <%
 	return;
