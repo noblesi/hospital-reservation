@@ -311,7 +311,39 @@ public class AdminDoctorDAO {
 	public int updateDoctor(DoctorDTO doctorDTO) {
 		DoctorDTO doctorDTOTemp = doctorDTO;
 		int updateCnt = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
 		
+		StringBuilder updateSql = new StringBuilder();
+		updateSql
+		.append("	update doctor		")
+		.append("	set dept_No=?, name=?, phone_Num=?, position_Code=?, intro_Title=?,		")
+		.append("	intro_Content=?, thumbnail_Url=?, detail_Image_Url=?, specialty=?, status_Code=?		")
+		.append("	where doctor_License_No=?;		");
+		
+		try {
+			conn = DBConnection.getConnection();
+			pstmt = conn.prepareStatement(updateSql.toString());
+			
+			pstmt.setString(1, doctorDTOTemp.getDeptNo());
+			pstmt.setString(2, doctorDTOTemp.getName());
+			pstmt.setString(3, doctorDTOTemp.getPhoneNum());
+			pstmt.setString(4, doctorDTOTemp.getPositionCode());
+			pstmt.setString(5, doctorDTOTemp.getIntroTitle());
+			pstmt.setString(6, doctorDTOTemp.getIntroContent());
+			pstmt.setString(7, doctorDTOTemp.getThumbnailUrl());
+			pstmt.setString(8, doctorDTOTemp.getDetailImageUrl());
+			pstmt.setString(9, doctorDTOTemp.getSpecialty());
+			pstmt.setString(10, doctorDTOTemp.getStatusCode());
+			pstmt.setInt(11, doctorDTOTemp.getDoctorLicenseNo());
+			
+			updateCnt = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(pstmt,conn);
+		}// end try catch
 		
 		return updateCnt;
 	}//updateDoctor
