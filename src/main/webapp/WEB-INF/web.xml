@@ -34,6 +34,89 @@
     <welcome-file>default.xhtml</welcome-file>
   </welcome-file-list>
 
+  <servlet>
+    <servlet-name>mainPageServlet</servlet-name>
+    <servlet-class>com.hospital.user.board.controller.MainPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mainPageServlet</servlet-name>
+    <url-pattern>/main.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>boardListServlet</servlet-name>
+    <servlet-class>com.hospital.user.board.controller.BoardListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>boardListServlet</servlet-name>
+    <url-pattern>/board/notice/list.do</url-pattern>
+    <url-pattern>/board/faq/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>boardDetailServlet</servlet-name>
+    <servlet-class>com.hospital.user.board.controller.BoardDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>boardDetailServlet</servlet-name>
+    <url-pattern>/board/detail.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminDashboardServlet</servlet-name>
+    <servlet-class>com.hospital.admin.dashboard.controller.AdminDashboardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminDashboardServlet</servlet-name>
+    <url-pattern>/admin/dashboard.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminDepartmentListServlet</servlet-name>
+    <servlet-class>com.hospital.admin.department.controller.AdminDepartmentListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminDepartmentListServlet</servlet-name>
+    <url-pattern>/admin/department/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminBoardListServlet</servlet-name>
+    <servlet-class>com.hospital.admin.board.controller.AdminBoardListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminBoardListServlet</servlet-name>
+    <url-pattern>/admin/notice/list.do</url-pattern>
+    <url-pattern>/admin/faq/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminBoardFormServlet</servlet-name>
+    <servlet-class>com.hospital.admin.board.controller.AdminBoardFormServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminBoardFormServlet</servlet-name>
+    <url-pattern>/admin/board/form.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminBoardSaveServlet</servlet-name>
+    <servlet-class>com.hospital.admin.board.controller.AdminBoardSaveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminBoardSaveServlet</servlet-name>
+    <url-pattern>/admin/board/save.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminBoardDeleteServlet</servlet-name>
+    <servlet-class>com.hospital.admin.board.controller.AdminBoardDeleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminBoardDeleteServlet</servlet-name>
+    <url-pattern>/admin/board/delete.do</url-pattern>
+  </servlet-mapping>
+
   <jsp-config>
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>

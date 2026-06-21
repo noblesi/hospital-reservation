@@ -1,4 +1,4 @@
-package com.hospital.common;
+package com.hospital.common.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
