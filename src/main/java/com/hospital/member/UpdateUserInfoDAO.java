@@ -95,8 +95,8 @@ public class UpdateUserInfoDAO {
 			
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append(" select patient_no, login_id, name, email, tel, ")
-			   .append("        birthday, zipcode, address, detail_address, ")
+			sql.append(" select patient_no, login_id, name, email, phone_number, ")
+			   .append("        birth_date, zip_code, address, address_detail, ")
 			   .append("        has_minor_member_yn ")
 			   .append(" from member ")
 			   .append(" where login_id = ? ")
@@ -114,11 +114,11 @@ public class UpdateUserInfoDAO {
 				mDTO.setLoginId(rs.getString("login_id"));
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
-				mDTO.setPhoneNumber(rs.getString("tel"));
-				mDTO.setBirthDate(rs.getDate("birthday"));
-				mDTO.setZipCode(rs.getString("zipcode"));
+				mDTO.setPhoneNumber(rs.getString("phone_number"));
+				mDTO.setBirthDate(rs.getDate("birth_date"));
+				mDTO.setZipCode(rs.getString("zip_code"));
 				mDTO.setAddress(rs.getString("address"));
-				mDTO.setAddressDetail(rs.getString("detail_address"));
+				mDTO.setAddressDetail(rs.getString("address_detail"));
 				mDTO.setHasMinorMemberYn(rs.getString("has_minor_member_yn"));
 			}//end if
 			
@@ -181,7 +181,7 @@ public class UpdateUserInfoDAO {
 	/**
 	 * 회원정보 수정
 	 *
-	 * 회원의 이메일, 연락처, 주소 정보를 수정한다.
+	 * 회원의 생년월일, 이메일, 연락처, 주소 정보를 수정한다.
 	 * 탈퇴하지 않은 회원만 수정 가능하다.
 	 *
 	 * @param mDTO 수정할 회원 정보
@@ -201,22 +201,24 @@ public class UpdateUserInfoDAO {
 			StringBuilder sql = new StringBuilder();
 			
 			sql.append(" update member ")
-			   .append(" set email = ?, ")
-			   .append("     tel = ?, ")
-			   .append("     zipcode = ?, ")
+			   .append(" set birth_date = ?, ")
+			   .append("     email = ?, ")
+			   .append("     phone_number = ?, ")
+			   .append("     zip_code = ?, ")
 			   .append("     address = ?, ")
-			   .append("     detail_address = ? ")
+			   .append("     address_detail = ? ")
 			   .append(" where login_id = ? ")
 			   .append(" and is_withdrawn_yn = 'N' ");
 			
 			pstmt = con.prepareStatement(sql.toString());
 			
-			pstmt.setString(1, mDTO.getEmail());
-			pstmt.setString(2, mDTO.getPhoneNumber());
-			pstmt.setString(3, mDTO.getZipCode());
-			pstmt.setString(4, mDTO.getAddress());
-			pstmt.setString(5, mDTO.getAddressDetail());
-			pstmt.setString(6, mDTO.getLoginId());
+			pstmt.setDate(1, mDTO.getBirthDate());
+			pstmt.setString(2, mDTO.getEmail());
+			pstmt.setString(3, mDTO.getPhoneNumber());
+			pstmt.setString(4, mDTO.getZipCode());
+			pstmt.setString(5, mDTO.getAddress());
+			pstmt.setString(6, mDTO.getAddressDetail());
+			pstmt.setString(7, mDTO.getLoginId());
 			
 			cnt = pstmt.executeUpdate();
 			
@@ -232,7 +234,7 @@ public class UpdateUserInfoDAO {
 	 *
 	 * 로그인 회원과 같은 patient_no를 가진 minor_member 정보를 수정한다.
 	 *
-	 * @param mDTO 수정할 미성년자 정보
+	 * @param minorDTO 수정할 미성년자 정보
 	 * @return 수정된 행의 수
 	 * @throws SQLException DB 처리 중 오류 발생 시
 	 */

@@ -30,6 +30,13 @@ public class UserMyPageDAO {
 		return umpDAO;
 	}//getInstance
 
+	/**
+	 * 로그인 아이디에 해당하는 마이페이지 기본 회원 정보를 조회한다.
+	 *
+	 * @param loginId 로그인 아이디
+	 * @return 환자번호와 이름을 담은 회원 DTO, 회원이 없으면 null
+	 * @throws SQLException 회원 조회 중 DB 오류가 발생한 경우
+	 */
 	public MemberDTO selectMember(String loginId) throws SQLException {
 
 		MemberDTO mDTO = null;
@@ -65,6 +72,13 @@ public class UserMyPageDAO {
 		return mDTO;
 	}//selectMember
 
+	/**
+	 * 환자번호에 해당하는 전체 예약 내역을 최신 예약순으로 조회한다.
+	 *
+	 * @param patientNo 환자번호
+	 * @return 예약 및 진료과·의료진 정보를 담은 예약 목록
+	 * @throws SQLException 예약 내역 조회 중 DB 오류가 발생한 경우
+	 */
 	public List<UserAppointmentDTO> selectAppointmentList(String patientNo) throws SQLException {
 
 		List<UserAppointmentDTO> list = new ArrayList<UserAppointmentDTO>();
@@ -113,7 +127,9 @@ public class UserMyPageDAO {
 				uaDTO.setAppointmentDate(rs.getDate("appointment_date"));
 				uaDTO.setAppointmentTime(rs.getString("appointment_time"));
 				uaDTO.setRequirement(rs.getString("requirement"));
-				uaDTO.setStatus(rs.getString("status"));
+				// CHAR 타입 상태값 뒤에 붙을 수 있는 공백을 제거하여 화면 필터 비교를 정상화한다.
+				String appointmentStatus = rs.getString("status");
+				uaDTO.setStatus(appointmentStatus == null ? null : appointmentStatus.trim());
 				uaDTO.setCreatedAt(rs.getDate("created_at"));
 				uaDTO.setCanceledAt(rs.getDate("canceled_at"));
 				uaDTO.setDepartmentName(rs.getString("department_name"));
@@ -129,6 +145,13 @@ public class UserMyPageDAO {
 		return list;
 	}//selectAppointmentList
 
+	/**
+	 * 환자번호에 해당하는 진료 기록을 최신 진료일순으로 조회한다.
+	 *
+	 * @param patientNo 환자번호
+	 * @return 진료 기록 및 진료과·의료진 정보를 담은 목록
+	 * @throws SQLException 진료 기록 조회 중 DB 오류가 발생한 경우
+	 */
 	public List<UserMedicalRecordDTO> selectMedicalRecordList(String patientNo) throws SQLException {
 
 		List<UserMedicalRecordDTO> list = new ArrayList<UserMedicalRecordDTO>();
@@ -173,7 +196,9 @@ public class UserMyPageDAO {
 				umrDTO.setAppointmentNo(rs.getString("appointment_no"));
 				umrDTO.setPatientNo(rs.getString("patient_no"));
 				umrDTO.setTreatmentDate(rs.getDate("treatment_date"));
-				umrDTO.setStatus(rs.getString("status"));
+				// 상태값의 불필요한 공백을 제거하여 화면 표시와 필터 비교에 사용한다.
+				String medicalStatus = rs.getString("status");
+				umrDTO.setStatus(medicalStatus == null ? null : medicalStatus.trim());
 				umrDTO.setDeptName(rs.getString("dept_name"));
 				umrDTO.setDoctorName(rs.getString("doctor_name"));
 
@@ -187,6 +212,15 @@ public class UserMyPageDAO {
 		return list;
 	}//selectMedicalRecordList
 
+	/**
+	 * 로그인 회원 본인의 예약을 취소 상태로 변경한다.
+	 * 이미 취소된 예약은 다시 수정하지 않는다.
+	 *
+	 * @param appointmentNo 취소할 예약번호
+	 * @param patientNo 로그인 회원의 환자번호
+	 * @return 수정된 예약 행의 수
+	 * @throws SQLException 예약 상태 변경 중 DB 오류가 발생한 경우
+	 */
 	public int updateAppointmentCancel(String appointmentNo, String patientNo) throws SQLException {
 
 		int cnt = 0;
@@ -203,7 +237,8 @@ public class UserMyPageDAO {
 			   .append(" SET status = '예약취소', ")
 			   .append("     canceled_at = SYSDATE ")
 			   .append(" WHERE appointment_no = ? ")
-			   .append(" AND patient_no = ? ");
+			   .append(" AND patient_no = ? ")
+			   .append(" AND NVL(TRIM(status), ' ') <> '예약취소' ");
 
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, appointmentNo);
