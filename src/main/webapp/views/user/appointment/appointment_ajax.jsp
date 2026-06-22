@@ -248,7 +248,6 @@ if ("timeTable".equals(action)) {
 	UserAppointmentService uas = new UserAppointmentService();
 	
 	List<String> availableTimes = uas.searchAvailableTime(dln, appointmentDate);
-	System.out.println(availableTimes);
 %>
 	<ul class="timeTableUl">
 <%
