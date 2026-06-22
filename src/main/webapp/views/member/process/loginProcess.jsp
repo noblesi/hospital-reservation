@@ -12,11 +12,10 @@ LoginService ls = new LoginService();
 MemberDTO loginMember = ls.login(loginId, password);
 
 if(loginMember != null){
-	session.setAttribute("loginMember", loginMember);
+	session.setAttribute("loginUser", loginMember);
 %>
 	<script>
-	alert("로그인 성공");
-	location.href="login.jsp";
+	location.href="../login.jsp";
 	//메인 화면이 없어서 로그인 성고해도 login.jsp로 보냄 
 	</script>
 <%
