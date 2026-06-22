@@ -1,3 +1,4 @@
+<%@page import="java.sql.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.hospital.common.dto.DoctorScheduleDTO"%>
 <%@page import="com.hospital.common.dto.DepartmentDTO"%>
@@ -5,7 +6,6 @@
 <%@page import="java.time.DayOfWeek"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.time.LocalDateTime"%>
-<%@page import="java.util.Date"%>
 <%@page import="java.util.Comparator"%>
 <%@page import="java.util.List"%>
 <%@page import="com.hospital.user.appointment.UserAppointmentService"%>
@@ -93,7 +93,7 @@ if ("doctorList".equals(action)) {
 		</h4>
 		<p class="detail">
 			<strong class="deptName"><%=deptName%></strong><br> 세부전공:
-			<%=dDTO.getSpecialty()%>
+			<span class="specialty"><%=dDTO.getSpecialty()%></span>
 		</p>
 	</div>
 	<button class="selectDoctorBtn"
@@ -242,16 +242,22 @@ if ("schedule".equals(action)) {
 <!-- 시간 테이블  -->
 <%
 if ("timeTable".equals(action)) {
-	String dateParam = request.getParameter("date");
-	String dln = request.getParameter("dln");
+	Date appointmentDate = Date.valueOf(request.getParameter("date"));
+	int dln = Integer.parseInt(request.getParameter("dln"));
+	
+	UserAppointmentService uas = new UserAppointmentService();
+	
+	List<String> availableTimes = uas.searchAvailableTime(dln, appointmentDate);
+	System.out.println(availableTimes);
 %>
 	<ul class="timeTableUl">
-		<li class="timeTableLi">10:00</li>
-		<li class="timeTableLi">10:00</li>
-		<li class="timeTableLi">10:00</li>
-		<li class="timeTableLi">10:00</li>
-		<li class="timeTableLi">10:00</li>
-		<li class="timeTableLi">10:00</li>
+<%
+	for(int i = 0; i < availableTimes.size(); i++) {
+%>
+		<li class="timeTableLi"><%= availableTimes.get(i) %></li>
+<%
+	}
+%>
 	</ul>
 <%
 }

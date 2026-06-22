@@ -10,7 +10,7 @@
 		<head>
 			<meta charset="UTF-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>한국중앙병원 - 진료예약</title>
+			<title>한국중앙병원 | 진료예약</title>
 
 			<!-- Bootstrap CDN -->
 			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -99,7 +99,7 @@
 							의료진 : <span class="rsInfoDoctor"></span>
 						</p>
 						<p class="rsInfoElm">
-							진료일시 : <span class="rsInfoDate"></span>
+							<span class="infoName">진료일시 : </span> <span class="rsInfoDate"></span>
 						</p>
 					</div>
 
@@ -124,6 +124,70 @@
 							</div>
 						</div>
 						<button id="appointBtn">예약확정하기</button>
+					</div>
+				</div>
+			</div>
+			
+			<div id="modalContainer" class="modalOverlay">
+				<div class="modalContent">
+					<div class="modalHeader">
+						<h4 class="modalHeaderTitle">예약 내용 확인</h4>
+						<button class="modalXBtn">
+							<i class="bi bi-x-lg xIcon"></i>
+						</button>
+					</div>
+					<div class="modalMain">
+						<div class="specialtyDiv">
+							<div class="specialtyTop">
+								<i class="bi bi-exclamation-circle exclamationIcon specialtyBlue"></i>
+								<h1 class="specialtyTitle"><span class="specialtyBlue">세부전공</span>을 <span class="specialtyBlue">확인</span> 해 주십시오.</h1>
+								<p class="specialtyNotice">
+									※ 정확히 선택하기 어려운 경우, 예약센터(1588-0000)로 문의후 예약<br>
+									<span class="warning">※ 진료 분야가 맞지 않게 예약된 경우, 진료를 받을 수 없습니다.</span>
+								</p>
+							</div>
+							<div class="specialtyMain">
+								<h1 class="specialtyDoctorInfo">
+									<span class="modalDept">알레르기면역내과</span>/<span class="madalDoctorName">홍길동</span>
+								</h1>
+								<p class="specialyInfo">세부전공: <span class="specialty specialtyBlue">약물 알레르기, 만성 기침, 등등등</span></p>
+							</div>
+							
+							<div class="inputRequireDiv">
+								<p class="inputDescript">아래 아프거나 불편하신 사항을 적어주세요.</p>
+								<textarea id="requireTa" placeholder="아프신 곳을 적어주세요."></textarea>
+							</div>
+							
+							<div class="checkBar">
+								<div class="checkDiv">
+									<input type="checkbox" class="checkInfo" value="y">
+									<span>상기 내용을 확인했습니다.</span>
+								</div>
+							</div>
+							<button id="confirmBtn" class="confirmBtn">확인</button>
+						</div>
+					</div>
+				</div>
+				
+				<!-- 마지막 확인 창 -->
+				<div class="lastConfirmDiv">
+					<div class="lastConfirmHeader">
+						<h2 class="lastConfirmHeaderTitle"><span class="userName">홍길동</span>님 진료예약하시겠습니까?</h2>
+						<button class="modalXBtn">
+							<i class="bi bi-x-lg xIcon"></i>
+						</button>
+					</div>
+					<div class="lastConfirmMain">
+						<div class="lastConfirmInfo">
+							<p class="lastConfirmInfoP">
+								<span class="confirmDate">2026년 12월 25일 10시 30분</span><br>
+								<span class="confirmDept">알래르기내과</span> <span class="confirmDoctor">홍길동</span>
+							</p>
+						</div>
+						<div class="lastConfirmBtnDiv">
+							<button id="lastConfrimCancelBtn" class="lastConfrimCancelBtn">취소</button>
+							<button id="lastConfrimBtn" class="lastConfrimBtn">확인</button>
+						</div>
 					</div>
 				</div>
 			</div>
