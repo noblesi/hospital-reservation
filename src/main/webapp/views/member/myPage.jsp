@@ -19,12 +19,7 @@
 MemberDTO loginUser = (MemberDTO)session.getAttribute("loginUser");
 
 if(loginUser == null){
-%>
-<script>
-alert("로그인이 필요한 서비스입니다.");
-location.href="login.jsp";
-</script>
-<%
+    response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
     return;
 }
 

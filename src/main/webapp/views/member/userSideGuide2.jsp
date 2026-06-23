@@ -5,7 +5,7 @@
 <aside class="side-card">
     <div class="side-top">
         <div class="side-icon">
-            <img src="<%= request.getContextPath() %>/resources/images/common/userSideBar_myPage2.png"
+            <img src="<%= request.getContextPath() %>/resources/images/myPage/userSideBar_myPage2.png"
                  alt="마이페이지 사용자">
         </div>
 
@@ -56,7 +56,10 @@
      aria-hidden="true"
      data-auto-open="<%= "fail".equals(request.getParameter("passwordCheck")) %>">
     <div class="passwordCheckContent">
-        <div class="passwordUserIcon">♙</div>
+        <div class="passwordUserIcon">
+            <img src="<%= request.getContextPath() %>/resources/images/myPage/userSideBar_myPage2.png"
+                 alt="비밀번호 확인">
+        </div>
         <h3 id="passwordCheckTitle">비밀번호를 입력해주세요</h3>
 
         <form action="<%= request.getContextPath() %>/views/member/process/checkUserPasswordProcess.jsp"
