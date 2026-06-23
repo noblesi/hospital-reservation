@@ -1,4 +1,4 @@
-<%@page import="com.hospital.common.MemberDTO"%>
+﻿<%@page import="com.hospital.common.MemberDTO"%>
 <%@page import="com.hospital.member.MemberRegisterService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -49,7 +49,7 @@ if(registerLoginId != null){
     <div class="joinCompleteWrap">
 
         <div class="completeIcon">
-        	  <img src="<c:url value='/resources/images/security/login_check.png' />" alt="가입완료">
+              <img src="<c:url value='/resources/images/security/login_check.png' />" alt="가입완료">
         </div>
 
         <h3>가입이 완료되었습니다.</h3>
@@ -75,15 +75,13 @@ if(registerLoginId != null){
         </div>
 
         <div class="btnWrap">
-            <button type="button" class="btnType02"
-                onclick="location.href='../main.jsp'">
+            <a href="<c:url value='/main.jsp' />" class="btnType02">
                 메인으로 이동
-            </button>
+            </a>
 
-            <button type="button" class="btnType03"
-                onclick="location.href='login.jsp'">
+            <a href="<c:url value='/views/member/login.jsp' />" class="btnType03">
                 로그인
-            </button>
+            </a>
         </div>
 
     </div>

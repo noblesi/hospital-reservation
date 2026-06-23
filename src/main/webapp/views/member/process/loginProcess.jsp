@@ -12,14 +12,14 @@ LoginService ls = new LoginService();
 MemberDTO loginMember = ls.login(loginId, password);
 
 if(loginMember != null){
-	session.setAttribute("loginUser", loginMember);
+    session.setAttribute("loginUser", loginMember);
 %>
-	<script>
-	location.href="../login.jsp";
-	//메인 화면이 없어서 로그인 성고해도 login.jsp로 보냄 
-	</script>
+<script>
+// 메인 화면 연결 전까지 로그인 화면으로 이동한다.
+location.href = "../login.jsp";
+</script>
 <%
-	return;
+    return;
 }
 %>
 
