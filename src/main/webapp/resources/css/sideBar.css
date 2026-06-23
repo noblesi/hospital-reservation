@@ -1,0 +1,216 @@
+@charset "UTF-8";
+/* =====================================
+   사이드바 전체 영역
+===================================== */
+.side-card{
+
+    width:240px;                   /* 사이드바 고정 너비 */
+
+    border:1px solid #ddd;         /* 전체 테두리 */
+    background:#fff;               /* 배경 흰색 */
+	border-radius: 5% 5% 0% 0%;
+
+    position:sticky;               /* 스크롤 시 따라다님 */
+
+    top:120px;                     /* 헤더 높이만큼 아래에서 고정 */
+
+    align-self:flex-start;         /* flex 내부 높이 자동 늘어남 방지 */
+
+    z-index:10;                    /* 다른 요소 위에 표시 */
+}
+
+
+/* =====================================
+   상단 파란색 영역
+===================================== */
+.side-top{
+
+    padding:25px;                  /* 내부 여백 */
+	border-radius: 5% 5% 0% 0%;
+    background:#005bea;            /* 메인 컬러 */
+
+    color:#fff;                    /* 글자 흰색 */
+
+    text-align:center;             /* 가운데 정렬 */
+}
+
+
+/* =====================================
+   상단 아이콘
+===================================== */
+.side-icon{
+
+    font-size:42px;                /* 아이콘 크기 */
+
+    margin-bottom:15px;            /* 제목과 간격 */
+}
+
+
+/* =====================================
+   상단 제목
+===================================== */
+.side-top h3{
+
+    margin:0 0 10px 0;
+
+    font-size:28px;
+
+    font-weight:bold;
+}
+
+
+/* =====================================
+   상단 설명
+===================================== */
+.side-top p{
+
+    margin:0;
+
+    font-size:14px;
+
+    line-height:1.6;
+}
+
+
+/* =====================================
+   메뉴 목록
+===================================== */
+.side-menu{
+
+    list-style:none;               /* ul 점 제거 */
+
+    margin:0;
+
+    padding:0;
+}
+
+
+/* =====================================
+   메뉴 한 줄
+===================================== */
+.side-menu li{
+
+    border-bottom:1px solid #eee;  /* 구분선 */
+}
+
+
+/* =====================================
+   메뉴 링크
+===================================== */
+.side-menu a{
+
+    display:flex;                  /* 좌우 배치 */
+
+    justify-content:space-between; /* 텍스트 ↔ 화살표 */
+
+    align-items:center;
+
+    padding:15px 18px;
+
+    text-decoration:none;          /* 밑줄 제거 */
+
+    color:#333;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    transition:.2s;
+}
+
+
+/* =====================================
+   메뉴 hover
+===================================== */
+.side-menu a:hover{
+
+    background:#f5f8ff;
+
+    color:#005bea;
+}
+
+
+/* =====================================
+   대표전화 영역
+===================================== */
+.side-call{
+
+    padding:25px 18px;
+}
+
+
+/* 대표전화 텍스트 */
+.side-call p{
+
+    margin:0 0 5px 0;
+
+    font-size:13px;
+
+    color:#666;
+}
+
+
+/* 전화번호 */
+.side-call strong{
+
+    display:block;
+
+    margin-bottom:10px;
+
+    color:#005bea;
+
+    font-size:30px;
+
+    font-weight:bold;
+}
+
+
+/* 운영시간 */
+.side-call span{
+
+    font-size:12px;
+
+    color:#666;
+
+    line-height:1.6;
+}
+
+
+/* =====================================
+   예약 버튼
+===================================== */
+.side-btn{
+
+    display:block;
+
+    width:calc(100% - 36px);
+
+    height:45px;
+
+    line-height:45px;
+
+    margin:0 18px 20px;
+
+    border:1px solid #005bea;
+
+    border-radius:6px;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    color:#005bea;
+
+    font-weight:bold;
+
+    transition:.2s;
+}
+
+
+/* 예약 버튼 hover */
+.side-btn:hover{
+
+    background:#005bea;
+
+    color:#fff;
+}

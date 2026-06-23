@@ -127,7 +127,7 @@
         	}// end else if
         }//modifyModal
     </script>
-    <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css' />">
+    <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css?v=20260623-admin-fluid' />">
 </head>
 <body>
 

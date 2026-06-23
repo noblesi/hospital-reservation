@@ -17,17 +17,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공통 레이아웃 테스트</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css?v=20260623-menu-hover-guard">
 </head>
 <body>
     <%@ include file="/views/common/userHeader.jsp" %>
     <%@ include file="/views/common/userBreadcrumb.jsp" %>
 
-    <main class="user-container">
-        <div class="page-title-area">
-            <h2>공통 레이아웃 테스트</h2>
-            <p>사용자 공통 헤더, breadcrumb, 콘텐츠 영역, footer를 확인하는 페이지입니다.</p>
-        </div>
+		<head>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>공통 레이아웃 테스트</title>
+			<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css?v=20260623-menu-hover-guard">
+		</head>
 
         <%@ include file="/views/common/message.jsp" %>
 
@@ -75,6 +76,38 @@
 
     <%@ include file="/views/common/userFooter.jsp" %>
 
-    <script src="${pageContext.request.contextPath}/resources/js/user-layout.js"></script>
-</body>
-</html>
+							<table class="basic-table">
+								<thead>
+									<tr>
+										<th>구분</th>
+										<th>확인 항목</th>
+										<th>상태</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Header</td>
+										<td>로고, 메뉴, 로그인 영역</td>
+										<td>확인</td>
+									</tr>
+									<tr>
+										<td>Breadcrumb</td>
+										<td>현재 위치 표시 영역</td>
+										<td>확인</td>
+									</tr>
+									<tr>
+										<td>Footer</td>
+										<td>병원 정보 및 하단 영역</td>
+										<td>확인</td>
+									</tr>
+								</tbody>
+							</table>
+						</section>
+					</main>
+
+					<%@ include file="/views/common/userFooter.jsp" %>
+
+						<script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=20260623-menu-hover-guard"></script>
+		</body>
+
+		</html>
