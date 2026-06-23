@@ -67,12 +67,20 @@
     margin-bottom:25px;
 }
 
+.methodSub{
+	margin-top: 20px;
+}
+
+.methodtitle{
+	margin-top:20px;
+}
+
 /* =========================
    인증 방법 선택 박스
 ========================= */
 .memType03{
-    width:600px;
-    height:200px;
+    width:800px;
+    height:300px;
     margin:0 auto 25px;
     display:flex;
     border:1px solid #d9dde5;

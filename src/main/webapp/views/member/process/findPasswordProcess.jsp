@@ -1,4 +1,4 @@
-<%@ page import="com.hospital.member.FindAccountDAO" %>
+<%@ page import="com.hospital.member.FindAccountService" %>
 <%@ page import="com.hospital.member.dto.FindAccountDTO" %>
 <%@ page import="java.sql.Date" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -25,11 +25,12 @@ try {
         faDTO.setEmail(email);
     }//end else
 
-    boolean result = FindAccountDAO.getInstance().checkPassword(faDTO);
+    FindAccountService service = new FindAccountService();
+    boolean result = service.findPassword(faDTO);
 
     if(result){
         session.setAttribute("resetLoginId", loginId);
-        response.sendRedirect("findPassword.jsp?reset=Y");
+        response.sendRedirect("../findPassword.jsp?reset=Y");
         return;
     }//end if
 
@@ -40,5 +41,5 @@ try {
 
 <script>
 alert("입력하신 회원정보와 일치하는 계정을 찾을 수 없습니다.");
-location.href="findPassword.jsp";
+location.href = "../findPassword.jsp";
 </script>
