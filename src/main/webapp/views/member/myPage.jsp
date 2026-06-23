@@ -198,7 +198,7 @@ pageContext.setAttribute("medicalList", medicalList);
                                     <td>${app.departmentName}</td>
                                     <td>${app.doctorName}</td>
                                     <td>
-                                        <span class="state ${app.status eq '예약취소' ? 'gray' : app.status eq '진료완료' ? 'green' : app.status eq '승인대기' ? 'yellow' : 'blue'}">
+                                        <span class="state ${app.status eq '예약취소' ? 'gray' : app.status eq '진료완료' ? 'green' : (app.status eq '승인대기' or app.status eq '승인 대기') ? 'yellow' : 'blue'}">
                                             ${app.status}
                                         </span>
                                     </td>

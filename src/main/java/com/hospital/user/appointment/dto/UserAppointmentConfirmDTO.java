@@ -17,6 +17,8 @@ public class UserAppointmentConfirmDTO {
 	private String appointmentNo;
 	private String patientNo;
 	private String patientName;
+	private String phoneNumber;
+	private String email;
 	private String deptName;
 	private String doctorName;
 	private Date appointmentDate;

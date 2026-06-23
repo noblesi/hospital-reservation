@@ -48,8 +48,15 @@ public class UserAppointmentService {
 	}
 
 	public UserAppointmentOptionDTO searchDoctorDetail(int doctorLicenseNo) {
+		UserAppointmentOptionDTO optionDTO = null;
 
-		return null;
+		try {
+			optionDTO = uaDAO.selectDoctorDetail(doctorLicenseNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return optionDTO;
 	}
 
 	public List<DoctorScheduleDTO> searchDoctorSchedule(int doctorLicenseNo) {
@@ -84,11 +91,16 @@ public class UserAppointmentService {
 			int appointDayOfWeek = appointmentDate.toLocalDate().getDayOfWeek().getValue(); 
 			
 			for(int i = 0; i < dsList.size(); i++) {
-				dsDTO = dsList.get(i);
+				DoctorScheduleDTO currentScheduleDTO = dsList.get(i);
 				
-				if (dsDTO.getDayOfWeek() == appointDayOfWeek) {
+				if (currentScheduleDTO.getDayOfWeek() == appointDayOfWeek) {
+					dsDTO = currentScheduleDTO;
 					break;
 				}
+			}
+
+			if (dsDTO == null || dsDTO.getStartTime() == null || dsDTO.getEndTime() == null) {
+				return availableTimes;
 			}
 			
 			LocalTime startTime = LocalTime.parse(dsDTO.getStartTime());
@@ -105,7 +117,6 @@ public class UserAppointmentService {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -113,22 +124,72 @@ public class UserAppointmentService {
 	}
 
 	public boolean checkReservable(UserAppointmentRequestDTO requestDTO) {
+		if (!isValidRequest(requestDTO)) {
+			return false;
+		}
+
+		try {
+			return uaDAO.selectAppointmentConflict(requestDTO) == 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		return false;
 	}
 
 	public UserAppointmentConfirmDTO reserveAppointment(UserAppointmentRequestDTO requestDTO) {
+		if (!checkReservable(requestDTO)) {
+			return null;
+		}
+
+		try {
+			String appointmentNo = uaDAO.insertAppointment(requestDTO);
+			if (appointmentNo == null || appointmentNo.isBlank()) {
+				return null;
+			}
+			return uaDAO.selectAppointmentConfirm(appointmentNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		return null;
 	}
 
 	public UserAppointmentConfirmDTO searchAppointmentConfirm(String appointmentNo) {
+		if (appointmentNo == null || appointmentNo.isBlank()) {
+			return null;
+		}
+
+		try {
+			return uaDAO.selectAppointmentConfirm(appointmentNo.trim());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		return null;
 	}
 
 	public boolean cancelAppointment(String appointmentNo, String patientNo) {
+		if (appointmentNo == null || appointmentNo.isBlank() || patientNo == null || patientNo.isBlank()) {
+			return false;
+		}
+
+		try {
+			return uaDAO.updateCancelAppointment(appointmentNo.trim(), patientNo.trim()) > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		return false;
+	}
+
+	private boolean isValidRequest(UserAppointmentRequestDTO requestDTO) {
+		return requestDTO != null
+				&& requestDTO.getPatientNo() != null
+				&& !requestDTO.getPatientNo().isBlank()
+				&& requestDTO.getDoctorLicenseNo() > 0
+				&& requestDTO.getAppointmentDate() != null
+				&& requestDTO.getAppointmentTime() != null
+				&& !requestDTO.getAppointmentTime().isBlank();
 	}
 }

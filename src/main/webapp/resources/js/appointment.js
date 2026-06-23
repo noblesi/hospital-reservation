@@ -290,5 +290,16 @@ function sendRequestAppointment() {
 	2. 입력받은 값에 문제 없으면 back-end로 값을 전달한다.
 	3. DB에 예약정보가 저장되면 예약완료 페이지로 이동한다.
 	*/
-	location.href = "appointmentSuccess.jsp";
+	var form = $("<form>", {
+		method: "POST",
+		action: "appointmentProcess.jsp"
+	});
+
+	form.append($("<input>", { type: "hidden", name: "doctorLicenseNo", value: dln }));
+	form.append($("<input>", { type: "hidden", name: "appointmentDate", value: appointmentDate }));
+	form.append($("<input>", { type: "hidden", name: "appointmentTime", value: $.trim(appointmentTime) }));
+	form.append($("<input>", { type: "hidden", name: "requirement", value: $("#requireTa").val() }));
+
+	$("body").append(form);
+	form.submit();
 }
