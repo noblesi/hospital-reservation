@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hospital.common.DBConnection;
+import com.hospital.common.util.DBConnection;
 import com.hospital.common.MemberDTO;
 import com.hospital.member.dto.UserAppointmentDTO;
 import com.hospital.member.dto.UserMedicalRecordDTO;

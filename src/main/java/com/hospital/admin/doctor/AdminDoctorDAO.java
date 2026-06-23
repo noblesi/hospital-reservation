@@ -376,7 +376,7 @@ public class AdminDoctorDAO {
 		doctorDTO.setIntroContent(rs.getString("intro_content"));
 		doctorDTO.setThumbnailUrl(rs.getString("thumbnail_url"));
 		doctorDTO.setDetailImageUrl(rs.getString("detail_image_url"));
-		doctorDTO.setCreateDate(rs.getString("create_date"));
+		doctorDTO.setCreatedDate(rs.getDate("create_date"));
 		doctorDTO.setSpecialty(rs.getString("specialty"));
 		doctorDTO.setStatusCode(rs.getString("status_code"));
 		return doctorDTO;

@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.hospital.common.DBConnection;
+import com.hospital.common.util.DBConnection;
 import com.hospital.common.MemberDTO;
 import com.hospital.common.MinorMemberDTO;
 
