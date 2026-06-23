@@ -1,5 +1,7 @@
 package com.hospital.common.dto;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,8 +25,7 @@ public class DoctorDTO {
 	private String introContent;
 	private String thumbnailUrl;
 	private String detailImageUrl;
-	private String createDate;
+	private Date createdDate;
 	private String specialty;
 	private String statusCode;
-	
-}// class
+}

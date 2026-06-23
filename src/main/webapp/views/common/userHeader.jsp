@@ -9,17 +9,17 @@
                 </a>
             </h1>
 
-            <div class="user-util">
-                <c:choose>
-                    <c:when test="${empty sessionScope.loginUser}">
-                        <a href="<c:url value='/login.do' />">로그인</a>
-                        <a href="<c:url value='/join.do' />">회원가입</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="<c:url value='/mypage.do' />">마이페이지</a>
-                        <a href="<c:url value='/logout.do' />">로그아웃</a>
-                    </c:otherwise>
-                </c:choose>
+						<div class="user-util">
+							<c:choose>
+								<c:when test="${empty sessionScope.loginUser}">
+									<a href="<c:url value='/login.do' />">로그인</a>
+									<a href="<c:url value='/join.do' />">회원가입</a>
+								</c:when>
+								<c:otherwise>
+									<a href="<c:url value='/mypage.do' />">마이페이지</a>
+									<a href="<c:url value='/logout.do' />">로그아웃</a>
+								</c:otherwise>
+							</c:choose>
 
                 <button type="button" class="search-btn" aria-label="검색" aria-controls="userSearchPanel" aria-expanded="false">
                     🔍

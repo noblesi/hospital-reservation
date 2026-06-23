@@ -1,19 +1,19 @@
 /* /resources/css/user-layout.css */
 
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    font-family: "Noto Sans KR", Arial, sans-serif;
-    color: #222;
-    background-color: #fff;
+	margin: 0;
+	font-family: "Noto Sans KR", Arial, sans-serif;
+	color: #222;
+	background-color: #fff;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+	color: inherit;
+	text-decoration: none;
 }
 
 [hidden] {
@@ -52,10 +52,10 @@ body {
 
 .menu-btn,
 .search-btn {
-    border: 0;
-    background: none;
-    font-size: 22px;
-    cursor: pointer;
+	border: 0;
+	background: none;
+	font-size: 22px;
+	cursor: pointer;
 }
 
 .logo {
@@ -243,7 +243,7 @@ body {
 
 .user-gnb li.active a,
 .user-gnb a:hover {
-    color: #005bac;
+	color: #005bac;
 }
 
 .user-gnb-submenu {
@@ -286,7 +286,7 @@ body {
 }
 
 .breadcrumb-bar {
-    background-color: #0066c9;
+	background-color: #0066c9;
 }
 
 .breadcrumb-inner {
@@ -301,7 +301,7 @@ body {
 }
 
 .breadcrumb-separator {
-    opacity: 0.75;
+	opacity: 0.75;
 }
 
 .user-container {
@@ -312,18 +312,18 @@ body {
 }
 
 .page-title-area {
-    margin-bottom: 30px;
+	margin-bottom: 30px;
 }
 
 .page-title-area h2 {
-    margin: 0 0 8px;
-    font-size: 32px;
-    color: #111;
+	margin: 0 0 8px;
+	font-size: 32px;
+	color: #111;
 }
 
 .page-title-area p {
-    margin: 0;
-    color: #666;
+	margin: 0;
+	color: #666;
 }
 
 .content-card {
@@ -334,50 +334,50 @@ body {
 }
 
 .search-area {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
+	display: flex;
+	gap: 8px;
+	margin-bottom: 20px;
 }
 
 .search-area select,
 .search-area input {
-    height: 40px;
-    padding: 0 12px;
-    border: 1px solid #ccc;
+	height: 40px;
+	padding: 0 12px;
+	border: 1px solid #ccc;
 }
 
 .search-area input {
-    flex: 1;
+	flex: 1;
 }
 
 .search-area button {
-    width: 90px;
-    border: 0;
-    background-color: #005bac;
-    color: #fff;
-    cursor: pointer;
+	width: 90px;
+	border: 0;
+	background-color: #005bac;
+	color: #fff;
+	cursor: pointer;
 }
 
 .basic-table {
-    width: 100%;
-    border-collapse: collapse;
+	width: 100%;
+	border-collapse: collapse;
 }
 
 .basic-table th,
 .basic-table td {
-    padding: 14px;
-    border-bottom: 1px solid #e5e5e5;
-    text-align: center;
+	padding: 14px;
+	border-bottom: 1px solid #e5e5e5;
+	text-align: center;
 }
 
 .basic-table th {
-    background-color: #f7f9fc;
-    font-weight: 600;
+	background-color: #f7f9fc;
+	font-weight: 600;
 }
 
 .user-footer {
-    background-color: #252d45;
-    color: #d9deea;
+	background-color: #252d45;
+	color: #d9deea;
 }
 
 .user-footer-inner {

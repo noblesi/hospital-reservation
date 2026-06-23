@@ -1,6 +1,6 @@
 // /resources/js/user-layout.js
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
     const menuBtn = document.querySelector(".menu-btn");
     const searchBtn = document.querySelector(".search-btn");
     const menuPanel = document.querySelector("#userAllMenu");
