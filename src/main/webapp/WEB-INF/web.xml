@@ -68,6 +68,8 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>adminDashboardServlet</servlet-name>
+    <url-pattern>/admin</url-pattern>
+    <url-pattern>/admin/</url-pattern>
     <url-pattern>/admin/dashboard.do</url-pattern>
   </servlet-mapping>
 

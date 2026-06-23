@@ -1,5 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/views/common/taglib.jsp" %>
+<%
+    if (request.getAttribute("dashboardSummary") == null) {
+        response.sendRedirect(request.getContextPath() + "/admin/dashboard.do");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
