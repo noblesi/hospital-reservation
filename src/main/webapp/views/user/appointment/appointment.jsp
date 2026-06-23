@@ -19,7 +19,7 @@
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
 			<!-- 외부 CSS -->
-			<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css">
+			<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css?v=20260623-menu-hover-guard">
 			<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment.css">
 
 			<!-- jQuery CDN -->
@@ -196,7 +196,7 @@
 			<jsp:include page="/views/common/userFooter.jsp"></jsp:include>
 
 			<!-- 외부 JS -->
-			<script src="${pageContext.request.contextPath}/resources/js/user-layout.js"></script>
+			<script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=20260623-menu-hover-guard"></script>
 		</body>
 
 		</html>

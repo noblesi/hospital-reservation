@@ -20,7 +20,7 @@ request.setAttribute("depth2", "사용자 화면 테스트");
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
 <!-- 외부 CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css?v=20260623-menu-hover-guard">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment.css">
 
 <!-- jQuery CDN -->
@@ -108,7 +108,7 @@ request.setAttribute("depth2", "사용자 화면 테스트");
 	</div>
 
 	<%@ include file="/views/common/userFooter.jsp"%>
-	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=20260623-menu-hover-guard"></script>
 </body>
 
 </html>

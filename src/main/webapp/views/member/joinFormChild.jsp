@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 <title>한국중앙병원</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/join.css' />">
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -314,7 +314,7 @@ function sample6_execDaumPostcode(){
 
 <jsp:include page="../common/userFooter.jsp" />
 <script src="<c:url value='/resources/js/join.js' />"></script>
-<script src="<c:url value='/resources/js/user-layout.js' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
 
 </body>
 </html>

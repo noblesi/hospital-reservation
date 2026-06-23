@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>회원가입 약관동의</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/join.css' />">
 </head>
 
@@ -177,7 +177,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="<c:url value='/resources/js/join.js' />"></script>
-<script src="<c:url value='/resources/js/user-layout.js' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
 
 </body>
 </html>

@@ -35,7 +35,7 @@ history.back();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css?v=20260623-menu-hover-guard">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointmentSuccess.css">
 </head>
@@ -116,6 +116,6 @@ history.back();
 	</div>
 
 	<jsp:include page="/views/common/userFooter.jsp" />
-	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=20260623-menu-hover-guard"></script>
 </body>
 </html>

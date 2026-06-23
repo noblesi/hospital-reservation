@@ -50,7 +50,7 @@ pageContext.setAttribute("appList", appList);
 pageContext.setAttribute("medicalList", medicalList);
 %>
 <link rel="stylesheet" href="<c:url value='/resources/css/sideBar.css' />">
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/mypage.css' />">
 </head>
 
@@ -276,7 +276,7 @@ pageContext.setAttribute("medicalList", medicalList);
 
 <jsp:include page="../common/userFooter.jsp" />
 
-<script src="<c:url value='/resources/js/user-layout.js' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
 <script src="<c:url value='/resources/js/mypage.js' />"></script>
 
 </body>

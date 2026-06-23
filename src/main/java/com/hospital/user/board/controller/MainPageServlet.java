@@ -9,21 +9,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collections;
 
 public class MainPageServlet extends HttpServlet {
     private final MainPageService mainPageService = new MainPageService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            request.setAttribute("recentNoticeList", mainPageService.getRecentNoticeList());
-            request.setAttribute("recentFaqList", mainPageService.getRecentFaqList());
-            request.setAttribute("activeMenu", "hospital");
+        request.setAttribute("recentNoticeList", getRecentNoticeList());
+        request.setAttribute("recentFaqList", getRecentFaqList());
+        request.setAttribute("activeMenu", "hospital");
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/main.jsp");
-            dispatcher.forward(request, response);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/main.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private Object getRecentNoticeList() {
+        try {
+            return mainPageService.getRecentNoticeList();
         } catch (SQLException e) {
-            throw new ServletException("메인 페이지를 조회하지 못했습니다.", e);
+            log("메인 공지사항 조회 실패", e);
+            return Collections.emptyList();
+        }
+    }
+
+    private Object getRecentFaqList() {
+        try {
+            return mainPageService.getRecentFaqList();
+        } catch (SQLException e) {
+            log("메인 FAQ 조회 실패", e);
+            return Collections.emptyList();
         }
     }
 }

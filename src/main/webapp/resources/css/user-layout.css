@@ -58,6 +58,38 @@ body {
 	cursor: pointer;
 }
 
+.menu-btn,
+.search-btn,
+.menu-close-btn,
+.search-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+}
+
+.menu-btn::before,
+.search-btn::before,
+.menu-close-btn::before,
+.search-close-btn::before {
+    display: block;
+    font-size: 22px;
+    line-height: 1;
+}
+
+.menu-btn::before {
+    content: "\2630";
+}
+
+.search-btn::before {
+    content: "\1F50D";
+}
+
+.menu-close-btn::before,
+.search-close-btn::before {
+    content: "\00d7";
+}
+
 .logo {
     min-width: 0;
     margin: 0;
@@ -104,8 +136,8 @@ body {
 }
 
 .user-gnb-inner .menu-btn[aria-expanded="true"] {
-    border: 1px solid #f39c12;
-    border-radius: 3px;
+    border: 0;
+    border-radius: 0;
 }
 
 .user-all-menu,
@@ -147,7 +179,6 @@ body {
     border: 1px solid #d8dee8;
     background-color: #fff;
     color: #444;
-    font-size: 22px;
     line-height: 30px;
     cursor: pointer;
 }
@@ -265,6 +296,12 @@ body {
 .user-gnb li:focus-within .user-gnb-submenu,
 .user-gnb li.is-open .user-gnb-submenu {
     display: block;
+}
+
+.user-header.all-menu-open .user-gnb li:hover .user-gnb-submenu,
+.user-header.all-menu-open .user-gnb li:focus-within .user-gnb-submenu,
+.user-header.all-menu-open .user-gnb li.is-open .user-gnb-submenu {
+    display: none;
 }
 
 .user-gnb .user-gnb-submenu a {

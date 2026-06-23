@@ -56,7 +56,7 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 <meta charset="UTF-8">
 <title>내 정보 관리</title>
 <link rel="stylesheet" href="<c:url value='/resources/css/sideBar.css' />">
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/mypage.css' />">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
@@ -249,7 +249,7 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 </main>
 
 <jsp:include page="../common/userFooter.jsp" />
-<script src="<c:url value='/resources/js/user-layout.js' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
 <script src="<c:url value='/resources/js/mypage.js' />"></script>
 </body>
 </html>
