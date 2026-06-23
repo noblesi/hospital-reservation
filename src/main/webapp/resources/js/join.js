@@ -17,6 +17,50 @@ $(function() {
     // 아이디 중복확인 여부
     var isIdChecked = false;
 
+    /* =========================================================
+       카카오 우편번호 검색
+    ========================================================= */
+
+    /**
+     * 카카오 우편번호 검색 결과를 회원가입 주소 입력란에 반영한다.
+     */
+    $("#addressSearchButton").on("click", function() {
+        if(typeof daum === "undefined" || !daum.Postcode){
+            alert("우편번호 서비스를 불러오지 못했습니다.");
+            return;
+        }
+
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var address = data.userSelectedType === "R"
+                    ? data.roadAddress
+                    : data.jibunAddress;
+                var extraAddress = "";
+
+                if(data.userSelectedType === "R"){
+                    if(data.bname !== "" && /[동로가]$/.test(data.bname)){
+                        extraAddress += data.bname;
+                    }
+
+                    if(data.buildingName !== "" && data.apartment === "Y"){
+                        extraAddress += extraAddress !== ""
+                            ? ", " + data.buildingName
+                            : data.buildingName;
+                    }
+
+                    if(extraAddress !== ""){
+                        extraAddress = " (" + extraAddress + ")";
+                    }
+                }
+
+                $("#sample6_postcode").val(data.zonecode);
+                $("#sample6_address").val(address);
+                $("#sample6_extraAddress").val(extraAddress);
+                $("#sample6_detailAddress").focus();
+            }
+        }).open();
+    });
+
 
     /* =========================================================
        STEP02 약관동의
