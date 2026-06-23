@@ -22,11 +22,12 @@ public class AdminDepartmentDAO{
 		}// end if
 		return adminDepartmentDAO;
 	}//getInstance
-
-	/**
-	 * 검색조건에 맞는 전체 진료과 수를 조회한다.
-	 */
+	
 	public int selectDepartmentTotalCnt(AdminDepartmentSearchDTO searchDTO) {
+//	public int selectDepartmentTotalCnt() {
+		/* 사용하는 건지는 잘 모름 */
+		AdminDepartmentSearchDTO adminDepartmentSearchDTO = searchDTO;
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -55,8 +56,9 @@ public class AdminDepartmentDAO{
 
 		return totalCnt;
 	}// selectDepartmentTotalCnt
-
+	
 	public List<DepartmentDTO> selectDepartmentList(AdminDepartmentSearchDTO searchDTO){
+		//searchDTO 관련 정리가 안됨
 		List<DepartmentDTO> departmentDTOList = new ArrayList<DepartmentDTO>();
 
 		Connection conn = null;
@@ -96,7 +98,44 @@ public class AdminDepartmentDAO{
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
-
+		
+		return departmentDTOList;
+	}//selectDepartmentList
+	
+	public List<DepartmentDTO> selectDepartmentList(){
+		//searchDTO 관련 정리가 안됨
+		List<DepartmentDTO> departmentDTOList = new ArrayList<DepartmentDTO>();
+		List<AdminDepartmentSearchDTO> adminDepartmentSearchDTO = new ArrayList<AdminDepartmentSearchDTO>();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String selectSql="select * from department";
+		
+		try {
+			conn = DBConnection.getConnection();
+			pstmt = conn.prepareStatement(selectSql);
+			rs = pstmt.executeQuery();
+			
+			DepartmentDTO departmentDTO = null;
+			
+			while(rs.next()) {
+				departmentDTO = new DepartmentDTO();
+				departmentDTO.setDeptNo(rs.getString("dept_no"));
+				departmentDTO.setDeptName(rs.getString("dept_name"));
+				departmentDTO.setDescription(rs.getString("description"));
+				departmentDTO.setDeptLoc(rs.getString("dept_loc"));
+				departmentDTO.setIsActiveYn(rs.getString("is_active_yn"));
+				departmentDTOList.add(departmentDTO);
+			}// end if
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(rs,pstmt,conn);
+		}// end try catch
+		
 		return departmentDTOList;
 	}//selectDepartmentList
 
@@ -152,16 +191,19 @@ public class AdminDepartmentDAO{
 
 		insertSql
 		.append("	insert into department (dept_no, dept_name, description, dept_loc, is_active_yn)		")
-		.append("	values(dept_seq(),?,?,?,?)		");
-
+		.append("	values(get_dSeq(),?,?,?,?)		");
+		
 		try {
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(insertSql.toString());
-			pstmt.setString(1, departmentDTO.getDeptName() );
-			pstmt.setString(2, departmentDTO.getDescription());
-			pstmt.setString(3, departmentDTO.getDeptLoc());
-			pstmt.setString(4, departmentDTO.getIsActiveYn());
-
+			
+			System.out.println(insertSql.toString());
+			
+			pstmt.setString(1, departmentDTOTemp.getDeptName() );
+			pstmt.setString(2, departmentDTOTemp.getDescription());
+			pstmt.setString(3, departmentDTOTemp.getDeptLoc());
+			pstmt.setString(4, departmentDTOTemp.getIsActiveYn());
+			
 			insertCnt = pstmt.executeUpdate();
 
 
@@ -186,23 +228,50 @@ public class AdminDepartmentDAO{
 
 		updateSql
 		.append("	update department 		")
-		.append("	set dept_name = ?, description = ?, dept_loc = ?, is_active_yn = ?		")
-		.append("	where dept_no = ? 		");
-
+		.append("	set	dept_name = ?, is_active_yn = ? 	");
+		
+		
 		try {
 			conn = DBConnection.getConnection();
-
+			
+			boolean descFlag = false;
+			if(!(departmentDTOTemp.getDescription()==null) || !(departmentDTOTemp.getDescription().isEmpty())) {
+				descFlag=true;
+				updateSql.append(",	description = ?		");
+			}// end if
+			
+			boolean locFlag = false;
+			if(!(departmentDTOTemp.getDeptLoc()==null) || !(departmentDTOTemp.getDeptLoc().isEmpty())) {
+				locFlag=true;
+				updateSql.append(",	dept_loc = ?		");
+			}// end if
+			updateSql.append("	where dept_no = ?		");
+			
+			//updateSql = new StringBuilder("update department set dept_loc = '자리생김', description = '업뎃이 안되?'  where dept_no = 'DP004'");
+			
 			pstmt = conn.prepareStatement(updateSql.toString());
-
-			pstmt.setString(1, departmentDTOTemp.getDeptName() );
-			pstmt.setString(2, departmentDTOTemp.getDescription());
-			pstmt.setString(3, departmentDTOTemp.getDeptLoc());
-			pstmt.setString(4, departmentDTOTemp.getIsActiveYn());
-			pstmt.setString(5, departmentDTOTemp.getDeptNo());
-
+			
+			int markCnt = 1;
+			System.out.println("들어왔니? markCnt");
+			
+			pstmt.setString(markCnt, departmentDTOTemp.getDeptName());
+			pstmt.setString(++markCnt, departmentDTOTemp.getIsActiveYn());
+			if(descFlag) {
+				pstmt.setString(++markCnt, departmentDTOTemp.getDescription());
+			}// end if
+			
+			if(locFlag) {
+				pstmt.setString(++markCnt, departmentDTOTemp.getDeptLoc());
+			}// end if
+			
+			pstmt.setString(++markCnt, departmentDTOTemp.getDeptNo());
+			
+			//System.out.println(departmentDTOTemp.toString() +"/"+(departmentDTOTemp.getDeptLoc()==null) +"/"+(departmentDTOTemp.getDeptLoc().isEmpty())+"\n"+updateSql);
+			
+			System.out.println("들어왔니? execute 전");
 			updateCnt = pstmt.executeUpdate();
-
-
+			System.out.println("들어왔니? execute 후");
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -232,15 +301,15 @@ public class AdminDepartmentDAO{
 		.append("	update department 		")
 		.append("	set is_active_yn = ?		")
 		.append("	where dept_no = ? 		");
-
+		
 		try {
 			conn = DBConnection.getConnection();
 
 			pstmt = conn.prepareStatement(updateSql.toString());
-
+			
 			pstmt.setString(1, isActiveYnTemp);
 			pstmt.setString(2, deptNoTemp);
-
+			
 			updateCnt = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -262,9 +331,12 @@ public class AdminDepartmentDAO{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
-		String selectSql = "select count(*) from department where dept_name = ?";
-
+		
+		StringBuilder selectSql = new StringBuilder();
+		selectSql
+		.append("	select count(*) from department		")
+		.append("	where dept_name = ?;		");
+		
 		try {
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(selectSql);
