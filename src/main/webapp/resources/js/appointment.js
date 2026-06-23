@@ -161,6 +161,8 @@ function handleDoctorSelect() {
     $(this).closest(".doctorLi").find(".doctorThumnail").attr("style", "border: 2px solid #2763ba");
 
 	dln = $(".selectedBtn").val();
+	$("#apptDln").val(dln);
+	
 	specialty = $(this).closest(".doctorLi").find(".specialty").text();
     renderCal();
 
@@ -217,6 +219,7 @@ function selectDate() {
 	
 
 	appointmentDate = $(this).data("date");
+	$("#apptDate").val(appointmentDate);
 	
     renderTimeTable(appointmentDate);
 	
@@ -224,6 +227,7 @@ function selectDate() {
 	$(".timeTableDiv").addClass("focusBorder");
 }
 
+/* 시간 테이블 출력 */
 function renderTimeTable(selectedDate) {
     $.ajax({
         url: "appointment_ajax.jsp",
@@ -235,11 +239,13 @@ function renderTimeTable(selectedDate) {
     });
 }
 
+/* 시간 선택 */
 function selectTime() {
 	$(".timeTableLi").removeClass("selectedTime");
 	$(this).addClass("selectedTime");
 	
 	appointmentTime = $(this).text();
+	$("#apptTime").val(appointmentTime);
 	
 	$(".rsInfoDate").html(appointmentDate + "<br>" + appointmentTime);
 }
@@ -268,16 +274,26 @@ function appointHandler() {
 	$(".modalContent").addClass("show");
 }
 
+/* modal창 숨기기 */
 function closeModal() {
 	$(".modalOverlay").removeClass("show");
+	$(".modalContent").removeClass("show");
+	$(".lastConfirmDiv").removeClass("show");
 }
 
+/* 요구사항 입력 확인 */
 function confirmAppointment() {
 	var isCheck = $(".checkInfo").is(":checked");
 	
 	if(isCheck) {
 		$(".modalContent").removeClass("show");
 		$(".lastConfirmDiv").addClass("show");
+		
+		$("#apptRequire").val($("#requireTa").val());
+		
+		$(".confirmDate").text(appointmentDate + " " + appointmentTime);
+		$(".confirmDept").text(deptName);
+		$(".confirmDoctor").text($(".rsInfoDoctor").text());
 	} else {
 		alert("체크박스를 확인해 주세요.")
 	}
@@ -290,5 +306,7 @@ function sendRequestAppointment() {
 	2. 입력받은 값에 문제 없으면 back-end로 값을 전달한다.
 	3. DB에 예약정보가 저장되면 예약완료 페이지로 이동한다.
 	*/
-	location.href = "appointmentSuccess.jsp";
+	/*location.href = "appointmentSuccess.jsp";*/
+	
+	$("#apptFrm").submit();
 }

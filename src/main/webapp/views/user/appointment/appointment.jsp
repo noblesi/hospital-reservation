@@ -185,6 +185,12 @@
 							</p>
 						</div>
 						<div class="lastConfirmBtnDiv">
+							<form style="display: none;" action="appointmentProcess.jsp" method="post" id="apptFrm">
+								<input type="hidden" name="doctorLicenseNo" id="apptDln">
+								<input type="hidden" name="appointmentDate" id="apptDate">
+								<input type="hidden" name="appointmentTime" id="apptTime">
+								<input type="hidden" name="requirement" id="apptRequire">
+							</form>
 							<button id="lastConfrimCancelBtn" class="lastConfrimCancelBtn">취소</button>
 							<button id="lastConfrimBtn" class="lastConfrimBtn">확인</button>
 						</div>

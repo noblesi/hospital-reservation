@@ -1,3 +1,4 @@
+<%@page import="com.hospital.user.appointment.dto.UserAppointmentConfirmDTO"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 request.setAttribute("activeMenu", "hospital");
@@ -56,25 +57,25 @@ request.setAttribute("depth2", "사용자 화면 테스트");
 				<table class="infoTable">
 					<tr>
 						<th class="infoTh">예약자</th>
-						<td>홍길동</td>
+						<td><c:out value="${ uacDTO.patientName }"/></td>
 						<th class="infoTh">환자번호</th>
-						<td>12345678</td>
+						<td><c:out value="${ uacDTO.patientNo }"/></td>
 					</tr>
 					<tr>
 						<th class="infoTh">연락처</th>
-						<td>010-1234-5678</td>
+						<td><c:out value="${ uacDTO.phoneNumber }"/><td>
 					</tr>
 					<tr>
 						<th class="infoTh">진료과</th>
-						<td>신장내과</td>
+						<td><c:out value="${ uacDTO.deptName }"/></td>
 						<th class="infoTh">의료진</th>
-						<td>박세훈</td>
+						<td><c:out value="${ uacDTO.doctorName }"/></td>
 					</tr>
 					<tr>
 						<th class="infoTh">이메일주소</th>
-						<td>test@test.com</td>
+						<td><c:out value="${ uacDTO.email }"/></td>
 						<th class="infoTh">예약일</th>
-						<td>2026-07-22 14:00</td>
+						<td><c:out value="${ uacDTO.appointmentDate} ${ uacDTO.appointmentTime }"/></td>
 					</tr>
 				</table>
 				
