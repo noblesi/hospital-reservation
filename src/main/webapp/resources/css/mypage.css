@@ -429,11 +429,15 @@ body {
     width: 54px;
     height: 54px;
     margin: 0 auto 20px;
-    border: 2px solid #3978ff;
     border-radius: 50%;
-    color: #3978ff;
-    font-size: 31px;
-    line-height: 50px;
+    overflow: hidden;
+}
+
+.passwordUserIcon img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
 }
 
 .passwordCheckContent h3 {
@@ -639,6 +643,234 @@ body {
     margin: -10px 0 20px;
     color: #65748e;
     font-size: 13px;
+}
+
+/* =====================================
+   회원 탈퇴 안내 및 처리 화면
+===================================== */
+.withdrawalGuide {
+    padding: 24px 28px;
+    border: 1px solid #e4e9f1;
+    border-radius: 12px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.withdrawalGuide strong {
+    color: #17294a;
+    font-size: 17px;
+}
+
+.withdrawalGuide p {
+    margin: 7px 0 0;
+    color: #7a8598;
+    font-size: 13px;
+}
+
+.withdrawalLink {
+    padding: 10px 18px;
+    border: 1px solid #ff6b6b;
+    border-radius: 5px;
+    color: #ff4d4d;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.withdrawalLink:hover {
+    background: #fff5f5;
+}
+
+.withdrawalNotice {
+    margin-bottom: 22px;
+    padding: 20px 26px;
+    border: 1px solid #dce8fa;
+    border-radius: 8px;
+    background: #f2f7ff;
+}
+
+.withdrawalNotice ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #425675;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.withdrawalInfoBox {
+    padding: 14px 30px;
+    border: 1px solid #e4e9f1;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.withdrawalInfoRow {
+    min-height: 58px;
+    border-bottom: 1px solid #edf0f5;
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    align-items: center;
+}
+
+.withdrawalInfoRow:last-of-type {
+    border-bottom: 0;
+}
+
+.withdrawalInfoRow strong,
+.withdrawalInfoRow label {
+    color: #394860;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.withdrawalInfoRow span {
+    color: #4b586e;
+    font-size: 14px;
+}
+
+.withdrawalPasswordWrap {
+    width: 360px;
+    height: 40px;
+    border: 1px solid #d7deea;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.withdrawalPasswordWrap input {
+    min-width: 0;
+    height: 100%;
+    padding: 0 12px;
+    border: 0;
+    outline: 0;
+    flex: 1;
+    box-sizing: border-box;
+}
+
+.withdrawalPasswordToggle {
+    height: 100%;
+    padding: 0 12px;
+    border: 0;
+    background: #fff;
+    color: #6f7d95;
+    cursor: pointer;
+}
+
+.withdrawalError {
+    margin: 4px 0 10px 150px;
+    color: #e34d4d;
+    font-size: 12px;
+}
+
+.withdrawalButtons {
+    margin-top: 150px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.withdrawalButtons a,
+.withdrawalButtons button {
+    min-width: 120px;
+    height: 44px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-weight: 700;
+    line-height: 44px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.withdrawalCancelButton {
+    border: 1px solid #d8dee8;
+    background: #fff;
+    color: #637087;
+}
+
+.withdrawalSubmitButton {
+    border: 1px solid #1769e0;
+    background: #1769e0;
+    color: #fff;
+    cursor: pointer;
+}
+
+.withdrawalConfirmModal {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    padding: 24px;
+    background: rgba(13, 25, 46, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.withdrawalConfirmModal.open {
+    display: flex;
+}
+
+.withdrawalConfirmContent {
+    width: min(410px, 100%);
+    padding: 34px;
+    border-radius: 12px;
+    background: #fff;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+}
+
+.withdrawalWarningIcon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 18px;
+    border: 2px solid #3978ff;
+    border-radius: 50%;
+    color: #3978ff;
+    font-size: 27px;
+    font-weight: 700;
+    line-height: 45px;
+}
+
+.withdrawalConfirmContent h3 {
+    margin: 0 0 10px;
+    color: #17294a;
+    font-size: 19px;
+}
+
+.withdrawalConfirmContent p {
+    margin: 0 0 24px;
+    color: #778399;
+    font-size: 12px;
+}
+
+.withdrawalConfirmButtons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.withdrawalConfirmButtons button {
+    width: 105px;
+    height: 40px;
+    border-radius: 5px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.withdrawalModalCancel {
+    border: 1px solid #d8dee8;
+    background: #fff;
+    color: #637087;
+}
+
+.withdrawalModalConfirm {
+    border: 1px solid #1769e0;
+    background: #1769e0;
+    color: #fff;
 }
 
 /* 모달 활성화 시 배경 페이지 스크롤을 차단한다. */
