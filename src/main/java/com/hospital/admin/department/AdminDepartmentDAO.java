@@ -140,7 +140,7 @@ public class AdminDepartmentDAO{
 		selectSql
 		.append("	select dept_no, dept_name, description, dept_loc, is_active_yn		")
 		.append("	from department		")
-		.append("	where dept_no = ?;		");
+		.append("	where dept_no = ?		");
 		
 		try {
 			conn = DBConnection.getConnection();
@@ -179,11 +179,14 @@ public class AdminDepartmentDAO{
 		
 		insertSql
 		.append("	insert into department (dept_no, dept_name, description, dept_loc, is_active_yn)		")
-		.append("	values(dept_seq(),?,?,?,?);		");
+		.append("	values(get_dSeq(),?,?,?,?)		");
 		
 		try {
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(insertSql.toString());
+			
+			System.out.println(insertSql.toString());
+			
 			pstmt.setString(1, departmentDTOTemp.getDeptName() );
 			pstmt.setString(2, departmentDTOTemp.getDescription());
 			pstmt.setString(3, departmentDTOTemp.getDeptLoc());
@@ -217,38 +220,44 @@ public class AdminDepartmentDAO{
 		
 		try {
 			conn = DBConnection.getConnection();
+			
 			boolean descFlag = false;
 			if(!(departmentDTOTemp.getDescription()==null) || !(departmentDTOTemp.getDescription().isEmpty())) {
 				descFlag=true;
 				updateSql.append(",	description = ?		");
 			}// end if
+			
 			boolean locFlag = false;
 			if(!(departmentDTOTemp.getDeptLoc()==null) || !(departmentDTOTemp.getDeptLoc().isEmpty())) {
 				locFlag=true;
 				updateSql.append(",	dept_loc = ?		");
 			}// end if
-			updateSql.append("	where dept_no = ?;		");
+			updateSql.append("	where dept_no = ?		");
+			
+			//updateSql = new StringBuilder("update department set dept_loc = '자리생김', description = '업뎃이 안되?'  where dept_no = 'DP004'");
 			
 			pstmt = conn.prepareStatement(updateSql.toString());
 			
 			int markCnt = 1;
+			System.out.println("들어왔니? markCnt");
 			
 			pstmt.setString(markCnt, departmentDTOTemp.getDeptName());
 			pstmt.setString(++markCnt, departmentDTOTemp.getIsActiveYn());
 			if(descFlag) {
 				pstmt.setString(++markCnt, departmentDTOTemp.getDescription());
 			}// end if
+			
 			if(locFlag) {
 				pstmt.setString(++markCnt, departmentDTOTemp.getDeptLoc());
 			}// end if
+			
 			pstmt.setString(++markCnt, departmentDTOTemp.getDeptNo());
-			
-			
-			
 			
 			//System.out.println(departmentDTOTemp.toString() +"/"+(departmentDTOTemp.getDeptLoc()==null) +"/"+(departmentDTOTemp.getDeptLoc().isEmpty())+"\n"+updateSql);
 			
+			System.out.println("들어왔니? execute 전");
 			updateCnt = pstmt.executeUpdate();
+			System.out.println("들어왔니? execute 후");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -278,15 +287,15 @@ public class AdminDepartmentDAO{
 		updateSql
 		.append("	update department 		")
 		.append("	set is_active_yn = ?		")
-		.append("	where dept_no = ?; 		");
+		.append("	where dept_no = ? 		");
 		
 		try {
 			conn = DBConnection.getConnection();
 			
 			pstmt = conn.prepareStatement(updateSql.toString());
 			
-			pstmt.setString(1, deptNoTemp);
-			pstmt.setString(2, isActiveYnTemp);
+			pstmt.setString(1, isActiveYnTemp);
+			pstmt.setString(2, deptNoTemp);
 			
 			updateCnt = pstmt.executeUpdate();
 			

@@ -45,7 +45,7 @@ public class AdminDepartmentService {
 		DepartmentDTO departmentDTOTemp = departmentDTO;
 		
 		boolean successRegister = false;
-		
+		System.out.println( "register");
 		successRegister = (adminDepartmentDAO.insertDepartment(departmentDTOTemp) == 1);
 		
 		return successRegister;
@@ -56,10 +56,10 @@ public class AdminDepartmentService {
 		boolean successModify = false;
 		
 		if(departmentDTOTemp.getDescription()==null || departmentDTOTemp.getDescription().isEmpty()) {
-			departmentDTOTemp.setDescription(" ");
+			departmentDTOTemp.setDescription("");
 		}// end if
 		if(departmentDTOTemp.getDeptLoc()==null || departmentDTOTemp.getDeptLoc().isEmpty()) {
-			departmentDTOTemp.setDeptLoc(" ");
+			departmentDTOTemp.setDeptLoc("");
 		}// end if
 		
 		successModify = (adminDepartmentDAO.updateDepartment(departmentDTOTemp) == 1);
@@ -71,7 +71,7 @@ public class AdminDepartmentService {
 		String deptNoTemp = deptNo;
 		String isActiveYnTemp = isActiveYn;
 		boolean successYN = false;
-		
+		System.out.println(isActiveYnTemp);
 		successYN = (adminDepartmentDAO.updateDepartmentActive(deptNoTemp, isActiveYnTemp)==1);
 		
 		return successYN;

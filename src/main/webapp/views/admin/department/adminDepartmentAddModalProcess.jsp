@@ -7,17 +7,27 @@
 
 <jsp:useBean id="departmentDTO" class="com.hospital.common.dto.DepartmentDTO" scope="request"/>
 <jsp:setProperty property="*" name="departmentDTO"/>
-<%
-request.setCharacterEncoding("UTF-8");
 
-AdminDepartmentService adminDepartmentService = new AdminDepartmentService();
-//og(departmentDTO.toString()); 
-if(departmentDTO != null){
-	log(departmentDTO.toString());
-	adminDepartmentService.modifyDepartment(departmentDTO);
-}// end if
-
-%>
 <script type="text/javascript">
-	//alert();
+
+$(function(){
+	<%
+	request.setCharacterEncoding("UTF-8");
+
+	AdminDepartmentService adminDepartmentService = new AdminDepartmentService();
+	//og(departmentDTO.toString()); 
+	if(departmentDTO != null){
+		log(departmentDTO.toString());
+		
+		if(departmentDTO.getDeptNo()==null){
+			adminDepartmentService.registerDepartment(departmentDTO);
+		}else{
+			adminDepartmentService.modifyDepartment(departmentDTO);
+		}// end if
+	}// end if
+	%>
+	window.opener.location.reload();
+	self.close();
+});
+
 </script>

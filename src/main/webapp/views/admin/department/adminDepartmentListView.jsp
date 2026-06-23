@@ -65,7 +65,40 @@
            
 			$("#isActiveChange").click(function(){
 				//상태 변환 ajax를 이용 하는게 편할듯
-				var isChkVal = $("[name='deptChoise[]']").is(":checked").val();
+				var isChk = $("[name='deptChoice[]']").is(":checked");
+				if(!isChk){
+	        		alert("진료과를 선택해주세요");
+	        		return;
+	        	} else {
+	        		
+	        		<%-- //var isChkVal=$("[name='deptChoice[]']:checked").val();
+	        		var isChkInd = $("[name='deptChoice[]']:checked").index("[name='deptChoice[]']");
+	        		//alert($("[name='deptNo[]']").eq(isChkInd)+"//"+isChkInd);
+	        		var chkVal = $("[name='deptNo[]']").eq(isChkInd).val();
+	        		var chkYn = $("[name='isActiveYn[]']").eq(isChkInd).val();
+	        		<%
+	        	   
+	        	        adminDepartmentService.changeDepartmentActive(deptNo, isActiveYn);
+	        	   
+	        		%> --%>
+	        		var isChkInd = $("[name='deptChoice[]']:checked").index("[name='deptChoice[]']");
+	        	    var deptNo = $("[name='deptNo[]']").eq(isChkInd).val();
+	        	    var chkYn = $("[name='isActiveYn[]']").eq(isChkInd).val();
+
+	        	    $.ajax({
+	        	        url: "http://localhost/hospital-reservation/views/admin/department/adminDepartmentListViewProcess.jsp",
+	        	        type: "POST",
+	        	        data: {
+	        	            deptNo: deptNo,
+	        	            isActiveYn: chkYn
+	        	        },
+	        	        success: function () {
+	        	            alert("변경되었습니다.");
+	        	            location.reload();
+	        	        }
+	        	    });
+	        			        		    
+	        	}// end else if
 			});
            
         });//ready

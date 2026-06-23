@@ -61,7 +61,7 @@
         	font-size: 14px;
         }
 	</style>
-	<script type="text/javascript">
+<script type="text/javascript">
         
 $(function(){
 	<%
@@ -139,14 +139,13 @@ function saveDept(){
 	}// end if %>
       	
 	if(confirm("저장하시겠습니까?")){
-	    
+		$("#deptFrm").submit();
 	}// end if
 
 }// saveDept
 
 function modifyDept(){
 	<%request.setCharacterEncoding("UTF-8");%>
-	
 	
 	if(confirm("수정하시겠습니까?")){
 		$("#deptFrm").submit();
