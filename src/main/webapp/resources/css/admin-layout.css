@@ -66,7 +66,9 @@ a {
 }
 
 .admin-sidebar {
+	flex: 0 0 220px;
 	width: 220px;
+	min-width: 220px;
 	background-color: #fff;
 	border-right: 1px solid #e5e5ef;
 	padding: 30px 0;
@@ -83,6 +85,7 @@ a {
 	padding: 15px 28px;
 	color: #555;
 	font-size: 15px;
+	white-space: nowrap;
 }
 
 .admin-sidebar li.active a,
@@ -94,6 +97,7 @@ a {
 
 .admin-content {
 	flex: 1;
+	min-width: 0;
 	padding: 40px 50px;
 }
 
@@ -116,11 +120,13 @@ a {
 	background-color: #fff;
 	border: 1px solid #e5e5ef;
 	border-radius: 8px;
+	overflow-x: auto;
 }
 
 .admin-search-area {
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
 	gap: 10px;
 	padding: 20px;
 	margin-bottom: 24px;
@@ -131,19 +137,30 @@ a {
 .admin-search-area label {
 	display: flex;
 	align-items: center;
+	flex: 0 0 auto;
 	gap: 6px;
 	font-size: 14px;
+	white-space: nowrap;
 }
 
 .admin-search-area input,
 .admin-search-area select {
+	flex: 0 0 auto;
 	height: 38px;
 	padding: 0 10px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 }
 
+.admin-search-area input[type="text"],
+.admin-search-area input[type="search"] {
+	width: 220px;
+	min-width: 180px;
+}
+
 .admin-search-area button {
+	flex: 0 0 auto;
+	min-width: 58px;
 	height: 38px;
 	padding: 0 16px;
 	border: 0;
@@ -151,6 +168,7 @@ a {
 	background-color: #4d5dfb;
 	color: #fff;
 	cursor: pointer;
+	white-space: nowrap;
 }
 
 .admin-table {
@@ -170,6 +188,7 @@ a {
 .admin-table th {
 	background-color: #f7f7fb;
 	font-weight: 700;
+	white-space: nowrap;
 }
 
 .link-btn {
@@ -184,6 +203,40 @@ a {
     height: 32px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.doctor-search-area {
+    margin-bottom: 28px;
+}
+
+.doctor-search-name input {
+    width: 220px;
+}
+
+.doctor-register-btn {
+    margin-left: auto;
+    border: 0;
+    cursor: pointer;
+}
+
+.doctor-list-title {
+    margin-top: 4px;
+}
+
+.doctor-col-no {
+    width: 90px;
+}
+
+.doctor-table td {
+    height: 54px;
+}
+
+.doctor-table .status-select {
+    min-width: 96px;
+}
+
+.doctor-pagination {
+    margin-top: 28px;
 }
 
 .common-message-area {
@@ -220,16 +273,20 @@ a {
 
 .pagination-page,
 .pagination-control {
-    min-width: 34px;
-    height: 34px;
-    padding: 0 10px;
-    border: 1px solid #d8d8e8;
-    border-radius: 4px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 34px;
+	height: 34px;
+	padding: 0 10px;
+	border: 1px solid #d8d8e8;
+	border-radius: 4px;
     background-color: #fff;
     color: #444;
-    font-size: 14px;
-    line-height: 32px;
-    text-align: center;
+	font-size: 14px;
+	line-height: 32px;
+	text-align: center;
+	white-space: nowrap;
 }
 
 .pagination-page.active {
@@ -246,13 +303,13 @@ a {
 
 .dashboard-summary-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
     margin-bottom: 24px;
 }
 
 .dashboard-summary-card {
-    min-height: 118px;
+    min-height: 132px;
     padding: 22px;
     border: 1px solid #e5e5ef;
     border-radius: 8px;
@@ -267,8 +324,11 @@ a {
 }
 
 .dashboard-summary-card span {
+    display: block;
+    min-height: 38px;
     font-size: 30px;
     font-weight: 700;
+    line-height: 1.25;
 }
 
 .dashboard-summary-card em {
@@ -281,7 +341,7 @@ a {
 
 .dashboard-chart-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
 }
 
@@ -311,12 +371,14 @@ a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex: 0 0 auto;
     height: 38px;
     padding: 0 14px;
     border-radius: 4px;
     background-color: #263238;
     color: #fff;
     font-size: 14px;
+    white-space: nowrap;
 }
 
 .text-left {
@@ -334,6 +396,9 @@ a {
 
 .admin-table-actions a,
 .admin-table-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     min-width: 54px;
     height: 30px;
     border: 1px solid #d8d8e8;
@@ -342,6 +407,7 @@ a {
     color: #315dca;
     font-size: 13px;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .admin-table-actions form {
@@ -496,4 +562,26 @@ a {
     color: #555;
     font-size: 13px;
     text-align: right;
+}
+
+@media (max-width: 1180px) {
+    .admin-header-inner {
+        margin: 0 32px;
+    }
+
+    .admin-content {
+        padding: 32px 28px;
+    }
+
+    .admin-card {
+        padding: 24px;
+    }
+
+    .admin-search-area {
+        gap: 12px 10px;
+    }
+
+    .dashboard-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }

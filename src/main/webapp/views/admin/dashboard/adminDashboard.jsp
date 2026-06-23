@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 대시보드</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css?v=20260623-admin-fluid">
 </head>
 <body>
     <%@ include file="/views/common/adminHeader.jsp" %>
@@ -23,19 +23,29 @@
         <main class="admin-content">
             <div class="admin-page-title">
                 <h2>대시보드</h2>
-                <p>예약 현황과 진료 완료 현황을 확인합니다.</p>
+                <p>오늘 예약과 누적 예약 처리 현황을 확인합니다.</p>
             </div>
 
             <section class="dashboard-summary-grid" aria-label="예약 요약">
                 <article class="dashboard-summary-card">
-                    <strong>총 예약건수</strong>
-                    <span>${dashboardSummary.totalAppointmentCount}</span>
-                    <em>전체 예약 누적 건수</em>
+                    <strong>오늘 예약건수</strong>
+                    <span>${dashboardSummary.todayAppointmentCount}</span>
+                    <em>취소를 제외한 오늘 진료 예약</em>
                 </article>
                 <article class="dashboard-summary-card">
-                    <strong>총 진료완료건수</strong>
+                    <strong>진행 예약건수</strong>
+                    <span>${dashboardSummary.pendingAppointmentCount}</span>
+                    <em>진료완료/예약취소 전 예약</em>
+                </article>
+                <article class="dashboard-summary-card">
+                    <strong>진료완료건수</strong>
                     <span>${dashboardSummary.completedTreatmentCount}</span>
-                    <em>진료 완료 상태 누적 건수</em>
+                    <em>완료율 ${dashboardSummary.completionRate}%</em>
+                </article>
+                <article class="dashboard-summary-card">
+                    <strong>예약취소건수</strong>
+                    <span>${dashboardSummary.cancelledAppointmentCount}</span>
+                    <em>전체 예약 중 취소 누적 건수</em>
                 </article>
             </section>
 

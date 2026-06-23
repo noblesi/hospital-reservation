@@ -13,13 +13,34 @@ import java.util.Map;
 
 public class AdminDashboardDAO {
     private static final String[] WEEKDAY_LABELS = {"월", "화", "수", "목", "금", "토", "일"};
+    private static final String COMPLETED_STATUS_CONDITION =
+            "UPPER(TRIM(NVL(STATUS, ' '))) IN ('COMPLETED', 'DONE') OR TRIM(NVL(STATUS, ' ')) = '진료완료'";
+    private static final String CANCELLED_STATUS_CONDITION =
+            "UPPER(TRIM(NVL(STATUS, ' '))) IN ('CANCELLED', 'CANCELED') OR TRIM(NVL(STATUS, ' ')) = '예약취소'";
 
     public AdminDashboardSummaryDTO selectDashboardSummary() throws SQLException {
         AdminDashboardSummaryDTO summary = new AdminDashboardSummaryDTO();
-        summary.setTotalAppointmentCount(selectCount("SELECT COUNT(*) FROM APPOINTMENT"));
-        summary.setCompletedTreatmentCount(selectCount(
-                "SELECT COUNT(*) FROM APPOINTMENT WHERE STATUS IN ('COMPLETED', 'DONE', '진료완료')"
+        int totalAppointmentCount = selectCount("SELECT COUNT(*) FROM APPOINTMENT");
+        int completedTreatmentCount = selectCount(
+                "SELECT COUNT(*) FROM APPOINTMENT WHERE " + COMPLETED_STATUS_CONDITION
+        );
+
+        summary.setTotalAppointmentCount(totalAppointmentCount);
+        summary.setTodayAppointmentCount(selectCount(
+                "SELECT COUNT(*) FROM APPOINTMENT "
+                        + "WHERE TRUNC(APPOINTMENT_DATE) = TRUNC(SYSDATE) "
+                        + "AND NOT (" + CANCELLED_STATUS_CONDITION + ")"
         ));
+        summary.setPendingAppointmentCount(selectCount(
+                "SELECT COUNT(*) FROM APPOINTMENT "
+                        + "WHERE NOT (" + COMPLETED_STATUS_CONDITION + ") "
+                        + "AND NOT (" + CANCELLED_STATUS_CONDITION + ")"
+        ));
+        summary.setCompletedTreatmentCount(completedTreatmentCount);
+        summary.setCancelledAppointmentCount(selectCount(
+                "SELECT COUNT(*) FROM APPOINTMENT WHERE " + CANCELLED_STATUS_CONDITION
+        ));
+        summary.setCompletionRate(calculatePercentage(completedTreatmentCount, totalAppointmentCount));
         return summary;
     }
 
@@ -94,6 +115,14 @@ public class AdminDashboardDAO {
         }
 
         return Math.max(4, (int) Math.round((double) count / maxCount * 100));
+    }
+
+    private int calculatePercentage(int count, int totalCount) {
+        if (totalCount <= 0 || count <= 0) {
+            return 0;
+        }
+
+        return (int) Math.round((double) count / totalCount * 100);
     }
 
     private int selectCount(String sql) throws SQLException {

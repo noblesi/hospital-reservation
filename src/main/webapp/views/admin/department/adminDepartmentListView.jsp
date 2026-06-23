@@ -71,7 +71,7 @@
         	window.open("modal-addDept.jsp","dept_modal","width=474,height=374,top="+window.screenY*5+",left="+window.screenX*2);
         }//modifyModal
     </script>
-    <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css' />">
+    <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css?v=20260623-admin-fluid' />">
 </head>
 <body>
 
