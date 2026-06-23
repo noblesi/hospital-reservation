@@ -405,85 +405,111 @@
 
 <script type="text/javascript">
     $(function(){
-
-    	 $(function () {
-    	      $('#thumbUploadBtn').click( function () {
-    	        $('#thumbFile').trigger('click');
-    	      });
-
-    	      $('#detailUploadBtn').click( function () {
-    	        $('#detailFile').trigger('click');
-    	      });
-
-    	      function previewImage(input, targetId){
-    	        const file = input.files && input.files[0];
-    	        if(!file) return;
-
-    	        const reader = new FileReader();
-    	        reader.onload = function(e){
-    	          const $target = $('#' + targetId);
-    	          $target.css('background-image', 'url(' + e.target.result + ')');
-    	          $target.find('.doctor-photo-text').hide();
-    	        };
-    	        reader.readAsDataURL(file);
-    	      }
-
-    	      $('#thumbFile').change( function () {
-    	        previewImage(this, 'thumbPreview');
-    	      });
-
-    	      $('#detailFile').change( function () {
-    	        previewImage(this, 'detailPreview');
-    	      });
-
-    	      $('#addEducationBtn').click( function () {
-    	        $('#educationList').append(
-    	          '<div class="doctor-edu-row">' +
-    	            '<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" />' +
-    	            '<input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." />' +
-    	          '</div>'
-    	        );
-    	      });
-
-    	      $('#removeEducationBtn').click( function () {
-    	        const $rows = $('#educationList .doctor-edu-row');
-    	        if ($rows.length > 1) $rows.last().remove();
-    	      });
-
-    	      $('#addCareerBtn').click( function () {
-    	        $('#careerList').append(
-    	          '<div class="doctor-career-row">' +
-    	            '<input type="text" class="doctor-input" name="careerPeriod[]" placeholder="기간" />' +
-    	            '<input type="text" class="doctor-input" name="careerContent[]" placeholder="경력을 입력해주세요..." />' +
-    	          '</div>'
-    	        );
-    	      });
-
-    	      $('#removeCareerBtn').click( function () {
-    	        const $rows = $('#careerList .doctor-career-row');
-    	        if ($rows.length > 1) $rows.last().remove();
-    	      });
-
-    	      $('#btnLicenseSearchTop').click( function () {
-    	        var licenseNo = $.trim($('#licenseNo').val());
-    	        if(licenseNo.length < 6) {
-    	        	alert('숫자 6자를 입력해주세요');
-      	        	$('#licenseNo').focus();
-      	        	return;
-    	        }
-    	        
-    	        if (!licenseNo) {
-    	          alert('면허 번호를 입력해주세요.');
-    	          $('#licenseNo').focus();
-    	          return;
-    	        }
-    	        alert('면허번호 조회: ' + licenseNo);
-    	      });
-
-    	      $('#doctorCancelBtn').click( function () {
-    	        history.back();
-    	      });
-    	    });
+		
+		$('#thumbUploadBtn').click( function () {
+		  $('#thumbFile').trigger('click');
+		});
+		
+		$('#detailUploadBtn').click( function () {
+		  $('#detailFile').trigger('click');
+		});
+		
+		function previewImage(input, targetId){
+		  const file = input.files && input.files[0];
+		  if(!file) return;
+		
+		  const reader = new FileReader();
+		  reader.onload = function(e){
+		    const $target = $('#' + targetId);
+		    $target.css('background-image', 'url(' + e.target.result + ')');
+		    $target.find('.doctor-photo-text').hide();
+		  };
+		  reader.readAsDataURL(file);
+		}
+		
+		$('#thumbFile').change( function () {
+		  previewImage(this, 'thumbPreview');
+		});
+		
+		$('#detailFile').change( function () {
+		  previewImage(this, 'detailPreview');
+		});
+		
+		$('#addEducationBtn').click( function () {
+		  $('#educationList').append(
+		    '<div class="doctor-edu-row">' +
+		      '<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" />' +
+		      '<input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." />' +
+		    '</div>'
+		  );
+		});
+		
+		$('#removeEducationBtn').click( function () {
+		  const $rows = $('#educationList .doctor-edu-row');
+		  if ($rows.length > 1) $rows.last().remove();
+		});
+		
+		$('#addCareerBtn').click( function () {
+		  $('#careerList').append(
+		    '<div class="doctor-career-row">' +
+		      '<input type="text" class="doctor-input" name="careerPeriod[]" placeholder="기간" />' +
+		      '<input type="text" class="doctor-input" name="careerContent[]" placeholder="경력을 입력해주세요..." />' +
+		    '</div>'
+		  );
+		});
+		
+		$('#removeCareerBtn').click( function () {
+		  const $rows = $('#careerList .doctor-career-row');
+		  if ($rows.length > 1) $rows.last().remove();
+		});
+		
+		$('#btnLicenseSearchTop').click( function () {
+		  var licenseNo = $.trim($('#licenseNo').val());
+		  if(licenseNo.length < 6) {
+		  	alert('숫자 6자를 입력해주세요');
+		    	$('#licenseNo').focus();
+		    	return;
+		  }
+		  
+		  if (!licenseNo) {
+		    alert('면허 번호를 입력해주세요.');
+		    $('#licenseNo').focus();
+		    return;
+		  }
+		  alert('면허번호 조회: ' + licenseNo);
+		});
+		
+		$('#doctorCancelBtn').click( function () {
+		  history.back();
+		});
+    	
+		//for 과명 만큼 돌려야됨
+		$("#department")
+			.append(`<option value=''></option>`);
+		
+    	$("[name='ampm[]']")
+    		.append(`<option value='am'>오전</option>`)
+    		.append(`<option value='pm'>오후</option>`);
+		
+		$("[name='startTime[]']")
+			.append(`<option value='09:00'>09:00</option>`)
+			.append(`<option value='09:30'>09:30</option>`)
+			.append(`<option value='10:00'>10:00</option>`)
+			.append(`<option value='10:30'>10:30</option>`)
+			.append(`<option value='11:00'>11:00</option>`)
+			.append(`<option value='11:30'>11:30</option>`)
+			.append(`<option value='12:00'>12:00</option>`)
+			.append(`<option value='12:30'>12:30</option>`)
+			.append(`<option value='13:00'>13:00</option>`);
+		
+		$("[name='endTime[]']")
+			.append(`<option value='14:00'>14:00</option>`)
+			.append(`<option value='14:00'>14:30</option>`)
+			.append(`<option value='14:00'>15:00</option>`)
+			.append(`<option value='14:00'>15:30</option>`)
+			.append(`<option value='14:00'>16:00</option>`)
+			.append(`<option value='14:00'>16:30</option>`)
+			.append(`<option value='14:00'>17:00</option>`);
 
     }); //ready
 </script>
@@ -527,11 +553,7 @@
 						          <label class="doctor-label" for="department">진료과</label>
 						          <select class="doctor-select" id="department" name="department">
 						            <option value="">진료과 선택</option>
-						            <option value="내과">내과</option>
-						            <option value="외과">외과</option>
-						            <option value="정형외과">정형외과</option>
-						            <option value="신경과">신경과</option>
-						            <option value="소아청소년과">소아청소년과</option>
+						            
 						          </select>
 						          <div></div>
 						        </div>
@@ -588,210 +610,98 @@
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">월</span>
 					            <select class="doctor-mini-select" name="ampm[]">
-					              <option selected>오전</option>
-					              <option>오후</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
-					              <option>09:00</option>
-					              <option>09:30</option>
-					              <option>10:00</option>
-					              <option>10:30</option>
-					              <option>11:00</option>
-					              <option>11:30</option>
-					              <option>12:00</option>
-					              <option>12:30</option>
-					              <option>13:00</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
-					              <option>14:00</option>
-					              <option>14:30</option>
-					              <option>15:00</option>
-					              <option>15:30</option>
-					              <option>16:00</option>
-					              <option>16:30</option>
-					              <option>17:00</option>
 					            </select>
 					          </div>
 					
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">화</span>
 					            <select class="doctor-mini-select" name="ampm[]">
-					              <option>오전</option>
-					              <option selected>오후</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
-					              <option>09:00</option>
-					              <option>09:30</option>
-					              <option>10:00</option>
-					              <option>10:30</option>
-					              <option>11:00</option>
-					              <option>11:30</option>
-					              <option>12:00</option>
-					              <option>12:30</option>
-					              <option>13:00</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
-					              <option>14:00</option>
-					              <option>14:30</option>
-					              <option>15:00</option>
-					              <option>15:30</option>
-					              <option>16:00</option>
-					              <option>16:30</option>
-					              <option>17:00</option>
 					            </select>
 					          </div>
 					
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">수</span>
 					            <select class="doctor-mini-select" name="ampm[]">
-					              <option selected>오전</option>
-					              <option>오후</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
-					              <option>09:00</option>
-					              <option>09:30</option>
-					              <option>10:00</option>
-					              <option>10:30</option>
-					              <option>11:00</option>
-					              <option>11:30</option>
-					              <option>12:00</option>
-					              <option>12:30</option>
-					              <option>13:00</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
-					              <option>14:00</option>
-					              <option>14:30</option>
-					              <option>15:00</option>
-					              <option>15:30</option>
-					              <option>16:00</option>
-					              <option>16:30</option>
-					              <option>17:00</option>
 					            </select>
 					          </div>
 					
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">목</span>
 					            <select class="doctor-mini-select" name="ampm[]">
-					              <option selected>오전</option>
-					              <option>오후</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
-					              <option>09:00</option>
-					              <option>09:30</option>
-					              <option>10:00</option>
-					              <option>10:30</option>
-					              <option>11:00</option>
-					              <option>11:30</option>
-					              <option>12:00</option>
-					              <option>12:30</option>
-					              <option>13:00</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
-					              <option>14:00</option>
-					              <option>14:30</option>
-					              <option>15:00</option>
-					              <option>15:30</option>
-					              <option>16:00</option>
-					              <option>16:30</option>
-					              <option>17:00</option>
 					            </select>
 					          </div>
 					
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">금</span>
 					            <select class="doctor-mini-select" name="ampm[]">
-					              <option selected>오전</option>
-					              <option>오후</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
-					              <option>09:00</option>
-					              <option>09:30</option>
-					              <option>10:00</option>
-					              <option>10:30</option>
-					              <option>11:00</option>
-					              <option>11:30</option>
-					              <option>12:00</option>
-					              <option>12:30</option>
-					              <option>13:00</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
-					              <option>14:00</option>
-					              <option>14:30</option>
-					              <option>15:00</option>
-					              <option>15:30</option>
-					              <option>16:00</option>
-					              <option>16:30</option>
-					              <option>17:00</option>
 					            </select>
 					          </div>
 					
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">토</span>
 					            <select class="doctor-mini-select" name="ampm[]">
-					              <option selected>오전</option>
-					              <option>오후</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
-					              <option>09:00</option>
-					              <option>09:30</option>
-					              <option>10:00</option>
-					              <option>10:30</option>
-					              <option>11:00</option>
-					              <option>11:30</option>
-					              <option>12:00</option>
-					              <option>12:30</option>
-					              <option>13:00</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
-					              <option>14:00</option>
-					              <option>14:30</option>
-					              <option>15:00</option>
-					              <option>15:30</option>
-					              <option>16:00</option>
-					              <option>16:30</option>
-					              <option>17:00</option>
 					            </select>
 					          </div>
 					
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">일</span>
 					            <select class="doctor-mini-select" name="ampm[]">
-					              <option selected>오전</option>
-					              <option>오후</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
-					              <option>09:00</option>
-					              <option>09:30</option>
-					              <option>10:00</option>
-					              <option>10:30</option>
-					              <option>11:00</option>
-					              <option>11:30</option>
-					              <option>12:00</option>
-					              <option>12:30</option>
-					              <option>13:00</option>
 					            </select>
+					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
-					              <option>14:00</option>
-					              <option>14:30</option>
-					              <option>15:00</option>
-					              <option>15:30</option>
-					              <option>16:00</option>
-					              <option>16:30</option>
-					              <option>17:00</option>
 					            </select>
 					          </div>
 					        </div>

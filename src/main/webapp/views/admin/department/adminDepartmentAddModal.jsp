@@ -1,3 +1,4 @@
+<%@page import="com.hospital.admin.department.AdminDepartmentService"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.hospital.common.dto.DepartmentDTO"%>
 <%@page import="java.util.List"%>
@@ -51,78 +52,176 @@
 			left: 0px;
             /* border: 1px solid #333; */
         } 
+        
+        [type='text'] {
+        	width: 250px;
+        	height: 80px;
+        }
+        #description {
+        	font-size: 14px;
+        }
 	</style>
 	<script type="text/javascript">
         
-		$(function(){
-            <%
-            List <DepartmentDTO> list = new ArrayList <DepartmentDTO>();
-			list.add(new DepartmentDTO("DP001","치과","치아를 관리하는 과","Y","본관1층"));
-			list.add(new DepartmentDTO("DP002","산부인과","임산부를 관리해주는 과","Y","본관2층"));
-			list.add(new DepartmentDTO("DP003","안과","눈을 관리해주는 과","Y","별관2층"));
-			list.add(new DepartmentDTO("DP004","외과","외과인데 사용 안한다요","N",""));
-            
-            %>
-			<%-- if(<%= list %>==null){
-				alert("데이터가 안들어온다");
-			}// end if --%>
-			$("#btnAddDept").click(saveDept);
-			$("#btnCancle").click(selfClose);
-			
-		});// ready
+$(function(){
+	<%
+	/*   List <DepartmentDTO> list = new ArrayList <DepartmentDTO>();
+	list.add(new DepartmentDTO("DP001","치과","치아를 관리하는 과","Y","본관1층"));
+	list.add(new DepartmentDTO("DP002","산부인과","임산부를 관리해주는 과","Y","본관2층"));
+	list.add(new DepartmentDTO("DP003","안과","눈을 관리해주는 과","Y","별관2층"));
+	list.add(new DepartmentDTO("DP004","외과","외과인데 사용 안한다요","N","")); */
 
-        function selfClose(){
-            self.close();
-        }// selfClose
+	AdminDepartmentService adminDepartmentService = new AdminDepartmentService();
 
-		function saveDept(){
-        	var deptName=$("#dept_name").val();
-        	//alert(deptName);
-        	var description=$("#description").val();
-        	
-        	if(deptName==""){
-        		alert("진료과 이름을 입력해 주세요.");
-        		$("#dept_name").focus();
-        		return;
-        	}//end if
-        	if(description==""){
-        		alert("진료과 설명을 입력해 주세요.");
-        		$("#description").focus();
-        		return;
-        	}//end if
-         <% 
-         	if(list != null){ %>
-         		var deptDTOName="";
-			<%	for(int i=0; i < list.size(); i++){ %>
-					deptDTOName = "<%= list.get(i).getDeptName() %>";
-	           		if(deptDTOName == deptName){
-	           			alert(deptName+"는 존재하는 진료과입니다.");
-	           			$("#dept_name").focus();
-	           			return;
-	           		}//end if
-	         <% }// end for
-         	}// end if %>
-        	
-            if(confirm("저장하시겠습니까?")){
-                
-            }// end if
-         	
-		}// sendId
-	</script>
+	List <DepartmentDTO> list = null;
+	list = adminDepartmentService.searchDepartmentList();
+
+	String modify = request.getParameter("modify");
+	String deptNo="";
+	boolean modifyFlag = "Y".equals(modify);
+	pageContext.setAttribute("modifyFlag", modifyFlag);
+		if(modifyFlag){
+			deptNo = request.getParameter("deptNo");
+			request.setAttribute("deptNo", deptNo);
+			%>
+			$("#deptNo").val('<%=deptNo%>');
+			<%
+			log(deptNo);
+			for(int i = 0 ; i < list.size(); i++){
+				if(list.get(i).getDeptNo().equals(deptNo)){%>
+					$("#deptName").val('<%= list.get(i).getDeptName() %>');
+					$("#deptName").prop("readonly",true);
+					$("#description").val('<%= list.get(i).getDescription() %>');
+					
+					<%if(list.get(i).getDeptLoc()!=null){%>
+						$("#deptLoc").val('<%= list.get(i).getDeptLoc() %>');
+					<%}//end if
+				}// end if
+			}// end for
+		}// end if%>
+<%-- if(<%= list %>==null){
+	alert("데이터가 안들어온다");
+}// end if --%>
+	$("#btnAddDept").click(saveDept);
+	$("#btnModify").click(modifyDept);
+	$("#btnCancle").click(selfClose);
+	
+});// ready
+
+function saveDept(){
+	var deptName=$("#deptName").val();
+	//alert(deptName);
+	var description=$("#description").val();
+	
+	if(deptName==""){
+		alert("진료과 이름을 입력해 주세요.");
+		$("#deptName").focus();
+		return;
+	}//end if
+	
+	if(description==""){
+		alert("진료과 설명을 입력해 주세요.");
+		$("#description").focus();
+		return;
+	}//end if
+	
+	<% 
+	if(list != null){ %>
+		var deptDTOName="";
+		<%for(int i=0; i < list.size(); i++){ %>
+			deptDTOName = "<%= list.get(i).getDeptName() %>";
+			if(deptDTOName == deptName){
+				alert(deptName+"는 존재하는 진료과입니다.");
+				$("#deptName").focus();
+				return;
+			}//end if
+		<%}// end for
+	}// end if %>
+      	
+	if(confirm("저장하시겠습니까?")){
+	    
+	}// end if
+
+}// saveDept
+
+function modifyDept(){
+	<%request.setCharacterEncoding("UTF-8");%>
+	
+	
+	if(confirm("수정하시겠습니까?")){
+		$("#deptFrm").submit();
+		
+		//self.close();
+	}// end if
+}// modifyDept
+
+function selfClose(){
+	
+	self.close();
+}// selfClose
+
+</script>
     <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css' />">
+    
 </head>
 <body>
 	<div id="wrap">
         <section class="admin-card">
-            <form id="dupFrm" class="admin-search-area">
+            <form id="deptFrm" class="admin-search-area" action="adminDepartmentAddModalProcess.jsp" method="post">
                 <div id="frmWrap" >
                     <div id="textDiv">
-                        <label for="dept_name">진료과 이름 : </label><input type="text" id="dept_name" name="dept_name" ><br>
-                        <label for="description">진료과 설명 : </label><input type="text" id="description" name="description" ><br>
-                        <label for="dept_loc">진료과 위치 : </label><input type="text" id="dept_loc" name="dept_loc" ><br>
+                    	<table>
+                    		<tr>
+                    			<td>
+                        			<label for="deptName">진료과 이름 : </label>
+                        		</td>
+                        		<td>
+                        			<input type="text" id="deptName" name="deptName" />
+                        			<c:if test="${ modifyFlag }">
+                        				<input type="hidden" id="deptNo" name="deptNo" value="${ deptNo }"/>
+                        			</c:if>
+                        			<c:if test="${ not modifyFlag }">
+                        				<input type="hidden" id="deptNo" name="deptNo" value=""/>
+                        			</c:if>
+                        			<c:choose>
+                        				<c:when test="${ not empty isActiveYn  }">
+                        					<input type="hidden" id="isActiveYn" name="isActiveYn" value="${ isActiveYn }"/>
+                        				</c:when>
+                        				<c:otherwise>
+                        					<input type="hidden" id="isActiveYn" name="isActiveYn" value="N"/>
+                        				</c:otherwise>
+                        			</c:choose>
+                        		</td>
+                        	</tr>
+                        	<tr>
+                    			<td>
+                        			<label for="deptLoc">진료과 위치 : </label>
+                        		</td>
+                        		<td>
+                        			<input type="text" id="deptLoc" name="deptLoc" />
+                        		</td>
+                        	</tr>
+                        	
+                        	<tr>
+                    			<td>
+                        			<label for="description">진료과 설명 : </label>
+                        		</td>
+                        		<td>
+                        			<textarea id="description" name="description" cols="32" rows="2"></textarea>
+                        		</td>
+                        	</tr>
+                        	
+                        </table>
                     </div>
                     <div id="btnDiv">
-                        <input type="button" value="저장" class="btn link-btn btn-sm" id="btnAddDept">
+                    	<c:choose>
+                    		<c:when test="${ modifyFlag }">
+                    			<input type="button" value="수정" class="btn btn-sm btn-success" id="btnModify"/>
+                    		</c:when>
+                    		<c:otherwise>
+                    			<input type="button" value="저장" class="btn btn-sm btn-success" id="btnAddDept">
+                    		</c:otherwise>
+                    	</c:choose>
                         <input type="button" value="취소" class="btn btn-cancle btn-sm" id="btnCancle">
                     </div>
                 </div>

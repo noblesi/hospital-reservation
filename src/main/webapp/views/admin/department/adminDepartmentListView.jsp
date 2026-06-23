@@ -1,3 +1,5 @@
+<%@page import="com.hospital.admin.department.dto.AdminDepartmentSearchDTO"%>
+<%@page import="com.hospital.admin.department.AdminDepartmentService"%>
 <%@page import="com.hospital.common.dto.DepartmentDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page import="java.util.List" %>
@@ -20,55 +22,76 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 	<style type="text/css">
-        #tabDeptInven {
-            border: 1px solid #000;
-        }/* deptInven */
-
-        #tabDeptInven > tbody > tr > td {
-            text-align: left;
-            border: 1px solid #333;
-        }
-
-        #tabDeptInven > thead > tr > th, #tabDeptInven > tbody > tr > th {
-            border-bottom: 1px solid #000;
-            text-align: center;
-        }
-
+        
         .admin-view-area {
             margin: 20px;
             position: relative;
         }/* admin-view-area */
+        
+        [name='deptChoice[]']{
+        	text-align: center;
+         	margin-left: 17px;
+        	margin-top: 8px; 
+        }
+        
+       	#deptData > tr > td {
+        	text-align: left;
+        	vertical-align: center;	
+        }
     </style>
     
     <script type="text/javascript">
         
-        var tempDeptArr;//진료과 데이터 담는 변수
-
         $(function(){
            
-			<% 
-				//JSON 데이터 저장
-				//진료과 데이터
-				List <DepartmentDTO> list = new ArrayList <DepartmentDTO>();
-				list.add(new DepartmentDTO("DP001","치과","치아를 관리하는 과","Y","본관1층"));
-				list.add(new DepartmentDTO("DP002","산부인과","임산부를 관리해주는 과","Y","본관2층"));
-				list.add(new DepartmentDTO("DP003","안과","눈을 관리해주는 과","Y","별관2층"));
-				list.add(new DepartmentDTO("DP004","외과","외과인데 사용 안한다요","N",""));
+        	<% 
+      	   	AdminDepartmentService adminDepartmentService = new AdminDepartmentService();
+      	  	//pageContext.setAttribute("adminDepartmentService", adminDepartmentService);
+      	  	pageContext.setAttribute("deptList", adminDepartmentService.searchDepartmentList());
+			//진료과 데이터
+			/* List <DepartmentDTO> list = new ArrayList <DepartmentDTO>();
+			list.add(new DepartmentDTO("DP001","치과","치아를 관리하는 과","Y","본관1층"));
+			list.add(new DepartmentDTO("DP002","산부인과","임산부를 관리해주는 과","Y","본관2층"));
+			list.add(new DepartmentDTO("DP003","안과","눈을 관리해주는 과","Y","별관2층"));
+			list.add(new DepartmentDTO("DP004","외과","외과인데 사용 안한다요","N","")); */
+			//List <DepartmentDTO> list = null;
+			//list = adminDepartmentService.searchDepartmentList();
 			%>
+			
+			
+			
            $("#btnAddDept").click(addDeptModal);
            $("#btnModify").click(modifyModal);
+           
+			$("#isActiveChange").click(function(){
+				//상태 변환 ajax를 이용 하는게 편할듯
+				var isChkVal = $("[name='deptChoise[]']").is(":checked").val();
+			});
+           
         });//ready
 
         function addDeptModal(){
-        	<% request.setAttribute("sendDeptList", list); %>
+        	<%-- <%
+        	session.setAttribute("adminDeptService", adminDepartmentService);
+        	%> --%>
         	//alert("들어오는데");
-        	window.open("modal-addDept.jsp","dept_modal","width=474,height=374,top="+window.screenY*5+",left="+window.screenX*2); 
+        	window.open("adminDepartmentAddModal.jsp?modify=N","dept_modal","width=500,height=480"); 
         }//addDeptModal
+        
         function modifyModal(){
-        	<% 
-        	request.setAttribute("sendDeptList", list);
-        	%>
-        	window.open("modal-addDept.jsp","dept_modal","width=474,height=374,top="+window.screenY*5+",left="+window.screenX*2);
+        	var isChk = $("[name='deptChoice[]']").is(":checked");
+        	if(!isChk){
+        		alert("진료과를 선택해주세요");
+        		return;
+        	} else {
+        		
+        		//var isChkVal=$("[name='deptChoice[]']:checked").val();
+        		var isChkInd = $("[name='deptChoice[]']:checked").index("[name='deptChoice[]']");
+        		//alert($("[name='deptNo[]']").eq(isChkInd)+"//"+isChkInd);
+        		var chkVal = $("[name='deptNo[]']").eq(isChkInd).val();
+        		var queryString = "&deptNo="+chkVal;
+	        	window.open("adminDepartmentAddModal.jsp?modify=Y"+queryString,"dept_modal","width=500,height=480");
+        	}// end else if
         }//modifyModal
     </script>
     <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css' />">
@@ -76,19 +99,18 @@
 <body>
 
 <jsp:include page="/views/common/adminHeader.jsp" />
-
 <div class="admin-layout">
     <jsp:include page="/views/common/adminSidebar.jsp" />
-
+	
     <main class="admin-content">
         <div class="admin-page-title">
             <h2>진료과 관리</h2>
         </div>
 
         <section class="admin-card">
-            <form class="admin-search-area">
+            <form class="admin-search-area" >
                 <div class="admin-view-area">
-                    <table>
+                    <table >
                         <thead>
                             <tr>
                                 <th colspan="5" style="width: 1018px;">
@@ -100,7 +122,7 @@
                             <tr>
                                 <td>
                                     <div id="deptDiv">
-                                        <table id="tabDeptInven">
+                                        <table id="tabDeptInven" class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th style="width: 50px;">선택</th>
@@ -111,40 +133,65 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="deptData">
-                                                <% for(int i=0; i<list.size(); i++){ %>
-                                                		<tr>
-                                                			<td>
-                                                				<input type="radio" name="deptChoice" value="<%=list.get(i).getDeptNo()%>">
-                                                			</td>
-                                                			<td>
-                                                				<%= i+1 %>
-                                                			</td>
-                                                			<td>
-                                                				<a href="#void"><%=list.get(i).getDeptName()%></a>
-                                                			</td>
-                                                			<td>
-                                                				<% if(list.get(i).getDescription()!=""){ %>
-                                                					<%=list.get(i).getDescription()%>
-                                                				<% } else { %>
-                                                					설명란에 설명을 입력해주세요.
-                                                				<% }//end if %>
-                                                			</td>
-                                                			<td>
-                                                				<% if(list.get(i).getIsActiveYn()=="Y" || list.get(i).getIsActiveYn()=="y"){ %>
-                                                					사용 중
-                                                				<% } else { %>
-                                                					비활성화 상태 입니다.
-                                                				<% }//end if %>
-                                                			</td>
-                                                		</tr>
-                                                <% }//end for %>                                           
-                                             </tbody>
+                                            	<c:if test="${ not empty deptList }">
+                                            		<c:forEach var="dept" items="${ deptList }" varStatus="i">
+                                            			<tr>
+                                            				<td>
+                                            					<input type="radio" name="deptChoice[]" />
+                                            					<input type="hidden" name="deptNo[]" value="${ dept.deptNo }"/>
+                                            				</td>
+                                            				<td>
+                                            					<c:out value="${ i.count }"/>
+                                            				</td>
+                                            				<td>
+                                            					<c:out value="${ dept.deptName }"/>
+                                            					<input type="hidden" name="deptName[]" value="${ dept.deptName }"/>
+                                            				</td>
+                                            				<c:choose>
+	                                            				<c:when test="${ not empty dept.deptLoc }">
+		                                            				<td>
+		                                            					<c:out value="${ dept.deptLoc }"/>
+		                                            					<input type="hidden" name="deptLoc[]" value="${ dept.deptLoc }"/>
+		                                            				</td>
+	                                            				</c:when>
+	                                            				<c:otherwise>
+	                                            					<td>
+		                                            					<c:out value="[위치가 입력 되지 않았습니다.]"/>
+		                                            					<input type="hidden" name="deptLoc[]" value="${ dept.deptLoc }"/>
+		                                            				</td>
+	                                            				</c:otherwise>
+                                            				</c:choose>
+                                            				<c:choose>
+	                                            				<c:when test="${ dept.isActiveYn eq 'Y' or dept.isActiveYn eq 'y' }">
+		                                            				<td>
+		                                            					<c:out value="사용 중"/>
+		                                            					<input type="hidden" name="isActiveYn[]" value="${ dept.isActiveYn }"/>
+		                                            				</td>
+	                                            				</c:when>
+	                                            				<c:otherwise>
+	                                            					<td>
+		                                            					<c:out value="비활성화"/>
+		                                            					<input type="hidden" name="isActiveYn[]" value="${ dept.isActiveYn }"/>
+		                                            				</td>
+	                                            				</c:otherwise>
+                                            				</c:choose>
+                                            			</tr>
+                                            		</c:forEach>
+                                            	</c:if>
+                                            	<c:if test="${ empty deptList }">
+                                            		<tr>
+                                            			<td colspan="5" style="text-align: center;">
+                                            				데이터가 없습니다.
+                                            			</td>
+                                            		</tr>
+                                            	</c:if>
+                                            </tbody>
                                         </table>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="5"><input type="button" value="수정"  class="logout-btn" id="btnModify"><input type="button" value="사용/비활성화"  class="logout-btn"></td>
+                                <td colspan="5"><input type="button" value="수정"  class="logout-btn" id="btnModify"><input type="button" id="isActiveChange" value="사용/비활성화"  class="logout-btn"></td>
                             </tr>
                         </tbody>
                     </table>
