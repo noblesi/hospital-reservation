@@ -1,0 +1,228 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set var="activeMenu" value="login" scope="request" />
+<c:set var="depth1" value="아이디/비밀번호 찾기" scope="request" />
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>아이디/비밀번호 찾기</title>
+
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/find-account.css' />">
+
+</head>
+
+<body>
+
+<jsp:include page="../common/userHeader.jsp" />
+<jsp:include page="../common/userBreadcrumb.jsp" />
+
+<main id="content" class="findContent">
+
+    <div class="contHeadingWrap">
+        <h2>아이디/비밀번호 찾기</h2>
+    </div>
+
+    <div class="tabTypeCol2">
+        <ul>
+            <li>
+                <a href="<c:url value='findId.jsp'/>">아이디 찾기</a>
+            </li>
+            <li class="current">
+                <a href="#">비밀번호 찾기</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="confirmWrap">
+        <p>비밀번호를 잊으셨습니까?</p>
+        <p>인증 방법 중 한가지를 선택하여 찾으실 수 있습니다.</p>
+    </div>
+
+    <div class="memType03">
+        <a href="#" class="layerBtn" data-layer="layerHp">
+            <span class="icon">
+                <img src="http://localhost:8081/hospital_reservation/resources/images/login_phone.png">
+            </span>
+            <span class="methodSub">가입정보</span>
+            <span class="methodTitle">휴대전화 이용하기</span>
+        </a>
+
+        <a href="#" class="layerBtn" data-layer="layerMail">
+            <span class="icon">
+                <img src="http://localhost:8081/hospital_reservation/resources/images/login-email.png">
+            </span>
+            <span class="methodSub">가입정보</span>
+            <span class="methodTitle">이메일 이용하기</span>
+        </a>
+    </div>
+</main>
+
+<div class="layerDim"></div>
+
+<section class="layerWrap layerHp">
+    <h1>회원정보 휴대전화번호 확인</h1>
+
+    <div class="layerContent">
+        <form id="hForm" name="hForm"
+              action="<c:url value='process/findPasswordProcess.jsp' />"
+              method="post">
+
+            <input type="hidden" name="findType" value="tel">
+
+            <fieldset>
+                <legend>휴대전화번호 확인</legend>
+
+                <div class="boardTypeForm">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>아이디</th>
+                                <td>
+                                    <input id="hpLoginId" name="loginId" class="inputText" type="text" maxlength="20">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>이름</th>
+                                <td>
+                                    <input id="hpName" name="name" class="inputText" type="text" maxlength="20">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>휴대전화번호</th>
+                                <td>
+                                    <input id="hpPhoneNumber" name="phoneNumber" class="inputText" type="text" maxlength="40">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>생년월일</th>
+                                <td>
+                                    <input id="hpBirthDate" name="birthDate" class="inputText" type="text" maxlength="10">
+                                    <p class="desc">예) 1970-01-01</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+        </form>
+
+        <div class="btnWrap">
+            <button type="button" class="btnType03" id="confirmHpBtn">확인하기</button>
+        </div>
+    </div>
+
+    <button type="button" class="layerCloseBtn">×</button>
+</section>
+
+<section class="layerWrap layerMail">
+    <h1>회원정보 이메일 확인</h1>
+
+    <div class="layerContent">
+        <form id="mForm" name="mForm"
+              action="<c:url value='process/findPasswordProcess.jsp' />"
+              method="post">
+
+            <input type="hidden" name="findType" value="email">
+
+            <fieldset>
+                <legend>이메일 확인</legend>
+
+                <div class="boardTypeForm">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>아이디</th>
+                                <td>
+                                    <input id="mailLoginId" name="loginId" class="inputText" type="text" maxlength="20">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>이름</th>
+                                <td>
+                                    <input id="mailName" name="name" class="inputText" type="text" maxlength="20">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>이메일주소</th>
+                                <td>
+                                    <input id="mailEmail" name="email" class="inputText" type="text" maxlength="40">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>생년월일</th>
+                                <td>
+                                    <input id="mailBirthDate" name="birthDate" class="inputText" type="text" maxlength="10">
+                                    <p class="desc">예) 1970-01-01</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+        </form>
+
+        <div class="btnWrap">
+            <button type="button" class="btnType03" id="confirmMailBtn">확인하기</button>
+        </div>
+    </div>
+
+    <button type="button" class="layerCloseBtn">×</button>
+</section>
+<!-- 비밀번호 재설정 모달 -->
+<section class="layerWrap resetPasswordLayer">
+    <h1>비밀번호 재설정</h1>
+
+    <div class="layerContent resetLayerContent">
+        <form id="resetForm" action="<c:url value='process/resetPasswordProcess.jsp' />" method="post">
+
+            <div class="resetIcon">▣</div>
+
+            <h2>비밀번호 변경</h2>
+
+            <div class="resetFormBox">
+                <label for="newPassword">새 비밀번호</label>
+                <input type="password" id="newPassword" name="newPassword" class="inputText">
+
+                <label for="confirmPassword">새 비밀번호 확인</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="inputText">
+            </div>
+
+            <div class="btnWrap">
+                <button type="button" class="btnType03" id="resetPasswordBtn">확인하기</button>
+            </div>
+
+        </form>
+    </div>
+
+    <button type="button" class="layerCloseBtn">×</button>
+</section>
+<script src="<c:url value='/resources/js/user-layout.js' />"></script>
+<jsp:include page="../common/userFooter.jsp" />
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- 아이디/비밀번호 찾기 전용 JS -->
+<script src="<c:url value='/resources/js/find-account.js' />"></script>
+
+<!-- 비밀번호 인증 성공 시 모달 자동 오픈 -->
+<c:if test="${param.reset eq 'Y'}">
+<script>
+$(function(){
+
+    // 기존 모달 전부 닫기
+    $(".layerWrap").removeClass("on");
+
+    // 재설정 모달만 열기
+    $(".layerDim").addClass("on");
+    $(".resetPasswordLayer").addClass("on");
+
+});
+</script>
+</c:if>
+
+</body>
+</html>
