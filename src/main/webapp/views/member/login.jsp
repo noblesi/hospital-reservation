@@ -31,8 +31,8 @@ body{
 }
 
 .login-card{
-    width:900px;
-    min-height:600px;
+    width:1000px;
+    min-height:700px;
     margin:0 auto;
     display:flex;
     background:#fff;
@@ -43,7 +43,7 @@ body{
 
 .login-left{
     width:50%;
-    padding:55px 40px;
+    padding:55px 40px;	
     text-align:center;
 }
 
@@ -179,7 +179,7 @@ body{
         <div class="login-left">
 
             <div class="login-icon">
-            	<img src="<c:url value='../../resources/images/security/login_Human24px.png' />"
+                <img src="<c:url value='/resources/images/security/login_Human24px.png' />"
                      alt="사람 로그인 이미지">
             </div>
 
@@ -190,7 +190,7 @@ body{
             </p>
 
             <form class="login-form"
-                  action="<c:url value='process/loginProcess.jsp' />"
+                  action="<c:url value='/views/member/process/loginProcess.jsp' />"
                   method="post">
 
                 <input type="text"
@@ -208,9 +208,9 @@ body{
             </form>
 
             <div class="login-links">
-                <a href="<c:url value='findId.jsp' />">아이디/비밀번호 찾기</a>
+                <a href="<c:url value='/views/member/findId.jsp' />">아이디/비밀번호 찾기</a>
                 <span>|</span>
-                <a href="<c:url value='joinType.jsp' />">회원가입</a>
+                <a href="<c:url value='/views/member/joinType.jsp' />">회원가입</a>
             </div>
 
         </div>
@@ -218,7 +218,7 @@ body{
         <div class="login-right">
 
             <div class="security-icon">
-                <img src="<c:url value='../../resources/images/security/login_Shield.png' />"
+                <img src="<c:url value='/resources/images/security/login_Shield.png' />"
                      alt="보안 로그인 이미지">
             </div>
 
