@@ -35,7 +35,7 @@ public class BoardListServlet extends HttpServlet {
             request.setAttribute("depth1", "병원소개");
             request.setAttribute("depth2", searchDTO.getCategoryName());
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/board/list.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/board/userBoardList.jsp");
             dispatcher.forward(request, response);
         } catch (SQLException e) {
             throw new ServletException("게시글 목록을 조회하지 못했습니다.", e);

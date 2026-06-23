@@ -81,6 +81,33 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>adminAppointmentListServlet</servlet-name>
+    <servlet-class>com.hospital.admin.appointment.controller.AdminAppointmentListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminAppointmentListServlet</servlet-name>
+    <url-pattern>/admin/reservation/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminMemberListServlet</servlet-name>
+    <servlet-class>com.hospital.admin.member.controller.AdminMemberListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminMemberListServlet</servlet-name>
+    <url-pattern>/admin/member/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminDoctorListServlet</servlet-name>
+    <servlet-class>com.hospital.admin.doctor.controller.AdminDoctorListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminDoctorListServlet</servlet-name>
+    <url-pattern>/admin/doctor/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>adminBoardListServlet</servlet-name>
     <servlet-class>com.hospital.admin.board.controller.AdminBoardListServlet</servlet-class>
   </servlet>

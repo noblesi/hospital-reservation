@@ -32,7 +32,7 @@ public class AdminDepartmentListServlet extends HttpServlet {
 		request.setAttribute("paginationQueryString", buildPaginationQueryString(searchDTO));
 		request.setAttribute("adminMenu", "department");
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/admin/department/list.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/admin/department/adminDepartmentList.jsp");
 		dispatcher.forward(request, response);
 	}//doGet
 

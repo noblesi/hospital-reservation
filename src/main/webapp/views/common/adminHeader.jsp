@@ -4,7 +4,7 @@
 
 			<header class="admin-header">
 				<div class="admin-header-inner">
-					<a href="<c:url value='/main.do' />" class="go-user-page">
+					<a href="<c:url value='/main.do' />" class="go-user-page" target="_blank" rel="noopener noreferrer">
 						병원 홈페이지
 					</a>
 

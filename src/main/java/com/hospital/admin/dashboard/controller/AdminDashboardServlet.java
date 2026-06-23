@@ -21,7 +21,7 @@ public class AdminDashboardServlet extends HttpServlet {
             request.setAttribute("weekdayAppointmentStatus", adminDashboardService.getWeekdayAppointmentStatus());
             request.setAttribute("adminMenu", "dashboard");
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/admin/dashboard/index.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/admin/dashboard/adminDashboard.jsp");
             dispatcher.forward(request, response);
         } catch (SQLException e) {
             throw new ServletException("관리자 대시보드를 조회하지 못했습니다.", e);

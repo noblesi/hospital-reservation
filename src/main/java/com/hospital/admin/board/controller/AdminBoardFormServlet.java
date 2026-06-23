@@ -30,7 +30,7 @@ public class AdminBoardFormServlet extends HttpServlet {
             request.setAttribute("category", category);
             request.setAttribute("adminMenu", BoardSearchDTO.CATEGORY_FAQ.equals(category) ? "faq" : "notice");
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/admin/board/form.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/admin/board/adminBoardForm.jsp");
             dispatcher.forward(request, response);
         } catch (SQLException e) {
             throw new ServletException("게시글 입력 화면을 조회하지 못했습니다.", e);

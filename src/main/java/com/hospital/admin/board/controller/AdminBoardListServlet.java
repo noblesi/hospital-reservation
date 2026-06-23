@@ -34,7 +34,7 @@ public class AdminBoardListServlet extends HttpServlet {
             request.setAttribute("paginationQueryString", buildPaginationQueryString(searchDTO));
             request.setAttribute("adminMenu", BoardSearchDTO.CATEGORY_FAQ.equals(searchDTO.getCategory()) ? "faq" : "notice");
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/admin/board/list.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/admin/board/adminBoardList.jsp");
             dispatcher.forward(request, response);
         } catch (SQLException e) {
             throw new ServletException("관리자 게시글 목록을 조회하지 못했습니다.", e);
