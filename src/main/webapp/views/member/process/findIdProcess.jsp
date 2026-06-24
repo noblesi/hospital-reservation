@@ -26,12 +26,8 @@ try {
     String loginId = service.findId(faDTO);
 
     if(loginId != null){
-%>
-<script>
-alert("회원님의 아이디는 <%= loginId %> 입니다.");
-location.href = "../login.jsp";
-</script>
-<%
+        request.setAttribute("loginId", loginId);
+        request.getRequestDispatcher("../findIdResult.jsp").forward(request, response);
         return;
     }
 } catch(IllegalArgumentException exception){
