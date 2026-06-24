@@ -66,8 +66,9 @@ pageContext.setAttribute("medicalList", medicalList);
                 <p>회원님의 진료와 예약 정보를 확인하고 관리할 수 있습니다.</p>
             </div>
 
-            <div class="mypageVisualImg">
-                📋
+            <div class="mypageVisualGif">
+                 <img src="<c:url value='/resources/images/myPage/mypage_visual.gif' />"
+         alt="마이페이지 안내 이미지">
             </div>
         </div>
 
