@@ -71,6 +71,15 @@ public class AdminDepartmentService {
 		String deptNoTemp = deptNo;
 		String isActiveYnTemp = isActiveYn;
 		boolean successYN = false;
+		if("Y".equals(isActiveYnTemp)) {
+			isActiveYnTemp = "N";
+		} else if("N".equals(isActiveYnTemp)) {
+			isActiveYnTemp = "Y";
+		} else {
+			System.out.println("이건뭐야" + isActiveYnTemp);
+		}
+		
+		
 		System.out.println(isActiveYnTemp);
 		successYN = (adminDepartmentDAO.updateDepartmentActive(deptNoTemp, isActiveYnTemp)==1);
 		

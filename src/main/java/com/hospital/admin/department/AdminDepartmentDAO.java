@@ -306,7 +306,7 @@ public class AdminDepartmentDAO{
 			conn = DBConnection.getConnection();
 
 			pstmt = conn.prepareStatement(updateSql.toString());
-			
+			//System.out.println(isActiveYnTemp + "쿼리딴");
 			pstmt.setString(1, isActiveYnTemp);
 			pstmt.setString(2, deptNoTemp);
 			

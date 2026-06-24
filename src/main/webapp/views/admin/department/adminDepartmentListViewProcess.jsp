@@ -4,14 +4,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	AdminDepartmentService adminDepartmentService = new AdminDepartmentService();
-    
-	// 자바스크립트가 보낸 chkVal 값이 여기에 들어옵니다.
-    String deptNo = request.getParameter("deptNo"); 
-    String isActiveYn = request.getParameter("isActiveYn");
-	
-    isActiveYn = (isActiveYn=="Y" ? "N" : "Y");
-    log(deptNo+" / "+isActiveYn);
-    // 서비스 호출
+    String deptNo = (String) request.getParameter("deptNo"); 
+    String isActiveYn = (String) request.getParameter("isActiveYn");
     boolean flag = adminDepartmentService.changeDepartmentActive(deptNo, isActiveYn);
-    log("왔슈"+ flag +"===========================");
 %>

@@ -48,17 +48,7 @@
       	   	AdminDepartmentService adminDepartmentService = new AdminDepartmentService();
       	  	//pageContext.setAttribute("adminDepartmentService", adminDepartmentService);
       	  	pageContext.setAttribute("deptList", adminDepartmentService.searchDepartmentList());
-			//진료과 데이터
-			/* List <DepartmentDTO> list = new ArrayList <DepartmentDTO>();
-			list.add(new DepartmentDTO("DP001","치과","치아를 관리하는 과","Y","본관1층"));
-			list.add(new DepartmentDTO("DP002","산부인과","임산부를 관리해주는 과","Y","본관2층"));
-			list.add(new DepartmentDTO("DP003","안과","눈을 관리해주는 과","Y","별관2층"));
-			list.add(new DepartmentDTO("DP004","외과","외과인데 사용 안한다요","N","")); */
-			//List <DepartmentDTO> list = null;
-			//list = adminDepartmentService.searchDepartmentList();
 			%>
-			
-			
 			
            $("#btnAddDept").click(addDeptModal);
            $("#btnModify").click(modifyModal);
@@ -70,21 +60,9 @@
 	        		alert("진료과를 선택해주세요");
 	        		return;
 	        	} else {
-	        		
-	        		<%-- //var isChkVal=$("[name='deptChoice[]']:checked").val();
-	        		var isChkInd = $("[name='deptChoice[]']:checked").index("[name='deptChoice[]']");
-	        		//alert($("[name='deptNo[]']").eq(isChkInd)+"//"+isChkInd);
-	        		var chkVal = $("[name='deptNo[]']").eq(isChkInd).val();
-	        		var chkYn = $("[name='isActiveYn[]']").eq(isChkInd).val();
-	        		<%
-	        	   
-	        	        adminDepartmentService.changeDepartmentActive(deptNo, isActiveYn);
-	        	   
-	        		%> --%>
 	        		var isChkInd = $("[name='deptChoice[]']:checked").index("[name='deptChoice[]']");
 	        	    var deptNo = $("[name='deptNo[]']").eq(isChkInd).val();
 	        	    var chkYn = $("[name='isActiveYn[]']").eq(isChkInd).val();
-
 	        	    $.ajax({
 	        	        url: "http://localhost/hospital-reservation/views/admin/department/adminDepartmentListViewProcess.jsp",
 	        	        type: "POST",
@@ -104,10 +82,6 @@
         });//ready
 
         function addDeptModal(){
-        	<%-- <%
-        	session.setAttribute("adminDeptService", adminDepartmentService);
-        	%> --%>
-        	//alert("들어오는데");
         	window.open("adminDepartmentAddModal.jsp?modify=N","dept_modal","width=500,height=480"); 
         }//addDeptModal
         
