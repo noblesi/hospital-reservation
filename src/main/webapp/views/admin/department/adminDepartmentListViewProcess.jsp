@@ -7,10 +7,5 @@
     
     String deptNo = (String) request.getParameter("deptNo"); 
     String isActiveYn = (String) request.getParameter("isActiveYn");
-   //log("왔슈  "+ isActiveYn +"===========================");
-    //isActiveYn = (isActiveYn=="Y" ? "N" : "Y");
-    //log(deptNo+" / "+isActiveYn);
-    // 서비스 호출
     boolean flag = adminDepartmentService.changeDepartmentActive(deptNo, isActiveYn);
-    log("끝나고"+ flag +"===========================");
 %>

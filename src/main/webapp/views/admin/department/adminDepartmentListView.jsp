@@ -65,7 +65,6 @@
 	        		var isChkInd = $("[name='deptChoice[]']:checked").index("[name='deptChoice[]']");
 	        	    var deptNo = $("[name='deptNo[]']").eq(isChkInd).val();
 	        	    var chkYn = $("[name='isActiveYn[]']").eq(isChkInd).val();
-
 	        	    $.ajax({
 	        	        url: "http://localhost/hospital-reservation/views/admin/department/adminDepartmentListViewProcess.jsp",
 	        	        type: "POST",

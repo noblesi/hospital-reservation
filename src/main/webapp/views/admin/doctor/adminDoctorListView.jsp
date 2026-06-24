@@ -174,7 +174,6 @@
             const dept = $("#dept").val();
             const status = $("#status").val();
             const name = $("#name").val();
-
             console.log("검색 조건:", dept, status, name);
             alert("검색 조건\n진료과: " + dept + "\n상태: " + status + "\n이름: " + name);
         });
