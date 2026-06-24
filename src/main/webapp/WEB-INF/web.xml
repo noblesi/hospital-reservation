@@ -63,6 +63,89 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>memberLoginPage</servlet-name>
+    <jsp-file>/views/member/login.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberLoginPage</servlet-name>
+    <url-pattern>/member/login.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberJoinPage</servlet-name>
+    <jsp-file>/views/member/joinType.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberJoinPage</servlet-name>
+    <url-pattern>/member/join.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberMyPage</servlet-name>
+    <jsp-file>/views/member/myPage.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberMyPage</servlet-name>
+    <url-pattern>/member/mypage.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberLogoutPage</servlet-name>
+    <jsp-file>/views/member/process/logoutProcess.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberLogoutPage</servlet-name>
+    <url-pattern>/member/logout.do</url-pattern>
+    <url-pattern>/admin/logout.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>appointmentReservePage</servlet-name>
+    <jsp-file>/views/user/appointment/appointment.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appointmentReservePage</servlet-name>
+    <url-pattern>/appointment/reserve.do</url-pattern>
+    <url-pattern>/appointment/appointment.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>appointmentListPage</servlet-name>
+    <jsp-file>/views/user/appointment/appointmentList.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appointmentListPage</servlet-name>
+    <url-pattern>/appointment/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>appointmentAjaxPage</servlet-name>
+    <jsp-file>/views/user/appointment/appointment_ajax.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appointmentAjaxPage</servlet-name>
+    <url-pattern>/appointment/appointment_ajax.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>appointmentProcessPage</servlet-name>
+    <jsp-file>/views/user/appointment/appointmentProcess.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appointmentProcessPage</servlet-name>
+    <url-pattern>/appointment/appointmentProcess.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>appointmentSuccessPage</servlet-name>
+    <jsp-file>/views/user/appointment/appointmentSuccess.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appointmentSuccessPage</servlet-name>
+    <url-pattern>/appointment/appointmentSuccess.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>adminDashboardServlet</servlet-name>
     <servlet-class>com.hospital.admin.dashboard.controller.AdminDashboardServlet</servlet-class>
   </servlet>

@@ -210,7 +210,7 @@ body{
             <div class="login-links">
                 <a href="<c:url value='/views/member/findId.jsp' />">아이디/비밀번호 찾기</a>
                 <span>|</span>
-                <a href="<c:url value='/views/member/joinType.jsp' />">회원가입</a>
+                <a href="<c:url value='/member/join.do' />">회원가입</a>
             </div>
 
         </div>

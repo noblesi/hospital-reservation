@@ -52,7 +52,7 @@
 						<!-- 검색, 정렬 바 -->
 						<div class="searchBar">
 							<div class="sortRadioDiv">
-								<form action="appointment_useDB.jsp" method="get" id="sortFrm">
+								<form action="${pageContext.request.contextPath}/appointment/reserve.do" method="get" id="sortFrm">
 									<input type="radio" name="sortType" value="default" id="deRadio" class="form-check-input" checked="checked"> 
 									<label for="deRadio" class="form-check-label">기본</label>
 										

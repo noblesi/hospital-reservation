@@ -96,8 +96,8 @@ history.back();
 					</tr>
 				</table>
 
-				<button type="button" class="cancelAppointBtn" onclick="location.href='appointment.jsp'">추가 예약</button>
-				<button type="button" class="checkAppointListBtn" onclick="location.href='../../member/myPage.jsp'">예약현황조회</button>
+				<button type="button" class="cancelAppointBtn" onclick="location.href='${pageContext.request.contextPath}/appointment/reserve.do'">추가 예약</button>
+				<button type="button" class="checkAppointListBtn" onclick="location.href='${pageContext.request.contextPath}/member/mypage.do'">예약현황조회</button>
 			</div>
 			<div class="noticeDiv">
 				<h2 class="subTitle">주의사항</h2>

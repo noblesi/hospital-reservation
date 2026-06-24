@@ -16,7 +16,7 @@
             <div class="main-visual-inner">
                 <p>환자 중심 진료 예약 서비스</p>
                 <h2>빠르고 편리한 병원 예약</h2>
-                <a href="<c:url value='/views/user/appointment/appointment.jsp' />" class="main-primary-link">진료 예약하기</a>
+                <a href="<c:url value='/appointment/reserve.do' />" class="main-primary-link">진료 예약하기</a>
             </div>
         </section>
 

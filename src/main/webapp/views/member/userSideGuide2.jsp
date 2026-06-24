@@ -19,7 +19,7 @@
 
     <ul class="side-menu">
         <li>
-            <a href="<%= request.getContextPath() %>/views/member/myPage.jsp">
+            <a href="<%= request.getContextPath() %>/member/mypage.do">
                 마이페이지
                 <span>›</span>
             </a>

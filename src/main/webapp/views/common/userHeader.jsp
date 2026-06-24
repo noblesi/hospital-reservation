@@ -11,12 +11,12 @@
             <div class="user-util">
                 <c:choose>
                     <c:when test="${empty sessionScope.loginUser}">
-                        <a href="<c:url value='/views/member/login.jsp' />">로그인</a>
-                        <a href="<c:url value='/views/member/joinType.jsp' />">회원가입</a>
+                        <a href="<c:url value='/member/login.do' />">로그인</a>
+                        <a href="<c:url value='/member/join.do' />">회원가입</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="<c:url value='/views/member/myPage.jsp' />">마이페이지</a>
-                        <a href="<c:url value='/views/member/process/logoutProcess.jsp' />">로그아웃</a>
+                        <a href="<c:url value='/member/mypage.do' />">마이페이지</a>
+                        <a href="<c:url value='/member/logout.do' />">로그아웃</a>
                     </c:otherwise>
                 </c:choose>
 
@@ -47,17 +47,17 @@
             <nav class="user-gnb" aria-label="사용자 주요 메뉴">
                 <ul>
                     <li class="${activeMenu eq 'treatment' ? 'active' : ''}">
-                        <a href="<c:url value='/views/user/appointment/appointment.jsp' />">진료안내</a>
+                        <a href="<c:url value='/appointment/reserve.do' />">진료안내</a>
                         <div class="user-gnb-submenu">
-                            <a href="<c:url value='/views/user/appointment/appointment.jsp' />">진료과 안내</a>
-                            <a href="<c:url value='/views/user/appointment/appointment.jsp' />">의료진 소개</a>
+                            <a href="<c:url value='/appointment/reserve.do' />">진료과 안내</a>
+                            <a href="<c:url value='/appointment/reserve.do' />">의료진 소개</a>
                         </div>
                     </li>
                     <li class="${activeMenu eq 'guide' ? 'active' : ''}">
-                        <a href="<c:url value='/views/user/appointment/appointment.jsp' />">이용안내</a>
+                        <a href="<c:url value='/appointment/reserve.do' />">이용안내</a>
                         <div class="user-gnb-submenu">
-                            <a href="<c:url value='/views/user/appointment/appointment.jsp' />">진료 예약</a>
-                            <a href="<c:url value='/views/member/myPage.jsp' />">예약 내역</a>
+                            <a href="<c:url value='/appointment/reserve.do' />">진료 예약</a>
+                            <a href="<c:url value='/member/mypage.do' />">예약 내역</a>
                         </div>
                     </li>
                     <li class="${activeMenu eq 'hospital' ? 'active' : ''}">
@@ -79,12 +79,12 @@
 
                 <div class="user-all-menu-grid">
                     <section>
-                        <a href="<c:url value='/views/user/appointment/appointment.jsp' />">진료과 안내</a>
-                        <a href="<c:url value='/views/user/appointment/appointment.jsp' />">의료진 소개</a>
+                        <a href="<c:url value='/appointment/reserve.do' />">진료과 안내</a>
+                        <a href="<c:url value='/appointment/reserve.do' />">의료진 소개</a>
                     </section>
                     <section>
-                        <a href="<c:url value='/views/user/appointment/appointment.jsp' />">진료 예약</a>
-                        <a href="<c:url value='/views/member/myPage.jsp' />">예약 내역</a>
+                        <a href="<c:url value='/appointment/reserve.do' />">진료 예약</a>
+                        <a href="<c:url value='/member/mypage.do' />">예약 내역</a>
                     </section>
                     <section>
                         <a href="<c:url value='/main.do' />">병원 소개</a>

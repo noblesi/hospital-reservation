@@ -22,7 +22,7 @@ if(loginUser == null){
 %>
 <script>
 alert("로그인이 필요한 서비스입니다.");
-location.href="login.jsp";
+location.href="<%= request.getContextPath() %>/member/login.do";
 </script>
 <%
     return;
@@ -115,7 +115,7 @@ pageContext.setAttribute("medicalList", medicalList);
         <div class="reservationBox">
             <div class="boxTitle">
                 <h3>예약 취소 및 변경</h3>
-                <a href="<c:url value='/views/reservation/main.jsp' />">예약 전체보기</a>
+                <a href="<c:url value='/appointment/list.do' />">예약 전체보기</a>
             </div>
 
             <table class="reservationTable">
