@@ -13,8 +13,8 @@ import com.hospital.common.dto.DepartmentDTO;
 import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
 import com.hospital.user.appointment.dto.UserAppointmentConfirmDTO;
-import com.hospital.user.appointment.dto.UserAppointmentOptionDTO;
 import com.hospital.user.appointment.dto.UserAppointmentRequestDTO;
+import com.hospital.user.appointment.dto.UserAppointmentShowDTO;
 
 /**
  * 병원 진료 예약에 관한 DB 업무를 구현하는 클래스
@@ -127,11 +127,6 @@ public class UserAppointmentDAO {
 		return doctorList;
 	}
 
-	public UserAppointmentOptionDTO selectDoctorDetail(int doctorLicenseNo) {
-
-		return null;
-	}
-
 	/**
 	 * 의사의 진료 요일, 시작 시간, 끝 시간 검색.
 	 * 
@@ -205,7 +200,7 @@ public class UserAppointmentDAO {
 			querySb //
 					.append("	select 	DOCTOR_LICENSE_NO, APPOINTMENT_DATE, APPOINTMENT_TIME	")
 					.append("	from 	appointment	") //
-					.append("	where DOCTOR_LICENSE_NO = ? and APPOINTMENT_DATE = ?	");
+					.append("	where DOCTOR_LICENSE_NO = ? and APPOINTMENT_DATE = ? and not status = '예약취소'	");
 
 			pstmt = con.prepareStatement(querySb.toString());
 
@@ -246,8 +241,9 @@ public class UserAppointmentDAO {
 
 			StringBuilder querySb = new StringBuilder();
 			querySb //
-					.append("	select 	APPOINTMENT_NO	").append("	from 	APPOINTMENT	") //
-					.append("	where	DOCTOR_LICENSE_NO = ? and APPOINTMENT_DATE = ? and APPOINTMENT_TIME = ?	");
+					.append("	select 	APPOINTMENT_NO	") //
+					.append("	from 	APPOINTMENT	") //
+					.append("	where	DOCTOR_LICENSE_NO = ? and APPOINTMENT_DATE = ? and APPOINTMENT_TIME = ? and not status = '예약취소'	");
 
 			pstmt = con.prepareStatement(querySb.toString());
 
@@ -307,6 +303,45 @@ public class UserAppointmentDAO {
 
 		return cnt;
 	}
+	
+	/**
+	 * 예약을 수정하는 일
+	 * 
+	 * @return
+	 * @throws SQLException 
+	 */
+	public int updateAppointment(String appointmentNo, String patientNo, UserAppointmentRequestDTO requestDTO) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int cnt = 0;
+
+		try {
+			con = DBConnection.getConnection();
+
+			StringBuilder querySb = new StringBuilder();
+			querySb //
+					.append("	update 	appointment	")
+					.append("	set 	doctor_license_no = ?, appointment_date = ?, appointment_time = ?, requirement = ?, status = ?	")
+					.append("	where 	appointment_no = ?	and patient_no = ?	");
+
+			pstmt = con.prepareStatement(querySb.toString());
+
+			pstmt.setInt(1, requestDTO.getDoctorLicenseNo());
+			pstmt.setDate(2, requestDTO.getAppointmentDate());
+			pstmt.setString(3, requestDTO.getAppointmentTime());
+			pstmt.setString(4, requestDTO.getRequirement());
+			pstmt.setString(5, requestDTO.getStatus());
+			pstmt.setString(6, appointmentNo);
+			pstmt.setString(7, patientNo);
+
+			cnt = pstmt.executeUpdate();
+
+		} finally {
+			DBConnection.close(pstmt, con);
+		}
+
+		return cnt;
+	}
 
 	/**
 	 * 유저의 예약 정보를 확인하는 일
@@ -354,7 +389,7 @@ public class UserAppointmentDAO {
 					uacDTO.setCreatedAt(rs.getDate("CREATED_AT"));
 				}
 			}
-			
+
 		} finally {
 			DBConnection.close(rs, pstmt, con);
 		}
@@ -428,10 +463,93 @@ public class UserAppointmentDAO {
 	 * @param appointmentNo
 	 * @param patientNo
 	 * @return
+	 * @throws SQLException 
 	 */
-	public int updateCancelAppointment(String appointmentNo, String patientNo) {
+	public int updateCancelAppointment(String appointmentNo, String patientNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int cnt = 0;
 
-		return 0;
+		try {
+			con = DBConnection.getConnection();
+			con.setAutoCommit(false);
+
+			StringBuilder querySb = new StringBuilder();
+			querySb //
+					.append("	update 	APPOINTMENT	")
+					.append("	set		status = '예약취소', canceled_at = sysdate	")
+					.append("	where 	appointment_no = ? and patient_no = ?	");
+
+			pstmt = con.prepareStatement(querySb.toString());
+
+			pstmt.setString(1, appointmentNo);
+			pstmt.setString(2, patientNo);
+			
+			cnt = pstmt.executeUpdate();
+			
+			if(cnt == 1) {
+				con.commit();
+			} else {
+				con.rollback();
+			}
+
+		} finally {
+			DBConnection.close(pstmt, con);
+		}
+
+		return cnt;
+	}
+
+	/**
+	 * @param patientNo
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<UserAppointmentShowDTO> selectAppointmentDetail(String patientNo) throws SQLException {
+		List<UserAppointmentShowDTO> uasDTOList = new ArrayList<>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = DBConnection.getConnection();
+
+			StringBuilder querySb = new StringBuilder();
+			querySb //
+					.append("	select 	APPOINTMENT_NO, THUMBNAIL_URL, DEPT_NAME, NAME, CREATED_AT, APPOINTMENT_DATE, APPOINTMENT_TIME, DEPT_LOC	")
+					.append("	from 	APPOINTMENT A, DOCTOR D, DEPARTMENT DE	") //
+					.append("	where	PATIENT_NO = ? AND NOT STATUS = '예약취소'  AND A.DOCTOR_LICENSE_NO = D.DOCTOR_LICENSE_NO AND D.DEPT_NO = DE.DEPT_NO	");
+
+			pstmt = con.prepareStatement(querySb.toString());
+			
+			pstmt.setString(1, patientNo);
+
+			rs = pstmt.executeQuery();
+			
+			UserAppointmentShowDTO uasDTO = null;
+			if (rs != null) {
+				while (rs.next()) {
+					uasDTO = new UserAppointmentShowDTO();
+					
+					uasDTO.setAppointmentNo(rs.getString("APPOINTMENT_NO"));
+					uasDTO.setThumbnailUrl(rs.getString("THUMBNAIL_URL"));
+					uasDTO.setDeptName(rs.getString("DEPT_NAME"));
+					uasDTO.setDoctorName(rs.getString("NAME"));
+					uasDTO.setCreatedAt(rs.getDate("CREATED_AT"));
+					uasDTO.setAppointmentDate(rs.getDate("APPOINTMENT_DATE"));
+					uasDTO.setAppointmentTime(rs.getString("APPOINTMENT_TIME"));
+					uasDTO.setDeptLoc(rs.getString("DEPT_LOC"));
+					
+					uasDTOList.add(uasDTO);
+				}
+			}
+
+		} finally {
+			DBConnection.close(rs, pstmt, con);
+		}
+
+		return uasDTOList;
 	}
 
 }

@@ -1,8 +1,26 @@
+<%@page import="java.util.List"%>
+<%@page import="com.hospital.user.appointment.dto.UserAppointmentShowDTO"%>
+<%@page import="com.hospital.user.appointment.UserAppointmentService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 request.setAttribute("activeMenu", "hospital");
-request.setAttribute("depth1", "공통 레이아웃");
-request.setAttribute("depth2", "사용자 화면 테스트");
+request.setAttribute("depth1", "진료안내");
+request.setAttribute("depth2", "예약확인");
+
+/* 
+session 에서 환자 번호를 입력받고
+환자의 모든 예약된 진료 기록을 불러온다.
+*/
+
+// String patientNo = session.getAttribute("");
+String patientNo = "P00000001";
+
+UserAppointmentService uas = new UserAppointmentService();
+
+List<UserAppointmentShowDTO> uasDTOList = uas.searchAppointmentDetail(patientNo);
+
+pageContext.setAttribute("uasDTOList", uasDTOList);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -21,13 +39,30 @@ request.setAttribute("depth2", "사용자 화면 테스트");
 
 <!-- 외부 CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment/appointment.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment/appointmentList.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment/appointmentSidebar.css">
 
 <!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-<!-- 외부 JS -->
+<script type="text/javascript">
+	$(function() {
+		/* 예약 변경 버튼 */
+		$(".apptChangeBtn").on("click", function() {
+			if(confirm("예약을 변경하시겠습니까?")) {
+				location.href = "appointment.jsp?appointmentNo=" + $(this).val();
+			}
+		});
+		
+		/* 예약 취소 버튼 */
+		$(".apptCancelBtn").on("click", function() {
+			if(confirm("예약을 취소하시겠습니까?")) {
+				location.href = "processCancelAppointment.jsp?appointmentNo=" + $(this).val();
+			}
+		});
+	});
+</script>
 </head>
 
 <body>
@@ -35,33 +70,51 @@ request.setAttribute("depth2", "사용자 화면 테스트");
 	<%@ include file="/views/common/userBreadcrumb.jsp"%>
 	
 	<div class="mainWrap">
+		<!-- 사이드바 -->
+		<c:import url="http://localhost/hospital-reservation/views/user/appointment/appointmentSidebar.jsp"/>
+		
 		<!-- 유저의 진료 목록 -->
 		<h1 class="title">진료예약확인</h1>
 		<ul class="apptListUl">
-			<li class="apptListLi">
-				<img class="docImg" src="">
-				<p class="docInfoText">
-					<span class="deptName">신장내과</span>
-					<span class="docName">홍길동</span>
-				</p>
-				<table class="apptInfoTable">
-					<tr>
-						<th>인터넷예약</th>
-						<td>신청일 : <span>2026-05-30</span></td>
-					</tr>
-					<tr>
-						<th>진료일정</th>
-						<td>2026-07-23 14:00</td>
-					</tr>
-					<tr>
-						<th>위치</th>
-						<td>대한외래2층</td>
-					</tr>
-				</table>
-				<button class="apptChangeBtn">예약변경</button>
-				<button class="apptCancelBtn">예약취소</button>
-			</li>
+		
+			<c:if test="${ not empty uasDTOList }">
+				<c:forEach var="uasDTO" items="${ uasDTOList }" varStatus="i">
+				<li class="apptListLi">
+					<img class="docImg" src="${ thumbnailUrl }">
+					<p class="docInfoText">
+						<span class="deptName"><c:out value="${ uasDTO.deptName }"/></span>
+						<span class="docName"><c:out value="${ uasDTO.doctorName }"/></span>
+					</p>
+					<table class="apptInfoTable">
+						<tr>
+							<th>인터넷예약</th>
+							<td>신청일 : <span><c:out value="${ uasDTO.createdAt }"/></span></td>
+						</tr>
+						<tr>
+							<th>진료일정</th>
+							<td><c:out value="${ uasDTO.appointmentDate } ${ uasDTO.appointmentTime }"/></td>
+						</tr>
+						<tr>
+							<th>위치</th>
+							<td><c:out value="${ uasDTO.deptLoc }"/></td>
+						</tr>
+					</table>
+					<button class="apptChangeBtn" value="${ uasDTO.appointmentNo }">예약변경</button>
+					<button class="apptCancelBtn" value="${ uasDTO.appointmentNo }">예약취소</button>
+				</li>
+				</c:forEach>
+			</c:if>
+			
+			<c:if test="${ empty uasDTOList }">
+				<li class="apptListLi">
+					<p class="noResultP">
+						조회 가능한 진료예약이 없습니다.
+					</p>
+				</li>
+			</c:if>
+			
 		</ul>
+		
 		<!-- 준비, 주의사항등 공지 -->
 		<div class="warnNotiDiv">
 			<h2 class="warnNotiTitle"><i class="bi bi-exclamation-triangle warnIcon"></i>주의</h2>

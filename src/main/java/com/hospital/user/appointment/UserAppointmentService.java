@@ -10,8 +10,8 @@ import com.hospital.common.dto.DepartmentDTO;
 import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
 import com.hospital.user.appointment.dto.UserAppointmentConfirmDTO;
-import com.hospital.user.appointment.dto.UserAppointmentOptionDTO;
 import com.hospital.user.appointment.dto.UserAppointmentRequestDTO;
+import com.hospital.user.appointment.dto.UserAppointmentShowDTO;
 
 import lombok.NoArgsConstructor;
 
@@ -56,11 +56,6 @@ public class UserAppointmentService {
 		}
 
 		return doctorList;
-	}
-
-	public UserAppointmentOptionDTO searchDoctorDetail(int doctorLicenseNo) {
-
-		return null;
 	}
 
 	/**
@@ -177,6 +172,31 @@ public class UserAppointmentService {
 		
 		return uacDTO;
 	}
+	
+	/**
+	 * 수정된 예약을 확정짓는 일.
+	 * 
+	 * @param requestDTO
+	 * @return
+	 */
+	public UserAppointmentConfirmDTO reserveAppointment(String appointmentNo, String patientNo, UserAppointmentRequestDTO requestDTO) {
+		UserAppointmentConfirmDTO uacDTO = null;
+		
+		if (!checkReservable(requestDTO)) {
+			// 예약 불가 안내 코드.
+			return uacDTO;
+		}
+		
+		try {
+			uaDAO.updateAppointment(appointmentNo, patientNo, requestDTO);
+			uacDTO = uaDAO.selectAppointmentConfirm(requestDTO);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return uacDTO;
+	}
+	
 
 	/**
 	 * 예약 정보를 확인하는 일.
@@ -185,8 +205,15 @@ public class UserAppointmentService {
 	 * @return
 	 */
 	public UserAppointmentConfirmDTO searchAppointmentConfirm(String appointmentNo) {
-
-		return null;
+		UserAppointmentConfirmDTO uacDTO = null;
+		
+		try {
+			uacDTO = uaDAO.selectAppointmentConfirm(appointmentNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return uacDTO;
 	}
 	
 	public UserAppointmentConfirmDTO searchAppointmentConfirm(UserAppointmentRequestDTO requestDTO) {
@@ -202,7 +229,33 @@ public class UserAppointmentService {
 	 * @return
 	 */
 	public boolean cancelAppointment(String appointmentNo, String patientNo) {
+		boolean cancelFlag = false;
+		
+		try {
+			int cnt = uaDAO.updateCancelAppointment(appointmentNo, patientNo);
+			if (cnt == 1) {
+				cancelFlag = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-		return false;
+		return cancelFlag;
+	}
+	
+	/**
+	 * @param patientNo
+	 * @return
+	 */
+	public List<UserAppointmentShowDTO> searchAppointmentDetail(String patientNo) {
+		List<UserAppointmentShowDTO> uasDTOList = null;
+		
+		try {
+			uasDTOList = uaDAO.selectAppointmentDetail(patientNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return uasDTOList;
 	}
 }

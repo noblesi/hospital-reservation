@@ -1,5 +1,6 @@
 /* global */
 #mainWrap {
+	position: relative;
 	background-color: #f3f3f3;
 	width: 100%;
 	min-height: 1000px;
@@ -96,11 +97,8 @@ ul {
 	height: 40px;
 	border: none;
 	float: left;
-}
-
-.searchImg {
-	width: 23px;
-	height: 23px;
+	font-size: 23px;
+	color: #FFF;
 }
 
 #dNameInput {
@@ -143,8 +141,7 @@ ul {
 }
 
 .arrowIcon {
-	width: 25px;
-	height: 25px;
+	font-size: 30px;
 }
 
 .sliderWindow {
@@ -177,6 +174,10 @@ ul {
 
 .slCol {
 	width: 200px;
+}
+
+.detpLabel {
+	cursor: pointer;
 }
 
 .selectDept {
@@ -287,9 +288,8 @@ ul {
 	margin-bottom: 20px;
 }
 
-.searchBlueIcon {
-	width: 18px;
-	height: 18px;
+.blueSearchIcon {
+	color: #0066c9;
 }
 
 .detail {

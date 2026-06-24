@@ -10,6 +10,7 @@
 <%@page import="java.util.List"%>
 <%@page import="com.hospital.user.appointment.UserAppointmentService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String action = request.getParameter("action");
 
@@ -46,7 +47,7 @@ if ("sort".equals(action)) {
 		out.print("<td class='slCol'>");
 		out.print("  <input class='deptRadio' style='display: none;' type='radio' name='dept' value='"
 		+ dept.getDeptNo() + "' id='" + dept.getDeptNo() + "'>");
-		out.print("  <label for='" + dept.getDeptNo() + "'>" + dept.getDeptName() + "</label>");
+		out.print("  <label class='detpLabel' for='" + dept.getDeptNo() + "'>" + dept.getDeptName() + "</label>");
 		out.print("</td>");
 
 		if (i % 3 == 2 || i == totalCnt - 1) {
@@ -84,12 +85,13 @@ if ("doctorList".equals(action)) {
 	out.println("<div class='col'>");
 		}
 %>
-<li class="doctorLi"><img class="doctorThumnail"
-	src="<%=dDTO.getThumbnailUrl()%>">
+<li class="doctorLi">
+	<img class="doctorThumnail" src="<%=dDTO.getThumbnailUrl()%>">
 	<div class="doctorInfoDiv">
 		<h4 class="doctorName"><%=dDTO.getName()%>
-			<a href="#void"> <img class="searchBlueIcon"
-				src="http://localhost/hospital-reservation/resources/images/appointment/search_blue.png"></a>
+			<a href="#void"> 
+				<i class="bi bi-search blueSearchIcon"></i>
+			</a>
 		</h4>
 		<p class="detail">
 			<strong class="deptName"><%=deptName%></strong><br> 세부전공:
@@ -116,6 +118,7 @@ out.print("</ul>");
 <%
 if ("schedule".equals(action)) {
 	LocalDate ld = LocalDate.now();
+	LocalDate nowLd = LocalDate.now();
 	boolean leepYearFlag = ld.isLeapYear();
 
 	String year = request.getParameter("year");
@@ -197,16 +200,15 @@ if ("schedule".equals(action)) {
 					}
 				}
 
-				if (allDay.contains(ld.getDayOfWeek().getValue())) {
+				if (allDay.contains(ld.getDayOfWeek().getValue()) && ld.isAfter(nowLd)) {
 				%>
 					<td><span class='available allDay' data-date="<%= ld.toString() %>"><%= i %></span></td>
 				<%
-					// out.print("<td><span class='available allDay'>" + i + "</span></td>");
-				} else if (am.contains(ld.getDayOfWeek().getValue())) {
+				} else if (am.contains(ld.getDayOfWeek().getValue()) && ld.isAfter(nowLd)) {
 				%>
 					<td><span class='available am' data-date="<%= ld.toString() %>"><%= i %></span></td>
 				<%
-				} else if (pm.contains(ld.getDayOfWeek().getValue())) {
+				} else if (pm.contains(ld.getDayOfWeek().getValue()) && ld.isAfter(nowLd)) {
 				%>
 					<td><span class='available pm' data-date="<%= ld.toString() %>"><%= i %></span></td>
 				<%
@@ -248,15 +250,20 @@ if ("timeTable".equals(action)) {
 	UserAppointmentService uas = new UserAppointmentService();
 	
 	List<String> availableTimes = uas.searchAvailableTime(dln, appointmentDate);
+	
+	pageContext.setAttribute("availableTimes", availableTimes);
 %>
 	<ul class="timeTableUl">
-<%
-	for(int i = 0; i < availableTimes.size(); i++) {
-%>
-		<li class="timeTableLi"><%= availableTimes.get(i) %></li>
-<%
-	}
-%>
+	<c:if test="${ not empty availableTimes }">
+		<c:forEach var="time" items="${ availableTimes }">
+			<li class="timeTableLi"><c:out value="${ time }" /></li>
+		</c:forEach>
+	</c:if>
+	<c:if test="${ empty availableTimes }">
+		<p style="text-align: center; font-size: 18px;">
+			해당 일자의 예약이<br> 모두 완료되었습니다.<br>다른 날짜를 선택해주세요.
+		</p>
+	</c:if>
 	</ul>
 <%
 }

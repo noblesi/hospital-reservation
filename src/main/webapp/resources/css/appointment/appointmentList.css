@@ -17,10 +17,23 @@
 	min-height: 100px;
 	overflow: auto;
 	margin-bottom: 50px;
+	border-top: 1px solid #CCC;
 }
 
 .apptListLi {
-	height: 220px;
+	height: 250px;
+	font-size: 18px;
+	border-bottom: 1px solid #CCC;
+	padding: 20px 15px;
+	
+}
+
+.noResultP {
+	height: 100%;
+	text-align: center;
+	font-size: 18px;
+	line-height: 220px;
+	margin: 0;
 }
 
 .docImg {

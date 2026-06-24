@@ -52,7 +52,7 @@ $(function() {
 	$(".modalXBtn").on("click", closeModal)
 	
 	/* modal 창 확인 버튼 클릭 시 */
-	$("#confirmBtn").on("click", confirmAppointment)
+	$("#confirmBtn").on("click", inputRequirement)
 	
 	/* 마지막 confirm 창 */
 	$("#lastConfrimCancelBtn").on("click", closeModal);
@@ -113,19 +113,23 @@ function sortDept() {
 
 }
 
-/* 진료과를 선택한 후 업무 */
+/* 진료과를 선택 시 */
 function deptHandler() {
-    /* 선택한 진료과에 CSS 적용 */
+    /* CSS 적용 */
     $(".slTab label").removeClass("selectDept");
     $(this).next("label").addClass("selectDept");
 	
     removeFocusBorder();
-	
 	$(".doctorListDiv").addClass("focusBorder");
 
-    /* 기존에 있던 진료과 선택 문구 태그를 지운다. */
-    $(".noResult").remove();
-
+    $(".noResult").attr("style", "display: none;");
+    $(".scheduleCal").attr("style", "display: none;");
+    $(".timeTableDiv").attr("style", "display: none;");
+	
+	$(".rsInfoDoctor").text("");
+	$(".rsInfoDate").text("");
+	
+	
     /* 선택한 진료과 코드를 가져온다. */
     var deptNo = $(this).val();
     deptName = $("label[for='" + deptNo + "']").text();
@@ -147,18 +151,23 @@ function deptHandler() {
 
 }
 
-/* 의료진 선택 후 업무 */
+/* 의료진 선택 */
 function handleDoctorSelect() {
     /* CSS 강조 설정 */
     $(".selectDoctorBtn").removeClass("selectedBtn");
     $(".doctorThumnail").removeAttr("style");
     $(".result").attr("style", "display: none;");
+    $(".timeTableDiv").attr("style", "display: none;");
 	
     removeFocusBorder();
+	
+	$(".scheduleCal").removeAttr("style");
 
     $(".scheduleCalDiv").addClass("focusBorder");
     $(this).addClass("selectedBtn");
     $(this).closest(".doctorLi").find(".doctorThumnail").attr("style", "border: 2px solid #2763ba");
+	
+	/*  */
 
 	dln = $(".selectedBtn").val();
 	$("#apptDln").val(dln);
@@ -217,7 +226,8 @@ function selectDate() {
     $(".available").removeClass("selectedDay");
     $(this).addClass("selectedDay");
 	
-
+	$(".timeTableDiv").removeAttr("style");
+	
 	appointmentDate = $(this).data("date");
 	$("#apptDate").val(appointmentDate);
 	
@@ -282,14 +292,20 @@ function closeModal() {
 }
 
 /* 요구사항 입력 확인 */
-function confirmAppointment() {
+function inputRequirement() {
 	var isCheck = $(".checkInfo").is(":checked");
+	var requirement = $("#requireTa").val();
+	
+	if(requirement == null || requirement == "") {
+		alert("아프신 곳을 입력해 주세요.");
+		return;
+	}
 	
 	if(isCheck) {
 		$(".modalContent").removeClass("show");
 		$(".lastConfirmDiv").addClass("show");
 		
-		$("#apptRequire").val($("#requireTa").val());
+		$("#apptRequire").val(requirement);
 		
 		$(".confirmDate").text(appointmentDate + " " + appointmentTime);
 		$(".confirmDept").text(deptName);
