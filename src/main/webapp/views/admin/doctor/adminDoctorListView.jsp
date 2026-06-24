@@ -169,7 +169,10 @@
 
 <script type="text/javascript">
     $(function(){
-
+		<%
+		
+		%>
+    	
         $("#searchBtn").click(function () {
             const dept = $("#dept").val();
             const status = $("#status").val();

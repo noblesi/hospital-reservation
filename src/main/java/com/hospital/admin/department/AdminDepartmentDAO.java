@@ -185,8 +185,12 @@ public class AdminDepartmentDAO{
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+<<<<<<< HEAD
+		
+=======
 		//ResultSet rs = null;
 
+>>>>>>> refs/remotes/origin/doctorManager
 		StringBuilder insertSql= new StringBuilder();
 
 		insertSql
@@ -196,8 +200,6 @@ public class AdminDepartmentDAO{
 		try {
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(insertSql.toString());
-			
-			System.out.println(insertSql.toString());
 			
 			pstmt.setString(1, departmentDTOTemp.getDeptName() );
 			pstmt.setString(2, departmentDTOTemp.getDescription());
@@ -247,8 +249,6 @@ public class AdminDepartmentDAO{
 			}// end if
 			updateSql.append("	where dept_no = ?		");
 			
-			//updateSql = new StringBuilder("update department set dept_loc = '자리생김', description = '업뎃이 안되?'  where dept_no = 'DP004'");
-			
 			pstmt = conn.prepareStatement(updateSql.toString());
 			
 			int markCnt = 1;
@@ -266,11 +266,7 @@ public class AdminDepartmentDAO{
 			
 			pstmt.setString(++markCnt, departmentDTOTemp.getDeptNo());
 			
-			//System.out.println(departmentDTOTemp.toString() +"/"+(departmentDTOTemp.getDeptLoc()==null) +"/"+(departmentDTOTemp.getDeptLoc().isEmpty())+"\n"+updateSql);
-			
-			System.out.println("들어왔니? execute 전");
 			updateCnt = pstmt.executeUpdate();
-			System.out.println("들어왔니? execute 후");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -306,7 +302,6 @@ public class AdminDepartmentDAO{
 			conn = DBConnection.getConnection();
 
 			pstmt = conn.prepareStatement(updateSql.toString());
-			//System.out.println(isActiveYnTemp + "쿼리딴");
 			pstmt.setString(1, isActiveYnTemp);
 			pstmt.setString(2, deptNoTemp);
 			
