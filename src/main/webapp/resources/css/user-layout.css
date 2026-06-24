@@ -272,7 +272,7 @@ body {
     white-space: nowrap;
 }
 
-.user-gnb li.active a,
+.user-gnb li.active > a,
 .user-gnb a:hover {
 	color: #005bac;
 }

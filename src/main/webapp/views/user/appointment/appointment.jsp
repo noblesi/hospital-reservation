@@ -2,7 +2,7 @@
 <%@page import="com.hospital.user.appointment.UserAppointmentService"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<% request.setAttribute("activeMenu", "hospital" ); request.setAttribute("depth1", "공통 레이아웃" );
+<% request.setAttribute("activeMenu", "guide" ); request.setAttribute("depth1", "공통 레이아웃" );
 	request.setAttribute("depth2", "사용자 화면 테스트" ); %>
 	<!DOCTYPE html>
 	<html lang="ko">

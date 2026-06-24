@@ -2,7 +2,7 @@
 <%@page import="com.hospital.user.appointment.dto.UserAppointmentConfirmDTO"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-request.setAttribute("activeMenu", "hospital");
+request.setAttribute("activeMenu", "guide");
 request.setAttribute("depth1", "진료예약");
 request.setAttribute("depth2", "예약완료");
 
