@@ -20,9 +20,16 @@ String actionType = request.getParameter("actionType");
 boolean updated = false;
 
 if("member".equals(actionType)){
+    String phoneNumber = request.getParameter("phoneNumber");
+
+    // 회원가입·아이디 찾기와 동일하게 DB에는 숫자만 저장한다.
+    if(phoneNumber != null){
+        phoneNumber = phoneNumber.replaceAll("[^0-9]", "");
+    }
+
     MemberDTO member = new MemberDTO();
     member.setLoginId(loginUser.getLoginId());
-    member.setPhoneNumber(request.getParameter("phoneNumber"));
+    member.setPhoneNumber(phoneNumber);
     member.setEmail(request.getParameter("email"));
     member.setZipCode(request.getParameter("zipCode"));
     member.setAddress(request.getParameter("address"));
