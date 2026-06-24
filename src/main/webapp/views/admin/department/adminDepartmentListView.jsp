@@ -50,8 +50,6 @@
       	  	pageContext.setAttribute("deptList", adminDepartmentService.searchDepartmentList());
 			%>
 			
-			
-			
            $("#btnAddDept").click(addDeptModal);
            $("#btnModify").click(modifyModal);
            

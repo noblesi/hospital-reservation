@@ -71,7 +71,6 @@ public class AdminDepartmentService {
 		String deptNoTemp = deptNo;
 		String isActiveYnTemp = isActiveYn;
 		boolean successYN = false;
-		//isActiveYnTemp = (isActiveYnTemp=="Y" ? "N" : "Y");
 		if("Y".equals(isActiveYnTemp)) {
 			isActiveYnTemp = "N";
 		} else if("N".equals(isActiveYnTemp)) {

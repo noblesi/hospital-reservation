@@ -188,7 +188,6 @@
             const doctorName = $(this).closest("tr").find("td:eq(1)").text();
 
             console.log(doctorName + " 상태 변경: " + newStatus);
-            // 여기서 AJAX로 상태 업데이트 가능
         });
 
         $(".pagination-wrap button").not(".arrow").click(function () {

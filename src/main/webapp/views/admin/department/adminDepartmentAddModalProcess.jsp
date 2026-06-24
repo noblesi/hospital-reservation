@@ -13,7 +13,6 @@
 $(function(){
 	<%
 	request.setCharacterEncoding("UTF-8");
-
 	AdminDepartmentService adminDepartmentService = new AdminDepartmentService();
 	if(departmentDTO != null){
 		log(departmentDTO.toString());
