@@ -1,0 +1,753 @@
+/* global */
+#mainWrap {
+	background-color: #f3f3f3;
+	width: 100%;
+	min-height: 1000px;
+	overflow: auto;
+}
+
+#container {
+	width: 1100px;
+	margin: 0px auto;
+}
+
+ul {
+	padding-left: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+.focusBorder {
+	border: 5px solid #2763ba;
+}
+
+/* 예약 구역 헤더 */
+.conHeader {
+	height: 130px;
+	padding-top: 70px;
+	margin-bottom: 60px;
+}
+
+.title {
+	float: left;
+	font-size: 40px;
+	font-weight: 700;
+	margin: 0;
+}
+
+.telDiv {
+	float: right;
+	margin-top: 14px;
+}
+
+.telIcon {
+	width: 40px;
+	height: 40px;
+}
+
+.tel {
+	font-size: 22px;
+	font-weight: 700;
+	color: #2763ba;
+}
+
+/* 진료과 선택 구역 */
+.deptWrap {
+	width: 800px;
+	height: 310px;
+	float: left;
+	background-color: #ffffff;
+}
+
+/* 검색, 정렬 바 */
+.searchBar {
+	height: 70px;
+	margin-bottom: 10px;
+}
+
+.sortRadioDiv {
+	float: left;
+	margin-left: 40px;
+	margin-top: 23px;
+}
+
+.form-check-input {
+	width: 23px;
+	height: 23px;
+	margin-right: 5px;
+}
+
+.form-check-label {
+	margin-right: 15px;
+	font-size: 17px;
+	vertical-align: middle;
+}
+
+.dNameInputDiv {
+	float: right;
+	margin-top: 20px;
+	margin-right: 40px;
+}
+
+#searchBtn {
+	background-color: #2763ba;
+	padding: 0px;
+	width: 40px;
+	height: 40px;
+	border: none;
+	float: left;
+}
+
+.searchImg {
+	width: 23px;
+	height: 23px;
+}
+
+#dNameInput {
+	width: 200px;
+	height: 40px;
+	float: left;
+	border: 1px solid #cccccc;
+	padding-left: 5px;
+}
+
+#dNameInput:focus {
+	outline: none;
+}
+
+/* 진료과 목록 */
+.deptListDiv {
+	width: 750px;
+	height: 200px;
+	border-top: 2px solid #000000;
+	border-bottom: 1px solid #000000;
+	margin: 0px auto;
+}
+
+/* 진료과 목록 슬라이더 */
+.btnPrev {
+	float: left;
+}
+
+.btnNext {
+	float: left;
+}
+
+.btnNext,
+.btnPrev {
+	width: 20px;
+	height: 20px;
+	border: none;
+	background-color: #FFFFFF;
+	margin-top: 77px;
+}
+
+.arrowIcon {
+	width: 25px;
+	height: 25px;
+}
+
+.sliderWindow {
+	width: 700px;
+	height: 180px;
+	float: left;
+	overflow: hidden;
+}
+
+.sliderTrack {
+	width: 200%;
+	height: 180px;
+	position: relative;
+}
+
+.sliderPage {
+	width: 700px;
+	float: left;
+	padding-left: 70px;
+}
+
+.slTab {
+	margin-top: 10px;
+	font-size: 18px;
+}
+
+.slRow {
+	height: 60px;
+}
+
+.slCol {
+	width: 200px;
+}
+
+.selectDept {
+	color: #2763ba;
+	text-decoration: underline;
+}
+
+/* 선택한 정보 확인 구역 */
+.rsInfoWrap {
+	width: 280px;
+	height: 310px;
+	margin-left: 20px;
+	float: right;
+	background-color: #2763ba;
+	color: #FFFFFF;
+}
+
+.rsInfoTitle {
+	margin: 0px auto;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	font-size: 20px;
+	font-weight: 700;
+	width: 220px;
+	font-size: 22px;
+}
+
+.rsInfoElm {
+	width: 220px;
+	min-height: 40px;
+	margin: 0px auto;
+	font-size: 18px;
+}
+
+.infoName {
+	float: left;
+	margin-right: 3px;
+}
+
+.rsInfoDate {
+	display: inline-block;
+	width: 100px;
+	height: 50px;
+	text-align: left;
+	float: left;
+}
+
+/* 의료진 목록 */
+.doctorListDiv {
+	width: 800px;
+	height: 870px;
+	margin-top: 20px;
+	margin-bottom: 100px;
+	padding: 30px;
+	float: left;
+	background-color: #FFFFFF;
+	float: left;
+	float: left;
+}
+
+.doctorListTitle {
+	font-size: 28px;
+	font-weight: 700;
+	margin-bottom: 30px;
+}
+
+.doctorListMain {
+	height: 740px;
+	border-top: 2px solid #333333;
+	border-bottom: 1px solid #000000;
+	border-top: 2px solid #333333;
+}
+
+.doctorUl {
+	height: 700px;
+	overflow: scroll;
+	margin-top: 30px;
+}
+
+.doctorLi {
+	width: 330px;
+	height: 230px;
+	float: left;
+	overflow: hidden;
+	padding: 20px 0px;
+}
+
+.col {
+	border-bottom: 1px solid #cccccc;
+	height: 250px;
+}
+
+.doctorThumnail {
+	width: 110px;
+	height: 136px;
+	float: left;
+}
+
+.doctorInfoDiv {
+	float: right;
+	width: 190px;
+	height: 220px;
+}
+
+.doctorName {
+	font-size: 20px;
+	font-weight: 400;
+	margin-bottom: 20px;
+}
+
+.searchBlueIcon {
+	width: 18px;
+	height: 18px;
+}
+
+.detail {
+	font-size: 16px;
+	font-weight: 400;
+	color: #666666;
+}
+
+.deptName {
+	font-size: 18px;
+	font-weight: 400;
+	color: #000000;
+	margin-bottom: 5px;
+}
+
+.selectDoctorBtn {
+	width: 110px;
+	height: 40px;
+	float: left;
+	margin-top: 15px;
+	background-color: #FFFFFF;
+	border: 1px solid #000000;
+	line-height: 25px;
+}
+
+.selectedBtn {
+	background-color: #2763ba;
+	color: white;
+	border: 0;
+}
+
+.checkIcon {
+	width: 20px;
+	height: 20px;
+	margin-bottom: 1px;
+}
+
+.noResult {
+	color: #666666;
+	font-size: 20px;
+	text-align: center;
+	margin: 0;
+	height: 740px;
+	vertical-align: middle;
+	line-height: 740px;
+}
+
+/* 진료 일정 */
+.scheduleDiv {
+	width: 280px;
+	height: 870px;
+	margin-top: 20px;
+	margin-left: 20px;
+	float: right;
+}
+
+.scheduleCalTitle {
+	font-size: 20px;
+	font-weight: 700;
+	padding: 30px;
+}
+
+.scheduleCalDiv {
+	height: 750px;
+	background-color: #FFFFFF;
+	margin-bottom: 20px;
+}
+
+.scheduleCal {
+	width: 270px;
+	min-height: 200px;
+}
+
+.moveMonthBar {
+	width: 260px;
+	height: 50px;
+	text-align: center;
+	padding: 0px 20px;
+}
+
+.prevMonthBtn {
+	float: left;
+}
+
+.nextMonthBtn {
+	float: right;
+}
+.prevMonthBtn,
+.nextMonthBtn {
+	border: 0px;
+	background-color: #FFFFFF;
+	font-size: 30px;
+	color: #888888;
+}
+
+.nowMonthTitle {
+	float:left;
+	width: 135px;
+	height: 46px;
+	text-align: center;
+	line-height: 46px;
+	font-size: 18px;
+	font-weight: 400;
+}
+
+.calTab {
+	width: 250px;
+	min-height: 230px;
+	margin: 0px auto;
+	font-weight: 400;
+	text-align: center;
+}
+
+.calTab tr {
+	height: 40px;
+}
+
+.weekTr th {
+	font-weight: 400;
+}
+
+.calTab span,
+.ex {
+    display: inline-block; 
+    width: 33px; 
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-radius: 50%;
+    margin: 0px 1px;
+}
+
+.available {
+	cursor: pointer;
+}
+
+.allDay {
+	background-color: #3587ff;
+}
+
+.am {
+	background-color: #efbad3;
+}
+
+.pm {
+	background-color: #ccbfe2;
+}
+
+.selectedDay {
+	color : #fff;
+	background-color: #2763ba;
+}
+
+.infoCal {
+	margin-top: 15px;
+}
+
+.ex {
+	width: 25px; 
+    height: 25px;
+	margin-left: 10px;
+	position: relative;
+	top: 5px;
+}
+
+.timeTableDiv {
+	width: 100%;
+	min-height: 30px;
+	margin-top: 10px;
+	padding: 10px 10px 0px 10px;
+	overflow: auto;
+}
+
+.timeTableUl {
+	min-height: 30px;
+}
+
+.timeTableLi {
+	width: 52px;
+	height: 30px;
+	float: left;
+	font-size: 18px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.selectedTime {
+	background-color: #2763ba;
+	color: #FFF;
+}
+
+.result {
+	color: #666666;
+	font-size: 20px;
+	text-align: center;
+	margin-top: 300px;
+}
+
+#appointBtn {
+	height: 100px;
+	width: 280px;
+	border: none;
+	background-color: #2763ba;
+	font-size: 24px;
+	color: #FFFFFF;
+}
+
+/* 요구사항 입력 및 입력 정보 확인 모달창 */
+.modalOverlay {
+	display: none;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+    min-height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* 화면을 어둡게 하는 가림막 효과 */
+    z-index: 9999;
+}
+
+.modalOverlay.show {
+	display: block;
+}
+
+.modalContent {
+	display: none;
+	position: relative;
+	top: 60px;
+	width: 880px;
+	height: 860px;
+	margin: 0px auto;
+	background-color: #fff;
+}
+
+.modalContent.show {
+	display: block;
+}
+
+.modalHeader {
+	width: 100%;
+	height: 70px;
+	padding: 15px;
+	background-color: #018ace;
+	color: #FFF;
+}
+
+.modalHeaderTitle {
+	font-size: 24px;
+	font-weight: 700;
+	width: 200px;
+	float: left;
+	margin: 0px;
+	margin-left: 15px;
+	margin-top: 5px;
+}
+
+.modalXBtn {
+	border: none;
+	float: right;
+	background-color: #018ace;
+	color: #fff;
+}
+
+.xIcon {
+	font-size: 24px;
+}
+
+.specialtyDiv {
+	width: 760px;
+	height: 200px;
+	border: 2px solid #2763ba;
+	margin: 60px auto 30px auto;
+}
+
+.specialtyBlue {
+	color: #2763ba;
+}
+
+.warning {
+	color: #f83e38;
+}
+
+.specialtyTop {
+	width: 100%;
+	height: 80px;
+	border-bottom: 1px solid #2763ba;
+	text-align: center;
+}
+
+.exclamationIcon {
+	font-size: 40px;
+	float: left;
+	height: 100%;
+	line-height: 80px;
+	margin-left: 15px;
+}
+
+.specialtyTitle {
+	width: 250px;
+	height: 100%;
+	font-size: 18px;
+	font-weight: 700;
+	float: left;
+	line-height: 80px;
+	margin: 0;
+}
+
+.specialtyNotice {
+	width: 450px;
+	height: 40px;
+	margin-top: 20px;
+	float: left;
+	font-size: 14px;
+	font-weight: 500;
+	text-align: left;
+}
+
+.specialtyMain {
+	padding: 15px;
+}
+
+.specialtyDoctorInfo {
+	font-size: 24px;
+	font-weight: 700;
+}
+
+.specialyInfo {
+	font-weight: 500;
+	margin-top: 15px;
+}
+
+.specialty {
+	font-weight: 400;
+}
+
+.inputRequireDiv {
+	margin: 60px auto 0px auto;
+}
+
+.inputDescript {
+	margin-bottom: 5px;
+}
+
+#requireTa {
+	width: 100%;
+	height: 200px;
+	resize: none;
+	border-color: #cccccc;
+	padding: 10px;
+}
+
+.checkBar {
+	margin: 30px auto 0px auto;
+	background-color: #f5f5f5;
+	height: 75px;
+}
+
+.checkDiv {
+	width: 260px;
+	margin: 0px auto;
+	padding: 25px;
+}
+
+.checkInfo {
+	width: 20px;
+	height: 20px;
+	position: relative;
+	top: 4px;
+	margin-right: 10px;
+}
+
+.confirmBtn {
+	border: none;
+	width: 70px;
+	height: 40px;
+	margin: 30px auto;
+	background-color: #2763ba;
+	color: #fff;
+	display: block;
+}
+
+/* 마지막 confirm 모달 창 */
+.lastConfirmDiv {
+	display: none;
+	width: 600px;
+	height: 400px;
+	position: relative;
+	top: 60px;
+	background-color: #fff;
+	margin: 0px auto;
+	z-index: 999;
+}
+
+.lastConfirmDiv.show {
+	display: block;
+}
+
+.lastConfirmHeader {
+	width: 100%;
+	height: 70px;
+	color: #FFF;
+	background-color: #018ace;
+	padding: 20px;
+}
+
+.lastConfirmHeaderTitle {
+	width: 450px;
+	float: left;
+	font-size: 24px;
+	font-weight: 500;
+}
+
+.userName {
+	font-weight: 700;
+}
+
+.lastConfirmInfo {
+	width: 500px;
+	height: 140px;
+	margin: 50px auto 20px auto;
+	border: 1px solid #CCC;
+}
+
+.lastConfirmInfoP {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 25px 20px;
+	text-align: center;
+	line-height: 40px;
+	font-weight: 400;
+	font-size: 28px;
+}
+
+.confirmDate {
+	color: #2763ba;
+}
+
+.lastConfirmBtnDiv {
+	width: 160px;
+	margin: 20px auto 0px auto;
+}
+
+.lastConfrimCancelBtn {
+	margin-right: 10px;
+	background-color: #FFF;
+	color: #000;
+	width: 70px;
+	height: 40px;
+	border: 1px solid #CCC;
+}
+
+.lastConfrimBtn {
+	border: none;
+	background-color: #2763ba;
+	color: #fff;
+	width: 70px;
+	height: 40px;
+}
