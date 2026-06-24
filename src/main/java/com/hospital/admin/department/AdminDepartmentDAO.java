@@ -185,12 +185,6 @@ public class AdminDepartmentDAO{
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-<<<<<<< HEAD
-		
-=======
-		//ResultSet rs = null;
-
->>>>>>> refs/remotes/origin/doctorManager
 		StringBuilder insertSql= new StringBuilder();
 
 		insertSql

@@ -14,15 +14,12 @@ import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorEducationDTO;
 import com.hospital.common.dto.DoctorPositionDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
-<<<<<<< HEAD
 import com.hospital.common.dto.DoctorStatusDTO;
-=======
 import com.hospital.common.util.DBConnection;
->>>>>>> refs/remotes/origin/doctorManager
 
 public class AdminDoctorDAO {
-	private static AdminDoctorDAO adminDoctorDAO;
-
+	private static AdminDoctorDAO adminDoctorDAO; 
+	
 	private AdminDoctorDAO() {
 	}//AdminDoctorDAO
 	public static AdminDoctorDAO getInstance() {
@@ -31,27 +28,24 @@ public class AdminDoctorDAO {
 		}// end if
 		return adminDoctorDAO;
 	}//getInstance
-
+	
 	public int selectDoctorTotalCnt(AdminDoctorSearchDTO searchDTO) {
-
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
+		
 		int totalCnt = 0;
-
-		StringBuilder selectSql = new StringBuilder("select count(*) from doctor where 1=1");
-		List<Object> params = new ArrayList<Object>();
-		appendSearchCondition(selectSql, params, searchDTO);
-
+		
+		String selectSql="select count(*) from doctor";
+		
 		try {
 			conn = DBConnection.getConnection();
-<<<<<<< HEAD
 			pstmt = conn.prepareStatement(selectSql);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				totalCnt=rs.getInt(1);
+				totalCnt=rs.getInt(0);
 			}// end if
 			
 		} catch (SQLException e) {
@@ -110,7 +104,7 @@ public class AdminDoctorDAO {
 		if(!adminDoctorSearchDTO.getStatusCode().isEmpty()) {
 			selectSql
 				.append(andCulmn)
-				.append("	status_code = '		")
+				.append("	status_code = '")
 				.append(adminDoctorSearchDTO.getStatusCode())
 				.append("'		");
 			
@@ -123,9 +117,9 @@ public class AdminDoctorDAO {
 		if(!adminDoctorSearchDTO.getSpecialty().isEmpty()) {
 			selectSql
 				.append(andCulmn)
-				.append("	spacialty like %")
+				.append("	spacialty like '%")
 				.append(adminDoctorSearchDTO.getSpecialty())
-				.append("%		");
+				.append("%'		");
 			
 			if(!firstSearchCulmn) { 
 				firstSearchCulmn = true;
@@ -148,15 +142,11 @@ public class AdminDoctorDAO {
 		}// end if
 				
 		try {
-			selectSql.append(";");
 			
 			conn = DBConnection.getConnection();
-=======
->>>>>>> refs/remotes/origin/doctorManager
 			pstmt = conn.prepareStatement(selectSql.toString());
-			bindParams(pstmt, params);
+			
 			rs = pstmt.executeQuery();
-<<<<<<< HEAD
 			
 			DoctorDTO doctorDTO = null;
 			
@@ -177,19 +167,11 @@ public class AdminDoctorDAO {
 				list.add(doctorDTO);
 			}// end while
 			
-=======
-
-			if(rs.next()) {
-				totalCnt=rs.getInt(1);
-			}// end if
-
->>>>>>> refs/remotes/origin/doctorManager
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
-<<<<<<< HEAD
 		
 		return list;
 	}// selectDoctorList
@@ -199,19 +181,9 @@ public class AdminDoctorDAO {
 		
 		int doctorLicenseNoTemp = doctorLicenseNo;
 		
-=======
-
-		return totalCnt;
-	}//selectDoctorTotalCnt
-
-	public List<DoctorDTO> selectDoctorList(AdminDoctorSearchDTO searchDTO ) {
-		List<DoctorDTO> list = new ArrayList<DoctorDTO>();
-
->>>>>>> refs/remotes/origin/doctorManager
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-<<<<<<< HEAD
 		
 		StringBuilder selectSql=new StringBuilder();
 		
@@ -220,47 +192,19 @@ public class AdminDoctorDAO {
 			.append("	where doctor_license_no = ?		");
 			
 		
-=======
-
-		StringBuilder selectSql = new StringBuilder();
-		List<Object> params = new ArrayList<Object>();
-
-		selectSql
-			.append("	select * from (	")
-			.append("		select row_number() over (order by create_date desc, doctor_license_no desc) num,	")
-			.append("			doctor_license_no, dept_no, name, phone_num, position_code, intro_title,	")
-			.append("			intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code	")
-			.append("		from doctor	")
-			.append("		where 1=1	");
-		appendSearchCondition(selectSql, params, searchDTO);
-		selectSql.append("	) where 1=1	");
-
-		if(searchDTO != null && searchDTO.getStartNum() > 0 && searchDTO.getEndNum() > 0) {
-			selectSql.append(" and num between ? and ?	");
-			params.add(searchDTO.getStartNum());
-			params.add(searchDTO.getEndNum());
-		}// end if
-
->>>>>>> refs/remotes/origin/doctorManager
 		try {
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(selectSql.toString());
-<<<<<<< HEAD
 			
 			pstmt.setInt(1, doctorLicenseNoTemp);
 			
-=======
-			bindParams(pstmt, params);
-
->>>>>>> refs/remotes/origin/doctorManager
 			rs = pstmt.executeQuery();
-<<<<<<< HEAD
 			
 			if(rs.next()) {
 				doctorDTO.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
 				doctorDTO.setDeptNo(rs.getString("dept_no"));
 				doctorDTO.setName(rs.getString("name"));
-				doctorDTO.setPhoneNum(rs.getString("phone_num"));
+				doctorDTO.setPhoneNum(rs.getString("pone_num"));
 				doctorDTO.setPositionCode(rs.getString("position_code"));
 				doctorDTO.setIntroTitle(rs.getString("intro_title"));
 				doctorDTO.setIntroContent(rs.getString("intro_content"));
@@ -270,102 +214,57 @@ public class AdminDoctorDAO {
 				doctorDTO.setStatusCode(rs.getString("status_code"));
 			}// end if
 			
-=======
-
-			while(rs.next()) {
-				list.add(mapDoctor(rs));
-			}// end while
-
->>>>>>> refs/remotes/origin/doctorManager
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
-
-		return list;
-	}// selectDoctorList
-
-	public DoctorDTO selectDoctorDetail(int doctorLicenseNo) {
-		DoctorDTO doctorDTO = null;
-
+		
+		return doctorDTO;
+	}//selectDoctorDetail
+	
+	public int insertDoctor(AdminDoctorFormDTO adminDoctorFormDTO) {// DAO딴에서 포문으로 sql을 생성하여 한번에 execute..
+		AdminDoctorFormDTO adminDoctorFormDTOTemp = adminDoctorFormDTO;
+		int insertCnt=0;
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
-		String selectSql = "select doctor_license_no, dept_no, name, phone_num, position_code, intro_title, "
-				+ "intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code "
-				+ "from doctor where doctor_license_no = ?";
-
-		try {
-			conn = DBConnection.getConnection();
-			pstmt = conn.prepareStatement(selectSql);
-			pstmt.setInt(1, doctorLicenseNo);
-			rs = pstmt.executeQuery();
-
-			if(rs.next()) {
-				doctorDTO = mapDoctor(rs);
-			}// end if
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			DBConnection.close(rs,pstmt,conn);
-		}// end try catch
-
-		return doctorDTO;
-	}//selectDoctorDetail
-<<<<<<< HEAD
-	
-	public int insertDoctor(AdminDoctorFormDTO adminDoctorFormDTO) {// DAO딴에서 포문으로 sql을 생성하여 한번에 execute..
-=======
-
-	public int insertDoctor(AdminDoctorFormDTO adminDoctorFormDTO) {
->>>>>>> refs/remotes/origin/doctorManager
-		AdminDoctorFormDTO adminDoctorFormDTOTemp = adminDoctorFormDTO;
-		int insertCnt=0;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
+		
 		StringBuilder insertSql = new StringBuilder();
-
+		
 		try {
 			insertSql
 			.append("	insert all 	")
 			.append("	into doctor( doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code)		")
 			.append("	values( ?, ?, ?, ?, ?, ?, ?, ?, ?,sysdate, ?, ? )		");
-
+			
 			//career
 			for(int i =0; i < adminDoctorFormDTOTemp.getCareerList().size(); i++) {
 				insertSql
 					.append("	into doctor_career (career_no, doctor_license_no, career_year, career_content)		")
 					.append("	values( get_cSeq(), ?, ?, ?)		");
 			}// end for
-
+			
 			//education
 			for(int i = 0; i < adminDoctorFormDTOTemp.getEducationList().size(); i++) {
 				insertSql
 					.append("	into doctor_education (education_no, doctor_license_no, education_year, education_content)		")
 					.append("	values( get_eSeq(), ?, ?, ?)");
 			}// end for
-
+			
 			//schedule
 			for(int i = 1; i < 8; i++) {
 				insertSql
 					.append("	into doctor_schedule (schedule_no, doctor_license_no, day_of_week, start_time, end_time, status)		")
 					.append("	values ( get_sSeq(), ?, ?, ?, ?, ?) ");
 			}// end for
-
-			conn = DBConnection.getConnection();
-<<<<<<< HEAD
-			insertSql.append(" select * from dual ");
 			
-=======
-			insertSql.append("select * from dual");
-
->>>>>>> refs/remotes/origin/doctorManager
+			conn = DBConnection.getConnection();
+			insertSql.append("select * from dual;");
+			
 			pstmt = conn.prepareStatement(insertSql.toString());
-
+			
 			//doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, specialty, status_code
 			pstmt.setInt(1, adminDoctorFormDTOTemp.getDoctorDTO().getDoctorLicenseNo());
 			pstmt.setString(2, adminDoctorFormDTOTemp.getDoctorDTO().getDeptNo());
@@ -378,9 +277,9 @@ public class AdminDoctorDAO {
 			pstmt.setString(9, adminDoctorFormDTOTemp.getDoctorDTO().getDetailImageUrl());
 			pstmt.setString(10, adminDoctorFormDTOTemp.getDoctorDTO().getSpecialty());
 			pstmt.setString(11, adminDoctorFormDTOTemp.getDoctorDTO().getStatusCode());
-
+			
 			int markCnt = 12;
-
+			
 			//career
 			for(int i =0; i < adminDoctorFormDTOTemp.getCareerList().size(); i++) {
 				// doctor_license_no, career_year, career_content
@@ -388,7 +287,7 @@ public class AdminDoctorDAO {
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getCareerList().get(i).getCareerYear());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getCareerList().get(i).getCareerContent());
 			}// end for
-
+			
 			//education
 			for(int i = 0; i < adminDoctorFormDTOTemp.getEducationList().size(); i++) {
 				// doctor_license_no, education_year, education_content
@@ -396,28 +295,29 @@ public class AdminDoctorDAO {
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getEducationList().get(i).getEducationYear());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getEducationList().get(i).getEducationContent());
 			}// end for
-
+			
 			//schedule
 			for(int i = 0; i < 7; i++) {
 				// doctor_license_no, day_of_week, start_time, end_time, status
 				pstmt.setInt(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getDoctorLicenseNo());
+				pstmt.setInt(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getDayOfWeek());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getStartTime());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getEndTime());
-				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getStatus());
+				pstmt.setString(markCnt, adminDoctorFormDTOTemp.getScheduleList().get(i).getStatus());
 			}// end for
-
+			
 			insertCnt = pstmt.executeUpdate();
-
-
+		
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DBConnection.close(pstmt,conn);
+			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
-
+		
 		return insertCnt;
 	}// insertDoctor
-
+	
 	public int updateDoctor(DoctorDTO doctorDTO) {
 		DoctorDTO doctorDTOTemp = doctorDTO;
 		int updateCnt = 0;
@@ -457,10 +357,9 @@ public class AdminDoctorDAO {
 		
 		return updateCnt;
 	}//updateDoctor
-
+	
 	public int updateDoctorStatus(int doctorLicenseNo, String statusCode) {
 		int updateCnt = 0;
-<<<<<<< HEAD
 		
 		int doctorLicenseNoTemp = doctorLicenseNo;
 		String statusCodeTemp = statusCode;
@@ -489,16 +388,11 @@ public class AdminDoctorDAO {
 			DBConnection.close(pstmt,conn);
 		}// end try catch
 		
-=======
-
-
->>>>>>> refs/remotes/origin/doctorManager
 		return updateCnt;
 	}// updateDoctorStatus
-
+	
 	public int selectDoctorLicenseNoCnt(int doctorLicenseNo) {
 		int doctorCnt = 0;
-<<<<<<< HEAD
 		int doctorLicenseNoTemp = doctorLicenseNo;
 		
 		Connection conn = null;
@@ -516,7 +410,7 @@ public class AdminDoctorDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				doctorCnt = rs.getInt(1);
+				doctorCnt = rs.getInt(0);
 			}// end if
 			
 		} catch (SQLException e) {
@@ -525,15 +419,11 @@ public class AdminDoctorDAO {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
 		
-=======
-
->>>>>>> refs/remotes/origin/doctorManager
 		return doctorCnt;
 	}//selectDoctorLicenseNoCnt
-
+	
 	public List<DoctorScheduleDTO> selectDoctorSchedules(int doctorLicenseNo){
 		List<DoctorScheduleDTO> list = new ArrayList<DoctorScheduleDTO>();
-<<<<<<< HEAD
 		
 		int doctorLicenseNoTemp = doctorLicenseNo;
 		
@@ -573,18 +463,38 @@ public class AdminDoctorDAO {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
 		
-=======
-
->>>>>>> refs/remotes/origin/doctorManager
 		return list;
 	}//selectDoctorSchedules
-
+	
 	public int deleteDoctorSchedules(int doctorLicenseNo) {
-		int deleteCnt = 0;
+		 int deleteCnt = 0;
+		 int doctorLicenseNoTemp = doctorLicenseNo;
+		    Connection conn = null;
+		    PreparedStatement pstmt = null;
 
-		return deleteCnt;
+		    StringBuilder deleteSql = new StringBuilder();
+		    deleteSql
+		    	.append("	delete from doctor_schedule		")
+		    	.append("	where doctor_license_no=?		");
+		   
+		    try {
+
+		        conn = DBConnection.getConnection();
+
+		        pstmt = conn.prepareStatement(deleteSql.toString());
+
+		        pstmt.setInt(1, doctorLicenseNoTemp);
+
+		        deleteCnt = pstmt.executeUpdate();
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        DBConnection.close(pstmt, conn);
+		    }
+
+		    return deleteCnt;
 	}//selectDoctorSchedules
-<<<<<<< HEAD
 	
 	public int updateDoctorSchedules(int doctorLicenseNo, DoctorScheduleDTO scheduleDTO) {
 		DoctorScheduleDTO doctorScheduleDTO = scheduleDTO; 
@@ -594,39 +504,40 @@ public class AdminDoctorDAO {
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		try {
 			conn = DBConnection.getConnection();
 			
 			updateSql
-				.append("	update doctor_schedule")
-				.append("	set day_of_week, status 		")
-				.append("	values (?,?)		");
+			.append("	update doctor_schedule")
+			.append("	set day_of_week=?, 		")
+			.append("	start_time=?, 		")
+			.append("	end_time=?, 		")
+			.append("	status=?  		")
+			.append("	where doctor_license_no=? 		")
+			.append("	and schedule_no=? 		");
 				
-			updateSql.append("	where doctor_license_no = ? and schedule_no = ?		");
-			pstmt.setInt(1, doctorScheduleDTO.getDayOfWeek());
-			pstmt.setString(2, doctorScheduleDTO.getStatus());
-			pstmt.setInt(3, doctorLicenseNoTemp);
-			pstmt.setInt(4, doctorScheduleDTO.getScheduleNo());
-			
-			successCnt = pstmt.executeUpdate();
-			
+			pstmt = conn.prepareStatement(updateSql.toString());
+
+	        pstmt.setInt(1, doctorScheduleDTO.getDayOfWeek());
+	        pstmt.setString(2, doctorScheduleDTO.getStartTime());
+	        pstmt.setString(3, doctorScheduleDTO.getEndTime());
+	        pstmt.setString(4, doctorScheduleDTO.getStatus());
+	        pstmt.setInt(5, doctorLicenseNoTemp);
+	        pstmt.setInt(6, doctorScheduleDTO.getScheduleNo());
+
+	        successCnt = pstmt.executeUpdate();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DBConnection.close(rs,pstmt,conn);
+			DBConnection.close(pstmt,conn);
 		}// end try catch
 		return successCnt; 
 	}
 	
 	public int insertDoctorSchedule(DoctorScheduleDTO scheduleDTO, int dayOfWeek) {
-=======
-
-	public int insertDoctorSchedule(DoctorScheduleDTO scheduleDTO) {
->>>>>>> refs/remotes/origin/doctorManager
 		int insertCnt = 0;
-<<<<<<< HEAD
 		int dayOfWeekTemp = dayOfWeek;
 		DoctorScheduleDTO doctorScheduleDTO = scheduleDTO;
 		Connection conn = null;
@@ -658,12 +569,8 @@ public class AdminDoctorDAO {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
 		
-=======
-
->>>>>>> refs/remotes/origin/doctorManager
 		return insertCnt;
 	}// insertDoctorSchedule
-<<<<<<< HEAD
 	
 	public List<DoctorCareerDTO> selectDoctorCareerList(int doctorLicenseNo){
 		List<DoctorCareerDTO> list = new ArrayList<DoctorCareerDTO>();
@@ -708,37 +615,34 @@ public class AdminDoctorDAO {
 	public int deleteDoctorCareers(int doctorLicenseNo, int careerNo ) {
 		int doctorLicenseNoTemp = doctorLicenseNo;
 		int careerNoTemp = careerNo;
-=======
-
-	public int deleteDoctorEducations(int doctorLicenseNo) {
->>>>>>> refs/remotes/origin/doctorManager
 		int deleteCnt = 0;
-<<<<<<< HEAD
 		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		    Connection conn = null;
+		    PreparedStatement pstmt = null;
 		
-		StringBuilder deleteSql = new StringBuilder();
-		
-		deleteSql
-			.append("	delete from doctor_career		")
-			.append("	where doctor_license_no = ? and career_no = ?		");
-		
+		    StringBuilder deleteSql = new StringBuilder();
+		    
 		try {
-			conn = DBConnection.getConnection();
-			pstmt = conn.prepareStatement(deleteSql.toString());
-			
-			pstmt.setInt(1, doctorLicenseNoTemp);
-			pstmt.setInt(2, careerNoTemp);
-			
-			rs = pstmt.executeQuery();
-			
-		}  catch (SQLException e) {
-			e.printStackTrace();
+		
+		    conn = DBConnection.getConnection();
+		    
+		    deleteSql
+			    .append("	delete from doctor_career		")
+			    .append("	where doctor_license_no=?		")
+			    .append("	and career_no=?		");
+		
+		    pstmt = conn.prepareStatement(deleteSql.toString());
+		
+		    pstmt.setInt(1, doctorLicenseNoTemp);
+		    pstmt.setInt(2, careerNoTemp);
+		
+		    deleteCnt = pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+		    e.printStackTrace();
 		} finally {
-			DBConnection.close(rs,pstmt,conn);
-		}// end try catch
+		    DBConnection.close(pstmt, conn);
+		}
 		
 		return deleteCnt;
 	}// deleteDoctorCareers
@@ -793,6 +697,8 @@ public class AdminDoctorDAO {
 				.append("	set career_year = ?, career_content = ?		")
 				.append("	where doctor_license_no = ? and career_no = ?		");
 				
+			pstmt=conn.prepareStatement(updateSql.toString());
+			
 			pstmt.setString(1, doctorCareerDTO.getCareerYear());
 			pstmt.setString(2, doctorCareerDTO.getCareerContent());
 			pstmt.setInt(3, doctorLicenseNoTemp);
@@ -831,7 +737,7 @@ public class AdminDoctorDAO {
 			pstmt.setInt(1, doctorLicenseNoTemp);
 			pstmt.setInt(2, educationNoTemp);
 			
-			rs = pstmt.executeQuery();
+			deleteCnt = pstmt.executeUpdate();
 			
 		}  catch (SQLException e) {
 			e.printStackTrace();
@@ -839,12 +745,8 @@ public class AdminDoctorDAO {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
 		
-=======
-
->>>>>>> refs/remotes/origin/doctorManager
 		return deleteCnt;
 	}// deleteDoctorEducations
-<<<<<<< HEAD
 	
 	public List<DoctorEducationDTO> selectDoctorEducationList(int doctorLicenseNo){
 		List<DoctorEducationDTO> list = new ArrayList<DoctorEducationDTO>();
@@ -903,6 +805,8 @@ public class AdminDoctorDAO {
 				.append("	set education_year = ?, education_content = ?		")
 				.append("	where doctor_license_no = ? and education_no = ?		");
 				
+			pstmt = conn.prepareStatement(updateSql.toString());
+			
 			pstmt.setString(1, doctorEducationDTO.getEducationYear());
 			pstmt.setString(2, doctorEducationDTO.getEducationContent());
 			pstmt.setInt(3, doctorLicenseNoTemp);
@@ -918,12 +822,8 @@ public class AdminDoctorDAO {
 		return successCnt; 
 	}
 	
-=======
-
->>>>>>> refs/remotes/origin/doctorManager
 	public int insertDoctorEducation(DoctorEducationDTO educationDTO) {
 		int insertCnt = 0;
-<<<<<<< HEAD
 		DoctorEducationDTO doctorEducationDTO = educationDTO;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -941,9 +841,8 @@ public class AdminDoctorDAO {
 			pstmt = conn.prepareStatement(insertSql.toString());
 		
 			pstmt.setInt(1, doctorEducationDTO.getDoctorLicenseNo());
-			pstmt.setInt(2, doctorEducationDTO.getDoctorLicenseNo());
-			pstmt.setString(3, doctorEducationDTO.getEducationYear());
-			pstmt.setString(4, doctorEducationDTO.getEducationContent());
+			pstmt.setString(2, doctorEducationDTO.getEducationYear());
+			pstmt.setString(3, doctorEducationDTO.getEducationContent());
 		
 			insertCnt = pstmt.executeUpdate();
 			
@@ -953,12 +852,8 @@ public class AdminDoctorDAO {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
 		
-=======
-
->>>>>>> refs/remotes/origin/doctorManager
 		return insertCnt;
 	}// insertDoctorEducation
-<<<<<<< HEAD
 	
 	public List<DoctorPositionDTO> selectDoctorPostionAllList(){
 		List<DoctorPositionDTO> list = new ArrayList<DoctorPositionDTO>();
@@ -979,8 +874,8 @@ public class AdminDoctorDAO {
 			while(rs.next()) {
 				doctorPositionDTO = new DoctorPositionDTO();
 				
-				doctorPositionDTO.setPositionCode(rs.getString("position_code"));
-				doctorPositionDTO.setPositionName(rs.getString("position_name"));
+				doctorPositionDTO.setPositionCode(rs.getString(0));
+				doctorPositionDTO.setPositionName(rs.getString(1));
 				
 				list.add(doctorPositionDTO);
 			}// end while
@@ -1013,8 +908,8 @@ public class AdminDoctorDAO {
 			while(rs.next()) {
 				doctorStatusDTO = new DoctorStatusDTO();
 				
-				doctorStatusDTO.setStatusCode(rs.getString("status_code"));
-				doctorStatusDTO.setStatusName(rs.getString("status_name"));
+				doctorStatusDTO.setStatusCode(rs.getString(0));
+				doctorStatusDTO.setStatusName(rs.getString(1));
 				
 				list.add(doctorStatusDTO);
 			}// end while
@@ -1047,10 +942,10 @@ public class AdminDoctorDAO {
 			while(rs.next()) {
 				doctorEducationDTO = new DoctorEducationDTO();
 				
-				doctorEducationDTO.setEducationNo(rs.getInt(0));
-				doctorEducationDTO.setDoctorLicenseNo(rs.getInt(1));
-				doctorEducationDTO.setEducationYear(rs.getString(2));
-				doctorEducationDTO.setEducationContent(rs.getString(3));
+				doctorEducationDTO.setEducationNo(rs.getInt("education_no"));
+				doctorEducationDTO.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
+				doctorEducationDTO.setEducationYear(rs.getString("education_year"));
+				doctorEducationDTO.setEducationYear(rs.getString("education_content"));
 				
 				list.add(doctorEducationDTO);
 			}// end while
@@ -1064,81 +959,4 @@ public class AdminDoctorDAO {
 		return list;
 	}// selectDoctorStatusList
 	
-=======
-
-	public int deleteDoctorCareers(int doctorLicenseNo) {
-		int deleteCnt = 0;
-
-		return deleteCnt;
-	}// deleteDoctorCareers
-	public int insertDoctorCareer(DoctorCareerDTO careerDTO) {
-		int insertCnt = 0;
-
-		return insertCnt;
-	}//insertDoctorCareer
-
-	private void appendSearchCondition(StringBuilder sql, List<Object> params, AdminDoctorSearchDTO searchDTO) {
-		if(searchDTO == null) {
-			return;
-		}// end if
-
-		if(hasText(searchDTO.getDeptNo())) {
-			sql.append(" and dept_no = ?	");
-			params.add(searchDTO.getDeptNo().trim());
-		}// end if
-
-		if(hasText(searchDTO.getPositionCode())) {
-			sql.append(" and position_code = ?	");
-			params.add(searchDTO.getPositionCode().trim());
-		}// end if
-
-		if(hasText(searchDTO.getStatusCode())) {
-			sql.append(" and status_code = ?	");
-			params.add(searchDTO.getStatusCode().trim());
-		}// end if
-
-		if(hasText(searchDTO.getName())) {
-			sql.append(" and name like ?	");
-			params.add("%" + searchDTO.getName().trim() + "%");
-		}// end if
-
-		if(hasText(searchDTO.getSpecialty())) {
-			sql.append(" and specialty like ?	");
-			params.add("%" + searchDTO.getSpecialty().trim() + "%");
-		}// end if
-	}//appendSearchCondition
-
-	private void bindParams(PreparedStatement pstmt, List<Object> params) throws SQLException {
-		for(int i=0; i<params.size(); i++) {
-			Object param = params.get(i);
-			if(param instanceof Integer) {
-				pstmt.setInt(i + 1, (Integer)param);
-			} else {
-				pstmt.setString(i + 1, String.valueOf(param));
-			}// end if
-		}// end for
-	}//bindParams
-
-	private DoctorDTO mapDoctor(ResultSet rs) throws SQLException {
-		DoctorDTO doctorDTO = new DoctorDTO();
-		doctorDTO.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
-		doctorDTO.setDeptNo(rs.getString("dept_no"));
-		doctorDTO.setName(rs.getString("name"));
-		doctorDTO.setPhoneNum(rs.getString("phone_num"));
-		doctorDTO.setPositionCode(rs.getString("position_code"));
-		doctorDTO.setIntroTitle(rs.getString("intro_title"));
-		doctorDTO.setIntroContent(rs.getString("intro_content"));
-		doctorDTO.setThumbnailUrl(rs.getString("thumbnail_url"));
-		doctorDTO.setDetailImageUrl(rs.getString("detail_image_url"));
-		doctorDTO.setCreatedDate(rs.getDate("create_date"));
-		doctorDTO.setSpecialty(rs.getString("specialty"));
-		doctorDTO.setStatusCode(rs.getString("status_code"));
-		return doctorDTO;
-	}//mapDoctor
-
-	private boolean hasText(String value) {
-		return value != null && !value.isBlank();
-	}//hasText
-
->>>>>>> refs/remotes/origin/doctorManager
 }// class

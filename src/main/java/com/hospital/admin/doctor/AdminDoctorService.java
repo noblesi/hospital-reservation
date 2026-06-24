@@ -40,7 +40,6 @@ public class AdminDoctorService {
 	public AdminDoctorFormDTO searchDoctorDetail(int doctorLicenseNo){
 		// 의료진 상세 조회
 		int doctorLicenseNoTemp = doctorLicenseNo;
-		DoctorDTO doctorDTO = null;
 		AdminDoctorFormDTO adminDoctorFormDTO = new AdminDoctorFormDTO();
 		
 		adminDoctorFormDTO.setDoctorDTO(adminDoctorDAO.selectDoctorDetail(doctorLicenseNoTemp));
