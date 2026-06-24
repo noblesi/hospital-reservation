@@ -6,6 +6,9 @@
 <%
 request.setCharacterEncoding("UTF-8");
 
+// 이전 비밀번호 찾기에서 남아있을 수 있는 재설정 대상 아이디를 먼저 초기화한다.
+session.removeAttribute("resetLoginId");
+
 String loginId = request.getParameter("loginId");
 String name = request.getParameter("name");
 String phoneNumber = request.getParameter("phoneNumber");
