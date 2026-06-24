@@ -1,38 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
-         id="WebApp_ID"
-         version="4.0">
-  <display-name>hospital-reservation</display-name>
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	id="WebApp_ID"
+	version="4.0">
+	<display-name>hospital-reservation</display-name>
 
-  <filter>
-    <filter-name>encodingFilter</filter-name>
-    <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
-    <init-param>
-      <param-name>encoding</param-name>
-      <param-value>UTF-8</param-value>
-    </init-param>
-    <init-param>
-      <param-name>ignore</param-name>
-      <param-value>false</param-value>
-    </init-param>
-  </filter>
-  <filter-mapping>
-    <filter-name>encodingFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ignore</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.xhtml</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.xhtml</welcome-file>
-  </welcome-file-list>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.xhtml</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.xhtml</welcome-file>
+	</welcome-file-list>
+
+  <servlet>
+    <servlet-name>mainPageServlet</servlet-name>
+    <servlet-class>com.hospital.user.board.controller.MainPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mainPageServlet</servlet-name>
+    <url-pattern>/main.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>boardListServlet</servlet-name>
+    <servlet-class>com.hospital.user.board.controller.BoardListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>boardListServlet</servlet-name>
+    <url-pattern>/board/notice/list.do</url-pattern>
+    <url-pattern>/board/faq/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>boardDetailServlet</servlet-name>
+    <servlet-class>com.hospital.user.board.controller.BoardDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>boardDetailServlet</servlet-name>
+    <url-pattern>/board/detail.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminDashboardServlet</servlet-name>
+    <servlet-class>com.hospital.admin.dashboard.controller.AdminDashboardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminDashboardServlet</servlet-name>
+    <url-pattern>/admin</url-pattern>
+    <url-pattern>/admin/</url-pattern>
+    <url-pattern>/admin/dashboard.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminDepartmentListServlet</servlet-name>
+    <servlet-class>com.hospital.admin.department.controller.AdminDepartmentListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminDepartmentListServlet</servlet-name>
+    <url-pattern>/admin/department/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminAppointmentListServlet</servlet-name>
+    <servlet-class>com.hospital.admin.appointment.controller.AdminAppointmentListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminAppointmentListServlet</servlet-name>
+    <url-pattern>/admin/reservation/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminMemberListServlet</servlet-name>
+    <servlet-class>com.hospital.admin.member.controller.AdminMemberListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminMemberListServlet</servlet-name>
+    <url-pattern>/admin/member/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminDoctorListServlet</servlet-name>
+    <servlet-class>com.hospital.admin.doctor.controller.AdminDoctorListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminDoctorListServlet</servlet-name>
+    <url-pattern>/admin/doctor/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminBoardListServlet</servlet-name>
+    <servlet-class>com.hospital.admin.board.controller.AdminBoardListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminBoardListServlet</servlet-name>
+    <url-pattern>/admin/notice/list.do</url-pattern>
+    <url-pattern>/admin/faq/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminBoardFormServlet</servlet-name>
+    <servlet-class>com.hospital.admin.board.controller.AdminBoardFormServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminBoardFormServlet</servlet-name>
+    <url-pattern>/admin/board/form.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminBoardSaveServlet</servlet-name>
+    <servlet-class>com.hospital.admin.board.controller.AdminBoardSaveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminBoardSaveServlet</servlet-name>
+    <url-pattern>/admin/board/save.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminBoardDeleteServlet</servlet-name>
+    <servlet-class>com.hospital.admin.board.controller.AdminBoardDeleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminBoardDeleteServlet</servlet-name>
+    <url-pattern>/admin/board/delete.do</url-pattern>
+  </servlet-mapping>
 
   <jsp-config>
     <jsp-property-group>

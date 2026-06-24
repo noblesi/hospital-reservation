@@ -1,6 +1,6 @@
 // /resources/js/user-layout.js
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
     const menuBtn = document.querySelector(".menu-btn");
     const searchBtn = document.querySelector(".search-btn");
     const menuPanel = document.querySelector("#userAllMenu");
@@ -9,6 +9,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchCloseBtn = document.querySelector(".search-close-btn");
     const searchInput = document.querySelector("#userHeaderKeyword");
     const gnbItems = document.querySelectorAll(".user-gnb > ul > li");
+    const userHeader = document.querySelector(".user-header");
+
+    function clearGnbOpen() {
+        gnbItems.forEach(function (gnbItem) {
+            gnbItem.classList.remove("is-open");
+        });
+    }
 
     function setPanel(panel, button, isOpen) {
         if (!panel || !button) {
@@ -17,6 +24,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         panel.hidden = !isOpen;
         button.setAttribute("aria-expanded", String(isOpen));
+
+        if (panel === menuPanel && userHeader) {
+            userHeader.classList.toggle("all-menu-open", isOpen);
+
+            if (isOpen) {
+                clearGnbOpen();
+            }
+        }
     }
 
     function closeMenu() {
@@ -41,6 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function isMenuOpen() {
+        return menuPanel && !menuPanel.hidden;
+    }
+
     if (menuBtn && menuPanel) {
         menuBtn.addEventListener("click", function () {
             if (menuPanel.hidden) {
@@ -53,6 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     gnbItems.forEach(function (gnbItem) {
         gnbItem.addEventListener("mouseenter", function () {
+            if (isMenuOpen()) {
+                return;
+            }
             closeMenu();
             gnbItem.classList.add("is-open");
         });
@@ -60,6 +82,9 @@ document.addEventListener("DOMContentLoaded", function () {
             gnbItem.classList.remove("is-open");
         });
         gnbItem.addEventListener("focusin", function () {
+            if (isMenuOpen()) {
+                return;
+            }
             closeMenu();
             gnbItem.classList.add("is-open");
         });
@@ -70,6 +95,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.addEventListener("mouseover", function (event) {
         const gnbItem = event.target.closest(".user-gnb > ul > li");
+
+        if (gnbItem && isMenuOpen()) {
+            return;
+        }
 
         if (gnbItem) {
             closeMenu();
