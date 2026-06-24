@@ -7,6 +7,11 @@
 <%
 request.setCharacterEncoding("UTF-8");
 
+if(!"POST".equalsIgnoreCase(request.getMethod())){
+    response.sendRedirect("../myPage.jsp");
+    return;
+}
+
 MemberDTO loginUser = (MemberDTO)session.getAttribute("loginUser");
 Boolean verified = (Boolean)session.getAttribute("userInfoVerified");
 
