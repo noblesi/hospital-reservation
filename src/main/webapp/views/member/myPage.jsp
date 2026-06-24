@@ -116,8 +116,21 @@ pageContext.setAttribute("medicalList", medicalList);
             <table class="reservationTable">
                 <tbody>
                     <c:forEach var="app" items="${appList}">
+                        <c:set var="appointmentStatusClass" value="blue" />
+                        <c:choose>
+                            <c:when test="${app.status eq '예약취소'}">
+                                <c:set var="appointmentStatusClass" value="gray" />
+                            </c:when>
+                            <c:when test="${app.status eq '승인완료'}">
+                                <c:set var="appointmentStatusClass" value="green" />
+                            </c:when>
+                        </c:choose>
                         <tr>
-                            <td><span class="state blue">${app.status}</span></td>
+                            <td>
+                                <span class="state ${appointmentStatusClass}">
+                                    ${app.status}
+                                </span>
+                            </td>
                             <td>${app.departmentName}</td>
                             <td>
                                 ${app.appointmentDate}
@@ -187,13 +200,22 @@ pageContext.setAttribute("medicalList", medicalList);
                         </thead>
                         <tbody>
                             <c:forEach var="app" items="${appList}">
+                                <c:set var="modalAppointmentStatusClass" value="blue" />
+                                <c:choose>
+                                    <c:when test="${app.status eq '예약취소'}">
+                                        <c:set var="modalAppointmentStatusClass" value="gray" />
+                                    </c:when>
+                                    <c:when test="${app.status eq '승인완료'}">
+                                        <c:set var="modalAppointmentStatusClass" value="green" />
+                                    </c:when>
+                                </c:choose>
                                 <tr data-reservation-status="${app.status}">
                                     <td>${app.appointmentDate}</td>
                                     <td>${app.appointmentTime}</td>
                                     <td>${app.departmentName}</td>
                                     <td>${app.doctorName}</td>
                                     <td>
-                                        <span class="state ${app.status eq '예약취소' ? 'gray' : app.status eq '진료완료' ? 'green' : app.status eq '승인대기' ? 'yellow' : 'blue'}">
+                                        <span class="state ${modalAppointmentStatusClass}">
                                             ${app.status}
                                         </span>
                                     </td>
