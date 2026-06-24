@@ -157,7 +157,7 @@ public class AdminDoctorDAO {
 				doctorDTO.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
 				doctorDTO.setDeptNo(rs.getString("dept_no"));
 				doctorDTO.setName(rs.getString("name"));
-				doctorDTO.setPhoneNum(rs.getString("pone_num"));
+				doctorDTO.setPhoneNum(rs.getString("phone_num"));
 				doctorDTO.setPositionCode(rs.getString("position_code"));
 				doctorDTO.setIntroTitle(rs.getString("intro_title"));
 				doctorDTO.setIntroContent(rs.getString("intro_content"));
@@ -227,6 +227,7 @@ public class AdminDoctorDAO {
 	public int insertDoctor(AdminDoctorFormDTO adminDoctorFormDTO) {// DAO딴에서 포문으로 sql을 생성하여 한번에 execute..
 		AdminDoctorFormDTO adminDoctorFormDTOTemp = adminDoctorFormDTO;
 		int insertCnt=0;
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -467,9 +468,33 @@ public class AdminDoctorDAO {
 	}//selectDoctorSchedules
 	
 	public int deleteDoctorSchedules(int doctorLicenseNo) {
-		int deleteCnt = 0;
-		
-		return deleteCnt;
+		 int deleteCnt = 0;
+		 int doctorLicenseNoTemp = doctorLicenseNo;
+		    Connection conn = null;
+		    PreparedStatement pstmt = null;
+
+		    StringBuilder deleteSql = new StringBuilder();
+		    deleteSql
+		    	.append("	delete from doctor_schedule		")
+		    	.append("	where doctor_license_no=?		");
+		   
+		    try {
+
+		        conn = DBConnection.getConnection();
+
+		        pstmt = conn.prepareStatement(deleteSql.toString());
+
+		        pstmt.setInt(1, doctorLicenseNoTemp);
+
+		        deleteCnt = pstmt.executeUpdate();
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        DBConnection.close(pstmt, conn);
+		    }
+
+		    return deleteCnt;
 	}//selectDoctorSchedules
 	
 	public int updateDoctorSchedules(int doctorLicenseNo, DoctorScheduleDTO scheduleDTO) {
@@ -480,28 +505,34 @@ public class AdminDoctorDAO {
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		
 		try {
 			conn = DBConnection.getConnection();
 			
 			updateSql
-				.append("	update doctor_schedule")
-				.append("	set day_of_week, status 		")
-				.append("	values (?,?)		");
+			.append("	update doctor_schedule")
+			.append("	set day_of_week=?, 		")
+			.append("	start_time=?, 		")
+			.append("	end_time=?, 		")
+			.append("	status=?  		")
+			.append("	where doctor_license_no=? 		")
+			.append("	and schedule_no=? 		");
 				
-			updateSql.append("	where doctor_license_no = ? and schedule_no = ?		");
-			pstmt.setInt(1, doctorScheduleDTO.getDayOfWeek());
-			pstmt.setString(2, doctorScheduleDTO.getStatus());
-			pstmt.setInt(3, doctorLicenseNoTemp);
-			pstmt.setInt(4, doctorScheduleDTO.getScheduleNo());
-			
-			successCnt = pstmt.executeUpdate();
-			
+			pstmt = conn.prepareStatement(updateSql.toString());
+
+	        pstmt.setInt(1, doctorScheduleDTO.getDayOfWeek());
+	        pstmt.setString(2, doctorScheduleDTO.getStartTime());
+	        pstmt.setString(3, doctorScheduleDTO.getEndTime());
+	        pstmt.setString(4, doctorScheduleDTO.getStatus());
+	        pstmt.setInt(5, doctorLicenseNoTemp);
+	        pstmt.setInt(6, doctorScheduleDTO.getScheduleNo());
+
+	        successCnt = pstmt.executeUpdate();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DBConnection.close(rs,pstmt,conn);
+			DBConnection.close(pstmt,conn);
 		}// end try catch
 		return successCnt; 
 	}
@@ -587,30 +618,32 @@ public class AdminDoctorDAO {
 		int careerNoTemp = careerNo;
 		int deleteCnt = 0;
 		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		    Connection conn = null;
+		    PreparedStatement pstmt = null;
 		
-		StringBuilder deleteSql = new StringBuilder();
-		
-		deleteSql
-			.append("	delete from doctor_career		")
-			.append("	where doctor_license_no = ? and career_no = ?		");
-		
+		    StringBuilder deleteSql = new StringBuilder();
+		    
 		try {
-			conn = DBConnection.getConnection();
-			pstmt = conn.prepareStatement(deleteSql.toString());
-			
-			pstmt.setInt(1, doctorLicenseNoTemp);
-			pstmt.setInt(2, careerNoTemp);
-			
-			rs = pstmt.executeQuery();
-			
-		}  catch (SQLException e) {
-			e.printStackTrace();
+		
+		    conn = DBConnection.getConnection();
+		    
+		    deleteSql
+			    .append("	delete from doctor_career		")
+			    .append("	where doctor_license_no=?		")
+			    .append("	and career_no=?		");
+		
+		    pstmt = conn.prepareStatement(deleteSql.toString());
+		
+		    pstmt.setInt(1, doctorLicenseNoTemp);
+		    pstmt.setInt(2, careerNoTemp);
+		
+		    deleteCnt = pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+		    e.printStackTrace();
 		} finally {
-			DBConnection.close(rs,pstmt,conn);
-		}// end try catch
+		    DBConnection.close(pstmt, conn);
+		}
 		
 		return deleteCnt;
 	}// deleteDoctorCareers
@@ -665,6 +698,8 @@ public class AdminDoctorDAO {
 				.append("	set career_year = ?, career_content = ?		")
 				.append("	where doctor_license_no = ? and career_no = ?		");
 				
+			pstmt=conn.prepareStatement(updateSql.toString());
+			
 			pstmt.setString(1, doctorCareerDTO.getCareerYear());
 			pstmt.setString(2, doctorCareerDTO.getCareerContent());
 			pstmt.setInt(3, doctorLicenseNoTemp);
@@ -703,7 +738,7 @@ public class AdminDoctorDAO {
 			pstmt.setInt(1, doctorLicenseNoTemp);
 			pstmt.setInt(2, educationNoTemp);
 			
-			rs = pstmt.executeQuery();
+			deleteCnt = pstmt.executeUpdate();
 			
 		}  catch (SQLException e) {
 			e.printStackTrace();
@@ -771,6 +806,8 @@ public class AdminDoctorDAO {
 				.append("	set education_year = ?, education_content = ?		")
 				.append("	where doctor_license_no = ? and education_no = ?		");
 				
+			pstmt = conn.prepareStatement(updateSql.toString());
+			
 			pstmt.setString(1, doctorEducationDTO.getEducationYear());
 			pstmt.setString(2, doctorEducationDTO.getEducationContent());
 			pstmt.setInt(3, doctorLicenseNoTemp);
@@ -805,9 +842,8 @@ public class AdminDoctorDAO {
 			pstmt = conn.prepareStatement(insertSql.toString());
 		
 			pstmt.setInt(1, doctorEducationDTO.getDoctorLicenseNo());
-			pstmt.setInt(2, doctorEducationDTO.getDoctorLicenseNo());
-			pstmt.setString(3, doctorEducationDTO.getEducationYear());
-			pstmt.setString(4, doctorEducationDTO.getEducationContent());
+			pstmt.setString(2, doctorEducationDTO.getEducationYear());
+			pstmt.setString(3, doctorEducationDTO.getEducationContent());
 		
 			insertCnt = pstmt.executeUpdate();
 			
@@ -907,10 +943,10 @@ public class AdminDoctorDAO {
 			while(rs.next()) {
 				doctorEducationDTO = new DoctorEducationDTO();
 				
-				doctorEducationDTO.setEducationNo(rs.getInt(0));
-				doctorEducationDTO.setDoctorLicenseNo(rs.getInt(1));
-				doctorEducationDTO.setEducationYear(rs.getString(2));
-				doctorEducationDTO.setEducationYear(rs.getString(3));
+				doctorEducationDTO.setEducationNo(rs.getInt("education_no"));
+				doctorEducationDTO.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
+				doctorEducationDTO.setEducationYear(rs.getString("education_year"));
+				doctorEducationDTO.setEducationYear(rs.getString("education_content"));
 				
 				list.add(doctorEducationDTO);
 			}// end while
