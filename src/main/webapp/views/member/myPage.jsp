@@ -32,7 +32,10 @@ if(memberInfo != null){
     patientNo = memberInfo.getPatientNo();
 }
 
+// 예약 현황 모달용: 오늘 이후 예약 전체를 조회한다.
 List<UserAppointmentDTO> appList = umps.searchAppointmentList(patientNo);
+// 예약 취소 및 변경 영역용: 현재일 기준 최근 3개월 예약을 조회한다.
+List<UserAppointmentDTO> manageAppList = umps.searchManageAppointmentList(patientNo);
 List<UserMedicalRecordDTO> medicalList = umps.searchMedicalRecordList(patientNo);
 
 int appointmentCount = appList.size();
@@ -42,6 +45,7 @@ pageContext.setAttribute("memberInfo", memberInfo);
 pageContext.setAttribute("appointmentCount", appointmentCount);
 pageContext.setAttribute("medicalCount", medicalCount);
 pageContext.setAttribute("appList", appList);
+pageContext.setAttribute("manageAppList", manageAppList);
 pageContext.setAttribute("medicalList", medicalList);
 %>
 <link rel="stylesheet" href="<c:url value='/resources/css/sideBar.css' />">
@@ -113,10 +117,11 @@ pageContext.setAttribute("medicalList", medicalList);
                 <h3>예약 취소 및 변경</h3>
                 <a href="<c:url value='/views/reservation/main.jsp' />">예약 전체보기</a>
             </div>
+                <span class="boxTitle2">*3개월 전 예약내역 부터 조회됩니다.</span>
 
             <table class="reservationTable">
                 <tbody>
-                    <c:forEach var="app" items="${appList}">
+                    <c:forEach var="app" items="${manageAppList}">
                         <c:set var="appointmentStatusClass" value="blue" />
                         <c:choose>
                             <c:when test="${app.status eq '예약취소'}">
@@ -140,7 +145,7 @@ pageContext.setAttribute("medicalList", medicalList);
                             <td>${app.doctorName}</td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${app.status ne '예약취소'}">
+                                    <c:when test="${app.cancelable}">
                                         <form action="<c:url value='/views/member/process/cancelAppointmentProcess.jsp' />"
                                               method="post"
                                               class="reservationCancelForm">
@@ -150,13 +155,23 @@ pageContext.setAttribute("medicalList", medicalList);
                                             <button type="submit" class="cancelBtn">예약 취소</button>
                                         </form>
                                     </c:when>
-                                    <c:otherwise>
+                                    <c:when test="${app.status eq '예약취소'}">
                                         <span class="state gray">취소 완료</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="state gray">지난 예약</span>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
                         </tr>
                     </c:forEach>
+                    <c:if test="${empty manageAppList}">
+                        <tr>
+                            <td colspan="5" class="reservationEmpty">
+                                최근 3개월 예약 내역이 없습니다.
+                            </td>
+                        </tr>
+                    </c:if>
                 </tbody>
             </table>
         </div>

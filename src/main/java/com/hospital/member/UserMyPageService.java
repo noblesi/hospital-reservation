@@ -64,6 +64,27 @@ public class UserMyPageService {
 	}//searchAppointmentList
 
 	/**
+	 * 마이페이지 하단 예약 취소 및 변경 영역에 표시할 예약 목록 조회
+	 * 현재일 기준 최근 3개월 예약을 조회하며, 취소 가능 여부는 DTO에 함께 담는다.
+	 * 
+	 * @param patientNo 환자번호
+	 * @return 예약 취소 및 변경 영역에 표시할 예약 목록
+	 */
+	public List<UserAppointmentDTO> searchManageAppointmentList(String patientNo) {
+		
+		List<UserAppointmentDTO> list = new ArrayList<UserAppointmentDTO>();
+		
+		try {
+			list = umpDAO.selectManageAppointmentList(patientNo);
+			
+		} catch(SQLException se) {
+			se.printStackTrace();
+		}//end catch
+		
+		return list;
+	}//searchManageAppointmentList
+
+	/**
 	 * 진료 기록 조회
 	 * 
 	 * @param patientNo 환자번호

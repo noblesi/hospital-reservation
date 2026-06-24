@@ -181,6 +181,10 @@ body {
     font-weight: 800;
 }
 
+.boxTitle2{
+	color: #FF0000;
+}
+
 .boxTitle a {
     color: #2763ba;
     font-size: 14px;
