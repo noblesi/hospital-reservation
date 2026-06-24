@@ -104,7 +104,7 @@ public class AdminDoctorDAO {
 		if(!adminDoctorSearchDTO.getStatusCode().isEmpty()) {
 			selectSql
 				.append(andCulmn)
-				.append("	status_code = '		")
+				.append("	status_code = '")
 				.append(adminDoctorSearchDTO.getStatusCode())
 				.append("'		");
 			
@@ -117,9 +117,9 @@ public class AdminDoctorDAO {
 		if(!adminDoctorSearchDTO.getSpecialty().isEmpty()) {
 			selectSql
 				.append(andCulmn)
-				.append("	spacialty like %")
+				.append("	spacialty like '%")
 				.append(adminDoctorSearchDTO.getSpecialty())
-				.append("%		");
+				.append("%'		");
 			
 			if(!firstSearchCulmn) { 
 				firstSearchCulmn = true;
@@ -142,7 +142,6 @@ public class AdminDoctorDAO {
 		}// end if
 				
 		try {
-			selectSql.append(";");
 			
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(selectSql.toString());
