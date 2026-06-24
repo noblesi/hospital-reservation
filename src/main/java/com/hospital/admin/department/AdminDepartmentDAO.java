@@ -185,12 +185,6 @@ public class AdminDepartmentDAO{
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-<<<<<<< HEAD
-		
-=======
-		//ResultSet rs = null;
-
->>>>>>> refs/remotes/origin/doctorManager
 		StringBuilder insertSql= new StringBuilder();
 
 		insertSql
@@ -334,7 +328,7 @@ public class AdminDepartmentDAO{
 		
 		try {
 			conn = DBConnection.getConnection();
-			pstmt = conn.prepareStatement(selectSql);
+			pstmt = conn.prepareStatement(selectSql.toString());
 			pstmt.setString(1, deptName.trim());
 			rs = pstmt.executeQuery();
 
