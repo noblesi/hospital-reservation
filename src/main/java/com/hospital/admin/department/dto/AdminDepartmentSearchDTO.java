@@ -1,5 +1,7 @@
 package com.hospital.admin.department.dto;
 
+import com.hospital.common.dto.BaseSearchDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +14,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class AdminDepartmentSearchDTO {
+public class AdminDepartmentSearchDTO extends BaseSearchDTO {
 
-	private int startNum;
-	private int endNum;
 	private String field;
 	private String keyword;
 	private String isActiveYn;

@@ -339,7 +339,7 @@ public class AdminDepartmentDAO{
 		
 		try {
 			conn = DBConnection.getConnection();
-			pstmt = conn.prepareStatement(selectSql);
+			pstmt = conn.prepareStatement(selectSql.toString());
 			pstmt.setString(1, deptName.trim());
 			rs = pstmt.executeQuery();
 
