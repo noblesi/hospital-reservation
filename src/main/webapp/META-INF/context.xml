@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Resource
+        name="jdbc/hospitalDB"
+        auth="Container"
+        type="javax.sql.DataSource"
+        driverClassName="oracle.jdbc.OracleDriver"
+        url="jdbc:oracle:thin:@211.63.89.134:1521:orcl"
+        username="scott"
+        password="tiger"
+        maxTotal="20"
+        maxIdle="10"
+        minIdle="2"
+        maxWaitMillis="10000"
+        testOnBorrow="true"
+        validationQuery="select 1 from dual" />
+</Context>
