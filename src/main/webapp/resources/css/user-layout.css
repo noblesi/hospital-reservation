@@ -663,6 +663,75 @@ body {
     text-align: right;
 }
 
+.error-page {
+    min-height: 100vh;
+    padding: 80px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f8fc;
+}
+
+.error-panel {
+    width: min(680px, 100%);
+    padding: 54px 48px;
+    border: 1px solid #dfe6f0;
+    background-color: #fff;
+    text-align: center;
+}
+
+.error-code {
+    margin: 0 0 14px;
+    color: #005bac;
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.error-panel h1 {
+    margin: 0 0 14px;
+    color: #111;
+    font-size: 30px;
+    line-height: 1.35;
+}
+
+.error-message {
+    margin: 0;
+    color: #555;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.error-path {
+    margin: 24px 0 0;
+    padding: 12px 14px;
+    background-color: #f7f9fc;
+    color: #666;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.error-path span {
+    display: block;
+    margin-top: 4px;
+    color: #333;
+    overflow-wrap: anywhere;
+}
+
+.error-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.error-actions .outline-link {
+    background-color: #fff;
+    color: #005bac;
+    font: inherit;
+    cursor: pointer;
+}
+
 @media (max-width: 1200px) {
     :root {
         --user-page-width: 88vw;
@@ -751,5 +820,30 @@ body {
 
     .user-all-menu-grid {
         grid-template-columns: 1fr;
+    }
+
+    .error-page {
+        padding: 46px 16px;
+    }
+
+    .error-panel {
+        padding: 40px 22px;
+    }
+
+    .error-code {
+        font-size: 52px;
+    }
+
+    .error-panel h1 {
+        font-size: 24px;
+    }
+
+    .error-actions {
+        flex-direction: column;
+    }
+
+    .error-actions .main-primary-link,
+    .error-actions .outline-link {
+        width: 100%;
     }
 }
