@@ -7,6 +7,21 @@
     <meta charset="UTF-8">
     <title>관리자 회원 목록</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css">
+
+<style>
+.member-name-link {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    font: inherit;
+}
+</style>
+
+
 </head>
 <body>
 
@@ -56,7 +71,13 @@
         <td>1001</td>
         <td>hong01</td>
         <td>
-       <a href="${pageContext.request.contextPath}/admin/member/detail?memberNo=1001">홍길동</a>
+     
+
+    <button type="button" class="member-name-link"
+        onclick="window.location.href='${pageContext.request.contextPath}/admin/member/detail?memberNo=1001'">
+    홍길동-테스트
+</button>
+
 
         
         </td>

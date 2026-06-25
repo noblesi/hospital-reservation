@@ -15,12 +15,12 @@
 
 <div class="admin-content">
     <h2>회원 상세</h2>
-    <p>전달받은 memberNo : ${param.memberNo}</p>
 
+    <!-- 회원 상세 정보 -->
     <table border="1" width="100%">
         <tr>
             <th>회원번호</th>
-            <td>${param.memberNo}</td>
+            <td>${member.memberNo}</td>
         </tr>
         <tr>
             <th>아이디</th>
@@ -48,53 +48,54 @@
         </tr>
     </table>
 
-    <br><br>
+    <br>
 
+    <!-- 메모 등록 영역 -->
     <h3>회원 메모</h3>
 
-    <!-- 메모 입력 영역 -->
     <form method="post" action="">
-        <input type="hidden" name="memberNo" value="${param.memberNo}">
+        <input type="hidden" name="memberNo" value="${member.memberNo}">
 
         <table border="1" width="100%">
-            <tr>
-                <th width="20%">메모 내용</th>
-                <td>
-                    <textarea name="memoContent" rows="4" cols="100"
-                              placeholder="회원 관련 메모를 입력하세요."></textarea>
-                </td>
-            </tr>
             <tr>
                 <th>작성자</th>
                 <td>
                     <input type="text" name="adminId" value="${sessionScope.loginAdminId}" readonly>
                 </td>
             </tr>
+            <tr>
+                <th>메모 내용</th>
+                <td>
+                    <textarea name="memoContent" rows="4" cols="80"></textarea>
+                </td>
+            </tr>
         </table>
 
         <br>
-
-        <div>
-            <button type="submit">메모 등록</button>
-        </div>
+        <button type="submit">메모 등록</button>
     </form>
 
     <br>
 
-    <!-- 메모 목록 영역 -->
+    <!-- 메모 목록 -->
     <table border="1" width="100%">
         <thead>
             <tr>
-                <th width="10%">메모번호</th>
-                <th width="15%">작성자</th>
-                <th width="45%">메모내용</th>
-                <th width="20%">작성일</th>
-                <th width="10%">삭제</th>
+                <th>메모번호</th>
+                <th>작성자</th>
+                <th>메모내용</th>
+                <th>작성일</th>
+                <th>삭제</th>
             </tr>
         </thead>
         <tbody>
             <c:choose>
-                <c:when test="${not empty memoList}">
+                <c:when test="${empty memoList}">
+                    <tr>
+                        <td colspan="5">등록된 메모가 없습니다.</td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
                     <c:forEach var="memo" items="${memoList}">
                         <tr>
                             <td>${memo.memoNo}</td>
@@ -102,28 +103,26 @@
                             <td>${memo.memoContent}</td>
                             <td>${memo.createDate}</td>
                             <td>
-                                <form method="post" action="" style="margin:0;">
+                                <form method="post" action="">
                                     <input type="hidden" name="memoNo" value="${memo.memoNo}">
                                     <button type="submit">삭제</button>
                                 </form>
                             </td>
                         </tr>
                     </c:forEach>
-                </c:when>
-                <c:otherwise>
-                    <tr>
-                        <td colspan="5">등록된 메모가 없습니다.</td>
-                    </tr>
                 </c:otherwise>
             </c:choose>
         </tbody>
     </table>
 
-    <div>
-        <button type="button" onclick="location.href='memberList.jsp'">목록으로</button>
-    </div>
+    <br>
+
+    <!-- 목록으로 버튼 -->
+    <button type="button"
+            onclick="location.href='${pageContext.request.contextPath}/views/admin/member/memberList.jsp'">
+        목록으로
+    </button>
 </div>
 
 </body>
 </html>
-
