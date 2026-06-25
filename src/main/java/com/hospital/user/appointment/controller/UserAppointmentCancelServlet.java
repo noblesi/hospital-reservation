@@ -1,46 +1,42 @@
 package com.hospital.user.appointment.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.hospital.user.appointment.UserAppointmentService;
 
-@WebServlet("/appointment/cancel")
 public class UserAppointmentCancelServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private final UserAppointmentService userAppointmentService = new UserAppointmentService();
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        response.setContentType("text/html; charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        
-        // 1. 파라미터 데이터 수집
-        // String patientNo = (String) request.getSession().getAttribute("patientNo");
-        String patientNo = "P00000001"; 
-        String appointmentNo = request.getParameter("appointmentNo");
-
-        // 2. 서비스 레이어 호출
-        UserAppointmentService uas = new UserAppointmentService();
-        boolean cancelFlag = uas.cancelAppointment(appointmentNo, patientNo);
-
-        out.println("<script type='text/javascript'>");
-        if (cancelFlag) {
-            out.println("    alert('예약이 취소되었습니다.');");
-        } else {
-            out.println("    alert('예약 취소가 실패했습니다. 잠시 후 다시 시도해 주세요.');");
+        String patientNo = UserAppointmentSessionUtil.getLoginPatientNo(request);
+        if (UserAppointmentSessionUtil.isBlank(patientNo)) {
+            response.sendRedirect(request.getContextPath() + "/member/login.do");
+            return;
         }
-        out.println("    location.href='appointmentList.jsp';");
-        out.println("</script>");
-        out.flush();
+
+        String appointmentNo = request.getParameter("appointmentNo");
+        if (UserAppointmentSessionUtil.isBlank(appointmentNo)) {
+            request.getSession().setAttribute("errorMessage", "취소할 예약 정보를 확인할 수 없습니다.");
+            response.sendRedirect(request.getContextPath() + "/appointment/list.do");
+            return;
+        }
+
+        boolean cancelFlag = userAppointmentService.cancelAppointment(appointmentNo, patientNo);
+        request.getSession().setAttribute(cancelFlag ? "message" : "errorMessage",
+                cancelFlag ? "예약이 취소되었습니다." : "예약 취소에 실패했습니다. 잠시 후 다시 시도해 주세요.");
+        response.sendRedirect(request.getContextPath() + "/appointment/list.do");
     }
-    
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);
     }

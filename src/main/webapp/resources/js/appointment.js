@@ -45,6 +45,18 @@ $(function() {
     $("#lastConfrimBtn").on("click", sendRequestAppointment);
 });
 
+function getAppointmentConfig() {
+    return window.hospitalAppointmentConfig || {};
+}
+
+function getAppointmentAjaxUrl() {
+    return getAppointmentConfig().ajaxUrl || "ajax.do";
+}
+
+function getAppointmentProcessUrl() {
+    return getAppointmentConfig().processUrl || "process.do";
+}
+
 /* [UI 및 포커스 제어 함수] */
 function removeFocusBorder() {
     $(".deptWrap").removeClass("focusBorder");
@@ -77,7 +89,7 @@ function moveToPrevPage(curPage) {
 /* [비즈니스 로직 및 Ajax 렌더링 함수] */
 function renderCalendar(year, month) {
     $.ajax({
-        url: "process/appointmentAjax.jsp",
+        url: getAppointmentAjaxUrl(),
         type: "GET",
         data: { action: "schedule", dln: dln, year: year, month: month },
         success: function(recivedHtml) {
@@ -88,7 +100,7 @@ function renderCalendar(year, month) {
 
 function renderTimeTable(selectedDate) {
     $.ajax({
-        url: "process/appointmentAjax.jsp",
+        url: getAppointmentAjaxUrl(),
         type: "GET",
         data: { action: "timeTable", date: selectedDate, dln: dln},
         success: function(recivedHtml) {
@@ -101,11 +113,12 @@ function renderTimeTable(selectedDate) {
 function handleDeptSort() {
     var selectedSort = $(this).val();
     $.ajax({
-        url: "process/appointmentAjax.jsp",
+        url: getAppointmentAjaxUrl(),
         type: "GET",
         data: { action: "sort", sort: selectedSort },
         success: function(receivedHtml) {
             $(".sliderTrack").html(receivedHtml);
+            pageLength = $(".slTab").length;
             curPage = 0;
             $(".sliderTrack").css("left", "0px");
         },
@@ -131,7 +144,7 @@ function handleDeptSelect() {
     $(".rsInfoDept").html(deptName);
 
     $.ajax({
-        url: "process/appointmentAjax.jsp",
+        url: getAppointmentAjaxUrl(),
         type: "GET",
         data: { action: "doctorList", deptNo: deptNo, deptName: deptName },
         success: function(receivedHtml) {
@@ -147,7 +160,7 @@ function handleDoctorSearch() {
         return;
     }
     $.ajax({
-        url: "process/appointmentAjax.jsp",
+        url: getAppointmentAjaxUrl(),
         type: "GET",
         data: { action: "searchDoctor", keyword: keyword },
         success: function(receivedHtml) {
@@ -259,7 +272,7 @@ function sendRequestAppointment() {
 	*/
 	var form = $("<form>", {
 		method: "POST",
-		action: "appointmentProcess.jsp"
+		action: getAppointmentProcessUrl()
 	});
 
 	form.append($("<input>", { type: "hidden", name: "doctorLicenseNo", value: dln }));

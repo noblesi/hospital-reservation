@@ -4,12 +4,16 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.hospital.common.dto.DepartmentDTO;
 import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
 import com.hospital.user.appointment.dto.UserAppointmentConfirmDTO;
+import com.hospital.user.appointment.dto.UserAppointmentOptionDTO;
 import com.hospital.user.appointment.dto.UserAppointmentRequestDTO;
 import com.hospital.user.appointment.dto.UserAppointmentShowDTO;
 
@@ -21,6 +25,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserAppointmentService {
 
+	private static final Logger LOGGER = Logger.getLogger(UserAppointmentService.class.getName());
+
 	UserAppointmentDAO uaDAO = UserAppointmentDAO.getInstance();
 
 	/**
@@ -29,15 +35,13 @@ public class UserAppointmentService {
 	 * @return
 	 */
 	public List<DepartmentDTO> searchDepartmentList() {
-		List<DepartmentDTO> deptList = null;
-
 		try {
-			deptList = uaDAO.selectDepartmentList();
+			return uaDAO.selectDepartmentList();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "진료과 목록 조회 실패", e);
 		}
 
-		return deptList;
+		return Collections.emptyList();
 	}
 
 	/**
@@ -47,19 +51,34 @@ public class UserAppointmentService {
 	 * @return
 	 */
 	public List<DoctorDTO> searchDoctorList(String deptNo) {
-		List<DoctorDTO> doctorList = null;
-
 		if (deptNo == null || "".equals(deptNo)) {
-			return doctorList;
+			return Collections.emptyList();
 		}
 
 		try {
-			doctorList = uaDAO.selectDoctorList(deptNo);
+			return uaDAO.selectDoctorList(deptNo);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "진료과별 의료진 목록 조회 실패: " + deptNo, e);
 		}
 
-		return doctorList;
+		return Collections.emptyList();
+	}
+
+	/**
+	 * 의료진명 또는 세부전공 keyword로 의료진을 검색한다.
+	 */
+	public List<DoctorDTO> searchDoctorListByKeyword(String keyword) {
+		if (keyword == null || keyword.isBlank()) {
+			return Collections.emptyList();
+		}
+
+		try {
+			return uaDAO.selectDoctorListByKeyword(keyword.trim());
+		} catch (SQLException e) {
+			LOGGER.log(Level.SEVERE, "의료진 keyword 검색 실패: " + keyword, e);
+		}
+
+		return Collections.emptyList();
 	}
 
 	public UserAppointmentOptionDTO searchDoctorDetail(int doctorLicenseNo) {
@@ -68,7 +87,7 @@ public class UserAppointmentService {
 		try {
 			optionDTO = uaDAO.selectDoctorDetail(doctorLicenseNo);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "의료진 상세 조회 실패: " + doctorLicenseNo, e);
 		}
 
 		return optionDTO;
@@ -81,15 +100,13 @@ public class UserAppointmentService {
 	 * @return
 	 */
 	public List<DoctorScheduleDTO> searchDoctorSchedule(int doctorLicenseNo) {
-		List<DoctorScheduleDTO> dsList = null;
-
 		try {
-			dsList = uaDAO.selectDoctorSchedule(doctorLicenseNo);
+			return uaDAO.selectDoctorSchedule(doctorLicenseNo);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "의료진 일정 조회 실패: " + doctorLicenseNo, e);
 		}
 
-		return dsList;
+		return Collections.emptyList();
 	}
 
 	/**
@@ -106,7 +123,7 @@ public class UserAppointmentService {
 		List<DoctorScheduleDTO> dsList = null;
 
 		if (appointmentDate == null) {
-			return null;
+			return availableTimes;
 		}
 
 		try {
@@ -144,8 +161,7 @@ public class UserAppointmentService {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "진료 가능 시간 조회 실패", e);
 		}
 
 		return availableTimes;
@@ -172,7 +188,7 @@ public class UserAppointmentService {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "예약 중복 확인 실패", e);
 		}
 
 		return reservable;
@@ -201,7 +217,7 @@ public class UserAppointmentService {
 			uaDAO.insertAppointment(requestDTO);
 			uacDTO = uaDAO.selectAppointmentConfirm(requestDTO);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "예약 등록 실패", e);
 		}
 
 		return uacDTO;
@@ -230,7 +246,7 @@ public class UserAppointmentService {
 			uaDAO.updateAppointment(appointmentNo, patientNo, requestDTO);
 			uacDTO = uaDAO.selectAppointmentConfirm(requestDTO);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "예약 변경 실패: " + appointmentNo, e);
 		}
 
 		return uacDTO;
@@ -252,13 +268,23 @@ public class UserAppointmentService {
 		try {
 			uacDTO = uaDAO.selectAppointmentConfirm(appointmentNo);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "예약 확인 조회 실패: " + appointmentNo, e);
 		}
 
 		return uacDTO;
 	}
 
 	public UserAppointmentConfirmDTO searchAppointmentConfirm(UserAppointmentRequestDTO requestDTO) {
+
+		if (requestDTO == null) {
+			return null;
+		}
+
+		try {
+			return uaDAO.selectAppointmentConfirm(requestDTO);
+		} catch (SQLException e) {
+			LOGGER.log(Level.SEVERE, "예약 요청 정보 확인 조회 실패", e);
+		}
 
 		return null;
 	}
@@ -283,7 +309,7 @@ public class UserAppointmentService {
 				cancelFlag = true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "예약 취소 실패: " + appointmentNo, e);
 		}
 
 		return cancelFlag;
@@ -294,18 +320,16 @@ public class UserAppointmentService {
 	 * @return
 	 */
 	public List<UserAppointmentShowDTO> searchAppointmentDetail(String patientNo) {
-		List<UserAppointmentShowDTO> uasDTOList = null;
-
 		if (patientNo == null || "".equals(patientNo)) {
-			return uasDTOList;
+			return Collections.emptyList();
 		}
 
 		try {
-			uasDTOList = uaDAO.selectAppointmentDetail(patientNo);
+			return uaDAO.selectAppointmentDetail(patientNo);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "환자 예약 목록 조회 실패: " + patientNo, e);
 		}
 
-		return uasDTOList;
+		return Collections.emptyList();
 	}
 }

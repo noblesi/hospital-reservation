@@ -13,6 +13,7 @@ import com.hospital.common.dto.DepartmentDTO;
 import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
 import com.hospital.user.appointment.dto.UserAppointmentConfirmDTO;
+import com.hospital.user.appointment.dto.UserAppointmentOptionDTO;
 import com.hospital.user.appointment.dto.UserAppointmentRequestDTO;
 import com.hospital.user.appointment.dto.UserAppointmentShowDTO;
 
@@ -153,8 +154,8 @@ public class UserAppointmentDAO {
 
 			StringBuilder querySb = new StringBuilder();
 			querySb //
-					.append("	select	doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code")
-					.append("	from	doctor") //
+					.append("	select	doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code ")
+					.append("	from	doctor ") //
 					.append("	where	name like '%' || ? || '%' or specialty like '%' || ? || '%'");
 
 			pstmt = con.prepareStatement(querySb.toString());

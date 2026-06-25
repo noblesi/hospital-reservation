@@ -1,18 +1,5 @@
-<%@page import="com.hospital.common.dto.DoctorDTO"%>
-<%@page import="com.hospital.common.dto.DoctorStatusDTO"%>
-<%@page import="com.hospital.admin.doctor.dto.AdminDoctorFormOptionDTO"%>
-<%@page import="com.hospital.common.dto.DoctorPositionDTO"%>
-<%@page import="com.hospital.admin.department.AdminDepartmentService"%>
-<%@page import="com.hospital.admin.doctor.AdminDoctorService"%>
-<%@page import="com.hospital.admin.doctor.controller.AdminDoctorListServlet"%>
-<%@page import="com.hospital.admin.doctor.controller.AdminDoctorListViewServlet"%>
-<%@page import="com.hospital.common.dto.DepartmentDTO"%>
-<%@page import="java.util.ArrayList"%>
-<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<c:set var="adminMenu" value="doctor" scope="request" />
+<%@ include file="/views/common/taglib.jsp" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -177,19 +164,6 @@
 
 <script type="text/javascript">
     $(function(){
-		<%
-		AdminDoctorService adminDoctorService = new AdminDoctorService();
-		AdminDoctorFormOptionDTO adminDoctorFormOptionDTO = adminDoctorService.getDoctorFormOptions();
-		List<DepartmentDTO> deptList = adminDoctorFormOptionDTO.getDepartmentList();
-		List<DoctorPositionDTO> positionList = adminDoctorFormOptionDTO.getPositionList();
-		List<DoctorStatusDTO> statusList = adminDoctorFormOptionDTO.getStatusList();
-		List<DoctorDTO> doctorList = adminDoctorService.searchDoctorList();
-		pageContext.setAttribute("deptList", deptList);
-		pageContext.setAttribute("statusList", statusList);
-		pageContext.setAttribute("positionList", positionList);
-		pageContext.setAttribute("doctorList", doctorList);
-		%>
-    	
         $("#searchBtn").click(function () {
             const dept = $("#dept").val();
             const status = $("#status").val();
@@ -201,7 +175,7 @@
 
         $("#registerBtn").click(function () {
             alert("의료진 등록 페이지로 이동");
-             location.href = "<c:url value='adminDoctorDetail.jsp' />";
+             location.href = "<c:url value='/admin/doctor/form.do' />";
         });
 
         $(".status-select").on("change", function () {
@@ -281,7 +255,12 @@
 								<c:forEach var="doctor" items="${doctorList}" varStatus="st">
 									<tr>
 										<td>${st.count}</td>
-										<td><a href="http://localhost/hospital-reservation/views/admin/doctor/adminDoctorDetail.jsp?doctorLicenseNo=${doctor.doctorLicenseNo}">${doctor.name}</a></td>
+										<td>
+											<c:url var="doctorFormUrl" value="/admin/doctor/form.do">
+												<c:param name="doctorLicenseNo" value="${doctor.doctorLicenseNo}" />
+											</c:url>
+											<a href="${doctorFormUrl}"><c:out value="${doctor.name}" /></a>
+										</td>
 										<c:forEach var="dept" items="${ deptList }">
 											<c:if test="${ doctor.deptNo eq dept.deptNo }">
 												<td><c:out value="${ dept.deptName }"/></td>

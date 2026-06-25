@@ -136,48 +136,64 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>appointmentReservePage</servlet-name>
-    <jsp-file>/views/user/appointment/appointment.jsp</jsp-file>
+    <servlet-name>appointmentReserveServlet</servlet-name>
+    <servlet-class>com.hospital.user.appointment.controller.UserAppointmentReserveServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>appointmentReservePage</servlet-name>
+    <servlet-name>appointmentReserveServlet</servlet-name>
     <url-pattern>/appointment/reserve.do</url-pattern>
     <url-pattern>/appointment/appointment.jsp</url-pattern>
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>appointmentListPage</servlet-name>
-    <jsp-file>/views/user/appointment/appointmentList.jsp</jsp-file>
+    <servlet-name>appointmentListServlet</servlet-name>
+    <servlet-class>com.hospital.user.appointment.controller.UserAppointmentListServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>appointmentListPage</servlet-name>
+    <servlet-name>appointmentListServlet</servlet-name>
     <url-pattern>/appointment/list.do</url-pattern>
+    <url-pattern>/appointment/appointmentList.jsp</url-pattern>
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>appointmentAjaxPage</servlet-name>
-    <jsp-file>/views/user/appointment/appointment_ajax.jsp</jsp-file>
+    <servlet-name>appointmentAjaxServlet</servlet-name>
+    <servlet-class>com.hospital.user.appointment.controller.UserAppointmentAjaxServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>appointmentAjaxPage</servlet-name>
+    <servlet-name>appointmentAjaxServlet</servlet-name>
+    <url-pattern>/appointment/ajax.do</url-pattern>
     <url-pattern>/appointment/appointment_ajax.jsp</url-pattern>
+    <url-pattern>/appointment/process/appointmentAjax.jsp</url-pattern>
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>appointmentProcessPage</servlet-name>
-    <jsp-file>/views/user/appointment/appointmentProcess.jsp</jsp-file>
+    <servlet-name>appointmentProcessServlet</servlet-name>
+    <servlet-class>com.hospital.user.appointment.controller.UserAppointmentProcessServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>appointmentProcessPage</servlet-name>
+    <servlet-name>appointmentProcessServlet</servlet-name>
+    <url-pattern>/appointment/process.do</url-pattern>
     <url-pattern>/appointment/appointmentProcess.jsp</url-pattern>
+    <url-pattern>/appointment/process/appointmentProcess.jsp</url-pattern>
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>appointmentSuccessPage</servlet-name>
-    <jsp-file>/views/user/appointment/appointmentSuccess.jsp</jsp-file>
+    <servlet-name>appointmentCancelServlet</servlet-name>
+    <servlet-class>com.hospital.user.appointment.controller.UserAppointmentCancelServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>appointmentSuccessPage</servlet-name>
+    <servlet-name>appointmentCancelServlet</servlet-name>
+    <url-pattern>/appointment/cancel.do</url-pattern>
+    <url-pattern>/appointment/process/appointmentCancel.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>appointmentSuccessServlet</servlet-name>
+    <servlet-class>com.hospital.user.appointment.controller.UserAppointmentSuccessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appointmentSuccessServlet</servlet-name>
+    <url-pattern>/appointment/success.do</url-pattern>
     <url-pattern>/appointment/appointmentSuccess.jsp</url-pattern>
   </servlet-mapping>
 
@@ -235,6 +251,16 @@
   <servlet-mapping>
     <servlet-name>adminDoctorListServlet</servlet-name>
     <url-pattern>/admin/doctor/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminDoctorFormServlet</servlet-name>
+    <servlet-class>com.hospital.admin.doctor.controller.AdminDoctorFormServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminDoctorFormServlet</servlet-name>
+    <url-pattern>/admin/doctor/form.do</url-pattern>
+    <url-pattern>/admin/doctor/adminDoctorDetail.jsp</url-pattern>
   </servlet-mapping>
 
   <servlet>

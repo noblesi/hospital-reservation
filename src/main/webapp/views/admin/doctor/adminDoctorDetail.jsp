@@ -1,19 +1,5 @@
-<%@page import="com.hospital.common.dto.DoctorEducationDTO"%>
-<%@page import="com.hospital.common.dto.DoctorScheduleDTO"%>
-<%@page import="com.hospital.common.dto.DoctorCareerDTO"%>
-<%@page import="com.hospital.common.dto.DoctorStatusDTO"%>
-<%@page import="com.hospital.common.dto.DoctorPositionDTO"%>
-<%@page import="com.hospital.common.dto.DoctorDTO"%>
-<%@page import="com.hospital.admin.doctor.dto.AdminDoctorFormDTO"%>
-<%@page import="com.hospital.admin.doctor.dto.AdminDoctorSearchDTO"%>
-<%@page import="com.hospital.admin.doctor.AdminDoctorService"%>
-<%@page import="com.hospital.common.dto.DepartmentDTO"%>
-<%@page import="java.util.ArrayList"%>
-<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<c:set var="adminMenu" value="doctor" scope="request" />
+<%@ include file="/views/common/taglib.jsp" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -414,34 +400,6 @@
 
 <script type="text/javascript">
     $(function(){
-		<%
-		String paramLicenseNo = (String) request.getParameter("doctorLicenseNo");
-		AdminDoctorService adminDoctorService = new AdminDoctorService();
-		//파라미터 있을때 정보 넣어주기
-		if(paramLicenseNo != null && !"".equals(paramLicenseNo)){
-			
-			AdminDoctorFormDTO adminDoctorFormDTO = new AdminDoctorFormDTO();
-			adminDoctorFormDTO = adminDoctorService.searchDoctorDetail(Integer.parseInt(paramLicenseNo));
-			DoctorDTO doctorDTO = adminDoctorFormDTO.getDoctorDTO();
-			List<DepartmentDTO> departmentDTOList = adminDoctorFormDTO.getDepartmentList();
-			List<DoctorPositionDTO> positionDTOList = adminDoctorFormDTO.getPositionList();
-			List<DoctorStatusDTO> statusDTOList = adminDoctorFormDTO.getStatusList();
-			List<DoctorCareerDTO> careerDTOList = adminDoctorFormDTO.getCareerList();
-			List<DoctorScheduleDTO> scheduleDTOList = adminDoctorFormDTO.getScheduleList();
-			List<DoctorEducationDTO> educationDTOList = adminDoctorFormDTO.getEducationList();
-			
-			pageContext.setAttribute("departmentList", departmentDTOList);
-			pageContext.setAttribute("statusList", statusDTOList);
-			pageContext.setAttribute("positionList", positionDTOList);
-			pageContext.setAttribute("doctor", doctorDTO);
-			pageContext.setAttribute("careerList", careerDTOList);
-			pageContext.setAttribute("scheduleList", scheduleDTOList);
-			pageContext.setAttribute("educationList", educationDTOList);
-			
-		}//end if
-		%>
-    	
-    	
 		$('#thumbUploadBtn').click( function () {
 		  $('#thumbFile').trigger('click');
 		});
@@ -609,7 +567,7 @@
 						          <label class="doctor-label" for="position">직급</label>
 						          <select class="doctor-select" id="position" name="position">
 						            <option value="">직급 선택</option>
-						            <% //직급 리스트 %>
+						            <%-- 직급 리스트 --%>
 						          </select>
 						          <div></div>
 						        </div>

@@ -36,12 +36,14 @@ public class MemberMyPageServlet extends HttpServlet {
 		}// end if
 
 		List<UserAppointmentDTO> appList = userMyPageService.searchAppointmentList(patientNo);
+		List<UserAppointmentDTO> manageAppList = userMyPageService.searchManageAppointmentList(patientNo);
 		List<UserMedicalRecordDTO> medicalList = userMyPageService.searchMedicalRecordList(patientNo);
 
 		request.setAttribute("memberInfo", memberInfo);
 		request.setAttribute("appointmentCount", appList.size());
 		request.setAttribute("medicalCount", medicalList.size());
 		request.setAttribute("appList", appList);
+		request.setAttribute("manageAppList", manageAppList);
 		request.setAttribute("medicalList", medicalList);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/member/myPage.jsp");

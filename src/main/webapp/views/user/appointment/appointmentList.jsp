@@ -1,27 +1,5 @@
-<%@page import="java.util.List"%>
-<%@page import="com.hospital.user.appointment.dto.UserAppointmentShowDTO"%>
-<%@page import="com.hospital.user.appointment.UserAppointmentService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-request.setAttribute("activeMenu", "hospital");
-request.setAttribute("depth1", "진료안내");
-request.setAttribute("depth2", "예약확인");
-
-/* 
-session 에서 환자 번호를 입력받고
-환자의 모든 예약된 진료 기록을 불러온다.
-*/
-
-// String patientNo = session.getAttribute("");
-String patientNo = "P00000001";
-
-UserAppointmentService uas = new UserAppointmentService();
-
-List<UserAppointmentShowDTO> uasDTOList = uas.searchAppointmentDetail(patientNo);
-
-pageContext.setAttribute("uasDTOList", uasDTOList);
-%>
+<%@ include file="/views/common/taglib.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -51,14 +29,14 @@ pageContext.setAttribute("uasDTOList", uasDTOList);
 		/* 예약 변경 버튼 */
 		$(".apptChangeBtn").on("click", function() {
 			if(confirm("예약을 변경하시겠습니까?")) {
-				location.href = "appointment.jsp?appointmentNo=" + $(this).val();
+				location.href = "${pageContext.request.contextPath}/appointment/reserve.do?appointmentNo=" + $(this).val();
 			}
 		});
 		
 		/* 예약 취소 버튼 */
 		$(".apptCancelBtn").on("click", function() {
 			if(confirm("예약을 취소하시겠습니까?")) {
-				location.href = "process/appointmentCancel.jsp?appointmentNo=" + $(this).val();
+				location.href = "${pageContext.request.contextPath}/appointment/cancel.do?appointmentNo=" + $(this).val();
 			}
 		});
 	});
@@ -68,10 +46,11 @@ pageContext.setAttribute("uasDTOList", uasDTOList);
 <body>
 	<%@ include file="/views/common/userHeader.jsp"%>
 	<%@ include file="/views/common/userBreadcrumb.jsp"%>
+	<%@ include file="/views/common/message.jsp"%>
 	
 	<div class="mainWrap">
 		<!-- 사이드바 -->
-		<c:import url="http://localhost/hospital-reservation/views/user/appointment/appointmentSidebar.jsp"/>
+		<jsp:include page="/views/user/appointment/appointmentSidebar.jsp" />
 		
 		<!-- 유저의 진료 목록 -->
 		<h1 class="title">진료예약확인</h1>

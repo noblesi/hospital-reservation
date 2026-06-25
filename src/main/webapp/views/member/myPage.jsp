@@ -9,45 +9,6 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
-<%@page import="java.util.List"%>
-<%@page import="com.hospital.common.MemberDTO"%>
-<%@page import="com.hospital.member.UserMyPageService"%>
-<%@page import="com.hospital.member.dto.UserAppointmentDTO"%>
-<%@page import="com.hospital.member.dto.UserMedicalRecordDTO"%>
-
-<%
-MemberDTO loginUser = (MemberDTO)session.getAttribute("loginUser");
-
-if(loginUser == null){
-    response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
-    return;
-}
-
-UserMyPageService umps = new UserMyPageService();
-
-MemberDTO memberInfo = umps.searchMemberInfo(loginUser.getLoginId());
-
-String patientNo = "";
-if(memberInfo != null){
-    patientNo = memberInfo.getPatientNo();
-}
-
-// 예약 현황 모달용: 오늘 이후 예약 전체를 조회한다.
-List<UserAppointmentDTO> appList = umps.searchAppointmentList(patientNo);
-// 예약 취소 및 변경 영역용: 현재일 기준 최근 3개월 예약을 조회한다.
-List<UserAppointmentDTO> manageAppList = umps.searchManageAppointmentList(patientNo);
-List<UserMedicalRecordDTO> medicalList = umps.searchMedicalRecordList(patientNo);
-
-int appointmentCount = appList.size();
-int medicalCount = medicalList.size();
-
-pageContext.setAttribute("memberInfo", memberInfo);
-pageContext.setAttribute("appointmentCount", appointmentCount);
-pageContext.setAttribute("medicalCount", medicalCount);
-pageContext.setAttribute("appList", appList);
-pageContext.setAttribute("manageAppList", manageAppList);
-pageContext.setAttribute("medicalList", medicalList);
-%>
 <link rel="stylesheet" href="<c:url value='/resources/css/sideBar.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/mypage.css' />">
@@ -153,7 +114,7 @@ pageContext.setAttribute("medicalList", medicalList);
                             <td>
                                 <c:choose>
                                     <c:when test="${app.cancelable}">
-                                        <form action="<c:url value='/views/member/process/cancelAppointmentProcess.jsp' />"
+                                        <form action="<c:url value='/member/mypage/appointment/cancel.do' />"
                                               method="post"
                                               class="reservationCancelForm">
                                             <input type="hidden"

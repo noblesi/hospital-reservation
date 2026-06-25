@@ -1,6 +1,7 @@
 package com.hospital.admin.department;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.hospital.admin.department.dto.AdminDepartmentSearchDTO;
 import com.hospital.common.dto.DepartmentDTO;
@@ -8,6 +9,7 @@ import com.hospital.common.util.PaginationUtil;
 
 public class AdminDepartmentService {
 
+	private static final Logger LOGGER = Logger.getLogger(AdminDepartmentService.class.getName());
 	private AdminDepartmentDAO adminDepartmentDAO;
 	
 	public AdminDepartmentService() {
@@ -57,7 +59,7 @@ public class AdminDepartmentService {
 		DepartmentDTO departmentDTOTemp = departmentDTO;
 		
 		boolean successRegister = false;
-		System.out.println( "register");
+		LOGGER.fine("register department");
 		successRegister = (adminDepartmentDAO.insertDepartment(departmentDTOTemp) == 1);
 		
 		return successRegister;
@@ -88,11 +90,10 @@ public class AdminDepartmentService {
 		} else if("N".equals(isActiveYnTemp)) {
 			isActiveYnTemp = "Y";
 		} else {
-			System.out.println("이건뭐야" + isActiveYnTemp);
+			LOGGER.warning("지원하지 않는 진료과 사용 여부 값: " + isActiveYnTemp);
 		}
-		
-		
-		System.out.println(isActiveYnTemp);
+
+		LOGGER.fine("changed department active flag: " + isActiveYnTemp);
 		successYN = (adminDepartmentDAO.updateDepartmentActive(deptNoTemp, isActiveYnTemp)==1);
 		
 		return successYN;

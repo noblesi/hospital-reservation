@@ -2,7 +2,7 @@
 
 <div id="sideBarWrap">
 	<div class="sideBarHeader">
-		<img src="http://localhost/hospital-reservation/resources/images/appointment/stethoscope.png" class="stethoscopeIcon">
+		<img src="${pageContext.request.contextPath}/resources/images/appointment/stethoscope.png" class="stethoscopeIcon">
 		<h2 class="sbTitle">진료안내</h2>
 		<p class="sbP">
 			 정확한 진단과 치료로<br>
@@ -18,13 +18,13 @@
 				</a>
 			</li>
 			<li class="sbmLi">
-				<a href="appointment.jsp">
+				<a href="${pageContext.request.contextPath}/appointment/reserve.do">
 					<span class="sbmTitle">진료예약</span>
 					<i class="bi bi-chevron-right crIcon"></i>
 				</a>
 			</li>
 			<li class="sbmLi">
-				<a href="appointmentList.jsp">
+				<a href="${pageContext.request.contextPath}/appointment/list.do">
 					<span class="sbmTitle">예약확인</span>
 					<i class="bi bi-chevron-right crIcon"></i>
 				</a>
