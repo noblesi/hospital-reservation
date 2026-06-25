@@ -279,7 +279,7 @@
 								<c:forEach var="doctor" items="${doctorList}" varStatus="st">
 									<tr>
 										<td>${st.count}</td>
-										<td><a href="http://localhost/hospital-reservation/views/admin/doctor/adminDoctorDetail_final.jsp?doctorLicenseNo=${doctor.doctorLicenseNo}">${doctor.name}</a></td>
+										<td><a href="http://localhost/hospital-reservation/views/admin/doctor/adminDoctorDetail.jsp?doctorLicenseNo=${doctor.doctorLicenseNo}">${doctor.name}</a></td>
 										<c:forEach var="dept" items="${ deptList }">
 											<c:if test="${ doctor.deptNo eq dept.deptNo }">
 												<td><c:out value="${ dept.deptName }"/></td>
