@@ -134,7 +134,7 @@ public class UpdateUserInfoDAO {
 	 *
 	 * minor_member 테이블은 member 테이블과 같은 patient_no를 사용한다.
 	 * member.has_minor_member_yn 값이 'Y'인 경우 호출하여
-	 * 미성년자 이름, 생년월일, 보호자 관계 정보를 조회한다.
+	 * 미성년자 이름, 생년월일, 성별, 보호자 관계 정보를 조회한다.
 	 *
 	 * @param patientNo 로그인 회원의 환자번호
 	 * @return 미성년자 정보 DTO
@@ -153,7 +153,7 @@ public class UpdateUserInfoDAO {
 			
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append(" select patient_no, relationship, minor_name, minor_birth_date ")
+			sql.append(" select patient_no, relationship, minor_name, minor_birth_date, minor_gender_fm ")
 			   .append(" from minor_member ")
 			   .append(" where patient_no = ? ");
 			
@@ -169,6 +169,7 @@ public class UpdateUserInfoDAO {
 				minorDTO.setRelationship(rs.getString("relationship"));
 				minorDTO.setMinorName(rs.getString("minor_name"));
 				minorDTO.setMinorBirthDate(rs.getDate("minor_birth_date"));
+				minorDTO.setMinorGenderFM(rs.getString("minor_gender_fm"));
 			}//end if
 			
 		} finally {
@@ -232,7 +233,7 @@ public class UpdateUserInfoDAO {
 	/**
 	 * 미성년자 회원 정보 수정
 	 *
-	 * 로그인 회원과 같은 patient_no를 가진 minor_member 정보를 수정한다.
+	 * 로그인 회원과 같은 patient_no를 가진 minor_member의 이름, 생년월일, 성별, 관계 정보를 수정한다.
 	 *
 	 * @param minorDTO 수정할 미성년자 정보
 	 * @return 수정된 행의 수
@@ -253,7 +254,8 @@ public class UpdateUserInfoDAO {
 			sql.append(" update minor_member ")
 			   .append(" set relationship = ?, ")
 			   .append("     minor_name = ?, ")
-			   .append("     minor_birth_date = ? ")
+			   .append("     minor_birth_date = ?, ")
+			   .append("     minor_gender_fm = ? ")
 			   .append(" where patient_no = ? ");
 			
 			pstmt = con.prepareStatement(sql.toString());
@@ -261,7 +263,8 @@ public class UpdateUserInfoDAO {
 			pstmt.setString(1, minorDTO.getRelationship());
 			pstmt.setString(2, minorDTO.getMinorName());
 			pstmt.setDate(3, minorDTO.getMinorBirthDate());
-			pstmt.setString(4, minorDTO.getPatientNo());
+			pstmt.setString(4, minorDTO.getMinorGenderFM());
+			pstmt.setString(5, minorDTO.getPatientNo());
 			
 			cnt = pstmt.executeUpdate();
 			

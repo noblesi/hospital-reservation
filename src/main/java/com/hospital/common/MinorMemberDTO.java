@@ -25,4 +25,6 @@ public class MinorMemberDTO {
 	private String minorName;
 	/** 미성년자 생년월일 */
 	private Date minorBirthDate;
+	/** 미성년자 성별(M: 남자, F: 여자) */
+	private String minorGenderFM;
 }//MinorMemberDTO
