@@ -14,6 +14,11 @@ request.setCharacterEncoding("UTF-8");
 // 회원가입 유형 TG: 일반회원, TC: 미성년자 회원
 String joinType = request.getParameter("join_type");
 
+// 미성년자 회원가입 폼에서 넘어온 경우 join_type 누락을 방지한다.
+if((joinType == null || "".equals(joinType)) && request.getParameter("childName") != null){
+    joinType = "TC";
+}
+
 /* 공통 회원 정보 */
 String loginId = request.getParameter("id");
 String password = request.getParameter("pass");
@@ -112,6 +117,19 @@ if("TC".equals(joinType)){
     String childYear = request.getParameter("childYear");
     String childMonth = request.getParameter("childMonth");
     String childDate = request.getParameter("childDate");
+    String childGender = request.getParameter("childGender");
+    String childName = request.getParameter("childName");
+    String relationshipType = request.getParameter("relationshipType");
+
+    if(childName == null || "".equals(childName.trim())){
+%>
+<script>
+alert("환자 이름 값이 없습니다.");
+history.back();
+</script>
+<%
+        return;
+    }
 
     if(childYear == null || childMonth == null || childDate == null ||
        "".equals(childYear) || "".equals(childMonth) || "".equals(childDate)){
@@ -124,13 +142,34 @@ history.back();
         return;
     }
 
+    if(childGender == null || "".equals(childGender.trim())){
+%>
+<script>
+alert("환자 성별 값이 없습니다.");
+history.back();
+</script>
+<%
+        return;
+    }
+
+    if(relationshipType == null || "".equals(relationshipType.trim())){
+%>
+<script>
+alert("보호자와의 관계 값이 없습니다.");
+history.back();
+</script>
+<%
+        return;
+    }
+
     String childBirth = childYear + "-" + childMonth + "-" + childDate;
 
     minorDTO = new MinorMemberDTO();
 
-    minorDTO.setRelationship(request.getParameter("relationshipType"));
-    minorDTO.setMinorName(request.getParameter("childName"));
+    minorDTO.setRelationship(relationshipType);
+    minorDTO.setMinorName(childName.trim());
     minorDTO.setMinorBirthDate(Date.valueOf(childBirth));
+    minorDTO.setMinorGenderFM(childGender);
 }
 
 /* ==============================
