@@ -118,15 +118,16 @@ body {
 }
 
 .resultBox {
-    min-height: 28px;
-    margin-top: 18px;
+    min-height: 54px;
+    margin-top: 24px;
     color: #555;
-    font-size: 12px;
+    font-size: 15px;
     line-height: 1.6;
 }
 
 .resultBox strong {
     color: #222;
+    font-size: 20px;
 }
 
 .resultBox .ok {
@@ -140,9 +141,15 @@ body {
 }
 
 .buttonWrap {
-    margin-top: 10px;
+    margin-top: 14px;
     display: flex;
     justify-content: center;
+}
+
+.buttonWrap .useIdBtn {
+    min-width: 86px;
+    height: 38px;
+    font-size: 14px;
 }
 </style>
 

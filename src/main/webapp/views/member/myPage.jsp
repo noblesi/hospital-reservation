@@ -174,6 +174,7 @@ pageContext.setAttribute("medicalList", medicalList);
                     </c:if>
                 </tbody>
             </table>
+
         </div>
     </section>
 </main>
