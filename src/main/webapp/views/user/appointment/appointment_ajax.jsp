@@ -10,6 +10,7 @@
 <%@page import="java.util.List"%>
 <%@page import="com.hospital.user.appointment.UserAppointmentService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String action = request.getParameter("action");
 
@@ -35,25 +36,36 @@ if ("sort".equals(action)) {
 
 	for (int i = 0; i < totalCnt; i++) {
 		if (i % 9 == 0) {
-	out.print("<div class='sliderPage'><table class='slTab'>");
+%>
+<div class="sliderPage"><table class="slTab">
+<%
 		}
 		if (i % 3 == 0) {
-	out.print("<tr class='slRow'>");
+%>
+<tr class="slRow">
+<%
 		}
 
 		DepartmentDTO dept = deptList.get(i);
+		pageContext.setAttribute("dept", dept);
+%>
 
-		out.print("<td class='slCol'>");
-		out.print("  <input class='deptRadio' style='display: none;' type='radio' name='dept' value='"
-		+ dept.getDeptNo() + "' id='" + dept.getDeptNo() + "'>");
-		out.print("  <label for='" + dept.getDeptNo() + "'>" + dept.getDeptName() + "</label>");
-		out.print("</td>");
+<td class="slCol">
+	<input class="deptRadio" style="display: none;" type="radio" name="dept"
+		value="<c:out value='${dept.deptNo}' />" id="<c:out value='${dept.deptNo}' />">
+	<label for="<c:out value='${dept.deptNo}' />"><c:out value="${dept.deptName}" /></label>
+</td>
+<%
 
 		if (i % 3 == 2 || i == totalCnt - 1) {
-	out.print("</tr>");
+%>
+</tr>
+<%
 		}
 		if (i % 9 == 8 || i == totalCnt - 1) {
-	out.print("</table></div>");
+%>
+</table></div>
+<%
 		}
 	}
 }
@@ -83,21 +95,23 @@ if ("doctorList".equals(action)) {
 		if (i % 2 == 0) {
 	out.println("<div class='col'>");
 		}
+		pageContext.setAttribute("doctor", dDTO);
+		pageContext.setAttribute("deptName", deptName);
 %>
 <li class="doctorLi"><img class="doctorThumnail"
-	src="<%=dDTO.getThumbnailUrl()%>">
+	src="<c:out value='${doctor.thumbnailUrl}' />">
 	<div class="doctorInfoDiv">
-		<h4 class="doctorName"><%=dDTO.getName()%>
+		<h4 class="doctorName"><c:out value="${doctor.name}" />
 			<a href="#void"> <img class="searchBlueIcon"
 				src="http://localhost/hospital-reservation/resources/images/appointment/search_blue.png"></a>
 		</h4>
 		<p class="detail">
-			<strong class="deptName"><%=deptName%></strong><br> 세부전공:
-			<span class="specialty"><%=dDTO.getSpecialty()%></span>
+			<strong class="deptName"><c:out value="${deptName}" /></strong><br> 세부전공:
+			<span class="specialty"><c:out value="${doctor.specialty}" /></span>
 		</p>
 	</div>
 	<button class="selectDoctorBtn"
-		value="<%=dDTO.getDoctorLicenseNo()%>">
+		value="<c:out value='${doctor.doctorLicenseNo}' />">
 		<i class="bi bi-check-circle checkIcon"></i> 선택
 	</button></li>
 <%
@@ -158,13 +172,15 @@ if ("schedule".equals(action)) {
 			pm.add(dsDTO.getDayOfWeek());
 		}
 	}
+	pageContext.setAttribute("year", year);
+	pageContext.setAttribute("month", month);
 %>
 <div class="moveMonthBar">
 	<button class="prevMonthBtn">
 		<i class="bi bi-arrow-left-circle"></i>
 	</button>
 	<h4 class="nowMonthTitle">
-		<span class="year"><%= year %></span>년 <span class="month"><%= month %></span>월
+		<span class="year"><c:out value="${year}" /></span>년 <span class="month"><c:out value="${month}" /></span>월
 	</h4>
 	<button class="nextMonthBtn">
 		<i class="bi bi-arrow-right-circle"></i>
@@ -198,21 +214,28 @@ if ("schedule".equals(action)) {
 				}
 
 				if (allDay.contains(ld.getDayOfWeek().getValue())) {
+					pageContext.setAttribute("dateValue", ld.toString());
+					pageContext.setAttribute("dayNo", i);
 				%>
-					<td><span class='available allDay' data-date="<%= ld.toString() %>"><%= i %></span></td>
+					<td><span class='available allDay' data-date="<c:out value='${dateValue}' />"><c:out value="${dayNo}" /></span></td>
 				<%
 					// out.print("<td><span class='available allDay'>" + i + "</span></td>");
 				} else if (am.contains(ld.getDayOfWeek().getValue())) {
+					pageContext.setAttribute("dateValue", ld.toString());
+					pageContext.setAttribute("dayNo", i);
 				%>
-					<td><span class='available am' data-date="<%= ld.toString() %>"><%= i %></span></td>
+					<td><span class='available am' data-date="<c:out value='${dateValue}' />"><c:out value="${dayNo}" /></span></td>
 				<%
 				} else if (pm.contains(ld.getDayOfWeek().getValue())) {
+					pageContext.setAttribute("dateValue", ld.toString());
+					pageContext.setAttribute("dayNo", i);
 				%>
-					<td><span class='available pm' data-date="<%= ld.toString() %>"><%= i %></span></td>
+					<td><span class='available pm' data-date="<c:out value='${dateValue}' />"><c:out value="${dayNo}" /></span></td>
 				<%
 				} else {
+					pageContext.setAttribute("dayNo", i);
 				%>
-					<td><span><%= i %></span></td>
+					<td><span><c:out value="${dayNo}" /></span></td>
 				<%
 				}
 
@@ -252,8 +275,9 @@ if ("timeTable".equals(action)) {
 	<ul class="timeTableUl">
 <%
 	for(int i = 0; i < availableTimes.size(); i++) {
+		pageContext.setAttribute("availableTime", availableTimes.get(i));
 %>
-		<li class="timeTableLi"><%= availableTimes.get(i) %></li>
+		<li class="timeTableLi"><c:out value="${availableTime}" /></li>
 <%
 	}
 %>

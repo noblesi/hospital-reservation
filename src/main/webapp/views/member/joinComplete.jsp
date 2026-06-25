@@ -15,6 +15,8 @@ if(registerLoginId != null){
     MemberRegisterService mrs = new MemberRegisterService();
     mDTO = mrs.searchRegister(registerLoginId);
 }
+
+pageContext.setAttribute("member", mDTO);
 %>
 
 <!DOCTYPE html>
@@ -59,17 +61,17 @@ if(registerLoginId != null){
 
             <div class="infoCard">
                 <span class="label">이름</span>
-                <strong><%= mDTO != null ? mDTO.getName() : "" %></strong>
+                <strong><c:out value="${member.name}" /></strong>
             </div>
 
             <div class="infoCard">
                 <span class="label">회원 아이디</span>
-                <strong><%= mDTO != null ? mDTO.getLoginId() : "" %></strong>
+                <strong><c:out value="${member.loginId}" /></strong>
             </div>
 
             <div class="infoCard">
                 <span class="label">가입일</span>
-                <strong><%= mDTO != null ? mDTO.getRegisteredAt() : "" %></strong>
+                <strong><c:out value="${member.registeredAt}" /></strong>
             </div>
 
         </div>

@@ -3,6 +3,7 @@
 <%@page import="com.hospital.common.MinorMemberDTO"%>
 <%@page import="com.hospital.member.UpdateUserInfoService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
 request.setCharacterEncoding("UTF-8");
@@ -55,8 +56,9 @@ if("member".equals(actionType)){
 		}
 	}
 }
+pageContext.setAttribute("updateMessage", updated ? "정보가 수정되었습니다." : "정보 수정에 실패했습니다.");
 %>
 <script>
-alert("<%= updated ? "정보가 수정되었습니다." : "정보 수정에 실패했습니다." %>");
-location.href="../myPageInfo.jsp";
+alert("<c:out value='${updateMessage}' />");
+location.href="${pageContext.request.contextPath}/member/mypage/info.do";
 </script>

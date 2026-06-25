@@ -1,6 +1,7 @@
 <%@page import="com.hospital.common.MemberDTO"%>
 <%@page import="com.hospital.member.UserMyPageService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
 request.setCharacterEncoding("UTF-8");
@@ -44,8 +45,9 @@ if(memberInfo != null && memberInfo.getPatientNo() != null){
 		memberInfo.getPatientNo()
 	);
 }
+pageContext.setAttribute("cancelMessage", canceled ? "예약이 취소되었습니다." : "예약을 취소하지 못했습니다. 예약 상태를 확인해주세요.");
 %>
 <script>
-alert("<%= canceled ? "예약이 취소되었습니다." : "예약을 취소하지 못했습니다. 예약 상태를 확인해주세요." %>");
+alert("<c:out value='${cancelMessage}' />");
 location.href="../myPage.jsp";
 </script>

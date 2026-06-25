@@ -22,83 +22,83 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 	<style type="text/css">
-        
+
         .admin-view-area {
             margin: 20px;
             position: relative;
         }/* admin-view-area */
-        
+
         [name='deptChoice[]']{
-        	text-align: center;
-         	margin-left: 17px;
-        	margin-top: 8px; 
+	text-align: center;
+	margin-left: 17px;
+	margin-top: 8px;
         }
-        
-       	#deptData > tr > td {
-        	text-align: left;
-        	vertical-align: center;	
+
+	#deptData > tr > td {
+	text-align: left;
+	vertical-align: center;
         }
     </style>
-    
+
     <script type="text/javascript">
-        
+
         $(function(){
-           
-        	<% 
-      	   	AdminDepartmentService adminDepartmentService = new AdminDepartmentService();
-      	  	//pageContext.setAttribute("adminDepartmentService", adminDepartmentService);
-      	  	pageContext.setAttribute("deptList", adminDepartmentService.searchDepartmentList());
+
+	<%
+	AdminDepartmentService adminDepartmentService = new AdminDepartmentService();
+	//pageContext.setAttribute("adminDepartmentService", adminDepartmentService);
+	pageContext.setAttribute("deptList", adminDepartmentService.searchDepartmentList());
 			%>
-			
+
            $("#btnAddDept").click(addDeptModal);
            $("#btnModify").click(modifyModal);
-           
+
 			$("#isActiveChange").click(function(){
 				//상태 변환 ajax를 이용 하는게 편할듯
 				var isChk = $("[name='deptChoice[]']").is(":checked");
 				if(!isChk){
-	        		alert("진료과를 선택해주세요");
-	        		return;
-	        	} else {
-	        		var isChkInd = $("[name='deptChoice[]']:checked").index("[name='deptChoice[]']");
-	        	    var deptNo = $("[name='deptNo[]']").eq(isChkInd).val();
-	        	    var chkYn = $("[name='isActiveYn[]']").eq(isChkInd).val();
-	        	    $.ajax({
-	        	        url: "http://localhost/hospital-reservation/views/admin/department/adminDepartmentListViewProcess.jsp",
-	        	        type: "POST",
-	        	        data: {
-	        	            deptNo: deptNo,
-	        	            isActiveYn: chkYn
-	        	        },
-	        	        success: function () {
-	        	            alert("변경되었습니다.");
-	        	            location.reload();
-	        	        }
-	        	    });
-	        			        		    
-	        	}// end else if
+			alert("진료과를 선택해주세요");
+			return;
+		} else {
+			var isChkInd = $("[name='deptChoice[]']:checked").index("[name='deptChoice[]']");
+		    var deptNo = $("[name='deptNo[]']").eq(isChkInd).val();
+		    var chkYn = $("[name='isActiveYn[]']").eq(isChkInd).val();
+		    $.ajax({
+		        url: "http://localhost/hospital-reservation/views/admin/department/adminDepartmentListViewProcess.jsp",
+		        type: "POST",
+		        data: {
+		            deptNo: deptNo,
+		            isActiveYn: chkYn
+		        },
+		        success: function () {
+		            alert("변경되었습니다.");
+		            location.reload();
+		        }
+		    });
+
+		}// end else if
 			});
-           
+
         });//ready
 
         function addDeptModal(){
-        	window.open("adminDepartmentAddModal.jsp?modify=N","dept_modal","width=500,height=480"); 
+	window.open("<c:url value='/admin/department/form.do?modify=N' />","dept_modal","width=500,height=480");
         }//addDeptModal
-        
+
         function modifyModal(){
-        	var isChk = $("[name='deptChoice[]']").is(":checked");
-        	if(!isChk){
-        		alert("진료과를 선택해주세요");
-        		return;
-        	} else {
-        		
-        		//var isChkVal=$("[name='deptChoice[]']:checked").val();
-        		var isChkInd = $("[name='deptChoice[]']:checked").index("[name='deptChoice[]']");
-        		//alert($("[name='deptNo[]']").eq(isChkInd)+"//"+isChkInd);
-        		var chkVal = $("[name='deptNo[]']").eq(isChkInd).val();
-        		var queryString = "&deptNo="+chkVal;
-	        	window.open("adminDepartmentAddModal.jsp?modify=Y"+queryString,"dept_modal","width=500,height=480");
-        	}// end else if
+	var isChk = $("[name='deptChoice[]']").is(":checked");
+	if(!isChk){
+		alert("진료과를 선택해주세요");
+		return;
+	} else {
+
+		//var isChkVal=$("[name='deptChoice[]']:checked").val();
+		var isChkInd = $("[name='deptChoice[]']:checked").index("[name='deptChoice[]']");
+		//alert($("[name='deptNo[]']").eq(isChkInd)+"//"+isChkInd);
+		var chkVal = $("[name='deptNo[]']").eq(isChkInd).val();
+		var queryString = "&deptNo="+encodeURIComponent(chkVal);
+		window.open("<c:url value='/admin/department/form.do?modify=Y' />"+queryString,"dept_modal","width=500,height=480");
+	}// end else if
         }//modifyModal
     </script>
     <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css?v=20260623-admin-fluid' />">
@@ -108,7 +108,7 @@
 <jsp:include page="/views/common/adminHeader.jsp" />
 <div class="admin-layout">
     <jsp:include page="/views/common/adminSidebar.jsp" />
-	
+
     <main class="admin-content">
         <div class="admin-page-title">
             <h2>진료과 관리</h2>
@@ -140,58 +140,58 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="deptData">
-                                            	<c:if test="${ not empty deptList }">
-                                            		<c:forEach var="dept" items="${ deptList }" varStatus="i">
-                                            			<tr>
-                                            				<td>
-                                            					<input type="radio" name="deptChoice[]" />
-                                            					<input type="hidden" name="deptNo[]" value="${ dept.deptNo }"/>
-                                            				</td>
-                                            				<td>
-                                            					<c:out value="${ i.count }"/>
-                                            				</td>
-                                            				<td>
-                                            					<c:out value="${ dept.deptName }"/>
-                                            					<input type="hidden" name="deptName[]" value="${ dept.deptName }"/>
-                                            				</td>
-                                            				<c:choose>
-	                                            				<c:when test="${ not empty dept.deptLoc }">
-		                                            				<td>
-		                                            					<c:out value="${ dept.deptLoc }"/>
-		                                            					<input type="hidden" name="deptLoc[]" value="${ dept.deptLoc }"/>
-		                                            				</td>
-	                                            				</c:when>
-	                                            				<c:otherwise>
-	                                            					<td>
-		                                            					<c:out value="[위치가 입력 되지 않았습니다.]"/>
-		                                            					<input type="hidden" name="deptLoc[]" value="${ dept.deptLoc }"/>
-		                                            				</td>
-	                                            				</c:otherwise>
-                                            				</c:choose>
-                                            				<c:choose>
-	                                            				<c:when test="${ dept.isActiveYn eq 'Y' or dept.isActiveYn eq 'y' }">
-		                                            				<td>
-		                                            					<c:out value="사용 중"/>
-		                                            					<input type="hidden" name="isActiveYn[]" value="${ dept.isActiveYn }"/>
-		                                            				</td>
-	                                            				</c:when>
-	                                            				<c:otherwise>
-	                                            					<td>
-		                                            					<c:out value="비활성화"/>
-		                                            					<input type="hidden" name="isActiveYn[]" value="${ dept.isActiveYn }"/>
-		                                            				</td>
-	                                            				</c:otherwise>
-                                            				</c:choose>
-                                            			</tr>
-                                            		</c:forEach>
-                                            	</c:if>
-                                            	<c:if test="${ empty deptList }">
-                                            		<tr>
-                                            			<td colspan="5" style="text-align: center;">
-                                            				데이터가 없습니다.
-                                            			</td>
-                                            		</tr>
-                                            	</c:if>
+	<c:if test="${ not empty deptList }">
+		<c:forEach var="dept" items="${ deptList }" varStatus="i">
+			<tr>
+				<td>
+					<input type="radio" name="deptChoice[]" />
+					<input type="hidden" name="deptNo[]" value="${ dept.deptNo }"/>
+				</td>
+				<td>
+					<c:out value="${ i.count }"/>
+				</td>
+				<td>
+					<c:out value="${ dept.deptName }"/>
+					<input type="hidden" name="deptName[]" value="${ dept.deptName }"/>
+				</td>
+				<c:choose>
+					<c:when test="${ not empty dept.deptLoc }">
+						<td>
+							<c:out value="${ dept.deptLoc }"/>
+							<input type="hidden" name="deptLoc[]" value="${ dept.deptLoc }"/>
+						</td>
+					</c:when>
+					<c:otherwise>
+						<td>
+							<c:out value="[위치가 입력 되지 않았습니다.]"/>
+							<input type="hidden" name="deptLoc[]" value="${ dept.deptLoc }"/>
+						</td>
+					</c:otherwise>
+				</c:choose>
+				<c:choose>
+					<c:when test="${ dept.isActiveYn eq 'Y' or dept.isActiveYn eq 'y' }">
+						<td>
+							<c:out value="사용 중"/>
+							<input type="hidden" name="isActiveYn[]" value="${ dept.isActiveYn }"/>
+						</td>
+					</c:when>
+					<c:otherwise>
+						<td>
+							<c:out value="비활성화"/>
+							<input type="hidden" name="isActiveYn[]" value="${ dept.isActiveYn }"/>
+						</td>
+					</c:otherwise>
+				</c:choose>
+			</tr>
+		</c:forEach>
+	</c:if>
+	<c:if test="${ empty deptList }">
+		<tr>
+			<td colspan="5" style="text-align: center;">
+				데이터가 없습니다.
+			</td>
+		</tr>
+	</c:if>
                                             </tbody>
                                         </table>
                                     </div>

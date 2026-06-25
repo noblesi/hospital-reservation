@@ -22,7 +22,7 @@ UpdateUserInfoService service = new UpdateUserInfoService();
 
 if(password != null && service.checkPassword(loginUser.getLoginId(), password)){
 	session.setAttribute("userInfoVerified", Boolean.TRUE);
-	response.sendRedirect("../myPageInfo.jsp");
+	response.sendRedirect(request.getContextPath() + "/member/mypage/info.do");
 	return;
 }
 

@@ -9,46 +9,6 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
-<%@page import="java.util.List"%>
-<%@page import="com.hospital.common.MemberDTO"%>
-<%@page import="com.hospital.member.UserMyPageService"%>
-<%@page import="com.hospital.member.dto.UserAppointmentDTO"%>
-<%@page import="com.hospital.member.dto.UserMedicalRecordDTO"%>
-
-<%
-MemberDTO loginUser = (MemberDTO)session.getAttribute("loginUser");
-
-if(loginUser == null){
-%>
-<script>
-alert("로그인이 필요한 서비스입니다.");
-location.href="<%= request.getContextPath() %>/member/login.do";
-</script>
-<%
-    return;
-}
-
-UserMyPageService umps = new UserMyPageService();
-
-MemberDTO memberInfo = umps.searchMemberInfo(loginUser.getLoginId());
-
-String patientNo = "";
-if(memberInfo != null){
-    patientNo = memberInfo.getPatientNo();
-}
-
-List<UserAppointmentDTO> appList = umps.searchAppointmentList(patientNo);
-List<UserMedicalRecordDTO> medicalList = umps.searchMedicalRecordList(patientNo);
-
-int appointmentCount = appList.size();
-int medicalCount = medicalList.size();
-
-pageContext.setAttribute("memberInfo", memberInfo);
-pageContext.setAttribute("appointmentCount", appointmentCount);
-pageContext.setAttribute("medicalCount", medicalCount);
-pageContext.setAttribute("appList", appList);
-pageContext.setAttribute("medicalList", medicalList);
-%>
 <link rel="stylesheet" href="<c:url value='/resources/css/sideBar.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/mypage.css' />">
@@ -58,6 +18,13 @@ pageContext.setAttribute("medicalList", medicalList);
 
 <jsp:include page="../common/userHeader.jsp" />
 <jsp:include page="../common/userBreadcrumb.jsp" />
+
+<c:if test="${not empty sessionScope.mypageMessage}">
+    <script>
+    alert("<c:out value='${sessionScope.mypageMessage}' />");
+    </script>
+    <c:remove var="mypageMessage" scope="session" />
+</c:if>
 
 <%-- 마이페이지 본문 --%>
 <main id="content" class="mypageLayout">
@@ -89,7 +56,7 @@ pageContext.setAttribute("medicalList", medicalList);
                 </div>
                 <div>
                     <strong>예약 내역</strong>
-                    <em>${appointmentCount}건</em>
+                    <em><c:out value="${appointmentCount}" />건</em>
                     <span>예정된 예약 확인</span>
                 </div>
             </a>
@@ -105,7 +72,7 @@ pageContext.setAttribute("medicalList", medicalList);
                 </div>
                 <div>
                     <strong>진료 기록</strong>
-                    <em class="greenText">${medicalCount}건</em>
+                    <em class="greenText"><c:out value="${medicalCount}" />건</em>
                     <span>진료 및 검사 내역 확인</span>
                 </div>
             </a>
@@ -122,22 +89,22 @@ pageContext.setAttribute("medicalList", medicalList);
                 <tbody>
                     <c:forEach var="app" items="${appList}">
                         <tr>
-                            <td><span class="state blue">${app.status}</span></td>
-                            <td>${app.departmentName}</td>
+                            <td><span class="state blue"><c:out value="${app.status}" /></span></td>
+                            <td><c:out value="${app.departmentName}" /></td>
                             <td>
-                                ${app.appointmentDate}
-                                ${app.appointmentTime}
+                                <c:out value="${app.appointmentDate}" />
+                                <c:out value="${app.appointmentTime}" />
                             </td>
-                            <td>${app.doctorName}</td>
+                            <td><c:out value="${app.doctorName}" /></td>
                             <td>
                                 <c:choose>
                                     <c:when test="${app.status ne '예약취소'}">
-                                        <form action="<c:url value='/views/member/process/cancelAppointmentProcess.jsp' />"
+                                        <form action="<c:url value='/member/mypage/appointment/cancel.do' />"
                                               method="post"
                                               class="reservationCancelForm">
                                             <input type="hidden"
                                                    name="appointmentNo"
-                                                   value="${app.appointmentNo}">
+                                                   value="<c:out value='${app.appointmentNo}' />">
                                             <button type="submit" class="cancelBtn">예약 취소</button>
                                         </form>
                                     </c:when>
@@ -192,14 +159,14 @@ pageContext.setAttribute("medicalList", medicalList);
                         </thead>
                         <tbody>
                             <c:forEach var="app" items="${appList}">
-                                <tr data-reservation-status="${app.status}">
-                                    <td>${app.appointmentDate}</td>
-                                    <td>${app.appointmentTime}</td>
-                                    <td>${app.departmentName}</td>
-                                    <td>${app.doctorName}</td>
+                                <tr data-reservation-status="<c:out value='${app.status}' />">
+                                    <td><c:out value="${app.appointmentDate}" /></td>
+                                    <td><c:out value="${app.appointmentTime}" /></td>
+                                    <td><c:out value="${app.departmentName}" /></td>
+                                    <td><c:out value="${app.doctorName}" /></td>
                                     <td>
                                         <span class="state ${app.status eq '예약취소' ? 'gray' : app.status eq '진료완료' ? 'green' : (app.status eq '승인대기' or app.status eq '승인 대기') ? 'yellow' : 'blue'}">
-                                            ${app.status}
+                                            <c:out value="${app.status}" />
                                         </span>
                                     </td>
                                 </tr>
@@ -253,12 +220,12 @@ pageContext.setAttribute("medicalList", medicalList);
                         </thead>
                         <tbody>
                             <c:forEach var="medical" items="${medicalList}">
-                                <tr data-medical-status="${medical.status}">
-                                    <td>${medical.treatmentDate}</td>
-                                    <td>${medical.deptName}</td>
-                                    <td>${empty medical.doctorName ? '-' : medical.doctorName}</td>
+                                <tr data-medical-status="<c:out value='${medical.status}' />">
+                                    <td><c:out value="${medical.treatmentDate}" /></td>
+                                    <td><c:out value="${medical.deptName}" /></td>
+                                    <td><c:out value="${empty medical.doctorName ? '-' : medical.doctorName}" /></td>
                                     <td>
-                                        <span class="state green">${medical.status}</span>
+                                        <span class="state green"><c:out value="${medical.status}" /></span>
                                     </td>
                                 </tr>
                             </c:forEach>

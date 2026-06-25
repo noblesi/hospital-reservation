@@ -82,11 +82,47 @@
 
   <servlet>
     <servlet-name>memberMyPage</servlet-name>
-    <jsp-file>/views/member/myPage.jsp</jsp-file>
+    <servlet-class>com.hospital.member.controller.MemberMyPageServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>memberMyPage</servlet-name>
     <url-pattern>/member/mypage.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberMyPageInfoServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberMyPageInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberMyPageInfoServlet</servlet-name>
+    <url-pattern>/member/mypage/info.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberPasswordCheckServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberPasswordCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberPasswordCheckServlet</servlet-name>
+    <url-pattern>/member/mypage/password-check.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberUpdateInfoServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberUpdateInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberUpdateInfoServlet</servlet-name>
+    <url-pattern>/member/mypage/update.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberCancelAppointmentServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberCancelAppointmentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberCancelAppointmentServlet</servlet-name>
+    <url-pattern>/member/mypage/appointment/cancel.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -163,6 +199,15 @@
   <servlet-mapping>
     <servlet-name>adminDepartmentListServlet</servlet-name>
     <url-pattern>/admin/department/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminDepartmentFormServlet</servlet-name>
+    <servlet-class>com.hospital.admin.department.controller.AdminDepartmentFormServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminDepartmentFormServlet</servlet-name>
+    <url-pattern>/admin/department/form.do</url-pattern>
   </servlet-mapping>
 
   <servlet>

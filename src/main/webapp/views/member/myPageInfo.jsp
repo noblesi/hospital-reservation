@@ -1,50 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.hospital.common.MemberDTO"%>
-<%@ page import="com.hospital.common.MinorMemberDTO"%>
-<%@ page import="com.hospital.member.UpdateUserInfoService"%>
-<%@ page import="java.time.LocalDate"%>
-<%@ page import="java.util.Calendar"%>
-
-<%
-MemberDTO loginUser = (MemberDTO)session.getAttribute("loginUser");
-Boolean verified = (Boolean)session.getAttribute("userInfoVerified");
-
-if(loginUser == null){
-	response.sendRedirect("login.jsp");
-	return;
-}
-
-if(!Boolean.TRUE.equals(verified)){
-	response.sendRedirect("myPage.jsp");
-	return;
-}
-
-UpdateUserInfoService service = new UpdateUserInfoService();
-MemberDTO userInfo = service.searchUserInfo(loginUser.getLoginId());
-MinorMemberDTO minorInfo = null;
-
-if(userInfo != null && "Y".equalsIgnoreCase(userInfo.getHasMinorMemberYn())){
-	minorInfo = service.searchMinorUserInfo(userInfo.getPatientNo());
-}
-
-pageContext.setAttribute("userInfo", userInfo);
-pageContext.setAttribute("minorInfo", minorInfo);
-
-if(userInfo != null && userInfo.getBirthDate() != null){
-	LocalDate memberBirthDate = userInfo.getBirthDate().toLocalDate();
-	pageContext.setAttribute("memberBirthYear", String.valueOf(memberBirthDate.getYear()));
-	pageContext.setAttribute("memberBirthMonth", String.format("%02d", memberBirthDate.getMonthValue()));
-	pageContext.setAttribute("memberBirthDay", String.format("%02d", memberBirthDate.getDayOfMonth()));
-}
-
-if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
-	LocalDate minorBirthDate = minorInfo.getMinorBirthDate().toLocalDate();
-	pageContext.setAttribute("minorBirthYear", String.valueOf(minorBirthDate.getYear()));
-	pageContext.setAttribute("minorBirthMonth", String.format("%02d", minorBirthDate.getMonthValue()));
-	pageContext.setAttribute("minorBirthDay", String.format("%02d", minorBirthDate.getDayOfMonth()));
-}
-%>
 
 <c:set var="activeMenu" value="mypage" scope="request" />
 <c:set var="depth1" value="마이페이지" scope="request" />
@@ -76,7 +31,14 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
         </div>
 
         <%-- 일반회원 또는 보호자회원 본인 정보 변경 영역 --%>
-        <form action="process/updateUserInfoProcess.jsp" method="post">
+        <c:if test="${not empty sessionScope.memberInfoMessage}">
+            <script>
+            alert("<c:out value='${sessionScope.memberInfoMessage}' />");
+            </script>
+            <c:remove var="memberInfoMessage" scope="session" />
+        </c:if>
+
+        <form action="<c:url value='/member/mypage/update.do' />" method="post">
             <input type="hidden" name="actionType" value="member">
             <div class="infoSection">
                 <h3>${userInfo.hasMinorMemberYn eq 'Y' ? '보호자회원 정보 변경' : '일반회원 정보 변경'}</h3>
@@ -90,39 +52,31 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
                 </div>
                 <div class="infoRow">
                     <label>이름</label>
-                    <input type="text" value="${userInfo.name}" readonly>
+                    <input type="text" value="<c:out value='${userInfo.name}' />" readonly>
                 </div>
                 <div class="infoRow">
                     <label>아이디</label>
-                    <input type="text" value="${userInfo.loginId}" readonly>
+                    <input type="text" value="<c:out value='${userInfo.loginId}' />" readonly>
                 </div>
                 <div class="infoRow">
                     <label for="memberBirthYear">생년월일</label>
                     <div>
                         <select class="birthSelect" id="memberBirthYear" name="memberBirthYear" required>
                             <option value="">연도</option>
-                            <%
-                            int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-                            for(int year = currentYear; year >= 1920; year--){
-                            %>
-                                <option value="<%= year %>"
-                                    <%= String.valueOf(year).equals(pageContext.getAttribute("memberBirthYear")) ? "selected" : "" %>>
-                                    <%= year %>
+                            <c:forEach var="year" items="${yearList}">
+                                <option value="<c:out value='${year}' />" ${year == memberBirthYear ? 'selected' : ''}>
+                                    <c:out value="${year}" />
                                 </option>
-                            <% } %>
+                            </c:forEach>
                         </select>
                         <span class="birthSeparator">-</span>
                         <select class="birthSelect" id="memberBirthMonth" name="memberBirthMonth" required>
                             <option value="">월</option>
-                            <%
-                            for(int month = 1; month <= 12; month++){
-                            	String memberMonthValue = month < 10 ? "0" + month : String.valueOf(month);
-                            %>
-                                <option value="<%= memberMonthValue %>"
-                                    <%= memberMonthValue.equals(pageContext.getAttribute("memberBirthMonth")) ? "selected" : "" %>>
-                                    <%= memberMonthValue %>
+                            <c:forEach var="month" items="${monthList}">
+                                <option value="<c:out value='${month}' />" ${month eq memberBirthMonth ? 'selected' : ''}>
+                                    <c:out value="${month}" />
                                 </option>
-                            <% } %>
+                            </c:forEach>
                         </select>
                         <span class="birthSeparator">-</span>
                         <select class="birthSelect" id="memberBirthDay" name="memberBirthDay"
@@ -145,13 +99,13 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
                            type="email"
                            id="email"
                            name="email"
-                           value="${userInfo.email}"
+                           value="<c:out value='${userInfo.email}' />"
                            required>
                 </div>
                 <div class="infoRow">
                     <label for="zipCode">우편번호</label>
                     <div>
-                        <input class="mediumInput" id="zipCode" name="zipCode" value="${userInfo.zipCode}" readonly required>
+                        <input class="mediumInput" id="zipCode" name="zipCode" value="<c:out value='${userInfo.zipCode}' />" readonly required>
                         <button type="button" class="addressButton" id="addressSearchButton">우편번호 찾기</button>
                     </div>
                 </div>
@@ -160,7 +114,7 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
                     <input class="wideInput"
                            id="address"
                            name="address"
-                           value="${userInfo.address}"
+                           value="<c:out value='${userInfo.address}' />"
                            readonly
                            required>
                 </div>
@@ -169,10 +123,10 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
                     <input class="wideInput"
                            id="addressDetail"
                            name="addressDetail"
-                           value="${userInfo.addressDetail}">
+                           value="<c:out value='${userInfo.addressDetail}' />">
                 </div>
                 <div class="infoButtons">
-                    <a class="cancelInfoBtn" href="myPage.jsp">취소</a>
+                    <a class="cancelInfoBtn" href="<c:url value='/member/mypage.do' />">취소</a>
                     <button class="saveInfoBtn" type="submit">저장하기</button>
                 </div>
             </div>
@@ -180,45 +134,34 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 
         <%-- 보호자회원에게만 노출되는 미성년자 정보 변경 영역 --%>
         <c:if test="${userInfo.hasMinorMemberYn eq 'Y'}">
-            <form action="process/updateUserInfoProcess.jsp" method="post">
+            <form action="<c:url value='/member/mypage/update.do' />" method="post">
                 <input type="hidden" name="actionType" value="minor">
                 <div class="infoSection">
                     <h3>미성년자 회원 정보 변경</h3>
                     <p class="minorNotice">등록된 미성년자 회원의 정보를 수정할 수 있습니다.</p>
                     <div class="infoRow">
                         <label for="minorName">이름</label>
-                        <input class="mediumInput" id="minorName" name="minorName" value="${minorInfo.minorName}" required>
+                        <input class="mediumInput" id="minorName" name="minorName" value="<c:out value='${minorInfo.minorName}' />" required>
                     </div>
                     <div class="infoRow">
                         <label for="minorBirthYear">생년월일</label>
                         <div>
                             <select class="birthSelect" id="minorBirthYear" name="minorBirthYear" required>
                                 <option value="">연도</option>
-                                <%
-                                for(int year = currentYear; year >= 1920; year--){
-                                %>
-                                    <option value="<%= year %>"
-                                        <%= String.valueOf(year).equals(pageContext.getAttribute("minorBirthYear")) ? "selected" : "" %>>
-                                        <%= year %>
+                                <c:forEach var="year" items="${yearList}">
+                                    <option value="<c:out value='${year}' />" ${year == minorBirthYear ? 'selected' : ''}>
+                                        <c:out value="${year}" />
                                     </option>
-                                <%
-                                }
-                                %>
+                                </c:forEach>
                             </select>
                             <span class="birthSeparator">-</span>
                             <select class="birthSelect" id="minorBirthMonth" name="minorBirthMonth" required>
                                 <option value="">월</option>
-                                <%
-                                for(int month = 1; month <= 12; month++){
-                                	String monthValue = month < 10 ? "0" + month : String.valueOf(month);
-                                %>
-                                    <option value="<%= monthValue %>"
-                                        <%= monthValue.equals(pageContext.getAttribute("minorBirthMonth")) ? "selected" : "" %>>
-                                        <%= monthValue %>
+                                <c:forEach var="month" items="${monthList}">
+                                    <option value="<c:out value='${month}' />" ${month eq minorBirthMonth ? 'selected' : ''}>
+                                        <c:out value="${month}" />
                                     </option>
-                                <%
-                                }
-                                %>
+                                </c:forEach>
                             </select>
                             <span class="birthSeparator">-</span>
                             <select class="birthSelect"
@@ -239,7 +182,7 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
                         </select>
                     </div>
                     <div class="infoButtons">
-                        <a class="cancelInfoBtn" href="myPage.jsp">취소</a>
+                        <a class="cancelInfoBtn" href="<c:url value='/member/mypage.do' />">취소</a>
                         <button class="saveInfoBtn" type="submit">저장하기</button>
                     </div>
                 </div>

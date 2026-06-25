@@ -1,6 +1,8 @@
-<%@page import="java.util.Calendar"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="now" class="java.util.Date" />
+<fmt:formatDate var="currentYear" value="${now}" pattern="yyyy" />
 
 <c:set var="activeMenu" value="login" scope="request" />
 <c:set var="depth1" value="로그인" scope="request" />
@@ -77,7 +79,7 @@ function sample6_execDaumPostcode(){
     </ul>
 
     <form id="memberVo" name="hForm" action="process/joinProcess.jsp" method="post">
-        <input id="join_type" name="join_type" type="hidden" value="${param.join_type}">
+        <input id="join_type" name="join_type" type="hidden" value="<c:out value='${param.join_type}' />">
         <fieldset>
 
             <p class="supText"><span class="required">*</span> 표기 항목은 필수 입력 항목입니다.</p>
@@ -101,7 +103,7 @@ function sample6_execDaumPostcode(){
 						<tr>
 							<th scope="row"><span class="required">*</span> 비밀번호</th>
 								<td>
-									<input id="pass" name="pass" title="비밀번호"class="inputText" type="password"> 
+									<input id="pass" name="pass" title="비밀번호"class="inputText" type="password">
 									<span class="desc">영문,숫자, 특수문자 조합으로 9~16자</span>
 									<p class="errorPass" role="alert"></p>
 								</td>
@@ -127,24 +129,19 @@ function sample6_execDaumPostcode(){
 
                                 <select title="생년월일 연도" id="year" name="year" class="dateYY">
                                     <option value="">연도</option>
-                                    <%
-                                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-                                    
-                                    for(int i = currentYear; i>=1920; i--){
-                                    %>
-                                    	<option value="<%= i %>"><%= i %></option>
-                                    <%}//end for %>
+                                    <c:forEach var="offset" begin="0" end="${currentYear - 1920}">
+                                        <c:set var="year" value="${currentYear - offset}" />
+	<option value="<c:out value='${year}' />"><c:out value="${year}" /></option>
+                                    </c:forEach>
                                 </select>
                                 <span class="txtWrap">-</span>
 
                                 <select title="생년월일 월" id="month" name="month" class="dateMM">
                                     <option value="">월</option>
-                                    <%
-                                    for(int i = 1; i < 13; i++){
-                                    	String month = i<10?"0"+i:String.valueOf(i);
-                                    %>
-                                    <option value="<%= month %>"><%= month %></option>
-                                    <%}//end for %>
+                                    <c:forEach var="month" begin="1" end="12">
+                                        <fmt:formatNumber var="monthValue" value="${month}" pattern="00" />
+                                        <option value="<c:out value='${monthValue}' />"><c:out value="${monthValue}" /></option>
+                                    </c:forEach>
                                 </select>
                                 <span class="txtWrap">-</span>
 
@@ -197,19 +194,19 @@ function sample6_execDaumPostcode(){
                         </tr>
 
                         <tr>
-   							<th scope="row" class="verTop"><span class="required">*</span> 주소</th>
-    							<td>
-        							<input type="text" id="sample6_postcode" name="zipcode" class="inputText" placeholder="우편번호" readonly>
-        							<button type="button" class="btnType01" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
-        							<br>
+							<th scope="row" class="verTop"><span class="required">*</span> 주소</th>
+							<td>
+							<input type="text" id="sample6_postcode" name="zipcode" class="inputText" placeholder="우편번호" readonly>
+							<button type="button" class="btnType01" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+							<br>
 
-       								<input type="text" id="sample6_address" name="address" class="inputAddress" placeholder="주소" readonly>
-        							<br>
+								<input type="text" id="sample6_address" name="address" class="inputAddress" placeholder="주소" readonly>
+							<br>
 
-       					 			<input type="text" id="sample6_detailAddress" name="addressDetail" class="inputAddress" placeholder="상세주소">
+								<input type="text" id="sample6_detailAddress" name="addressDetail" class="inputAddress" placeholder="상세주소">
 
-        							<input type="hidden" id="sample6_extraAddress" name="extraAddress">
-    							</td>
+							<input type="hidden" id="sample6_extraAddress" name="extraAddress">
+							</td>
 						</tr>
                         <tr>
                             <th scope="row"><span class="required">*</span> 성별</th>

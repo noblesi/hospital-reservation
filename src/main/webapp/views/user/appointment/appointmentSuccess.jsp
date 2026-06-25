@@ -1,6 +1,7 @@
 <%@page import="com.hospital.user.appointment.UserAppointmentService"%>
 <%@page import="com.hospital.user.appointment.dto.UserAppointmentConfirmDTO"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/views/common/taglib.jsp" %>
 <%
 request.setAttribute("activeMenu", "guide");
 request.setAttribute("depth1", "진료예약");
@@ -23,6 +24,8 @@ history.back();
 <%
 	return;
 }
+
+pageContext.setAttribute("confirmDTO", confirmDTO);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -66,33 +69,33 @@ history.back();
 				<table class="infoTable">
 					<tr>
 						<th class="infoTh">예약번호</th>
-						<td><%= confirmDTO.getAppointmentNo() %></td>
+						<td><c:out value="${confirmDTO.appointmentNo}" /></td>
 						<th class="infoTh">예약자</th>
-						<td><%= confirmDTO.getPatientName() %></td>
+						<td><c:out value="${confirmDTO.patientName}" /></td>
 					</tr>
 					<tr>
 						<th class="infoTh">환자번호</th>
-						<td><%= confirmDTO.getPatientNo() %></td>
+						<td><c:out value="${confirmDTO.patientNo}" /></td>
 						<th class="infoTh">연락처</th>
-						<td><%= confirmDTO.getPhoneNumber() == null ? "-" : confirmDTO.getPhoneNumber() %></td>
+						<td><c:out value="${confirmDTO.phoneNumber}" default="-" /></td>
 					</tr>
 					<tr>
 						<th class="infoTh">진료과</th>
-						<td><%= confirmDTO.getDeptName() %></td>
+						<td><c:out value="${confirmDTO.deptName}" /></td>
 						<th class="infoTh">의료진</th>
-						<td><%= confirmDTO.getDoctorName() %></td>
+						<td><c:out value="${confirmDTO.doctorName}" /></td>
 					</tr>
 					<tr>
 						<th class="infoTh">이메일주소</th>
-						<td><%= confirmDTO.getEmail() == null ? "-" : confirmDTO.getEmail() %></td>
+						<td><c:out value="${confirmDTO.email}" default="-" /></td>
 						<th class="infoTh">예약일시</th>
-						<td><%= confirmDTO.getAppointmentDate() %> <%= confirmDTO.getAppointmentTime() %></td>
+						<td><c:out value="${confirmDTO.appointmentDate}" /> <c:out value="${confirmDTO.appointmentTime}" /></td>
 					</tr>
 					<tr>
 						<th class="infoTh">예약상태</th>
-						<td><%= confirmDTO.getStatus() %></td>
+						<td><c:out value="${confirmDTO.status}" /></td>
 						<th class="infoTh">요청사항</th>
-						<td><%= confirmDTO.getRequirement() == null ? "-" : confirmDTO.getRequirement() %></td>
+						<td><c:out value="${confirmDTO.requirement}" default="-" /></td>
 					</tr>
 				</table>
 

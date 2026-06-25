@@ -1,6 +1,8 @@
-<%@page import="java.util.Calendar"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="now" class="java.util.Date" />
+<fmt:formatDate var="currentYear" value="${now}" pattern="yyyy" />
 
 <c:set var="activeMenu" value="login" scope="request" />
 <c:set var="depth1" value="로그인" scope="request" />
@@ -72,7 +74,7 @@ function sample6_execDaumPostcode(){
     </ul>
 
     <form id="memberVo" name="hForm" action="process/joinProcess.jsp" method="post">
-        <input id="join_type" name="join_type" type="hidden" value="${param.join_type}">
+        <input id="join_type" name="join_type" type="hidden" value="<c:out value='${param.join_type}' />">
 
         <fieldset>
             <legend>회원가입</legend>
@@ -122,27 +124,19 @@ function sample6_execDaumPostcode(){
                             	<input id="birth" name="birth" type="hidden" value="">
                                 <select id="year" name="year" class="dateYY">
                                     <option value="">연도</option>
-                                    <%
-                                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-                                    for(int i = currentYear; i >= 1920; i--){
-                                    %>
-                                        <option value="<%= i %>"><%= i %></option>
-                                    <%
-                                    }
-                                    %>
+                                    <c:forEach var="offset" begin="0" end="${currentYear - 1920}">
+                                        <c:set var="year" value="${currentYear - offset}" />
+                                        <option value="<c:out value='${year}' />"><c:out value="${year}" /></option>
+                                    </c:forEach>
                                 </select>
                                 <span class="txtWrap">-</span>
 
                                 <select id="month" name="month" class="dateMM">
                                     <option value="">월</option>
-                                    <%
-                                    for(int i = 1; i <= 12; i++){
-                                        String month = i < 10 ? "0" + i : String.valueOf(i);
-                                    %>
-                                        <option value="<%= month %>"><%= month %></option>
-                                    <%
-                                    }
-                                    %>
+                                    <c:forEach var="month" begin="1" end="12">
+                                        <fmt:formatNumber var="monthValue" value="${month}" pattern="00" />
+                                        <option value="<c:out value='${monthValue}' />"><c:out value="${monthValue}" /></option>
+                                    </c:forEach>
                                 </select>
                                 <span class="txtWrap">-</span>
 
@@ -245,26 +239,19 @@ function sample6_execDaumPostcode(){
                             <td>
                                 <select id="childYear" name="childYear" class="dateYY">
                                     <option value="">연도</option>
-                                    <%
-                                    for(int i = currentYear; i >= 1920; i--){
-                                    %>
-                                        <option value="<%= i %>"><%= i %></option>
-                                    <%
-                                    }
-                                    %>
+                                    <c:forEach var="offset" begin="0" end="${currentYear - 1920}">
+                                        <c:set var="childYear" value="${currentYear - offset}" />
+                                        <option value="<c:out value='${childYear}' />"><c:out value="${childYear}" /></option>
+                                    </c:forEach>
                                 </select>
                                 <span class="txtWrap">-</span>
 
                                 <select id="childMonth" name="childMonth" class="dateMM">
                                     <option value="">월</option>
-                                    <%
-                                    for(int i = 1; i <= 12; i++){
-                                        String childMonth = i < 10 ? "0" + i : String.valueOf(i);
-                                    %>
-                                        <option value="<%= childMonth %>"><%= childMonth %></option>
-                                    <%
-                                    }
-                                    %>
+                                    <c:forEach var="childMonth" begin="1" end="12">
+                                        <fmt:formatNumber var="childMonthValue" value="${childMonth}" pattern="00" />
+                                        <option value="<c:out value='${childMonthValue}' />"><c:out value="${childMonthValue}" /></option>
+                                    </c:forEach>
                                 </select>
                                 <span class="txtWrap">-</span>
 
