@@ -1,4 +1,8 @@
-<%@page import="com.hospital.member.MemberRegisterService"%>
+<!-- 
+사용하지 않는 파일
+아이디 중복 체크는 idDup.jsp로 제공함 
+ -->
+<%-- <%@page import="com.hospital.member.MemberRegisterService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
@@ -39,4 +43,4 @@ history.back();
 </script>
 <%
 }//end else
-%>
+%> --%>
