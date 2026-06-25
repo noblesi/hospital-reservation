@@ -43,6 +43,42 @@ history.back();
     return;
 }
 
+MemberRegisterService mrs = new MemberRegisterService();
+
+if(loginId == null || "".equals(loginId.trim())){
+%>
+<script>
+alert("아이디 값이 없습니다.");
+history.back();
+</script>
+<%
+    return;
+}
+
+loginId = loginId.trim();
+
+// 아이디는 한글 3자 이상 또는 영문+숫자 혼용 6~12자만 허용한다.
+if(!loginId.matches("^[가-힣]{3,}$|^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{6,12}$")){
+%>
+<script>
+alert("아이디는 한글 3자 이상 또는 영문+숫자 혼용 6~12자로 입력해주세요.");
+history.back();
+</script>
+<%
+    return;
+}
+
+// 아이디 중복확인 팝업을 거치지 않고 제출되는 경우를 대비해 DB에서 한 번 더 확인한다.
+if(mrs.checkLoginIdDuplicate(loginId)){
+%>
+<script>
+alert("이미 사용 중인 아이디입니다.");
+history.back();
+</script>
+<%
+    return;
+}
+
 String hasMinorMemberYn = "TC".equals(joinType) ? "Y" : "N";
 
 /* ==============================
@@ -100,8 +136,6 @@ history.back();
 /* ==============================
    회원가입 처리
 ============================== */
-
-MemberRegisterService mrs = new MemberRegisterService();
 
 boolean result = mrs.registerMember(mDTO, minorDTO);
 

@@ -41,6 +41,7 @@
           action="<c:url value='/views/member/process/joinProcess.jsp' />"
           method="post">
         <input id="join_type" name="join_type" type="hidden" value="${param.join_type}">
+        <input id="idChecked" name="idChecked" type="hidden" value="N">
         <fieldset>
 
             <p class="supText"><span class="required">*</span> 표기 항목은 필수 입력 항목입니다.</p>
@@ -195,11 +196,6 @@
             <button type="button" class="btnType02 btnBig" id="gFormBeforeBtn">이전단계</button>
             <button type="button" class="btnType03 btnBig" id="gFormNextBtn">다음단계</button>
         </div>
-    </form>
-    <form id="idCheckFrm"
-          action="<c:url value='/views/member/process/idCheckProcess.jsp' />"
-          method="get">
-        <input type="hidden" id="checkLoginId" name="loginId">
     </form>
 </main>
 

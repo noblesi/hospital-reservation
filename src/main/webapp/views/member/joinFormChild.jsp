@@ -41,6 +41,7 @@
           action="<c:url value='/views/member/process/joinProcess.jsp' />"
           method="post">
         <input id="join_type" name="join_type" type="hidden" value="${param.join_type}">
+        <input id="idChecked" name="idChecked" type="hidden" value="N">
 
         <fieldset>
             <legend>회원가입</legend>
@@ -274,12 +275,6 @@
             <button type="button" class="btnType03 btnBig" id="gFormNextBtn">다음단계</button>
         </div>
     </form>
-    <form id="idCheckFrm"
-          action="<c:url value='/views/member/process/idCheckProcess.jsp' />"
-          method="get">
-        <input type="hidden" id="checkLoginId" name="loginId">
-    </form>
-
 </main>
 
 <jsp:include page="../common/userFooter.jsp" />

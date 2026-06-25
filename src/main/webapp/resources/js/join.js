@@ -13,9 +13,8 @@ $(function() {
 
     // 비밀번호: 영문, 숫자, 특수문자를 포함한 9~16자
     var passRegex = /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*(),.;])[A-Za-z0-9!@#$%^&*(),.;]{9,16}$/;
-
-    // 아이디 중복확인 여부
-    var isIdChecked = false;
+    // 아이디: 한글 3자 이상 또는 영문+숫자 혼용 6~12자
+    var idRegex = /^(?:[가-힣]{3,}|(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{6,12})$/;
 
     /* =========================================================
        카카오 우편번호 검색
@@ -119,7 +118,7 @@ $(function() {
 
     // 아이디가 변경되면 중복확인을 다시 해야 함
     $("#id").on("input", function() {
-        isIdChecked = false;
+        $("#idChecked").val("N");
     });
 
     // 이메일 도메인 선택 시 도메인 입력칸에 값 설정
@@ -240,8 +239,7 @@ $(function() {
 
     /* =========================================================
        아이디 중복확인
-       현재 방식은 process JSP로 이동하는 방식
-       사용 가능 여부를 현재 화면에 유지하려면 Ajax 또는 팝업 방식이 필요함
+       팝업 JSP에서 DB 중복 여부를 확인한 뒤 부모창에 결과를 반영한다.
     ========================================================= */
 
     $("#idChkBtn").on("click", function() {
@@ -253,12 +251,17 @@ $(function() {
             return;
         }
 
-        $("#checkLoginId").val(loginId);
-        $("#idCheckFrm").submit();
+        if(!idRegex.test(loginId)){
+            alert("아이디는 한글 3자 이상 또는 영문+숫자 혼용 6~12자로 입력해주세요.");
+            $("#id").focus();
+            return;
+        }
 
-        // 현재 페이지 이동 방식에서는 돌아온 후 값이 초기화될 수 있음
-        // Ajax 또는 팝업 적용 전까지는 실제 가입 전 서버에서 한 번 더 중복검사 권장
-        isIdChecked = true;
+        window.open(
+            "idDup.jsp?id=" + encodeURIComponent(loginId),
+            "idDup",
+            "width=380,height=330,top=150,left=500"
+        );
     });
 
 
@@ -278,15 +281,17 @@ $(function() {
             return;
         }
 
-        // 현재 페이지 이동형 중복확인에서는 완전한 상태 유지가 어려움
-        // Ajax 또는 팝업 방식으로 변경하면 이 검사를 정확하게 사용할 수 있음
-        /*
-        if(!isIdChecked){
+        if(!idRegex.test($("#id").val().trim())){
+            alert("아이디는 한글 3자 이상 또는 영문+숫자 혼용 6~12자로 입력해주세요.");
+            $("#id").focus();
+            return;
+        }
+
+        if($("#idChecked").val() != "Y"){
             alert("아이디 중복확인을 해주세요.");
             $("#idChkBtn").focus();
             return;
         }
-        */
 
         if($("#pass").val().trim() == ""){
             alert("비밀번호를 입력해주세요.");
