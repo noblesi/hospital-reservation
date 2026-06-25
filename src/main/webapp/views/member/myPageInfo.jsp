@@ -1,5 +1,50 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.hospital.common.MemberDTO"%>
+<%@ page import="com.hospital.common.MinorMemberDTO"%>
+<%@ page import="com.hospital.member.UpdateUserInfoService"%>
+<%@ page import="java.time.LocalDate"%>
+<%@ page import="java.util.Calendar"%>
+
+<%
+MemberDTO loginUser = (MemberDTO)session.getAttribute("loginUser");
+Boolean verified = (Boolean)session.getAttribute("userInfoVerified");
+
+if(loginUser == null){
+    response.sendRedirect("login.jsp");
+    return;
+}
+
+if(!Boolean.TRUE.equals(verified)){
+    response.sendRedirect("myPage.jsp");
+    return;
+}
+
+UpdateUserInfoService service = new UpdateUserInfoService();
+MemberDTO userInfo = service.searchUserInfo(loginUser.getLoginId());
+MinorMemberDTO minorInfo = null;
+
+if(userInfo != null && "Y".equalsIgnoreCase(userInfo.getHasMinorMemberYn())){
+    minorInfo = service.searchMinorUserInfo(userInfo.getPatientNo());
+}
+
+pageContext.setAttribute("userInfo", userInfo);
+pageContext.setAttribute("minorInfo", minorInfo);
+
+if(userInfo != null && userInfo.getBirthDate() != null){
+    LocalDate memberBirthDate = userInfo.getBirthDate().toLocalDate();
+    pageContext.setAttribute("memberBirthYear", String.valueOf(memberBirthDate.getYear()));
+    pageContext.setAttribute("memberBirthMonth", String.format("%02d", memberBirthDate.getMonthValue()));
+    pageContext.setAttribute("memberBirthDay", String.format("%02d", memberBirthDate.getDayOfMonth()));
+}
+
+if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
+    LocalDate minorBirthDate = minorInfo.getMinorBirthDate().toLocalDate();
+    pageContext.setAttribute("minorBirthYear", String.valueOf(minorBirthDate.getYear()));
+    pageContext.setAttribute("minorBirthMonth", String.format("%02d", minorBirthDate.getMonthValue()));
+    pageContext.setAttribute("minorBirthDay", String.format("%02d", minorBirthDate.getDayOfMonth()));
+}
+%>
 
 <c:set var="activeMenu" value="mypage" scope="request" />
 <c:set var="depth1" value="마이페이지" scope="request" />
@@ -72,9 +117,13 @@
                         <span class="birthSeparator">-</span>
                         <select class="birthSelect" id="memberBirthMonth" name="memberBirthMonth" required>
                             <option value="">월</option>
-                            <c:forEach var="month" items="${monthList}">
-                                <option value="<c:out value='${month}' />" ${month eq memberBirthMonth ? 'selected' : ''}>
-                                    <c:out value="${month}" />
+                            <%
+                            for(int month = 1; month <= 12; month++){
+                                String memberMonthValue = month < 10 ? "0" + month : String.valueOf(month);
+                            %>
+                                <option value="<%= memberMonthValue %>"
+                                    <%= memberMonthValue.equals(pageContext.getAttribute("memberBirthMonth")) ? "selected" : "" %>>
+                                    <%= memberMonthValue %>
                                 </option>
                             </c:forEach>
                         </select>
@@ -157,9 +206,13 @@
                             <span class="birthSeparator">-</span>
                             <select class="birthSelect" id="minorBirthMonth" name="minorBirthMonth" required>
                                 <option value="">월</option>
-                                <c:forEach var="month" items="${monthList}">
-                                    <option value="<c:out value='${month}' />" ${month eq minorBirthMonth ? 'selected' : ''}>
-                                        <c:out value="${month}" />
+                                <%
+                                for(int month = 1; month <= 12; month++){
+                                    String monthValue = month < 10 ? "0" + month : String.valueOf(month);
+                                %>
+                                    <option value="<%= monthValue %>"
+                                        <%= monthValue.equals(pageContext.getAttribute("minorBirthMonth")) ? "selected" : "" %>>
+                                        <%= monthValue %>
                                     </option>
                                 </c:forEach>
                             </select>
@@ -188,6 +241,15 @@
                 </div>
             </form>
         </c:if>
+
+        <%-- 회원 탈퇴 화면 이동 영역 --%>
+        <div class="withdrawalGuide">
+            <div>
+                <strong>회원 탈퇴</strong>
+                <p>회원 탈퇴 시 모든 회원 서비스 이용이 제한됩니다.</p>
+            </div>
+            <a href="withdrawUser.jsp" class="withdrawalLink">회원 탈퇴</a>
+        </div>
     </section>
 </main>
 

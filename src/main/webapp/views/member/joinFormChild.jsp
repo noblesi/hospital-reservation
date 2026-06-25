@@ -73,8 +73,12 @@ function sample6_execDaumPostcode(){
         <li><b>STEP 04</b>가입완료</li>
     </ul>
 
-    <form id="memberVo" name="hForm" action="process/joinProcess.jsp" method="post">
-        <input id="join_type" name="join_type" type="hidden" value="<c:out value='${param.join_type}' />">
+    <form id="memberVo"
+          name="hForm"
+          action="<c:url value='/views/member/process/joinProcess.jsp' />"
+          method="post">
+        <input id="join_type" name="join_type" type="hidden" value="${param.join_type}">
+        <input id="idChecked" name="idChecked" type="hidden" value="N">
 
         <fieldset>
             <legend>회원가입</legend>
@@ -96,22 +100,22 @@ function sample6_execDaumPostcode(){
                                 <span class="desc">한글(3자 이상), 영문 + 숫자 혼용 6~12자</span>
                             </td>
                         </tr>
-						<tr>
-							<th scope="row"><span class="required">*</span> 비밀번호</th>
-								<td>
-									<input id="pass" name="pass" title="비밀번호" class="inputText" type="password"> 
-									<span class="desc">영문, 숫자, 특수문자 조합으로 9~16자</span>
-									<p class="errorPass" role="alert"></p>
-								</td>
-						</tr>
-						<tr>
-							<th scope="row"><span class="required">*</span> 비밀번호 확인</th>
-								<td>
-								<input type="password" id="passConfirm" name="passConfirm" class="inputText" title="비밀번호 확인">
-									<p class="error" role="alert"></p>
-								</td>
-						</tr>
-						<tr>
+                        <tr>
+                            <th scope="row"><span class="required">*</span> 비밀번호</th>
+                                <td>
+                                    <input id="pass" name="pass" title="비밀번호" class="inputText" type="password"> 
+                                    <span class="desc">영문, 숫자, 특수문자 조합으로 9~16자</span>
+                                    <p class="errorPass" role="alert"></p>
+                                </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><span class="required">*</span> 비밀번호 확인</th>
+                                <td>
+                                <input type="password" id="passConfirm" name="passConfirm" class="inputText" title="비밀번호 확인">
+                                    <p class="error" role="alert"></p>
+                                </td>
+                        </tr>
+                        <tr>
                             <th scope="row"><span class="required">*</span> 보호자 이름</th>
                             <td>
                                 <input id="name" name="name" class="inputText" type="text" maxlength="20">
@@ -121,13 +125,17 @@ function sample6_execDaumPostcode(){
                         <tr>
                             <th scope="row"><span class="required">*</span> 보호자 생년월일</th>
                             <td>
-                            	<input id="birth" name="birth" type="hidden" value="">
+                                <input id="birth" name="birth" type="hidden" value="">
                                 <select id="year" name="year" class="dateYY">
                                     <option value="">연도</option>
-                                    <c:forEach var="offset" begin="0" end="${currentYear - 1920}">
-                                        <c:set var="year" value="${currentYear - offset}" />
-                                        <option value="<c:out value='${year}' />"><c:out value="${year}" /></option>
-                                    </c:forEach>
+                                    <%
+                                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                                    for(int i = currentYear; i >= 1920; i--){
+                                    %>
+                                        <option value="<%= i %>"><%= i %></option>
+                                    <%
+                                    }
+                                    %>
                                 </select>
                                 <span class="txtWrap">-</span>
 
@@ -149,7 +157,7 @@ function sample6_execDaumPostcode(){
                         <tr>
                             <th scope="row"><span class="required">*</span> 휴대전화</th>
                             <td>
-                            	<input id="hp_no" name="hp_no" type="hidden" value="">
+                                <input id="hp_no" name="hp_no" type="hidden" value="">
                                 <select id="hp1" name="hp1" class="selectTypeM">
                                     <option value="">선택</option>
                                     <option value="010">010</option>
@@ -170,7 +178,7 @@ function sample6_execDaumPostcode(){
                         <tr>
                             <th scope="row"><span class="required">*</span> 이메일</th>
                             <td>
-                            	<input id="email" name="email" type="hidden" value="">
+                                <input id="email" name="email" type="hidden" value="">
                                 <input type="text" name="email1" id="email1" class="inputText">
                                 <span class="txtWrap">@</span>
                                 <input type="text" name="email2" id="email2" class="inputText">
@@ -190,7 +198,7 @@ function sample6_execDaumPostcode(){
                             <th scope="row" class="verTop"><span class="required">*</span> 주소</th>
                             <td>
                                 <input type="text" id="sample6_postcode" name="zipcode" class="inputText" placeholder="우편번호" readonly>
-                                <button type="button" class="btnType01" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+                                <button type="button" class="btnType01" id="addressSearchButton">우편번호 찾기</button>
                                 <br>
 
                                 <input type="text" id="sample6_address" name="address" class="inputAddress" placeholder="주소" readonly>
@@ -293,15 +301,12 @@ function sample6_execDaumPostcode(){
             <button type="button" class="btnType03 btnBig" id="gFormNextBtn">다음단계</button>
         </div>
     </form>
-    <form id="idCheckFrm" action="process/idCheckProcess.jsp" method="get">
-    	<input type="hidden" id="checkLoginId" name="loginId">
-	</form>
-
 </main>
 
 <jsp:include page="../common/userFooter.jsp" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="<c:url value='/resources/js/join.js' />"></script>
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js' />"></script>
 
 </body>
 </html>

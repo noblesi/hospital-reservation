@@ -9,6 +9,45 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
+<%@page import="java.util.List"%>
+<%@page import="com.hospital.common.MemberDTO"%>
+<%@page import="com.hospital.member.UserMyPageService"%>
+<%@page import="com.hospital.member.dto.UserAppointmentDTO"%>
+<%@page import="com.hospital.member.dto.UserMedicalRecordDTO"%>
+
+<%
+MemberDTO loginUser = (MemberDTO)session.getAttribute("loginUser");
+
+if(loginUser == null){
+    response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
+    return;
+}
+
+UserMyPageService umps = new UserMyPageService();
+
+MemberDTO memberInfo = umps.searchMemberInfo(loginUser.getLoginId());
+
+String patientNo = "";
+if(memberInfo != null){
+    patientNo = memberInfo.getPatientNo();
+}
+
+// 예약 현황 모달용: 오늘 이후 예약 전체를 조회한다.
+List<UserAppointmentDTO> appList = umps.searchAppointmentList(patientNo);
+// 예약 취소 및 변경 영역용: 현재일 기준 최근 3개월 예약을 조회한다.
+List<UserAppointmentDTO> manageAppList = umps.searchManageAppointmentList(patientNo);
+List<UserMedicalRecordDTO> medicalList = umps.searchMedicalRecordList(patientNo);
+
+int appointmentCount = appList.size();
+int medicalCount = medicalList.size();
+
+pageContext.setAttribute("memberInfo", memberInfo);
+pageContext.setAttribute("appointmentCount", appointmentCount);
+pageContext.setAttribute("medicalCount", medicalCount);
+pageContext.setAttribute("appList", appList);
+pageContext.setAttribute("manageAppList", manageAppList);
+pageContext.setAttribute("medicalList", medicalList);
+%>
 <link rel="stylesheet" href="<c:url value='/resources/css/sideBar.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/mypage.css' />">
@@ -38,8 +77,9 @@
                 <p>회원님의 진료와 예약 정보를 확인하고 관리할 수 있습니다.</p>
             </div>
 
-            <div class="mypageVisualImg">
-                📋
+            <div class="mypageVisualGif">
+                 <img src="<c:url value='/resources/images/myPage/mypage_visual.gif' />"
+         alt="마이페이지 안내 이미지">
             </div>
         </div>
 
@@ -84,13 +124,27 @@
                 <h3>예약 취소 및 변경</h3>
                 <a href="<c:url value='/appointment/list.do' />">예약 전체보기</a>
             </div>
+                <span class="boxTitle2">*3개월 전 예약내역 부터 조회됩니다.</span>
 
             <table class="reservationTable">
                 <tbody>
-                    <c:forEach var="app" items="${appList}">
+                    <c:forEach var="app" items="${manageAppList}">
+                        <c:set var="appointmentStatusClass" value="blue" />
+                        <c:choose>
+                            <c:when test="${app.status eq '예약취소'}">
+                                <c:set var="appointmentStatusClass" value="gray" />
+                            </c:when>
+                            <c:when test="${app.status eq '승인완료'}">
+                                <c:set var="appointmentStatusClass" value="green" />
+                            </c:when>
+                        </c:choose>
                         <tr>
-                            <td><span class="state blue"><c:out value="${app.status}" /></span></td>
-                            <td><c:out value="${app.departmentName}" /></td>
+                            <td>
+                                <span class="state ${appointmentStatusClass}">
+                                    ${app.status}
+                                </span>
+                            </td>
+                            <td>${app.departmentName}</td>
                             <td>
                                 <c:out value="${app.appointmentDate}" />
                                 <c:out value="${app.appointmentTime}" />
@@ -98,8 +152,8 @@
                             <td><c:out value="${app.doctorName}" /></td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${app.status ne '예약취소'}">
-                                        <form action="<c:url value='/member/mypage/appointment/cancel.do' />"
+                                    <c:when test="${app.cancelable}">
+                                        <form action="<c:url value='/views/member/process/cancelAppointmentProcess.jsp' />"
                                               method="post"
                                               class="reservationCancelForm">
                                             <input type="hidden"
@@ -108,13 +162,23 @@
                                             <button type="submit" class="cancelBtn">예약 취소</button>
                                         </form>
                                     </c:when>
-                                    <c:otherwise>
+                                    <c:when test="${app.status eq '예약취소'}">
                                         <span class="state gray">취소 완료</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="state gray">지난 예약</span>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
                         </tr>
                     </c:forEach>
+                    <c:if test="${empty manageAppList}">
+                        <tr>
+                            <td colspan="5" class="reservationEmpty">
+                                최근 3개월 예약 내역이 없습니다.
+                            </td>
+                        </tr>
+                    </c:if>
                 </tbody>
             </table>
         </div>
@@ -159,14 +223,23 @@
                         </thead>
                         <tbody>
                             <c:forEach var="app" items="${appList}">
-                                <tr data-reservation-status="<c:out value='${app.status}' />">
-                                    <td><c:out value="${app.appointmentDate}" /></td>
-                                    <td><c:out value="${app.appointmentTime}" /></td>
-                                    <td><c:out value="${app.departmentName}" /></td>
-                                    <td><c:out value="${app.doctorName}" /></td>
+                                <c:set var="modalAppointmentStatusClass" value="blue" />
+                                <c:choose>
+                                    <c:when test="${app.status eq '예약취소'}">
+                                        <c:set var="modalAppointmentStatusClass" value="gray" />
+                                    </c:when>
+                                    <c:when test="${app.status eq '승인완료'}">
+                                        <c:set var="modalAppointmentStatusClass" value="green" />
+                                    </c:when>
+                                </c:choose>
+                                <tr data-reservation-status="${app.status}">
+                                    <td>${app.appointmentDate}</td>
+                                    <td>${app.appointmentTime}</td>
+                                    <td>${app.departmentName}</td>
+                                    <td>${app.doctorName}</td>
                                     <td>
-                                        <span class="state ${app.status eq '예약취소' ? 'gray' : app.status eq '진료완료' ? 'green' : (app.status eq '승인대기' or app.status eq '승인 대기') ? 'yellow' : 'blue'}">
-                                            <c:out value="${app.status}" />
+                                        <span class="state ${modalAppointmentStatusClass}">
+                                            ${app.status}
                                         </span>
                                     </td>
                                 </tr>

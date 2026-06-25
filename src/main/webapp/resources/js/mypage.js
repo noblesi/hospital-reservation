@@ -132,18 +132,23 @@
      * 비밀번호 입력값 표시/숨김 버튼을 연결한다.
      */
     function bindPasswordToggle() {
-        const passwordInput = document.getElementById("infoPassword");
-        const toggleButton = document.querySelector(".passwordToggle");
+        const toggleButtons = document.querySelectorAll(
+            ".passwordToggle, .withdrawalPasswordToggle"
+        );
 
-        if (!passwordInput || !toggleButton) {
-            return;
-        }
+        toggleButtons.forEach(function (toggleButton) {
+            const input = toggleButton.parentElement.querySelector('input[type="password"], input[type="text"]');
 
-        toggleButton.addEventListener("click", function () {
-            const showPassword = passwordInput.type === "password";
+            if (!input) {
+                return;
+            }
 
-            passwordInput.type = showPassword ? "text" : "password";
-            toggleButton.textContent = showPassword ? "숨김" : "보기";
+            toggleButton.addEventListener("click", function () {
+                const showPassword = input.type === "password";
+
+                input.type = showPassword ? "text" : "password";
+                toggleButton.textContent = showPassword ? "숨김" : "보기";
+            });
         });
     }
 
@@ -242,6 +247,56 @@
         });
     }
 
+    /**
+     * 서버 비밀번호 확인 후 최종 회원 탈퇴 확인 모달을 제어한다.
+     */
+    function bindWithdrawalConfirmModal() {
+        const modal = document.getElementById("withdrawalConfirmModal");
+
+        if (!modal) {
+            return;
+        }
+
+        const closeButton = modal.querySelector("[data-withdrawal-modal-close]");
+
+        function openModal() {
+            modal.classList.add("open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("modalOpen");
+
+            if (closeButton) {
+                closeButton.focus();
+            }
+        }
+
+        function closeModal() {
+            // 서버에 저장된 탈퇴 비밀번호 확인값도 함께 폐기한다.
+            if (modal.dataset.cancelUrl) {
+                location.href = modal.dataset.cancelUrl;
+            }
+        }
+
+        if (closeButton) {
+            closeButton.addEventListener("click", closeModal);
+        }
+
+        modal.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && modal.classList.contains("open")) {
+                closeModal();
+            }
+        });
+
+        if (modal.dataset.autoOpen === "true") {
+            openModal();
+        }
+    }
+
     /* 예약 내역 및 진료 기록 모달 초기화 */
     bindModal({
         openButtonId: "openReservationModal",
@@ -272,4 +327,5 @@
     bindBirthSelect("minorBirthYear", "minorBirthMonth", "minorBirthDay");
     bindDaumPostcode();
     bindReservationCancelConfirm();
+    bindWithdrawalConfirmModal();
 })();

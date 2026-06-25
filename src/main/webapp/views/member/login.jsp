@@ -27,12 +27,12 @@ body{
 .login-container{
     flex:1;
     width:1180px;
-    margin:70px auto 90px;
+    margin:80px auto 100px;
 }
 
 .login-card{
-    width:1000px;
-    min-height:700px;
+    width:1080px;
+    min-height:760px;
     margin:0 auto;
     display:flex;
     background:#fff;
@@ -43,43 +43,43 @@ body{
 
 .login-left{
     width:50%;
-    padding:55px 40px;	
+    padding:75px 55px;	
     text-align:center;
 }
 
 .login-icon{
-    width:52px;
-    height:52px;
-    margin:0 auto 30px;
+    width:72px;
+    height:72px;
+    margin:0 auto 38px;
     display:flex;
     align-items:center;
     justify-content:center;
     border-radius:50%;
     background:#eef5ff;
     color:#005bac;
-    font-size:28px;
+    font-size:34px;
 }
 
 .login-left h2{
-    margin-bottom:8px;
-    font-size:26px;
+    margin-bottom:12px;
+    font-size:34px;
     color:#111;
 }
 
 .login-sub-text{
-    margin-bottom:25px;
-    font-size:13px;
+    margin-bottom:35px;
+    font-size:17px;
     color:#6b7280;
 }
 
 .login-form input{
     width:100%;
-    height:40px;
-    margin-bottom:10px;
-    padding:0 13px;
+    height:54px;
+    margin-bottom:14px;
+    padding:0 18px;
     border:1px solid #d8dee8;
     border-radius:5px;
-    font-size:13px;
+    font-size:17px;
 }
 
 .login-form input:focus{
@@ -89,12 +89,13 @@ body{
 
 .login-btn{
     width:100%;
-    height:42px;
-    margin-top:4px;
+    height:56px;
+    margin-top:8px;
     border:0;
     border-radius:5px;
     background:#005bac;
     color:#fff;
+    font-size:18px;
     font-weight:600;
     cursor:pointer;
 }
@@ -104,12 +105,12 @@ body{
 }
 
 .login-links{
-    margin-top:18px;
+    margin-top:28px;
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:10px;
-    font-size:13px;
+    gap:14px;
+    font-size:16px;
 }
 
 .login-links a{
@@ -127,7 +128,7 @@ body{
 
 .login-right{
     width:50%;
-    padding:55px 45px;
+    padding:75px 60px;
     border-left:1px solid #edf0f5;
     display:flex;
     flex-direction:column;
@@ -137,9 +138,9 @@ body{
 }
 
 .security-icon{
-    width:110px;
-    height:110px;
-    margin-bottom:25px;
+    width:150px;
+    height:150px;
+    margin-bottom:35px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -148,21 +149,21 @@ body{
 }
 
 .security-icon img{
-    width:70px;
-    height:70px;
+    width:95px;
+    height:95px;
     object-fit:contain;
 }
 
 .login-right h3{
-    margin-bottom:12px;
-    font-size:20px;
+    margin-bottom:18px;
+    font-size:26px;
     color:#111;
 }
 
 .login-right p{
-    font-size:14px;
+    font-size:17px;
     color:#666;
-    line-height:1.7;
+    line-height:1.9;
 }
 </style>
 </head>

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:set var="activeMenu" value="login" scope="request" />
@@ -186,10 +186,10 @@
                 <div class="scrollBox">
                     <div class="innerScroll">
                         <h3>동의 목적</h3>
-						<p>
-							만 14세 미만의 아동의 회원가입 및 병원 홈페이지 서비스 이용을 위하여 
-							법정대리인(보호자)의 동의를 확인합니다.
-						</p>
+                        <p>
+                            만 14세 미만의 아동의 회원가입 및 병원 홈페이지 서비스 이용을 위하여 
+                            법정대리인(보호자)의 동의를 확인합니다.
+                        </p>
                         <h3>동의 내용</h3>
                         <ul>
                             <li>법정대리인은 아동의 회원가입에 동의합니다.</li>
@@ -200,7 +200,7 @@
                         <h3>보유 및 이용기간</h3>
                         <p class="colorPoint">
                            법정대리인은 아동의 회원정보가 정확하게 입력되었는지 확인해야 하며,
-    						아동의 서비스 이용과 개인정보 관리에 대한 책임이 있습니다.
+                            아동의 서비스 이용과 개인정보 관리에 대한 책임이 있습니다.
                         </p>
                     </div>
                 </div>
@@ -221,7 +221,10 @@
         </fieldset>
     </form>
 
-    <form id="gForm" name="gForm" action="<c:url value='joinFormChild.jsp' />" method="post">
+    <form id="gForm"
+          name="gForm"
+          action="<c:url value='/views/member/joinFormChild.jsp' />"
+          method="post">
         <input type="hidden" name="join_type" value="TC">
 
        <div class="btnWrap">

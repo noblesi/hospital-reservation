@@ -162,7 +162,10 @@
         </fieldset>
     </form>
 
-    <form id="gForm" name="gForm" action="<c:url value='joinFormCommon.jsp' />" method="post">
+    <form id="gForm"
+          name="gForm"
+          action="<c:url value='/views/member/joinFormCommon.jsp' />"
+          method="post">
         <input type="hidden" name="join_type" value="TG">
 
         <div class="btnWrap">

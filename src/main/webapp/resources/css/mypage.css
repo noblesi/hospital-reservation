@@ -69,17 +69,20 @@ body {
     margin-bottom: 50px;
 }
 
-.mypageVisualImg {
-    width: 190px;
-    height: 145px;
-    border-radius: 75px;
-    background: #f5f8ff;
+.mypageVisualGif {
+    width: 150px;
+    height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 58px;
+    overflow: hidden;
 }
 
+.mypageVisualGif img {
+    /* GIF 원본이 크게 보이지 않도록 박스 안에서 아이콘 크기만 제한한다. */
+    width: 120px;
+    height: 120px;
+}
 .mypageSummary {
     display: flex;
     gap: 35px;
@@ -174,13 +177,17 @@ body {
 .boxTitle h3 {
     margin: 0;
     color: #222;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 800;
+}
+
+.boxTitle2{
+	color: #FF0000;
 }
 
 .boxTitle a {
     color: #2763ba;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     text-decoration: none;
 }
@@ -196,10 +203,11 @@ body {
 }
 
 .reservationTable td {
-    height: 72px;
+    /* 예약 목록 행 높이와 글자 크기를 다른 회원 화면의 입력/결과 요소와 맞춘다. */
+    height: 76px;
     border-top: 1px solid #edf0f5;
     color: #333;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .reservationTable td:nth-child(1) {
@@ -218,13 +226,14 @@ body {
 }
 
 .state {
-    min-width: 80px;
-    height: 30px;
+    /* 상태 배지는 표 글자 크기 증가에 맞춰 함께 확대한다. */
+    min-width: 86px;
+    height: 32px;
     border-radius: 5px;
     display: inline-block;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
-    line-height: 30px;
+    line-height: 32px;
     text-align: center;
 }
 
@@ -250,11 +259,11 @@ body {
 
 .cancelBtn,
 .reserveBtn {
-    width: 90px;
-    height: 36px;
+    width: 96px;
+    height: 38px;
     border-radius: 5px;
     background: #fff;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     cursor: pointer;
 }
@@ -299,9 +308,10 @@ body {
 }
 
 .reservationModalContent {
-    width: min(760px, 100%);
+    /* 예약/진료 모달은 커진 표 글자 크기에 맞춰 폭과 안쪽 여백을 확장한다. */
+    width: min(820px, 100%);
     max-height: 80vh;
-    padding: 30px;
+    padding: 34px;
     border-radius: 14px;
     background: #fff;
     box-sizing: border-box;
@@ -318,14 +328,14 @@ body {
 .reservationModalHeader h3 {
     margin: 0;
     color: #17294a;
-    font-size: 22px;
+    font-size: 24px;
 }
 
 .modalCloseIcon {
     border: 0;
     background: transparent;
     color: #52627e;
-    font-size: 26px;
+    font-size: 28px;
     line-height: 1;
     cursor: pointer;
 }
@@ -343,12 +353,13 @@ body {
 
 .reservationTab {
     position: relative;
-    padding: 12px 8px;
+    /* 모달 탭은 상태 필터가 읽기 쉽도록 터치 영역과 글자 크기를 보강한다. */
+    padding: 14px 8px;
     border: 0;
     background: #fff;
     color: #7a8598;
     flex: 1;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     cursor: pointer;
 }
@@ -370,9 +381,9 @@ body {
 
 .reservationModalTable th,
 .reservationModalTable td {
-    padding: 14px 10px;
+    padding: 16px 10px;
     border-bottom: 1px solid #edf0f5;
-    font-size: 14px;
+    font-size: 15px;
     text-align: center;
 }
 
@@ -389,6 +400,7 @@ body {
 .reservationEmpty {
     padding: 55px 20px;
     color: #7b8496;
+    font-size: 15px;
     text-align: center;
 }
 
@@ -398,12 +410,13 @@ body {
 }
 
 .modalCloseBtn {
-    min-width: 120px;
-    height: 42px;
+    min-width: 130px;
+    height: 44px;
     border: 1px solid #d5dce8;
     border-radius: 6px;
     background: #fff;
     color: #273752;
+    font-size: 15px;
     font-weight: 700;
     cursor: pointer;
 }
@@ -429,11 +442,15 @@ body {
     width: 54px;
     height: 54px;
     margin: 0 auto 20px;
-    border: 2px solid #3978ff;
     border-radius: 50%;
-    color: #3978ff;
-    font-size: 31px;
-    line-height: 50px;
+    overflow: hidden;
+}
+
+.passwordUserIcon img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
 }
 
 .passwordCheckContent h3 {
@@ -524,15 +541,17 @@ body {
 }
 
 .infoSection h3 {
+    /* 정보관리 섹션 제목은 마이페이지 카드 제목과 비슷한 크기로 맞춘다. */
     margin: 0 0 22px;
     padding-bottom: 16px;
     border-bottom: 2px solid #17294a;
     color: #17294a;
-    font-size: 20px;
+    font-size: 22px;
 }
 
 .infoRow {
-    min-height: 58px;
+    /* 정보관리 입력 행은 회원가입 폼과 비슷한 세로 밀도를 유지한다. */
+    min-height: 62px;
     border-bottom: 1px solid #edf0f5;
     display: grid;
     grid-template-columns: 150px 1fr;
@@ -545,17 +564,18 @@ body {
 
 .infoRow label {
     color: #394860;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
 }
 
 .infoRow input,
 .infoRow select {
-    height: 38px;
-    padding: 0 11px;
+    height: 40px;
+    padding: 0 12px;
     border: 1px solid #d7deea;
     border-radius: 4px;
     box-sizing: border-box;
+    font-size: 14px;
 }
 
 .infoRow input[readonly] {
@@ -582,13 +602,14 @@ body {
 }
 
 .addressButton {
-    height: 38px;
+    height: 40px;
     margin-left: 8px;
     padding: 0 14px;
     border: 1px solid #1769e0;
     border-radius: 4px;
     background: #fff;
     color: #1769e0;
+    font-size: 14px;
     font-weight: 700;
     cursor: pointer;
 }
@@ -599,7 +620,7 @@ body {
     background: #edf4ff;
     color: #2763ba;
     display: inline-block;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
 }
 
@@ -612,12 +633,12 @@ body {
 
 .infoButtons button,
 .infoButtons a {
-    min-width: 105px;
-    height: 42px;
+    min-width: 112px;
+    height: 44px;
     border-radius: 5px;
     box-sizing: border-box;
     font-weight: 700;
-    line-height: 42px;
+    line-height: 44px;
     text-align: center;
     text-decoration: none;
 }
@@ -638,7 +659,238 @@ body {
 .minorNotice {
     margin: -10px 0 20px;
     color: #65748e;
+    font-size: 14px;
+}
+
+/* =====================================
+   회원 탈퇴 안내 및 처리 화면
+===================================== */
+.withdrawalGuide {
+    padding: 24px 28px;
+    border: 1px solid #e4e9f1;
+    border-radius: 12px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.withdrawalGuide strong {
+    /* 탈퇴 안내 문구도 정보관리 화면과 같은 가독성 기준으로 키운다. */
+    color: #17294a;
+    font-size: 18px;
+}
+
+.withdrawalGuide p {
+    margin: 7px 0 0;
+    color: #7a8598;
+    font-size: 14px;
+}
+
+.withdrawalLink {
+    padding: 10px 18px;
+    border: 1px solid #ff6b6b;
+    border-radius: 5px;
+    color: #ff4d4d;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.withdrawalLink:hover {
+    background: #fff5f5;
+}
+
+.withdrawalNotice {
+    margin-bottom: 22px;
+    padding: 20px 26px;
+    border: 1px solid #dce8fa;
+    border-radius: 8px;
+    background: #f2f7ff;
+}
+
+.withdrawalNotice ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #425675;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.withdrawalInfoBox {
+    padding: 14px 30px;
+    border: 1px solid #e4e9f1;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.withdrawalInfoRow {
+    min-height: 62px;
+    border-bottom: 1px solid #edf0f5;
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    align-items: center;
+}
+
+.withdrawalInfoRow:last-of-type {
+    border-bottom: 0;
+}
+
+.withdrawalInfoRow strong,
+.withdrawalInfoRow label {
+    color: #394860;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.withdrawalInfoRow span {
+    color: #4b586e;
+    font-size: 15px;
+}
+
+.withdrawalPasswordWrap {
+    width: 360px;
+    height: 42px;
+    border: 1px solid #d7deea;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.withdrawalPasswordWrap input {
+    min-width: 0;
+    height: 100%;
+    padding: 0 12px;
+    border: 0;
+    outline: 0;
+    flex: 1;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.withdrawalPasswordToggle {
+    height: 100%;
+    padding: 0 12px;
+    border: 0;
+    background: #fff;
+    color: #6f7d95;
+    cursor: pointer;
+}
+
+.withdrawalError {
+    margin: 4px 0 10px 150px;
+    color: #e34d4d;
     font-size: 13px;
+}
+
+.withdrawalButtons {
+    margin-top: 150px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.withdrawalButtons a,
+.withdrawalButtons button {
+    min-width: 130px;
+    height: 46px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-weight: 700;
+    line-height: 46px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.withdrawalCancelButton {
+    border: 1px solid #d8dee8;
+    background: #fff;
+    color: #637087;
+}
+
+.withdrawalSubmitButton {
+    border: 1px solid #1769e0;
+    background: #1769e0;
+    color: #fff;
+    cursor: pointer;
+}
+
+.withdrawalConfirmModal {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    padding: 24px;
+    background: rgba(13, 25, 46, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.withdrawalConfirmModal.open {
+    display: flex;
+}
+
+.withdrawalConfirmContent {
+    /* 탈퇴 최종 확인 모달은 버튼/문구 확대에 맞춰 카드 크기를 보정한다. */
+    width: min(440px, 100%);
+    padding: 38px;
+    border-radius: 12px;
+    background: #fff;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+}
+
+.withdrawalWarningIcon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 18px;
+    border: 2px solid #3978ff;
+    border-radius: 50%;
+    color: #3978ff;
+    font-size: 29px;
+    font-weight: 700;
+    line-height: 49px;
+}
+
+.withdrawalConfirmContent h3 {
+    margin: 0 0 10px;
+    color: #17294a;
+    font-size: 21px;
+}
+
+.withdrawalConfirmContent p {
+    margin: 0 0 24px;
+    color: #778399;
+    font-size: 13px;
+}
+
+.withdrawalConfirmButtons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.withdrawalConfirmButtons button {
+    width: 112px;
+    height: 42px;
+    border-radius: 5px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.withdrawalModalCancel {
+    border: 1px solid #d8dee8;
+    background: #fff;
+    color: #637087;
+}
+
+.withdrawalModalConfirm {
+    border: 1px solid #1769e0;
+    background: #1769e0;
+    color: #fff;
 }
 
 /* 모달 활성화 시 배경 페이지 스크롤을 차단한다. */
