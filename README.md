@@ -160,27 +160,26 @@ src/main/webapp
 
 ## 구현 상태
 
-> 작성 기준: 2026-06-24 23:53:35 KST(+09:00), 현재 작성된 파일 기준으로 정리한다.
+> 작성 기준: 2026-06-25 22:40:26 KST(+09:00), 현재 작성된 파일 기준으로 정리한다.
 
 ### 구현 전
 
 | 영역 | 대상 | 비고 |
 |---|---|---|
-| 관리자 회원 관리 | `AdminMemberService`, `AdminMemberDAO`, 관리자 회원 검색 DTO | 현재는 `AdminMemberListServlet`, `adminMemberList.jsp` 중심의 화면 진입 구조만 있다. |
-| 관리자 예약 관리 | `AdminAppointmentService`, `AdminAppointmentDAO`, 관리자 예약 검색 DTO | 현재는 `AdminAppointmentListServlet`, `adminAppointmentList.jsp` 중심의 화면 진입 구조만 있다. |
 | 관리자 메모 관리 | `AdminMemoService`, `AdminMemoDAO`, 메모 관리 화면 | README 역할분담에는 있으나 실제 파일은 아직 없다. |
 | 사용자 의료진 소개 | `DoctorService`, `DoctorDAO`, 사용자 의료진 목록/상세 화면 | 관리자 의료진 관리 파일은 있으나 사용자 소개용 모듈은 아직 없다. |
 | 사용자 진료과 소개 | `DepartmentService`, `DepartmentDAO`, 사용자 진료과 목록/상세 화면 | 관리자 진료과 관리 파일은 있으나 사용자 소개용 모듈은 아직 없다. |
-| 공통 예약 DTO | `common/dto/AppointmentDTO.java` | 현재는 `member/dto/UserAppointmentDTO`와 `user/appointment/dto/*` 중심으로 나뉘어 있다. |
+| 공통 예약 DTO 통합 | `common/dto/AppointmentDTO.java` | 현재는 `member/dto/UserAppointmentDTO`와 `user/appointment/dto/*` 중심으로 나뉘어 있다. |
 
 ### 구현 중
 
 | 영역 | 대상 | 현재 상태 |
 |---|---|---|
-| 회원/인증/마이페이지 | `LoginService`, `MemberRegisterService`, `FindAccountService`, `UserMyPageService`, `UpdateUserInfoService` | Service/DAO와 JSP process 파일이 함께 존재한다. Servlet 전환과 보안 보완이 남아 있다. |
-| 사용자 예약 | `UserAppointmentService`, `UserAppointmentDAO`, `appointment.jsp`, `appointment_ajax.jsp`, `appointmentProcess.jsp`, `appointmentSuccess.jsp` | 진료과/의사/일정/시간/예약 흐름은 작성되어 있으나 JSP가 controller 역할을 일부 수행한다. |
-| 관리자 의료진 관리 | `AdminDoctorService`, `AdminDoctorDAO`, `AdminDoctorListServlet`, `adminDoctorListView.jsp`, `adminDoctorDetail.jsp` | 목록/상세/스케줄 관련 코드가 있으나 transaction, validation, error handling 보완이 필요하다. |
-| 관리자 진료과 관리 | `AdminDepartmentService`, `AdminDepartmentDAO`, `AdminDepartmentListServlet`, 진료과 JSP | Servlet 기반 목록과 기존 JSP process 방식이 함께 남아 있어 흐름 정리가 필요하다. |
+| 회원/인증/마이페이지 | `LoginService`, `MemberRegisterService`, `FindAccountService`, `UserMyPageService`, `UpdateUserInfoService`, member JSP | 일부 마이페이지 흐름은 Servlet으로 연결되어 있으나 로그인, 회원가입, 아이디/비밀번호 찾기, 정보수정 process JSP가 남아 있다. |
+| 관리자 회원 관리 | `AdminMemberService`, `AdminMemberDAO`, `AdminMemberListServlet`, `AdminMemberDetailServlet`, 관리자 회원 JSP | 목록/상세 조회 구조는 있으나 상태 변경, 메모 연동, 권한 검증, error handling 보완이 필요하다. |
+| 관리자 예약 관리 | `AdminAppointmentService`, `AdminAppointmentDAO`, `AdminAppointmentListServlet`, `adminAppointmentList.jsp` | 예약 목록 조회 구조는 있으나 승인/취소/상태 변경 처리와 transaction/error handling 보완이 필요하다. |
+| 관리자 의료진 관리 | `AdminDoctorService`, `AdminDoctorDAO`, `AdminDoctorListServlet`, `AdminDoctorFormServlet`, 의료진 JSP | 목록/상세 화면의 JSP 내 Service 호출은 제거했으나 DAO error handling, validation, transaction 정리가 남아 있다. |
+| 관리자 진료과 관리 | `AdminDepartmentService`, `AdminDepartmentDAO`, `AdminDepartmentListServlet`, `AdminDepartmentFormServlet`, 진료과 JSP | Servlet 기반 목록/폼과 기존 process JSP가 함께 남아 있어 등록/수정 흐름 정리가 필요하다. |
 
 ### 구현 완료
 
@@ -189,6 +188,7 @@ src/main/webapp
 | 공통 DB 연결 | `DBConnection` | Tomcat JNDI DataSource 기반 DB 연결과 JDBC 자원 정리 유틸이 작성되어 있다. |
 | 공통 pagination | `PaginationUtil`, `BaseSearchDTO`, `pagination.jsp` | 목록 조회 범위와 JSP page navigation 계산을 공통화했다. |
 | 공통 layout | `userHeader.jsp`, `userBreadcrumb.jsp`, `userFooter.jsp`, `adminHeader.jsp`, `adminSidebar.jsp`, `message.jsp` | 사용자/관리자 공통 include JSP와 message 출력 구조가 작성되어 있다. |
+| 사용자 예약 기본 흐름 | `UserAppointment*Servlet`, `UserAppointmentService`, `UserAppointmentDAO`, 예약 JSP | 예약 화면, AJAX 조회, 예약 등록, 목록, 완료 상세, 취소 흐름을 Servlet -> Service -> DAO -> JSP 구조로 정리했다. 삭제된 legacy 예약 JSP 경로는 `web.xml`에서 새 Servlet으로 연결한다. |
 | 사용자 게시판 | `BoardListServlet`, `BoardDetailServlet`, `BoardService`, `BoardDAO`, `userBoardList.jsp`, `userBoardDetail.jsp` | 공지사항/FAQ 목록, 상세, 검색, pagination 흐름이 Servlet -> Service -> DAO -> JSP 구조로 작성되어 있다. |
 | 관리자 게시판 | `AdminBoardListServlet`, `AdminBoardFormServlet`, `AdminBoardSaveServlet`, `AdminBoardDeleteServlet`, `AdminBoardService`, `AdminBoardDAO`, 관리자 게시판 JSP | 관리자 공지사항/FAQ 목록, 등록/수정, 삭제 흐름이 작성되어 있다. |
 | 메인/대시보드 | `MainPageServlet`, `MainPageService`, `AdminDashboardServlet`, `AdminDashboardService`, `AdminDashboardDAO` | 메인 화면과 관리자 대시보드 진입 및 조회 구조가 작성되어 있다. |
@@ -199,9 +199,10 @@ src/main/webapp
 |---|---|---|
 | 높음 | 관리자 보안 | `/admin/*` 요청에 대한 로그인/권한 확인 filter 또는 공통 guard가 필요하다. |
 | 높음 | 비밀번호 보안 | 회원가입, 로그인, 비밀번호 재설정에서 평문 password 저장/비교를 hash 기반으로 변경해야 한다. |
-| 높음 | 예약 중복 방지 | 예약 가능 여부 확인과 insert가 분리되어 있어 동시 요청 시 중복 예약이 생길 수 있다. DB unique constraint 또는 transaction 처리가 필요하다. |
-| 높음 | XSS 방지 | JSP의 `<%= ... %>`와 `out.print(...)` 직접 출력 값을 `<c:out>` 또는 escape helper로 정리해야 한다. |
-| 중간 | JSP process 제거 | `views/member/process/*.jsp`, `appointment_ajax.jsp`, `appointmentProcess.jsp`, 진료과 process JSP를 Servlet controller로 옮겨야 한다. |
-| 중간 | 환경 고정 URL 제거 | `http://localhost...`로 고정된 이미지/AJAX 경로를 `<c:url>` 또는 `request.getContextPath()` 기반으로 변경해야 한다. |
-| 중간 | Error handling | `printStackTrace()` 후 `null`, `false`, `0`을 반환하는 흐름을 공통 error page와 logging 중심으로 정리해야 한다. |
-| 중간 | README와 실제 파일 동기화 | README의 목표 구조와 실제 작성 완료 파일이 일부 다르므로, 구현 진행 시 문서를 함께 갱신해야 한다. |
+| 높음 | 예약 중복 방지 | 예약 가능 여부 확인과 insert 사이에 동시 요청이 들어오면 중복 예약이 생길 수 있다. DB unique constraint 또는 transaction 처리가 필요하다. |
+| 높음 | XSS 방지 | 남아 있는 scriptlet JSP와 직접 출력 값을 `<c:out>` 또는 escape helper 중심으로 정리해야 한다. |
+| 중간 | 회원 JSP process 제거 | `views/member/process/*.jsp`, `idDup.jsp`, `joinComplete.jsp`, `myPageInfo.jsp`, `withdrawUser.jsp`의 Service 호출을 Servlet controller로 옮겨야 한다. |
+| 중간 | 관리자 진료과 process JSP 제거 | `adminDepartmentListViewProcess.jsp`, `adminDepartmentAddModalProcess.jsp`를 Servlet 기반 등록/수정 흐름으로 정리해야 한다. |
+| 중간 | Error handling | member/admin DAO와 Service에 남아 있는 `printStackTrace()`와 단순 `null`, `false`, `0` 반환 흐름을 logging과 명확한 실패 처리로 정리해야 한다. |
+| 낮음 | legacy URL 정리 | 예약 legacy JSP URL은 호환성을 위해 `web.xml`에서 새 Servlet으로 연결되어 있다. 내부 링크 정리가 끝난 뒤 제거 여부를 결정하면 된다. |
+| 낮음 | Tomcat/DB 수동 검증 | 예약 AJAX, 예약 등록/취소, 관리자 의료진 목록/상세, 마이페이지 예약 취소는 실제 Tomcat과 DB에서 화면 기준 검증이 필요하다. |
