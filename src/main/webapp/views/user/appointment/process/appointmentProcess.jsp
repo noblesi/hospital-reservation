@@ -43,7 +43,7 @@ String modifyApptNo = request.getParameter("appointmentNo");
 /* 입력받은 값으로 예약을 진행한다. */
 UserAppointmentService uas = new UserAppointmentService();
 
-if (modifyApptNo == null || modifyApptNo == "") {
+if (modifyApptNo == null || "".equals(modifyApptNo)) {
 	
 	if (uas.checkReservable(uarDTO)) {
 		UserAppointmentConfirmDTO uacDTO = uas.reserveAppointment(uarDTO);
