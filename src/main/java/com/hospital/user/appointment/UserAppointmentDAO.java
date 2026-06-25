@@ -13,8 +13,8 @@ import com.hospital.common.dto.DepartmentDTO;
 import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
 import com.hospital.user.appointment.dto.UserAppointmentConfirmDTO;
-import com.hospital.user.appointment.dto.UserAppointmentOptionDTO;
 import com.hospital.user.appointment.dto.UserAppointmentRequestDTO;
+import com.hospital.user.appointment.dto.UserAppointmentShowDTO;
 
 /**
  * 병원 진료 예약에 관한 DB 업무를 구현하는 클래스
@@ -76,6 +76,13 @@ public class UserAppointmentDAO {
 		return deptList;
 	}
 
+	/**
+	 * 입력받은 진료과의 의료진의 목록을 찾는 일.
+	 * 
+	 * @param deptNo
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<DoctorDTO> selectDoctorList(String deptNo) throws SQLException {
 		List<DoctorDTO> doctorList = new ArrayList<DoctorDTO>();
 
@@ -93,8 +100,67 @@ public class UserAppointmentDAO {
 					.append("	where 	dept_no = ? ");
 
 			pstmt = con.prepareStatement(querySb.toString());
-			
+
 			pstmt.setString(1, deptNo);
+
+			rs = pstmt.executeQuery();
+
+			DoctorDTO dDTO = null;
+			if (rs != null) {
+				while (rs.next()) {
+					dDTO = new DoctorDTO();
+
+					dDTO.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
+					dDTO.setDeptNo(rs.getString("dept_no"));
+					dDTO.setName(rs.getString("name"));
+					dDTO.setPhoneNum(rs.getString("phone_num"));
+					dDTO.setPositionCode(rs.getString("position_code"));
+					dDTO.setIntroTitle(rs.getString("intro_title"));
+					dDTO.setIntroContent(rs.getString("intro_content"));
+					dDTO.setThumbnailUrl(rs.getString("thumbnail_url"));
+					dDTO.setDetailImageUrl(rs.getString("detail_image_url"));
+					dDTO.setCreatedDate(rs.getDate("create_date"));
+					dDTO.setSpecialty(rs.getString("specialty"));
+					dDTO.setStatusCode(rs.getString("status_code"));
+
+					doctorList.add(dDTO);
+				}
+			}
+
+		} finally {
+			DBConnection.close(rs, pstmt, con);
+		}
+
+		return doctorList;
+	}
+	
+	/**
+	 * 사용자가 검색한 키워드와 일치하는 의료진을 찾는 일
+	 * 
+	 * @param keyword
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<DoctorDTO> selectDoctorListByKeyword(String keyword) throws SQLException {
+		List<DoctorDTO> doctorList = new ArrayList<DoctorDTO>();
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = DBConnection.getConnection();
+			
+			StringBuilder querySb = new StringBuilder();
+			querySb //
+			.append("	select	doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code")
+			.append("	from	doctor"	) //
+			.append("	where	name like '%' || ? || '%' or specialty like '%' || ? || '%'"	);
+			
+			pstmt = con.prepareStatement(querySb.toString());
+			
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
 			
 			rs = pstmt.executeQuery();
 			
@@ -119,11 +185,11 @@ public class UserAppointmentDAO {
 					doctorList.add(dDTO);
 				}
 			}
-
+			
 		} finally {
 			DBConnection.close(rs, pstmt, con);
 		}
-
+		
 		return doctorList;
 	}
 
@@ -168,6 +234,7 @@ public class UserAppointmentDAO {
 	}
 
 	
+
 	/**
 	 * 의사의 진료 요일, 시작 시간, 끝 시간 검색.
 	 * 
@@ -177,7 +244,7 @@ public class UserAppointmentDAO {
 	 */
 	public List<DoctorScheduleDTO> selectDoctorSchedule(int dln) throws SQLException {
 		List<DoctorScheduleDTO> dsList = new ArrayList<>();
-		
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -192,23 +259,23 @@ public class UserAppointmentDAO {
 					.append("	where 	doctor_license_no = ?	");
 
 			pstmt = con.prepareStatement(querySb.toString());
-			
+
 			pstmt.setInt(1, dln);
-			
+
 			rs = pstmt.executeQuery();
-			
+
 			DoctorScheduleDTO dsDTO = null;
 			if (rs != null) {
 				while (rs.next()) {
 					dsDTO = new DoctorScheduleDTO();
-					
+
 					dsDTO.setScheduleNo(rs.getInt("SCHEDULE_NO"));
 					dsDTO.setDoctorLicenseNo(rs.getInt("DOCTOR_LICENSE_NO"));
 					dsDTO.setDayOfWeek(rs.getInt("DAY_OF_WEEK"));
 					dsDTO.setStartTime(rs.getString("START_TIME"));
 					dsDTO.setEndTime(rs.getString("END_TIME"));
 					dsDTO.setStatus(rs.getString("STATUS"));
-					
+
 					dsList.add(dsDTO);
 				}
 			}
@@ -216,18 +283,20 @@ public class UserAppointmentDAO {
 		} finally {
 			DBConnection.close(rs, pstmt, con);
 		}
-		
+
 		return dsList;
 	}
 
 	/**
+	 * 이미 예약된 시간을 찾는 일.
+	 * 
 	 * @param doctorLicenseNo
 	 * @param appointmentDate
 	 * @return 이미 예약된 진료 시간.
 	 */
 	public List<String> selectReservedTime(int dln, Date appointmentDate) throws SQLException {
 		List<String> reservedTimes = new ArrayList<String>();
-		
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -243,12 +312,12 @@ public class UserAppointmentDAO {
 					.append("	and NVL(TRIM(status), ' ') <> '예약취소'	");
 
 			pstmt = con.prepareStatement(querySb.toString());
-			
+
 			pstmt.setInt(1, dln);
 			pstmt.setDate(2, appointmentDate);
-			
+
 			rs = pstmt.executeQuery();
-			
+
 			if (rs != null) {
 				while (rs.next()) {
 					reservedTimes.add(rs.getString("APPOINTMENT_TIME"));
@@ -258,7 +327,7 @@ public class UserAppointmentDAO {
 		} finally {
 			DBConnection.close(rs, pstmt, con);
 		}
-		
+
 		return reservedTimes;
 	}
 

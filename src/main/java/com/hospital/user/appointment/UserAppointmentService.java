@@ -10,8 +10,8 @@ import com.hospital.common.dto.DepartmentDTO;
 import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
 import com.hospital.user.appointment.dto.UserAppointmentConfirmDTO;
-import com.hospital.user.appointment.dto.UserAppointmentOptionDTO;
 import com.hospital.user.appointment.dto.UserAppointmentRequestDTO;
+import com.hospital.user.appointment.dto.UserAppointmentShowDTO;
 
 import lombok.NoArgsConstructor;
 
@@ -20,12 +20,17 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 public class UserAppointmentService {
-	
+
 	UserAppointmentDAO uaDAO = UserAppointmentDAO.getInstance();
-	
+
+	/**
+	 * 진료과를 찾는 일.
+	 * 
+	 * @return
+	 */
 	public List<DepartmentDTO> searchDepartmentList() {
 		List<DepartmentDTO> deptList = null;
-		
+
 		try {
 			deptList = uaDAO.selectDepartmentList();
 		} catch (SQLException e) {
@@ -35,9 +40,19 @@ public class UserAppointmentService {
 		return deptList;
 	}
 
+	/**
+	 * 진료과에 속한 의료진들을 찾는 일.
+	 * 
+	 * @param deptNo
+	 * @return
+	 */
 	public List<DoctorDTO> searchDoctorList(String deptNo) {
 		List<DoctorDTO> doctorList = null;
-		
+
+		if (deptNo == null || "".equals(deptNo)) {
+			return doctorList;
+		}
+
 		try {
 			doctorList = uaDAO.selectDoctorList(deptNo);
 		} catch (SQLException e) {
@@ -59,29 +74,41 @@ public class UserAppointmentService {
 		return optionDTO;
 	}
 
+	/**
+	 * 의사의 일정을 찾는 일.
+	 * 
+	 * @param doctorLicenseNo
+	 * @return
+	 */
 	public List<DoctorScheduleDTO> searchDoctorSchedule(int doctorLicenseNo) {
 		List<DoctorScheduleDTO> dsList = null;
-		
+
 		try {
 			dsList = uaDAO.selectDoctorSchedule(doctorLicenseNo);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return dsList;
 	}
 
 	/**
+	 * 해당 일자 의사의 진료 가능 시간 목록을 찾는 일.
+	 * 
 	 * @param doctorLicenseNo 진료 받고 싶은 의사 번호
 	 * @param appointmentDate 진료 받고 싶은 날짜
 	 * @return 진료 가능한 시간대 목록
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public List<String> searchAvailableTime(int doctorLicenseNo, Date appointmentDate) {
 		List<String> availableTimes = new ArrayList<String>();
 		List<String> reservedTimes = null;
 		List<DoctorScheduleDTO> dsList = null;
-		
+
+		if (appointmentDate == null) {
+			return null;
+		}
+
 		try {
 			reservedTimes = uaDAO.selectReservedTime(doctorLicenseNo, appointmentDate);
 			dsList = uaDAO.selectDoctorSchedule(doctorLicenseNo);
@@ -105,91 +132,180 @@ public class UserAppointmentService {
 			
 			LocalTime startTime = LocalTime.parse(dsDTO.getStartTime());
 			LocalTime endTime = LocalTime.parse(dsDTO.getEndTime());
-			
+
 			LocalTime timeLd = startTime;
-			
-			while(!timeLd.equals(endTime)) {
+
+			while (!timeLd.equals(endTime)) {
 				if (!reservedTimes.contains(timeLd.toString())) {
 					availableTimes.add(timeLd.toString());
 				}
-					
+
 				timeLd = timeLd.plusMinutes(30);
 			}
-			
+
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return availableTimes;
 	}
 
+	/**
+	 * 요청한 예약이 가능한지(다른 예약과 겹치거나 시간이 차지 않았는지) 확인하는 일.
+	 * 
+	 * @param requestDTO
+	 * @return
+	 */
 	public boolean checkReservable(UserAppointmentRequestDTO requestDTO) {
-		if (!isValidRequest(requestDTO)) {
-			return false;
+		boolean reservable = false;
+
+		if (requestDTO == null) {
+			return reservable;
 		}
 
 		try {
-			return uaDAO.selectAppointmentConflict(requestDTO) == 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			int addCnt = uaDAO.selectAppointmentConflict(requestDTO);
 
-		return false;
-	}
-
-	public UserAppointmentConfirmDTO reserveAppointment(UserAppointmentRequestDTO requestDTO) {
-		if (!checkReservable(requestDTO)) {
-			return null;
-		}
-
-		try {
-			String appointmentNo = uaDAO.insertAppointment(requestDTO);
-			if (appointmentNo == null || appointmentNo.isBlank()) {
-				return null;
+			if (addCnt == 0) {
+				reservable = true;
 			}
-			return uaDAO.selectAppointmentConfirm(appointmentNo);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return null;
+		return reservable;
 	}
 
-	public UserAppointmentConfirmDTO searchAppointmentConfirm(String appointmentNo) {
-		if (appointmentNo == null || appointmentNo.isBlank()) {
+	/**
+	 * 예약을 확정 짓는 일.
+	 * 
+	 * @param requestDTO
+	 * @return
+	 */
+	public UserAppointmentConfirmDTO reserveAppointment(UserAppointmentRequestDTO requestDTO) {
+		UserAppointmentConfirmDTO uacDTO = null;
+
+		if (requestDTO == null) {
+			return uacDTO;
+		}
+
+		// 중복된 시간이 있으면 예약을 진행하지 않는다.
+		if (!checkReservable(requestDTO)) {
+
 			return null;
 		}
 
 		try {
-			return uaDAO.selectAppointmentConfirm(appointmentNo.trim());
+			uaDAO.insertAppointment(requestDTO);
+			uacDTO = uaDAO.selectAppointmentConfirm(requestDTO);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		return uacDTO;
+	}
+
+	/**
+	 * 수정된 예약을 확정짓는 일.
+	 * 
+	 * @param requestDTO
+	 * @return
+	 */
+	public UserAppointmentConfirmDTO reserveAppointment(String appointmentNo, String patientNo,
+			UserAppointmentRequestDTO requestDTO) {
+		UserAppointmentConfirmDTO uacDTO = null;
+
+		if ("".equals(appointmentNo) || "".equals(patientNo) || requestDTO == null) {
+			return uacDTO;
+		}
+
+		if (!checkReservable(requestDTO)) {
+			// 예약 불가 안내 코드.
+			return uacDTO;
+		}
+
+		try {
+			uaDAO.updateAppointment(appointmentNo, patientNo, requestDTO);
+			uacDTO = uaDAO.selectAppointmentConfirm(requestDTO);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return uacDTO;
+	}
+
+	/**
+	 * 예약 정보를 확인하는 일.
+	 * 
+	 * @param appointmentNo
+	 * @return
+	 */
+	public UserAppointmentConfirmDTO searchAppointmentConfirm(String appointmentNo) {
+		UserAppointmentConfirmDTO uacDTO = null;
+
+		if (appointmentNo == null || "".equals(appointmentNo)) {
+			return uacDTO;
+		}
+
+		try {
+			uacDTO = uaDAO.selectAppointmentConfirm(appointmentNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return uacDTO;
+	}
+
+	public UserAppointmentConfirmDTO searchAppointmentConfirm(UserAppointmentRequestDTO requestDTO) {
 
 		return null;
 	}
 
+	/**
+	 * 예약을 취소하는 일.
+	 * 
+	 * @param appointmentNo
+	 * @param patientNo
+	 * @return
+	 */
 	public boolean cancelAppointment(String appointmentNo, String patientNo) {
-		if (appointmentNo == null || appointmentNo.isBlank() || patientNo == null || patientNo.isBlank()) {
-			return false;
+		boolean cancelFlag = false;
+
+		if (appointmentNo == null || "".equals(appointmentNo) || patientNo == null || "".equals(patientNo)) {
+			return cancelFlag;
 		}
 
 		try {
-			return uaDAO.updateCancelAppointment(appointmentNo.trim(), patientNo.trim()) > 0;
+			int cnt = uaDAO.updateCancelAppointment(appointmentNo, patientNo);
+			if (cnt == 1) {
+				cancelFlag = true;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return false;
+		return cancelFlag;
 	}
 
-	private boolean isValidRequest(UserAppointmentRequestDTO requestDTO) {
-		return requestDTO != null
-				&& requestDTO.getPatientNo() != null
-				&& !requestDTO.getPatientNo().isBlank()
-				&& requestDTO.getDoctorLicenseNo() > 0
-				&& requestDTO.getAppointmentDate() != null
-				&& requestDTO.getAppointmentTime() != null
-				&& !requestDTO.getAppointmentTime().isBlank();
+	/**
+	 * @param patientNo
+	 * @return
+	 */
+	public List<UserAppointmentShowDTO> searchAppointmentDetail(String patientNo) {
+		List<UserAppointmentShowDTO> uasDTOList = null;
+
+		if (patientNo == null || "".equals(patientNo)) {
+			return uasDTOList;
+		}
+
+		try {
+			uasDTOList = uaDAO.selectAppointmentDetail(patientNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return uasDTOList;
 	}
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-var pageLength = $(".slTab").length - 1;
+var pageLength = $(".slTab").length;
 var curPage = 0;
 
 var deptName;
@@ -32,7 +32,16 @@ $(function() {
 
     /* 진료과 선택 시 */
     $(".deptWrap").on("click", ".deptRadio", deptHandler);
-
+		
+	/* 검색 시 */
+    $("#searchBtn").on("click", searchDoctor);
+	
+	$("#dNameInput").on("keydown", function(e) {
+		if(e.keyCode == 13) {
+			$("#searchBtn").trigger("click");
+		}
+	});
+	
     /*의료진 선택 시*/
     $(".doctorListMain").on("click", ".selectDoctorBtn", handleDoctorSelect);
 
@@ -52,7 +61,7 @@ $(function() {
 	$(".modalXBtn").on("click", closeModal)
 	
 	/* modal 창 확인 버튼 클릭 시 */
-	$("#confirmBtn").on("click", confirmAppointment)
+	$("#confirmBtn").on("click", inputRequirement)
 	
 	/* 마지막 confirm 창 */
 	$("#lastConfrimCancelBtn").on("click", closeModal);
@@ -97,7 +106,7 @@ function sortDept() {
     var selectedSort = $(this).val(); // "default" 또는 "ascending"
 
     $.ajax({
-        url: "appointment_ajax.jsp",
+        url: "process/appointmentAjax.jsp",
         type: "GET",
         data: { action: "sort", sort: selectedSort },
         success: function(receivedHtml) {
@@ -113,19 +122,23 @@ function sortDept() {
 
 }
 
-/* 진료과를 선택한 후 업무 */
+/* 진료과를 선택 시 */
 function deptHandler() {
-    /* 선택한 진료과에 CSS 적용 */
+    /* CSS 적용 */
     $(".slTab label").removeClass("selectDept");
     $(this).next("label").addClass("selectDept");
 	
     removeFocusBorder();
-	
 	$(".doctorListDiv").addClass("focusBorder");
 
-    /* 기존에 있던 진료과 선택 문구 태그를 지운다. */
-    $(".noResult").remove();
-
+    $(".noResult").attr("style", "display: none;");
+    $(".scheduleCal").attr("style", "display: none;");
+    $(".timeTableDiv").attr("style", "display: none;");
+	
+	$(".rsInfoDoctor").text("");
+	$(".rsInfoDate").text("");
+	
+	
     /* 선택한 진료과 코드를 가져온다. */
     var deptNo = $(this).val();
     deptName = $("label[for='" + deptNo + "']").text();
@@ -135,7 +148,7 @@ function deptHandler() {
 
     /* HTML 태그를 생성한다 */
     $.ajax({
-        url: "appointment_ajax.jsp",
+        url: "process/appointmentAjax.jsp",
         type: "GET",
         data: { action: "doctorList", deptNo: deptNo, deptName: deptName },
         success: function(receivedHtml) {
@@ -147,20 +160,49 @@ function deptHandler() {
 
 }
 
-/* 의료진 선택 후 업무 */
+/* 의료진 검색 */
+function searchDoctor() {
+	var keyword = $("#dNameInput").val();
+	
+	if(keyword.trim() == "") {
+		alert("검색하실 단어를 입력해주세요.");
+		return;
+	}
+	
+	/* HTML 태그를 생성한다 */
+    $.ajax({
+        url: "process/appointmentAjax.jsp",
+        type: "GET",
+        data: { action: "searchDoctor", keyword: keyword },
+        success: function(receivedHtml) {
+            /* 생성된 HTML 태그를 보여준다 */
+            $(".doctorListMain").html(receivedHtml)
+        }
+
+    });
+}
+
+/* 의료진 선택 */
 function handleDoctorSelect() {
     /* CSS 강조 설정 */
     $(".selectDoctorBtn").removeClass("selectedBtn");
     $(".doctorThumnail").removeAttr("style");
     $(".result").attr("style", "display: none;");
+    $(".timeTableDiv").attr("style", "display: none;");
 	
     removeFocusBorder();
+	
+	$(".scheduleCal").removeAttr("style");
 
     $(".scheduleCalDiv").addClass("focusBorder");
     $(this).addClass("selectedBtn");
     $(this).closest(".doctorLi").find(".doctorThumnail").attr("style", "border: 2px solid #2763ba");
+	
+	/*  */
 
 	dln = $(".selectedBtn").val();
+	$("#apptDln").val(dln);
+	
 	specialty = $(this).closest(".doctorLi").find(".specialty").text();
     renderCal();
 
@@ -172,7 +214,7 @@ function handleDoctorSelect() {
 function renderCal(year, month) {
 
     $.ajax({
-        url: "appointment_ajax.jsp",
+        url: "process/appointmentAjax.jsp",
         type: "GET",
         data: { action: "schedule", dln: dln, year: year, month: month },
         success: function(recivedHtml) {
@@ -215,8 +257,10 @@ function selectDate() {
     $(".available").removeClass("selectedDay");
     $(this).addClass("selectedDay");
 	
-
+	$(".timeTableDiv").removeAttr("style");
+	
 	appointmentDate = $(this).data("date");
+	$("#apptDate").val(appointmentDate);
 	
     renderTimeTable(appointmentDate);
 	
@@ -224,9 +268,10 @@ function selectDate() {
 	$(".timeTableDiv").addClass("focusBorder");
 }
 
+/* 시간 테이블 출력 */
 function renderTimeTable(selectedDate) {
     $.ajax({
-        url: "appointment_ajax.jsp",
+        url: "process/appointmentAjax.jsp",
         type: "GET",
         data: { action: "timeTable", date: selectedDate, dln: dln},
         success: function(recivedHtml) {
@@ -235,11 +280,13 @@ function renderTimeTable(selectedDate) {
     });
 }
 
+/* 시간 선택 */
 function selectTime() {
 	$(".timeTableLi").removeClass("selectedTime");
 	$(this).addClass("selectedTime");
 	
 	appointmentTime = $(this).text();
+	$("#apptTime").val(appointmentTime);
 	
 	$(".rsInfoDate").html(appointmentDate + "<br>" + appointmentTime);
 }
@@ -268,16 +315,32 @@ function appointHandler() {
 	$(".modalContent").addClass("show");
 }
 
+/* modal창 숨기기 */
 function closeModal() {
 	$(".modalOverlay").removeClass("show");
+	$(".modalContent").removeClass("show");
+	$(".lastConfirmDiv").removeClass("show");
 }
 
-function confirmAppointment() {
+/* 요구사항 입력 확인 */
+function inputRequirement() {
 	var isCheck = $(".checkInfo").is(":checked");
+	var requirement = $("#requireTa").val();
+	
+	if(requirement.trim() == "") {
+		alert("아프신 곳을 입력해 주세요.");
+		return;
+	}
 	
 	if(isCheck) {
 		$(".modalContent").removeClass("show");
 		$(".lastConfirmDiv").addClass("show");
+		
+		$("#apptRequire").val(requirement);
+		
+		$(".confirmDate").text(appointmentDate + " " + appointmentTime);
+		$(".confirmDept").text(deptName);
+		$(".confirmDoctor").text($(".rsInfoDoctor").text());
 	} else {
 		alert("체크박스를 확인해 주세요.")
 	}

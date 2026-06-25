@@ -169,14 +169,12 @@
 
 <script type="text/javascript">
     $(function(){
-		<%
-		
-		%>
-    	
+
         $("#searchBtn").click(function () {
             const dept = $("#dept").val();
             const status = $("#status").val();
             const name = $("#name").val();
+
             console.log("검색 조건:", dept, status, name);
             alert("검색 조건\n진료과: " + dept + "\n상태: " + status + "\n이름: " + name);
         });
@@ -191,6 +189,7 @@
             const doctorName = $(this).closest("tr").find("td:eq(1)").text();
 
             console.log(doctorName + " 상태 변경: " + newStatus);
+            // 여기서 AJAX로 상태 업데이트 가능
         });
 
         $(".pagination-wrap button").not(".arrow").click(function () {

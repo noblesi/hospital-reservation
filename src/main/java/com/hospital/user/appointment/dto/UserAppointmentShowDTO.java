@@ -13,14 +13,13 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAppointmentRequestDTO {
-	private String patientNo;
-	private int doctorLicenseNo;
+public class UserAppointmentShowDTO {
+	private String appointmentNo;
+	private String thumbnailUrl;
+	private String deptName;
+	private String doctorName;
+	private Date createdAt;
 	private Date appointmentDate;
 	private String appointmentTime;
-	private String requirement;
-	private String status;
-	// private Date createdAt; DB에서 자동 입력.
-	// private String reservationTargetType;
-	// private String guardianRelation;
+	private String deptLoc;
 }

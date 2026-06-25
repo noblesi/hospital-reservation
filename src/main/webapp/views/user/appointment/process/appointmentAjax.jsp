@@ -16,7 +16,7 @@ String action = request.getParameter("action");
 
 String deptName = "";
 
-/* 진료과 리스트 정렬 */
+/* 진료과 리스트 */
 if ("sort".equals(action)) {
 	String sortType = request.getParameter("sort");
 
@@ -70,10 +70,69 @@ if ("sort".equals(action)) {
 	}
 }
 
-/* 의료진 목록 */
+/* 사용자 키워드로 의료진 검색 */
+if ("searchDoctor".equals(action)) {
+	String keyword = request.getParameter("keyword");
+
+	if (keyword == null) {
+		keyword = "";
+	}
+
+	UserAppointmentService uas = new UserAppointmentService();
+	List<DoctorDTO> doctorList = uas.searchDoctorListByKeyword(keyword);
+
+	int doctorCnt = doctorList.size();
+
+	if (doctorCnt == 0) {
+		out.println("<p class='noResult'>입력하신 의료진, 세부전공과 일치하는 의료진이 없습니다.</p>");
+		return;
+	}
+
+	out.println("<ul class='doctorUl'>");
+
+	DoctorDTO dDTO = null;
+
+	for (int i = 0; i < doctorCnt; i++) {
+		dDTO = doctorList.get(i);
+
+		if (i % 2 == 0) {
+	out.println("<div class='col'>");
+		}
+%>
+<li class="doctorLi"><img class="doctorThumnail" src="<%=dDTO.getThumbnailUrl()%>">
+	<div class="doctorInfoDiv">
+		<h4 class="doctorName"><%=dDTO.getName()%>
+			<a href="#void"> <i class="bi bi-search blueSearchIcon"></i>
+			</a>
+		</h4>
+		<p class="detail">
+			세부전공: <span class="specialty"><%=dDTO.getSpecialty()%></span>
+		</p>
+	</div>
+	<button class="selectDoctorBtn" value="<%=dDTO.getDoctorLicenseNo()%>">
+		<i class="bi bi-check-circle checkIcon"></i> 선택
+	</button></li>
+<%
+if (i % 2 == 1 || i == (doctorCnt - 1)) {
+	out.print("</div>");
+}
+}
+
+out.print("</ul>");
+}
+%>
+
+
+<!-- 진료과 선택 시 의료진 목록 -->
+<%
 if ("doctorList".equals(action)) {
 	String deptNo = request.getParameter("deptNo");
 	deptName = request.getParameter("deptName");
+
+	if (deptNo == null || "".equals(deptNo)) {
+		response.sendRedirect("errorpage.jsp");
+		return;
+	}
 
 	UserAppointmentService uas = new UserAppointmentService();
 	List<DoctorDTO> doctorList = uas.searchDoctorList(deptNo);
@@ -130,19 +189,25 @@ out.print("</ul>");
 <%
 if ("schedule".equals(action)) {
 	LocalDate ld = LocalDate.now();
+	LocalDate nowLd = LocalDate.now();
 	boolean leepYearFlag = ld.isLeapYear();
 
 	String year = request.getParameter("year");
 	String month = request.getParameter("month");
 	String dln = request.getParameter("dln");
 	
-	if (year != null && !year.isEmpty()) {
+	if (dln == null || !dln.matches("^\\d+$")) {
+		response.sendRedirect("errorpage");
+		return;
+	}
+
+	if (year != null && !year.isEmpty() && year.matches("[0-9]")) {
 		ld = ld.withYear(Integer.parseInt(year));
 	} else {
 		year = String.valueOf(ld.getYear());
 	}
 
-	if (month != null && !month.isEmpty()) {
+	if (month != null && !month.isEmpty() && month.matches("[0-9]")) {
 		ld = ld.withMonth(Integer.parseInt(month));
 	} else {
 		month = String.valueOf(ld.getMonthValue());
@@ -156,20 +221,20 @@ if ("schedule".equals(action)) {
 	List<Integer> pm = new ArrayList<>();
 
 	DoctorScheduleDTO dsDTO = null;
-	
+
 	for (int i = 0; i < dsList.size(); i++) {
 		dsDTO = dsList.get(i);
 
 		if ("전일".equals(dsDTO.getStatus())) {
-			allDay.add(dsDTO.getDayOfWeek());
+	allDay.add(dsDTO.getDayOfWeek());
 		}
 
 		if ("오전".equals(dsDTO.getStatus())) {
-			am.add(dsDTO.getDayOfWeek());
+	am.add(dsDTO.getDayOfWeek());
 		}
 
 		if ("오후".equals(dsDTO.getStatus())) {
-			pm.add(dsDTO.getDayOfWeek());
+	pm.add(dsDTO.getDayOfWeek());
 		}
 	}
 	pageContext.setAttribute("year", year);
@@ -239,23 +304,18 @@ if ("schedule".equals(action)) {
 				<%
 				}
 
-				/* 토요일이면 <tr>을 새로 열어서 줄 바꿈. */
-				if (ld.getDayOfWeek() == DayOfWeek.SATURDAY) {
-					out.print("</tr>");
-					out.print("<tr>");
-				}
+			/* 토요일이면 <tr>을 새로 열어서 줄 바꿈. */
+			if (ld.getDayOfWeek() == DayOfWeek.SATURDAY) {
+			out.print("</tr>");
+			out.print("<tr>");
+			}
 			}
 			%>
 		
 	</tbody>
 </table>
 <div class="infoCal">
-	<span class='am ex'></span>
-	<span> 오전 </span>
-	<span class='pm ex'></span>
-	<span> 오후 </span>
-	<span class='allDay ex'></span>
-	<span> 종일 </span>
+	<span class='am ex'></span> <span> 오전 </span> <span class='pm ex'></span> <span> 오후 </span> <span class='allDay ex'></span> <span> 종일 </span>
 </div>
 <%
 }
@@ -280,8 +340,34 @@ if ("timeTable".equals(action)) {
 		<li class="timeTableLi"><c:out value="${availableTime}" /></li>
 <%
 	}
+
+	if (dlnParam == null || !dlnParam.matches("^\\d+$")) {
+		response.sendRedirect("errorpage");
+		return;
+	}
+
+	Date appointmentDate = Date.valueOf(dateParam);
+	int dln = Integer.parseInt(dlnParam);
+
+	UserAppointmentService uas = new UserAppointmentService();
+
+	List<String> availableTimes = uas.searchAvailableTime(dln, appointmentDate);
+
+	pageContext.setAttribute("availableTimes", availableTimes);
 %>
-	</ul>
+
+<ul class="timeTableUl">
+	<c:if test="${ not empty availableTimes }">
+		<c:forEach var="time" items="${ availableTimes }">
+			<li class="timeTableLi"><c:out value="${ time }" /></li>
+		</c:forEach>
+	</c:if>
+	<c:if test="${ empty availableTimes }">
+		<p style="text-align: center; font-size: 18px;">
+			해당 일자의 예약이<br> 모두 완료되었습니다.<br>다른 날짜를 선택해주세요.
+		</p>
+	</c:if>
+</ul>
 <%
 }
 %>

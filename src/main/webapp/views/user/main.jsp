@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KMCH 한국중앙병원</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css?v=20260623-menu-hover-guard">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css">
 </head>
 <body>
     <%@ include file="/views/common/userHeader.jsp" %>
@@ -71,6 +71,6 @@
 
     <%@ include file="/views/common/userFooter.jsp" %>
 
-    <script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=20260623-menu-hover-guard"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/user-layout.js"></script>
 </body>
 </html>

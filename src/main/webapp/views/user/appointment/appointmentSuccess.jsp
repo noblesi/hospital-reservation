@@ -1,51 +1,74 @@
 <%@page import="com.hospital.user.appointment.UserAppointmentService"%>
 <%@page import="com.hospital.user.appointment.dto.UserAppointmentConfirmDTO"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/views/common/taglib.jsp" %>
 <%
-request.setAttribute("activeMenu", "guide");
-request.setAttribute("depth1", "진료예약");
-request.setAttribute("depth2", "예약완료");
+request.setAttribute("activeMenu", "hospital");
+request.setAttribute("depth1", "진료안내");
+request.setAttribute("depth2", "인터넷 진료예약");
 
-String appointmentNo = request.getParameter("appointmentNo");
-UserAppointmentConfirmDTO confirmDTO = null;
+// String patientNo = session.getAttribute();
+String patientNo = "P00000001";
 
-if (appointmentNo != null && !appointmentNo.trim().isEmpty()) {
-	UserAppointmentService service = new UserAppointmentService();
-	confirmDTO = service.searchAppointmentConfirm(appointmentNo.trim());
-}
+String apptNo = request.getParameter("apptNo");
 
-if (confirmDTO == null) {
-%>
-<script>
-alert("예약 정보를 확인할 수 없습니다.");
-history.back();
-</script>
-<%
-	return;
-}
+UserAppointmentService uas = new UserAppointmentService();
+UserAppointmentConfirmDTO uacDTO = uas.searchAppointmentConfirm(apptNo);
 
-pageContext.setAttribute("confirmDTO", confirmDTO);
+pageContext.setAttribute("uacDTO", uacDTO);
+
 %>
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>중앙병원 | 진료예약완료</title>
+<title>한국중앙병원 | 진료예약</title>
 
+<!-- Bootstrap CDN -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+<!-- Bootstrap Icons CND -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css?v=20260623-menu-hover-guard">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointmentSuccess.css">
+<!-- 외부 CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment/appointment.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment/appointmentSuccess.css">
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<!-- JS -->
+<script type="text/javascript">
+	
+	$(function() {
+		<% 
+		if(uacDTO == null || !patientNo.equals(uacDTO.getPatientNo())) {
+		%>
+			alert("잘못된 접근입니다.");
+			location.href = "appointment.jsp";
+		<%
+		}
+		%>
+		
+		/* 예약목록확인 페이지로 이동 */
+		$(".checkAppointListBtn").on("click", function() {
+			location.href = "appointmentList.jsp";
+		});
+		
+		/* 예약 취소 */
+		$(".cancelAppointBtn").on("click", function() {
+			location.href = "process/appointmentCancel.jsp?appointmentNo=" + "${ uacDTO.appointmentNo }";
+		});
+	});
+</script>
 </head>
 
 <body>
-	<jsp:include page="/views/common/userHeader.jsp" />
-	<jsp:include page="/views/common/userBreadcrumb.jsp" />
+	<%@ include file="/views/common/userHeader.jsp"%>
+	<%@ include file="/views/common/userBreadcrumb.jsp"%>
 
 	<div id="mainWrap">
 		<div id="container">
@@ -53,72 +76,77 @@ pageContext.setAttribute("confirmDTO", confirmDTO);
 				<h2 class="title">인터넷 진료예약</h2>
 
 				<div class="telDiv">
-					<img alt="" src="${pageContext.request.contextPath}/resources/images/appointment/tel_icon.png" class="telIcon">
-					<strong class="tel">예약센터 1588-0000</strong>
+					<img alt="" src="${pageContext.request.contextPath}/resources/images/appointment/tel_icon.png" class="telIcon"> <strong class="tel">예약센터 1588-0000</strong>
 				</div>
 			</div>
 
 			<div class="appointmentInfoDiv">
 				<h2 class="appoitmentInfoTitle">예약완료 및 확인</h2>
 				<div class="appointmentInfoTop">
-					<i class="bi bi-check-circle checkIcon"></i><br>
-					<span class="appointmentInfoNoti">인터넷 진료예약 접수가 완료되었습니다.</span>
+					<i class="bi bi-check-circle checkIcon"></i><br> <span class="appointmentInfoNoti">인터넷 진료예약 접수가 완료되었습니다.</span>
 				</div>
 				<h3 class="appoitmentInfoSubTitle">회원정보 및 예약 정보</h3>
 
 				<table class="infoTable">
 					<tr>
-						<th class="infoTh">예약번호</th>
-						<td><c:out value="${confirmDTO.appointmentNo}" /></td>
 						<th class="infoTh">예약자</th>
-						<td><c:out value="${confirmDTO.patientName}" /></td>
+						<td>
+							<c:out value="${ uacDTO.patientName }" />
+						</td>
+						<th class="infoTh">환자번호</th>
+						<td>
+							<c:out value="${ uacDTO.patientNo }" />
+						</td>
 					</tr>
 					<tr>
-						<th class="infoTh">환자번호</th>
-						<td><c:out value="${confirmDTO.patientNo}" /></td>
 						<th class="infoTh">연락처</th>
-						<td><c:out value="${confirmDTO.phoneNumber}" default="-" /></td>
+						<td>
+							<c:out value="${ uacDTO.phoneNumber }" />
+						<td>
 					</tr>
 					<tr>
 						<th class="infoTh">진료과</th>
-						<td><c:out value="${confirmDTO.deptName}" /></td>
+						<td>
+							<c:out value="${ uacDTO.deptName }" />
+						</td>
 						<th class="infoTh">의료진</th>
-						<td><c:out value="${confirmDTO.doctorName}" /></td>
+						<td>
+							<c:out value="${ uacDTO.doctorName }" />
+						</td>
 					</tr>
 					<tr>
 						<th class="infoTh">이메일주소</th>
-						<td><c:out value="${confirmDTO.email}" default="-" /></td>
-						<th class="infoTh">예약일시</th>
-						<td><c:out value="${confirmDTO.appointmentDate}" /> <c:out value="${confirmDTO.appointmentTime}" /></td>
-					</tr>
-					<tr>
-						<th class="infoTh">예약상태</th>
-						<td><c:out value="${confirmDTO.status}" /></td>
-						<th class="infoTh">요청사항</th>
-						<td><c:out value="${confirmDTO.requirement}" default="-" /></td>
+						<td>
+							<c:out value="${ uacDTO.email }" />
+						</td>
+						<th class="infoTh">예약일</th>
+						<td>
+							<c:out value="${ uacDTO.appointmentDate} ${ uacDTO.appointmentTime }" />
+						</td>
 					</tr>
 				</table>
 
-				<button type="button" class="cancelAppointBtn" onclick="location.href='${pageContext.request.contextPath}/appointment/reserve.do'">추가 예약</button>
-				<button type="button" class="checkAppointListBtn" onclick="location.href='${pageContext.request.contextPath}/member/mypage.do'">예약현황조회</button>
+				<button class="cancelAppointBtn">예약취소</button>
+				<button class="checkAppointListBtn">예약현황조회</button>
 			</div>
 			<div class="noticeDiv">
 				<h2 class="subTitle">주의사항</h2>
 				<p class="warningNoti">
-					<span>1. 진료예약 취소는 진료일 이전 일정까지 가능합니다.</span><br>
-					<span class="subNoti">- 예약 현황은 마이페이지에서 확인할 수 있습니다.</span><br>
-					<span>2. 예약 상태는 담당자 확인 후 변경될 수 있습니다.</span><br>
+					<span>1. 진료예약취소는 진료일 이전 자정(12시)까지 가능합니다.</span><br> <span class="subNoti">- 수납기록 및 검사예약이 없는 진료의 변경/취소가 가능합니다.</span><br> <span>2. 진료예약 제한 안내</span><br> <span class="subNoti">- 예약변경/취소 없이 진료를 받지 않을 경우 홈페이지 진료예약서비스가 제한됩니다.</span><br>
 				</p>
 				<h2 class="subTitle">준비사항</h2>
 				<img class="requiredDocImg" src="${pageContext.request.contextPath}/resources/images/appointment/requiredDoc.png">
 				<p class="requireP">
-					<span class="red">초진 진료</span>의 경우 신분증과 필요한 서류를 지참해 주세요.
+					<span class="red">신환,초진 진료</span>인 경우, <span class="red">요양급여의뢰서(진료의뢰서)</span>를 반드시 지참해야 합니다.<br> 본원은 2단계 요양급여를 제공하는 상급종합병원입니다.<br> 건강보험 환자는 1단계 요양급여를 제공하는 의료기관(의원급·병원급-한방포함)에서 발급한 요양급여의뢰서(진료의뢰서)를 제출해야하며,<br> 의료급여 환자는 2차, 3차 의료급여기관(병원급 이상)에서 발급한 의료급여의뢰서를 제출해야만 요양급여를 받을 수 있습니다.<br>
+				</p>
+				<p>
+					<span class="blue">건강보험 환자 중 가정의학과 진료, 분만 시, 혈우병환자의 경우 요양급여의뢰서가 없어도 됩니다.</span><br> 또한, 장애인복지법에 의한 등록 장애인 또는 단순 물리치료가 아닌 작업치료·운동치료 등의 재활치료가 필요하다고 인정되는 자가<br> 재활의학과 진료를 볼 경우도 요양급여의뢰서가 없어도 됩니다.
 				</p>
 			</div>
 		</div>
 	</div>
-
-	<jsp:include page="/views/common/userFooter.jsp" />
-	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=20260623-menu-hover-guard"></script>
+	<%@ include file="/views/common/userFooter.jsp"%>
+	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js"></script>
 </body>
+
 </html>

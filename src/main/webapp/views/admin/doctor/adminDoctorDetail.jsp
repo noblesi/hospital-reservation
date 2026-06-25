@@ -514,7 +514,7 @@
     }); //ready
 </script>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css?v=20260623-admin-fluid' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css' />">
 </head>
 <body>
 
@@ -553,7 +553,11 @@
 						          <label class="doctor-label" for="department">진료과</label>
 						          <select class="doctor-select" id="department" name="department">
 						            <option value="">진료과 선택</option>
-						            
+						            <option value="내과">내과</option>
+						            <option value="외과">외과</option>
+						            <option value="정형외과">정형외과</option>
+						            <option value="신경과">신경과</option>
+						            <option value="소아청소년과">소아청소년과</option>
 						          </select>
 						          <div></div>
 						        </div>
@@ -610,98 +614,210 @@
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">월</span>
 					            <select class="doctor-mini-select" name="ampm[]">
+					              <option selected>오전</option>
+					              <option>오후</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
+					              <option>09:00</option>
+					              <option>09:30</option>
+					              <option>10:00</option>
+					              <option>10:30</option>
+					              <option>11:00</option>
+					              <option>11:30</option>
+					              <option>12:00</option>
+					              <option>12:30</option>
+					              <option>13:00</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
+					              <option>14:00</option>
+					              <option>14:30</option>
+					              <option>15:00</option>
+					              <option>15:30</option>
+					              <option>16:00</option>
+					              <option>16:30</option>
+					              <option>17:00</option>
 					            </select>
 					          </div>
 					
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">화</span>
 					            <select class="doctor-mini-select" name="ampm[]">
+					              <option>오전</option>
+					              <option selected>오후</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
+					              <option>09:00</option>
+					              <option>09:30</option>
+					              <option>10:00</option>
+					              <option>10:30</option>
+					              <option>11:00</option>
+					              <option>11:30</option>
+					              <option>12:00</option>
+					              <option>12:30</option>
+					              <option>13:00</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
+					              <option>14:00</option>
+					              <option>14:30</option>
+					              <option>15:00</option>
+					              <option>15:30</option>
+					              <option>16:00</option>
+					              <option>16:30</option>
+					              <option>17:00</option>
 					            </select>
 					          </div>
 					
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">수</span>
 					            <select class="doctor-mini-select" name="ampm[]">
+					              <option selected>오전</option>
+					              <option>오후</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
+					              <option>09:00</option>
+					              <option>09:30</option>
+					              <option>10:00</option>
+					              <option>10:30</option>
+					              <option>11:00</option>
+					              <option>11:30</option>
+					              <option>12:00</option>
+					              <option>12:30</option>
+					              <option>13:00</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
+					              <option>14:00</option>
+					              <option>14:30</option>
+					              <option>15:00</option>
+					              <option>15:30</option>
+					              <option>16:00</option>
+					              <option>16:30</option>
+					              <option>17:00</option>
 					            </select>
 					          </div>
 					
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">목</span>
 					            <select class="doctor-mini-select" name="ampm[]">
+					              <option selected>오전</option>
+					              <option>오후</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
+					              <option>09:00</option>
+					              <option>09:30</option>
+					              <option>10:00</option>
+					              <option>10:30</option>
+					              <option>11:00</option>
+					              <option>11:30</option>
+					              <option>12:00</option>
+					              <option>12:30</option>
+					              <option>13:00</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
+					              <option>14:00</option>
+					              <option>14:30</option>
+					              <option>15:00</option>
+					              <option>15:30</option>
+					              <option>16:00</option>
+					              <option>16:30</option>
+					              <option>17:00</option>
 					            </select>
 					          </div>
 					
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">금</span>
 					            <select class="doctor-mini-select" name="ampm[]">
+					              <option selected>오전</option>
+					              <option>오후</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
+					              <option>09:00</option>
+					              <option>09:30</option>
+					              <option>10:00</option>
+					              <option>10:30</option>
+					              <option>11:00</option>
+					              <option>11:30</option>
+					              <option>12:00</option>
+					              <option>12:30</option>
+					              <option>13:00</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
+					              <option>14:00</option>
+					              <option>14:30</option>
+					              <option>15:00</option>
+					              <option>15:30</option>
+					              <option>16:00</option>
+					              <option>16:30</option>
+					              <option>17:00</option>
 					            </select>
 					          </div>
 					
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">토</span>
 					            <select class="doctor-mini-select" name="ampm[]">
+					              <option selected>오전</option>
+					              <option>오후</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
+					              <option>09:00</option>
+					              <option>09:30</option>
+					              <option>10:00</option>
+					              <option>10:30</option>
+					              <option>11:00</option>
+					              <option>11:30</option>
+					              <option>12:00</option>
+					              <option>12:30</option>
+					              <option>13:00</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
+					              <option>14:00</option>
+					              <option>14:30</option>
+					              <option>15:00</option>
+					              <option>15:30</option>
+					              <option>16:00</option>
+					              <option>16:30</option>
+					              <option>17:00</option>
 					            </select>
 					          </div>
 					
 					          <div class="doctor-schedule-row">
 					            <span class="doctor-inline-label">일</span>
 					            <select class="doctor-mini-select" name="ampm[]">
+					              <option selected>오전</option>
+					              <option>오후</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">시작 :</span>
 					            <select class="doctor-mini-select" name="startTime[]">
+					              <option>09:00</option>
+					              <option>09:30</option>
+					              <option>10:00</option>
+					              <option>10:30</option>
+					              <option>11:00</option>
+					              <option>11:30</option>
+					              <option>12:00</option>
+					              <option>12:30</option>
+					              <option>13:00</option>
 					            </select>
-					            
 					            <span class="doctor-inline-label">종료 :</span>
 					            <select class="doctor-mini-select" name="endTime[]">
+					              <option>14:00</option>
+					              <option>14:30</option>
+					              <option>15:00</option>
+					              <option>15:30</option>
+					              <option>16:00</option>
+					              <option>16:30</option>
+					              <option>17:00</option>
 					            </select>
 					          </div>
 					        </div>
