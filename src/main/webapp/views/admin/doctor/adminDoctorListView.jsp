@@ -1,3 +1,11 @@
+<%@page import="com.hospital.common.dto.DoctorDTO"%>
+<%@page import="com.hospital.common.dto.DoctorStatusDTO"%>
+<%@page import="com.hospital.admin.doctor.dto.AdminDoctorFormOptionDTO"%>
+<%@page import="com.hospital.common.dto.DoctorPositionDTO"%>
+<%@page import="com.hospital.admin.department.AdminDepartmentService"%>
+<%@page import="com.hospital.admin.doctor.AdminDoctorService"%>
+<%@page import="com.hospital.admin.doctor.controller.AdminDoctorListServlet"%>
+<%@page import="com.hospital.admin.doctor.controller.AdminDoctorListViewServlet"%>
 <%@page import="com.hospital.common.dto.DepartmentDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page import="java.util.List" %>
@@ -170,14 +178,23 @@
 <script type="text/javascript">
     $(function(){
 		<%
-		
+		AdminDoctorService adminDoctorService = new AdminDoctorService();
+		AdminDoctorFormOptionDTO adminDoctorFormOptionDTO = adminDoctorService.getDoctorFormOptions();
+		List<DepartmentDTO> deptList = adminDoctorFormOptionDTO.getDepartmentList();
+		List<DoctorPositionDTO> positionList = adminDoctorFormOptionDTO.getPositionList();
+		List<DoctorStatusDTO> statusList = adminDoctorFormOptionDTO.getStatusList();
+		List<DoctorDTO> doctorList = adminDoctorService.searchDoctorList();
+		pageContext.setAttribute("deptList", deptList);
+		pageContext.setAttribute("statusList", statusList);
+		pageContext.setAttribute("positionList", positionList);
+		pageContext.setAttribute("doctorList", doctorList);
 		%>
     	
         $("#searchBtn").click(function () {
             const dept = $("#dept").val();
             const status = $("#status").val();
             const name = $("#name").val();
-            console.log("검색 조건:", dept, status, name);
+            log("검색 조건:", dept, status, name);
             alert("검색 조건\n진료과: " + dept + "\n상태: " + status + "\n이름: " + name);
         });
 
@@ -224,16 +241,17 @@
                         <label for="dept">진료과</label>
                         <select id="dept" name="dept">
                             <option value="">진료과 선택</option>
-                            <option value="일반외과">일반외과</option>
-                            <option value="정형외과">정형외과</option>
-                            <option value="신경외과">신경외과</option>
+                           	<c:forEach var="dept" items="${ deptList }">
+                           		<option value="${ dept.deptNo }"><c:out value="${ dept.deptName }"/></option>
+                           	</c:forEach>
                         </select>
 
                         <select id="status" name="status">
                             <option value="">상태</option>
-                            <option value="수술중">수술중</option>
-                            <option value="휴진">휴진</option>
-                            <option value="진료중">진료중</option>
+                            <c:forEach var="status" items="${ statusList }">
+	                            <option value="${ status.statusCode }"><c:out value="${ status.statusName }"/></option>
+                            </c:forEach>
+                            
                         </select>
 
                         <label for="name">이름</label>
@@ -258,50 +276,32 @@
                                 </tr>
                             </thead>
                             <tbody id="doctorTable">
-                                <tr>
-                                    <td>1</td>
-                                    <td>박진영</td>
-                                    <td>일반외과</td>
-                                    <td>전임의</td>
-                                    <td>
-                                        <select class="status-select">
-                                            <option selected>수술중</option>
-                                            <option>휴진</option>
-                                            <option>진료중</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>강백호</td>
-                                    <td>정형외과</td>
-                                    <td>전임의</td>
-                                    <td>
-                                        <select class="status-select">
-                                            <option>수술중</option>
-                                            <option selected>휴진</option>
-                                            <option>진료중</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>이수영</td>
-                                    <td>신경외과</td>
-                                    <td>레지던트</td>
-                                    <td>
-                                        <select class="status-select">
-                                            <option>수술중</option>
-                                            <option>휴진</option>
-                                            <option selected>진료중</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </tbody>
+								<c:forEach var="doctor" items="${doctorList}" varStatus="st">
+									<tr>
+										<td>${st.count}</td>
+										<td><a href="http://localhost/hospital-reservation/views/admin/doctor/adminDoctorDetail_final.jsp?doctorLicenseNo=${doctor.doctorLicenseNo}">${doctor.name}</a></td>
+										<c:forEach var="dept" items="${ deptList }">
+											<c:if test="${ doctor.deptNo eq dept.deptNo }">
+												<td><c:out value="${ dept.deptName }"/></td>
+											</c:if>
+										</c:forEach>
+										<c:forEach var="position" items="${ positionList }">
+											<c:if test="${ doctor.positionCode eq position.positionCode }">
+												<td><c:out value="${ position.positionName }"/></td>
+											</c:if>
+										</c:forEach>
+										<c:forEach var="docstatus" items="${ statusList }">
+											<c:if test="${ doctor.statusCode eq docstatus.statusCode }">
+												<td><c:out value="${docstatus.statusName}"/></td>
+											</c:if>
+										</c:forEach>
+									</tr>
+								</c:forEach>
+							</tbody>
                         </table>
 
-                        <!-- 페이지네이션 -->
-                        <div class="pagination-wrap">
+                       <!-- 페이지네이션 -->
+                        <!-- <div class="pagination-wrap">
                             <button class="arrow">&lt;</button>
                             <button class="active">1</button>
                             <button>2</button>
@@ -310,7 +310,7 @@
                             <button>5</button>
                             <button>6</button>
                             <button class="arrow">&gt;</button>
-                        </div>
+                        </div>  -->
                     </div>
 
                 </div>
