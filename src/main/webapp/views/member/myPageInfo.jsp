@@ -131,7 +131,9 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 									<%= memberMonthValue.equals(pageContext.getAttribute("memberBirthMonth")) ? "selected" : "" %>>
 									<%= memberMonthValue %>
 								</option>
-								</c:forEach>
+								<%
+                            }
+                            %>
 							</select> <span class="birthSeparator">-</span> <select
 								class="birthSelect" id="memberBirthDay" name="memberBirthDay"
 								data-selected-day="${memberBirthDay}" required>
@@ -213,7 +215,9 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 										<%= monthValue.equals(pageContext.getAttribute("minorBirthMonth")) ? "selected" : "" %>>
 										<%= monthValue %>
 									</option>
-									</c:forEach>
+									<%
+                                }
+                                %>
 								</select> <span class="birthSeparator">-</span> <select
 									class="birthSelect" id="minorBirthDay" name="minorBirthDay"
 									data-selected-day="${minorBirthDay}" required>
@@ -231,6 +235,20 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 								<option value="기타"
 									${minorInfo.relationship eq '기타' or minorInfo.relationship eq 'etc' ? 'selected' : ''}>기타</option>
 							</select>
+						</div>
+						<div class="infoRow">
+							<label>성별</label>
+							<div class="radioGroup">
+								<input type="radio" id="minorGenderM" name="minorGenderFM"
+									value="M" ${minorInfo.minorGenderFM eq 'M' ? 'checked' : ''}
+									required>
+								<label for="minorGenderM">남자</label>
+
+								<input type="radio" id="minorGenderF" name="minorGenderFM"
+									value="F" ${minorInfo.minorGenderFM eq 'F' ? 'checked' : ''}
+									required>
+								<label for="minorGenderF">여자</label>
+							</div>
 						</div>
 						<div class="infoButtons">
 							<a class="cancelInfoBtn"
