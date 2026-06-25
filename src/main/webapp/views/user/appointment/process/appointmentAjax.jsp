@@ -36,14 +36,10 @@ if ("sort".equals(action)) {
 
 	for (int i = 0; i < totalCnt; i++) {
 		if (i % 9 == 0) {
-%>
-<div class="sliderPage"><table class="slTab">
-<%
+			out.print("<div class='sliderPage'><table class='slTab'>");
 		}
 		if (i % 3 == 0) {
-%>
-<tr class="slRow">
-<%
+			out.print("<tr class='slRow'>");
 		}
 
 		DepartmentDTO dept = deptList.get(i);
@@ -58,14 +54,10 @@ if ("sort".equals(action)) {
 <%
 
 		if (i % 3 == 2 || i == totalCnt - 1) {
-%>
-</tr>
-<%
+			out.print("</tr>");
 		}
 		if (i % 9 == 8 || i == totalCnt - 1) {
-%>
-</table></div>
-<%
+			out.print("</table></div>");
 		}
 	}
 }
