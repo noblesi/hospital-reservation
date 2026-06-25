@@ -6,12 +6,16 @@ request.setAttribute("activeMenu", "hospital");
 request.setAttribute("depth1", "진료안내");
 request.setAttribute("depth2", "인터넷 진료예약");
 
+// String patientNo = session.getAttribute();
+String patientNo = "P00000001";
+
 String apptNo = request.getParameter("apptNo");
 
 UserAppointmentService uas = new UserAppointmentService();
 UserAppointmentConfirmDTO uacDTO = uas.searchAppointmentConfirm(apptNo);
 
 pageContext.setAttribute("uacDTO", uacDTO);
+
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -38,7 +42,17 @@ pageContext.setAttribute("uacDTO", uacDTO);
 
 <!-- JS -->
 <script type="text/javascript">
+	
 	$(function() {
+		<% 
+		if(uacDTO == null || !patientNo.equals(uacDTO.getPatientNo())) {
+		%>
+			alert("잘못된 접근입니다.");
+			location.href = "appointment.jsp";
+		<%
+		}
+		%>
+		
 		/* 예약목록확인 페이지로 이동 */
 		$(".checkAppointListBtn").on("click", function() {
 			location.href = "appointmentList.jsp";
@@ -46,7 +60,7 @@ pageContext.setAttribute("uacDTO", uacDTO);
 		
 		/* 예약 취소 */
 		$(".cancelAppointBtn").on("click", function() {
-			location.href = "processCancelAppointment.jsp?appointmentNo=" + "${ uacDTO.appointmentNo }";
+			location.href = "process/appointmentCancel.jsp?appointmentNo=" + "${ uacDTO.appointmentNo }";
 		});
 	});
 </script>

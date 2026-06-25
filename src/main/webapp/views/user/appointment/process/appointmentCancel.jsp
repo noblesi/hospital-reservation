@@ -7,6 +7,11 @@
 String patientNo = "P00000001";
 String appointmentNo = request.getParameter("appointmentNo");
 
+if (appointmentNo == null || "".equals(appointmentNo)) {
+	response.sendRedirect("http://localhost/hospital-reservation/views/user/appointment/appointment.jsp");
+	return;
+}
+
 UserAppointmentService uas = new UserAppointmentService();
 
 boolean cancelFlag = uas.cancelAppointment(appointmentNo, patientNo);
@@ -15,14 +20,14 @@ if (cancelFlag) {
 %>
 	<script type="text/javascript">
 		alert("예약이 취소되었습니다.");
-		location.href = "appointmentList.jsp";
+		location.href = "../appointmentList.jsp";
 	</script>
 <%
 } else {
 %>
 	<script type="text/javascript">
 		alert("예약 취소가 실패했습니다. 잠시 후 다시 시도해 주세요.");
-		location.href = "appointmentList.jsp";
+		location.href = "../appointmentList.jsp";
 	</script>
 <%
 }

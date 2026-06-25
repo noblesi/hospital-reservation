@@ -1,7 +1,7 @@
 /**
  * 
  */
-var pageLength = $(".slTab").length - 1;
+var pageLength = $(".slTab").length;
 var curPage = 0;
 
 var deptName;
@@ -32,7 +32,16 @@ $(function() {
 
     /* 진료과 선택 시 */
     $(".deptWrap").on("click", ".deptRadio", deptHandler);
-
+		
+	/* 검색 시 */
+    $("#searchBtn").on("click", searchDoctor);
+	
+	$("#dNameInput").on("keydown", function(e) {
+		if(e.keyCode == 13) {
+			$("#searchBtn").trigger("click");
+		}
+	});
+	
     /*의료진 선택 시*/
     $(".doctorListMain").on("click", ".selectDoctorBtn", handleDoctorSelect);
 
@@ -97,7 +106,7 @@ function sortDept() {
     var selectedSort = $(this).val(); // "default" 또는 "ascending"
 
     $.ajax({
-        url: "appointment_ajax.jsp",
+        url: "process/appointmentAjax.jsp",
         type: "GET",
         data: { action: "sort", sort: selectedSort },
         success: function(receivedHtml) {
@@ -139,7 +148,7 @@ function deptHandler() {
 
     /* HTML 태그를 생성한다 */
     $.ajax({
-        url: "appointment_ajax.jsp",
+        url: "process/appointmentAjax.jsp",
         type: "GET",
         data: { action: "doctorList", deptNo: deptNo, deptName: deptName },
         success: function(receivedHtml) {
@@ -149,6 +158,28 @@ function deptHandler() {
 
     });
 
+}
+
+/* 의료진 검색 */
+function searchDoctor() {
+	var keyword = $("#dNameInput").val();
+	
+	if(keyword.trim() == "") {
+		alert("검색하실 단어를 입력해주세요.");
+		return;
+	}
+	
+	/* HTML 태그를 생성한다 */
+    $.ajax({
+        url: "process/appointmentAjax.jsp",
+        type: "GET",
+        data: { action: "searchDoctor", keyword: keyword },
+        success: function(receivedHtml) {
+            /* 생성된 HTML 태그를 보여준다 */
+            $(".doctorListMain").html(receivedHtml)
+        }
+
+    });
 }
 
 /* 의료진 선택 */
@@ -183,7 +214,7 @@ function handleDoctorSelect() {
 function renderCal(year, month) {
 
     $.ajax({
-        url: "appointment_ajax.jsp",
+        url: "process/appointmentAjax.jsp",
         type: "GET",
         data: { action: "schedule", dln: dln, year: year, month: month },
         success: function(recivedHtml) {
@@ -240,7 +271,7 @@ function selectDate() {
 /* 시간 테이블 출력 */
 function renderTimeTable(selectedDate) {
     $.ajax({
-        url: "appointment_ajax.jsp",
+        url: "process/appointmentAjax.jsp",
         type: "GET",
         data: { action: "timeTable", date: selectedDate, dln: dln},
         success: function(recivedHtml) {
@@ -296,7 +327,7 @@ function inputRequirement() {
 	var isCheck = $(".checkInfo").is(":checked");
 	var requirement = $("#requireTa").val();
 	
-	if(requirement == null || requirement == "") {
+	if(requirement.trim() == "") {
 		alert("아프신 곳을 입력해 주세요.");
 		return;
 	}
@@ -322,7 +353,6 @@ function sendRequestAppointment() {
 	2. 입력받은 값에 문제 없으면 back-end로 값을 전달한다.
 	3. DB에 예약정보가 저장되면 예약완료 페이지로 이동한다.
 	*/
-	/*location.href = "appointmentSuccess.jsp";*/
 	
 	$("#apptFrm").submit();
 }

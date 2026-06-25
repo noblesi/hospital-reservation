@@ -49,8 +49,34 @@ public class UserAppointmentService {
 	public List<DoctorDTO> searchDoctorList(String deptNo) {
 		List<DoctorDTO> doctorList = null;
 
+		if (deptNo == null || "".equals(deptNo)) {
+			return doctorList;
+		}
+
 		try {
 			doctorList = uaDAO.selectDoctorList(deptNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return doctorList;
+	}
+
+	/**
+	 * 사용자가 입력한 키워드로 의사를 찾는 일.
+	 * 
+	 * @param keyword
+	 * @return
+	 */
+	public List<DoctorDTO> searchDoctorListByKeyword(String keyword) {
+		List<DoctorDTO> doctorList = null;
+
+		if (keyword == null || "".equals(keyword)) {
+			return doctorList;
+		}
+
+		try {
+			doctorList = uaDAO.selectDoctorListByKeyword(keyword);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -88,6 +114,10 @@ public class UserAppointmentService {
 		List<String> availableTimes = new ArrayList<String>();
 		List<String> reservedTimes = null;
 		List<DoctorScheduleDTO> dsList = null;
+
+		if (appointmentDate == null) {
+			return null;
+		}
 
 		try {
 			reservedTimes = uaDAO.selectReservedTime(doctorLicenseNo, appointmentDate);
@@ -135,6 +165,10 @@ public class UserAppointmentService {
 	public boolean checkReservable(UserAppointmentRequestDTO requestDTO) {
 		boolean reservable = false;
 
+		if (requestDTO == null) {
+			return reservable;
+		}
+
 		try {
 			int addCnt = uaDAO.selectAppointmentConflict(requestDTO);
 
@@ -157,46 +191,55 @@ public class UserAppointmentService {
 	 */
 	public UserAppointmentConfirmDTO reserveAppointment(UserAppointmentRequestDTO requestDTO) {
 		UserAppointmentConfirmDTO uacDTO = null;
-		
-		if (!checkReservable(requestDTO)) {
-			// 예약 불가 안내 코드.
+
+		if (requestDTO == null) {
 			return uacDTO;
 		}
-		
+
+		// 중복된 시간이 있으면 예약을 진행하지 않는다.
+		if (!checkReservable(requestDTO)) {
+
+			return null;
+		}
+
 		try {
 			uaDAO.insertAppointment(requestDTO);
 			uacDTO = uaDAO.selectAppointmentConfirm(requestDTO);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return uacDTO;
 	}
-	
+
 	/**
 	 * 수정된 예약을 확정짓는 일.
 	 * 
 	 * @param requestDTO
 	 * @return
 	 */
-	public UserAppointmentConfirmDTO reserveAppointment(String appointmentNo, String patientNo, UserAppointmentRequestDTO requestDTO) {
+	public UserAppointmentConfirmDTO reserveAppointment(String appointmentNo, String patientNo,
+			UserAppointmentRequestDTO requestDTO) {
 		UserAppointmentConfirmDTO uacDTO = null;
-		
+
+		if ("".equals(appointmentNo) || "".equals(patientNo) || requestDTO == null) {
+			return uacDTO;
+		}
+
 		if (!checkReservable(requestDTO)) {
 			// 예약 불가 안내 코드.
 			return uacDTO;
 		}
-		
+
 		try {
 			uaDAO.updateAppointment(appointmentNo, patientNo, requestDTO);
 			uacDTO = uaDAO.selectAppointmentConfirm(requestDTO);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return uacDTO;
 	}
-	
 
 	/**
 	 * 예약 정보를 확인하는 일.
@@ -206,16 +249,20 @@ public class UserAppointmentService {
 	 */
 	public UserAppointmentConfirmDTO searchAppointmentConfirm(String appointmentNo) {
 		UserAppointmentConfirmDTO uacDTO = null;
-		
+
+		if (appointmentNo == null || "".equals(appointmentNo)) {
+			return uacDTO;
+		}
+
 		try {
 			uacDTO = uaDAO.selectAppointmentConfirm(appointmentNo);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return uacDTO;
 	}
-	
+
 	public UserAppointmentConfirmDTO searchAppointmentConfirm(UserAppointmentRequestDTO requestDTO) {
 
 		return null;
@@ -230,7 +277,11 @@ public class UserAppointmentService {
 	 */
 	public boolean cancelAppointment(String appointmentNo, String patientNo) {
 		boolean cancelFlag = false;
-		
+
+		if (appointmentNo == null || "".equals(appointmentNo) || patientNo == null || "".equals(patientNo)) {
+			return cancelFlag;
+		}
+
 		try {
 			int cnt = uaDAO.updateCancelAppointment(appointmentNo, patientNo);
 			if (cnt == 1) {
@@ -242,20 +293,24 @@ public class UserAppointmentService {
 
 		return cancelFlag;
 	}
-	
+
 	/**
 	 * @param patientNo
 	 * @return
 	 */
 	public List<UserAppointmentShowDTO> searchAppointmentDetail(String patientNo) {
 		List<UserAppointmentShowDTO> uasDTOList = null;
-		
+
+		if (patientNo == null || "".equals(patientNo)) {
+			return uasDTOList;
+		}
+
 		try {
 			uasDTOList = uaDAO.selectAppointmentDetail(patientNo);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return uasDTOList;
 	}
 }

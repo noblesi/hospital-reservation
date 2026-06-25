@@ -187,11 +187,13 @@ request.setAttribute("depth2", "인터넷 진료예약" );
 					</p>
 				</div>
 				<div class="lastConfirmBtnDiv">
-					<form style="display: none;" action="processAppointment.jsp?appointmentNo=${ param.appointmentNo }" method="post" id="apptFrm">
+					<form style="display: none;" action="process/appointmentProcess.jsp" method="post" id="apptFrm">
+					<%-- <form style="display: none;" action="${pageContext.request.contextPath}/appointment/process" method="post" id="apptFrm"> --%>
 						<input type="hidden" name="doctorLicenseNo" id="apptDln">
 						<input type="hidden" name="appointmentDate" id="apptDate">
 						<input type="hidden" name="appointmentTime" id="apptTime">
 						<input type="hidden" name="requirement" id="apptRequire">
+						<input type="hidden" name="appointmentNo" id="appointmentNo" value="${ param.appointmentNo }">
 					</form>
 					<button id="lastConfrimCancelBtn" class="lastConfrimCancelBtn">취소</button>
 					<button id="lastConfrimBtn" class="lastConfrimBtn">확인</button>

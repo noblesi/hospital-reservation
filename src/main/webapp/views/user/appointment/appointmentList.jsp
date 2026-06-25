@@ -58,7 +58,7 @@ pageContext.setAttribute("uasDTOList", uasDTOList);
 		/* 예약 취소 버튼 */
 		$(".apptCancelBtn").on("click", function() {
 			if(confirm("예약을 취소하시겠습니까?")) {
-				location.href = "processCancelAppointment.jsp?appointmentNo=" + $(this).val();
+				location.href = "process/appointmentCancel.jsp?appointmentNo=" + $(this).val();
 			}
 		});
 	});

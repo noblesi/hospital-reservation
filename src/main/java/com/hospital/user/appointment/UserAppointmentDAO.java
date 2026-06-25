@@ -76,6 +76,13 @@ public class UserAppointmentDAO {
 		return deptList;
 	}
 
+	/**
+	 * 입력받은 진료과의 의료진의 목록을 찾는 일.
+	 * 
+	 * @param deptNo
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<DoctorDTO> selectDoctorList(String deptNo) throws SQLException {
 		List<DoctorDTO> doctorList = new ArrayList<DoctorDTO>();
 
@@ -126,6 +133,66 @@ public class UserAppointmentDAO {
 
 		return doctorList;
 	}
+	
+	/**
+	 * 사용자가 검색한 키워드와 일치하는 의료진을 찾는 일
+	 * 
+	 * @param keyword
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<DoctorDTO> selectDoctorListByKeyword(String keyword) throws SQLException {
+		List<DoctorDTO> doctorList = new ArrayList<DoctorDTO>();
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = DBConnection.getConnection();
+			
+			StringBuilder querySb = new StringBuilder();
+			querySb //
+			.append("	select	doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code")
+			.append("	from	doctor"	) //
+			.append("	where	name like '%' || ? || '%' or specialty like '%' || ? || '%'"	);
+			
+			pstmt = con.prepareStatement(querySb.toString());
+			
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
+			
+			rs = pstmt.executeQuery();
+			
+			DoctorDTO dDTO = null;
+			if (rs != null) {
+				while (rs.next()) {
+					dDTO = new DoctorDTO();
+					
+					dDTO.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
+					dDTO.setDeptNo(rs.getString("dept_no"));
+					dDTO.setName(rs.getString("name"));
+					dDTO.setPhoneNum(rs.getString("phone_num"));
+					dDTO.setPositionCode(rs.getString("position_code"));
+					dDTO.setIntroTitle(rs.getString("intro_title"));
+					dDTO.setIntroContent(rs.getString("intro_content"));
+					dDTO.setThumbnailUrl(rs.getString("thumbnail_url"));
+					dDTO.setDetailImageUrl(rs.getString("detail_image_url"));
+					dDTO.setCreatedDate(rs.getDate("create_date"));
+					dDTO.setSpecialty(rs.getString("specialty"));
+					dDTO.setStatusCode(rs.getString("status_code"));
+					
+					doctorList.add(dDTO);
+				}
+			}
+			
+		} finally {
+			DBConnection.close(rs, pstmt, con);
+		}
+		
+		return doctorList;
+	}
+	
 
 	/**
 	 * 의사의 진료 요일, 시작 시간, 끝 시간 검색.
@@ -223,10 +290,10 @@ public class UserAppointmentDAO {
 	}
 
 	/**
-	 * 유저가 요청한 예약이 가능한지 확인하는 일.
+	 * 사용자가 원하는 예약일, 시간과 동일한 시간대에 중복된 예약이 존재하는지 확인하는 일.
 	 * 
 	 * @param requestDTO
-	 * @return 요청받은 예약의 날짜, 시간, 의사가 전부 같은 예약 건수.
+	 * @return 요청받은 예약의 날짜, 시간, 의사가 전부 같은 예약 건수. 0건이면 진료 예약이 가능한 것.
 	 * @throws SQLException
 	 */
 	public int selectAppointmentConflict(UserAppointmentRequestDTO requestDTO) throws SQLException {
@@ -372,9 +439,10 @@ public class UserAppointmentDAO {
 
 			rs = pstmt.executeQuery();
 
-			uacDTO = new UserAppointmentConfirmDTO();
 			if (rs != null) {
 				while (rs.next()) {
+					uacDTO = new UserAppointmentConfirmDTO();
+					
 					uacDTO.setAppointmentNo(rs.getString("APPOINTMENT_NO"));
 					uacDTO.setPatientNo(rs.getString("PATIENT_NO"));
 					uacDTO.setPatientName(rs.getString("patient_Name"));
