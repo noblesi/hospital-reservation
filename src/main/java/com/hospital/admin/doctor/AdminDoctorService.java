@@ -37,6 +37,14 @@ public class AdminDoctorService {
 		list = adminDoctorDAO.selectDoctorList(adminDoctorSearchDTO);
 		return list;
 	}
+	public List<DoctorDTO> searchDoctorList(){
+		// 의료진 목록 검색
+		List<DoctorDTO> list = null;
+		
+		list = adminDoctorDAO.selectDoctorList();
+		return list;
+	}
+	
 	public AdminDoctorFormDTO searchDoctorDetail(int doctorLicenseNo){
 		// 의료진 상세 조회
 		int doctorLicenseNoTemp = doctorLicenseNo;

@@ -57,6 +57,56 @@ public class AdminDoctorDAO {
 		return totalCnt;
 	}//selectDoctorTotalCnt
 	
+	public List<DoctorDTO> selectDoctorList() {
+		List<DoctorDTO> list = new ArrayList<DoctorDTO>();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String andCulmn="";
+		boolean firstSearchCulmn=false;
+		
+		StringBuilder selectSql = new StringBuilder();
+		selectSql
+			.append("	select * from doctor		");
+				
+		try {
+			
+			conn = DBConnection.getConnection();
+			pstmt = conn.prepareStatement(selectSql.toString());
+			
+			rs = pstmt.executeQuery();
+			
+			DoctorDTO doctorDTO = null;
+			
+			while(rs.next()) {
+				doctorDTO = new DoctorDTO();
+				
+				doctorDTO.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
+				doctorDTO.setDeptNo(rs.getString("dept_no"));
+				doctorDTO.setName(rs.getString("name"));
+				doctorDTO.setPhoneNum(rs.getString("phone_num"));
+				doctorDTO.setPositionCode(rs.getString("position_code"));
+				doctorDTO.setIntroTitle(rs.getString("intro_title"));
+				doctorDTO.setStatusCode(rs.getString("status_code"));
+				doctorDTO.setIntroContent(rs.getString("intro_content"));
+				doctorDTO.setThumbnailUrl(rs.getString("thumbnail_url"));
+				doctorDTO.setDetailImageUrl(rs.getString("detail_image_url"));
+				doctorDTO.setSpecialty(rs.getString("specialty"));
+				
+				list.add(doctorDTO);
+			}// end while
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(rs,pstmt,conn);
+		}// end try catch
+		
+		return list;
+	}// selectDoctorList
+	
 	public List<DoctorDTO> selectDoctorList(AdminDoctorSearchDTO searchDTO ) {
 		List<DoctorDTO> list = new ArrayList<DoctorDTO>();
 		AdminDoctorSearchDTO adminDoctorSearchDTO = searchDTO;
@@ -874,8 +924,8 @@ public class AdminDoctorDAO {
 			while(rs.next()) {
 				doctorPositionDTO = new DoctorPositionDTO();
 				
-				doctorPositionDTO.setPositionCode(rs.getString(0));
-				doctorPositionDTO.setPositionName(rs.getString(1));
+				doctorPositionDTO.setPositionCode(rs.getString(1));
+				doctorPositionDTO.setPositionName(rs.getString(2));
 				
 				list.add(doctorPositionDTO);
 			}// end while
@@ -908,8 +958,8 @@ public class AdminDoctorDAO {
 			while(rs.next()) {
 				doctorStatusDTO = new DoctorStatusDTO();
 				
-				doctorStatusDTO.setStatusCode(rs.getString(0));
-				doctorStatusDTO.setStatusName(rs.getString(1));
+				doctorStatusDTO.setStatusCode(rs.getString(1));
+				doctorStatusDTO.setStatusName(rs.getString(2));
 				
 				list.add(doctorStatusDTO);
 			}// end while
