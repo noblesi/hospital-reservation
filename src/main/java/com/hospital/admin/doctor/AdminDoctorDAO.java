@@ -254,7 +254,7 @@ public class AdminDoctorDAO {
 				doctorDTO.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
 				doctorDTO.setDeptNo(rs.getString("dept_no"));
 				doctorDTO.setName(rs.getString("name"));
-				doctorDTO.setPhoneNum(rs.getString("pone_num"));
+				doctorDTO.setPhoneNum(rs.getString("phone_num"));
 				doctorDTO.setPositionCode(rs.getString("position_code"));
 				doctorDTO.setIntroTitle(rs.getString("intro_title"));
 				doctorDTO.setIntroContent(rs.getString("intro_content"));
