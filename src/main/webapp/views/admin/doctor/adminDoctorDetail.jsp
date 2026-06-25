@@ -1,3 +1,12 @@
+<%@page import="com.hospital.common.dto.DoctorEducationDTO"%>
+<%@page import="com.hospital.common.dto.DoctorScheduleDTO"%>
+<%@page import="com.hospital.common.dto.DoctorCareerDTO"%>
+<%@page import="com.hospital.common.dto.DoctorStatusDTO"%>
+<%@page import="com.hospital.common.dto.DoctorPositionDTO"%>
+<%@page import="com.hospital.common.dto.DoctorDTO"%>
+<%@page import="com.hospital.admin.doctor.dto.AdminDoctorFormDTO"%>
+<%@page import="com.hospital.admin.doctor.dto.AdminDoctorSearchDTO"%>
+<%@page import="com.hospital.admin.doctor.AdminDoctorService"%>
 <%@page import="com.hospital.common.dto.DepartmentDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page import="java.util.List" %>
@@ -405,7 +414,34 @@
 
 <script type="text/javascript">
     $(function(){
-		
+		<%
+		String paramLicenseNo = (String) request.getParameter("doctorLicenseNo");
+		AdminDoctorService adminDoctorService = new AdminDoctorService();
+		//파라미터 있을때 정보 넣어주기
+		if(paramLicenseNo != null && !"".equals(paramLicenseNo)){
+			
+			AdminDoctorFormDTO adminDoctorFormDTO = new AdminDoctorFormDTO();
+			adminDoctorFormDTO = adminDoctorService.searchDoctorDetail(Integer.parseInt(paramLicenseNo));
+			DoctorDTO doctorDTO = adminDoctorFormDTO.getDoctorDTO();
+			List<DepartmentDTO> departmentDTOList = adminDoctorFormDTO.getDepartmentList();
+			List<DoctorPositionDTO> positionDTOList = adminDoctorFormDTO.getPositionList();
+			List<DoctorStatusDTO> statusDTOList = adminDoctorFormDTO.getStatusList();
+			List<DoctorCareerDTO> careerDTOList = adminDoctorFormDTO.getCareerList();
+			List<DoctorScheduleDTO> scheduleDTOList = adminDoctorFormDTO.getScheduleList();
+			List<DoctorEducationDTO> educationDTOList = adminDoctorFormDTO.getEducationList();
+			
+			pageContext.setAttribute("departmentList", departmentDTOList);
+			pageContext.setAttribute("statusList", statusDTOList);
+			pageContext.setAttribute("positionList", positionDTOList);
+			pageContext.setAttribute("doctor", doctorDTO);
+			pageContext.setAttribute("careerList", careerDTOList);
+			pageContext.setAttribute("scheduleList", scheduleDTOList);
+			pageContext.setAttribute("educationList", educationDTOList);
+			
+		}//end if
+		%>
+    	
+    	
 		$('#thumbUploadBtn').click( function () {
 		  $('#thumbFile').trigger('click');
 		});
@@ -539,14 +575,21 @@
 						      <div class="doctor-left-form">
 						        <div class="doctor-field-row">
 						          <label class="doctor-label" for="licenseNo">의사 면허 번호</label>
-						          <input type="text" class="doctor-input" id="licenseNo" maxlength="6" name="licenseNo" value="${doctor.licenseNo}" />
+						          
+						          <c:if test="${ empty param.doctorLicenseNo  }">
+						          	<input type="text" class="doctor-input" id="licenseNo" maxlength="6" name="licenseNo" value="${doctor.doctorLicenseNo}" />
+						          </c:if>
+						          <c:if test="${ not empty param.doctorLicenseNo  }">
+						          	<input type="text" class="doctor-input" id="licenseNo" maxlength="6" name="licenseNo" value="${param.doctorLicenseNo}" />
+						          </c:if>
 						          <button type="button" class="doctor-btn doctor-btn-primary" id="btnLicenseSearchTop">면허번호 조회</button>
 						        </div>
 						
 						        <div class="doctor-field-row">
 						          <label class="doctor-label" for="doctorName">이름</label>
 						          <input type="text" class="doctor-input" id="doctorName" name="doctorName" value="${doctor.name}" />
-						          <div></div>
+						          <div>
+						          </div>
 						        </div>
 						
 						        <div class="doctor-field-row">
@@ -566,11 +609,7 @@
 						          <label class="doctor-label" for="position">직급</label>
 						          <select class="doctor-select" id="position" name="position">
 						            <option value="">직급 선택</option>
-						            <option value="교수">교수</option>
-						            <option value="과장">과장</option>
-						            <option value="전문의">전문의</option>
-						            <option value="전임의">전임의</option>
-						            <option value="레지던트">레지던트</option>
+						            <% //직급 리스트 %>
 						          </select>
 						          <div></div>
 						        </div>
@@ -583,7 +622,7 @@
 						
 						        <div class="doctor-field-row">
 						          <label class="doctor-label" for="phone">연락처</label>
-						          <input type="text" class="doctor-input" id="phone" name="phone" value="${doctor.phone}" />
+						          <input type="text" class="doctor-input" id="phone" name="phone" value="${doctor.phoneNum}" />
 						          <div></div>
 						        </div>
 						      </div>
@@ -833,21 +872,15 @@
 					        </div>
 					
 					        <div class="doctor-scroll doctor-history-scroll" id="educationList">
+					        	<c:forEach var="education" items="${ educationList }">
+						        	<div class="doctor-edu-row">
+							            <input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" value="${ education.educationYear }" />
+							            <input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." value="${ education.educationContent }" />
+						          	</div>
+					          	</c:forEach>
 					          <div class="doctor-edu-row">
 					            <input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" />
 					            <input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." />
-					          </div>
-					          <div class="doctor-edu-row">
-					            <input type="text" class="doctor-input" name="educationYear[]" value="2009" />
-					            <input type="text" class="doctor-input" name="educationContent[]" value="서울대학교 의학박사" />
-					          </div>
-					          <div class="doctor-edu-row">
-					            <input type="text" class="doctor-input" name="educationYear[]" value="2005" />
-					            <input type="text" class="doctor-input" name="educationContent[]" value="서울대학교 의학석사" />
-					          </div>
-					          <div class="doctor-edu-row">
-					            <input type="text" class="doctor-input" name="educationYear[]" value="1995" />
-					            <input type="text" class="doctor-input" name="educationContent[]" value="서울대학교 의과대학 의학사" />
 					          </div>
 					        </div>
 					      </div>
@@ -872,21 +905,15 @@
 					        </div>
 					
 					        <div class="doctor-scroll doctor-history-scroll" id="careerList">
+				        	  <c:forEach var="career" items="${ careerList }">
+					        	  <div class="doctor-career-row">
+						            <input type="text" class="doctor-input" name="careerPeriod[]" placeholder="기간" value="${ career.careerYear }" />
+						            <input type="text" class="doctor-input" name="careerContent[]" placeholder="경력을 입력해주세요..." value="${ career.careerContent }" />
+						          </div>
+				          	  </c:forEach>
 					          <div class="doctor-career-row">
-					            <input type="text" class="doctor-input" name="careerPeriod[]" value="2012. 5. ~ 2014. 4." />
-					            <input type="text" class="doctor-input" name="careerContent[]" value="대한중환자의학회 기획위원" />
-					          </div>
-					          <div class="doctor-career-row">
-					            <input type="text" class="doctor-input" name="careerPeriod[]" value="2009. 3. ~ 현재" />
-					            <input type="text" class="doctor-input" name="careerContent[]" value="중환자의학 세부전문의" />
-					          </div>
-					          <div class="doctor-career-row">
-					            <input type="text" class="doctor-input" name="careerPeriod[]" value="1996. 3. ~ 2000. 2." />
-					            <input type="text" class="doctor-input" name="careerContent[]" value="대한결핵및호흡기학회 의학용어위원" />
-					          </div>
-					          <div class="doctor-career-row">
-					            <input type="text" class="doctor-input" name="careerPeriod[]" value="1995. 3. ~ 1996. 2." />
-					            <input type="text" class="doctor-input" name="careerContent[]" value="서울대학병원 인턴" />
+					            <input type="text" class="doctor-input" name="careerPeriod[]" placeholder="기간" />
+					            <input type="text" class="doctor-input" name="careerContent[]" placeholder="경력을 입력해주세요..." />
 					          </div>
 					        </div>
 					      </div>
