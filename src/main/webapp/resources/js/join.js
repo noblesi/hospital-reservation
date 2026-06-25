@@ -260,7 +260,7 @@ $(function() {
         window.open(
             "idDup.jsp?id=" + encodeURIComponent(loginId),
             "idDup",
-            "width=380,height=330,top=150,left=500"
+            "width=380,height=360,top=150,left=500"
         );
     });
 
