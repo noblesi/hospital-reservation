@@ -1,8 +1,8 @@
 package com.hospital.admin.appointment;
 
 import com.hospital.admin.appointment.dto.AdminAppointmentSearchDTO;
-import com.hospital.common.DBConnection;
 import com.hospital.common.dto.AppointmentDTO;
+import com.hospital.common.util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,14 +34,14 @@ public class AdminAppointmentDAO {
         // 시작일 조건
         if (searchDTO.getStartDate() != null
                 && !searchDTO.getStartDate().trim().isEmpty()) {
-            sql.append(" AND appointment_date >= ? ");
+            sql.append(" AND appointment_date >= TO_DATE(?, 'YYYY-MM-DD') ");
             params.add(searchDTO.getStartDate().trim());
         }
 
         // 종료일 조건
         if (searchDTO.getEndDate() != null
                 && !searchDTO.getEndDate().trim().isEmpty()) {
-            sql.append(" AND appointment_date <= ? ");
+            sql.append(" AND appointment_date <= TO_DATE(?, 'YYYY-MM-DD') ");
             params.add(searchDTO.getEndDate().trim());
         }
 
@@ -50,7 +50,7 @@ public class AdminAppointmentDAO {
         // 나중에 환자명/의사명 조인 구조에 맞게 수정 가능
         if (searchDTO.getSearchKeyword() != null
                 && !searchDTO.getSearchKeyword().trim().isEmpty()) {
-            sql.append(" AND CAST(appointment_no AS CHAR) LIKE ? ");
+            sql.append(" AND TO_CHAR(appointment_no) LIKE ? ");
             params.add("%" + searchDTO.getSearchKeyword().trim() + "%");
         }
 
@@ -80,10 +80,14 @@ public class AdminAppointmentDAO {
         List<AppointmentDTO> appointmentList = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT appointment_no, patient_no, doctor_license_no, ");
-        sql.append("       appointment_date, appointment_time, status, create_date ");
-        sql.append("FROM appointment ");
-        sql.append("WHERE 1 = 1 ");
+        sql.append("SELECT * ");
+        sql.append("FROM ( ");
+        sql.append("    SELECT ROWNUM rnum, inner_query.* ");
+        sql.append("    FROM ( ");
+        sql.append("        SELECT appointment_no, patient_no, doctor_license_no, ");
+        sql.append("               appointment_date, appointment_time, status, created_at ");
+        sql.append("        FROM appointment ");
+        sql.append("        WHERE 1 = 1 ");
 
         List<Object> params = new ArrayList<>();
 
@@ -97,29 +101,35 @@ public class AdminAppointmentDAO {
         // 시작일 조건
         if (searchDTO.getStartDate() != null
                 && !searchDTO.getStartDate().trim().isEmpty()) {
-            sql.append(" AND appointment_date >= ? ");
+            sql.append(" AND appointment_date >= TO_DATE(?, 'YYYY-MM-DD') ");
             params.add(searchDTO.getStartDate().trim());
         }
 
         // 종료일 조건
         if (searchDTO.getEndDate() != null
                 && !searchDTO.getEndDate().trim().isEmpty()) {
-            sql.append(" AND appointment_date <= ? ");
+            sql.append(" AND appointment_date <= TO_DATE(?, 'YYYY-MM-DD') ");
             params.add(searchDTO.getEndDate().trim());
         }
 
         // 검색 키워드 조건
         if (searchDTO.getSearchKeyword() != null
                 && !searchDTO.getSearchKeyword().trim().isEmpty()) {
-            sql.append(" AND CAST(appointment_no AS CHAR) LIKE ? ");
+            sql.append(" AND TO_CHAR(appointment_no) LIKE ? ");
             params.add("%" + searchDTO.getSearchKeyword().trim() + "%");
         }
 
         // 정렬 + 페이징
-        sql.append(" ORDER BY appointment_no DESC ");
-        sql.append(" LIMIT ?, ? ");
-        params.add(searchDTO.getStartNum());
-        params.add(searchDTO.getPageScale());
+        sql.append("        ORDER BY appointment_no DESC ");
+        sql.append("    ) inner_query ");
+        sql.append("    WHERE ROWNUM <= ? ");
+        sql.append(") ");
+        sql.append("WHERE rnum >= ? ");
+
+        int startRow = Math.max(searchDTO.getStartNum(), 0) + 1;
+        int endRow = Math.max(searchDTO.getEndNum(), searchDTO.getStartNum() + searchDTO.getPageScale());
+        params.add(endRow);
+        params.add(startRow);
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
@@ -132,12 +142,12 @@ public class AdminAppointmentDAO {
                 while (rs.next()) {
                     AppointmentDTO dto = new AppointmentDTO();
                     dto.setAppointmentNo(rs.getInt("appointment_no"));
-                    dto.setPatientNo(rs.getInt("patient_no"));
+                    dto.setPatientNo(rs.getString("patient_no"));
                     dto.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
                     dto.setAppointmentDate(rs.getDate("appointment_date"));
                     dto.setAppointmentTime(rs.getString("appointment_time"));
                     dto.setStatus(rs.getString("status"));
-                    dto.setCreateDate(rs.getTimestamp("create_date"));
+                    dto.setCreateDate(rs.getTimestamp("created_at"));
 
                     appointmentList.add(dto);
                 }
@@ -154,7 +164,7 @@ public class AdminAppointmentDAO {
     public AppointmentDTO selectAppointmentDetail(int appointmentNo) {
 
         String sql = "SELECT appointment_no, patient_no, doctor_license_no, "
-                   + "       appointment_date, appointment_time, status, create_date "
+                   + "       appointment_date, appointment_time, status, created_at "
                    + "FROM appointment "
                    + "WHERE appointment_no = ? ";
 
@@ -167,12 +177,12 @@ public class AdminAppointmentDAO {
                 if (rs.next()) {
                     AppointmentDTO dto = new AppointmentDTO();
                     dto.setAppointmentNo(rs.getInt("appointment_no"));
-                    dto.setPatientNo(rs.getInt("patient_no"));
+                    dto.setPatientNo(rs.getString("patient_no"));
                     dto.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
                     dto.setAppointmentDate(rs.getDate("appointment_date"));
                     dto.setAppointmentTime(rs.getString("appointment_time"));
                     dto.setStatus(rs.getString("status"));
-                    dto.setCreateDate(rs.getTimestamp("create_date"));
+                    dto.setCreateDate(rs.getTimestamp("created_at"));
                     return dto;
                 }
             }

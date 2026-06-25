@@ -45,7 +45,7 @@ public class AdminDoctorDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				totalCnt=rs.getInt(0);
+				totalCnt=rs.getInt(1);
 			}// end if
 			
 		} catch (SQLException e) {
@@ -64,7 +64,7 @@ public class AdminDoctorDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String andCulmn="";
+		String andCulmn="	and	";
 		boolean firstSearchCulmn=false;
 		
 		StringBuilder selectSql = new StringBuilder();
@@ -115,17 +115,17 @@ public class AdminDoctorDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String andCulmn="";
+		String andCulmn="	and	";
 		boolean firstSearchCulmn=false;
 		
 		StringBuilder selectSql = new StringBuilder();
 		selectSql
 			.append("	select num, doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code		")
 			.append("	from (select rownum num, doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code from doctor)		")
-			.append("	where "	);
+			.append("	where 1 = 1	"	);
 		
 		
-		if(!adminDoctorSearchDTO.getDeptNo().isEmpty()) {
+		if(adminDoctorSearchDTO.getDeptNo() != null && !adminDoctorSearchDTO.getDeptNo().isEmpty()) {
 			selectSql
 				.append(andCulmn)
 				.append("	dept_no = '")
@@ -138,7 +138,7 @@ public class AdminDoctorDAO {
 			}// end if
 		}//end if
 		
-		if(!adminDoctorSearchDTO.getPositionCode().isEmpty()) {
+		if(adminDoctorSearchDTO.getPositionCode() != null && !adminDoctorSearchDTO.getPositionCode().isEmpty()) {
 			selectSql
 				.append(andCulmn)
 				.append("	position_code ='")
@@ -151,7 +151,7 @@ public class AdminDoctorDAO {
 			}// end if
 		}// end if
 		
-		if(!adminDoctorSearchDTO.getStatusCode().isEmpty()) {
+		if(adminDoctorSearchDTO.getStatusCode() != null && !adminDoctorSearchDTO.getStatusCode().isEmpty()) {
 			selectSql
 				.append(andCulmn)
 				.append("	status_code = '")
@@ -164,10 +164,10 @@ public class AdminDoctorDAO {
 			}// end if
 		}// end if
 		
-		if(!adminDoctorSearchDTO.getSpecialty().isEmpty()) {
+		if(adminDoctorSearchDTO.getSpecialty() != null && !adminDoctorSearchDTO.getSpecialty().isEmpty()) {
 			selectSql
 				.append(andCulmn)
-				.append("	spacialty like '%")
+				.append("	specialty like '%")
 				.append(adminDoctorSearchDTO.getSpecialty())
 				.append("%'		");
 			
@@ -177,7 +177,7 @@ public class AdminDoctorDAO {
 			}// end if
 		}// end if
 		
-		if(adminDoctorSearchDTO.getStartNum() > 0 && adminDoctorSearchDTO.getEndNum() > 0) {
+		if(adminDoctorSearchDTO.getEndNum() > 0) {
 			selectSql
 				.append(andCulmn)
 				.append("	num between ")
@@ -254,7 +254,7 @@ public class AdminDoctorDAO {
 				doctorDTO.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
 				doctorDTO.setDeptNo(rs.getString("dept_no"));
 				doctorDTO.setName(rs.getString("name"));
-				doctorDTO.setPhoneNum(rs.getString("pone_num"));
+				doctorDTO.setPhoneNum(rs.getString("phone_num"));
 				doctorDTO.setPositionCode(rs.getString("position_code"));
 				doctorDTO.setIntroTitle(rs.getString("intro_title"));
 				doctorDTO.setIntroContent(rs.getString("intro_content"));
@@ -353,7 +353,7 @@ public class AdminDoctorDAO {
 				pstmt.setInt(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getDayOfWeek());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getStartTime());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getEndTime());
-				pstmt.setString(markCnt, adminDoctorFormDTOTemp.getScheduleList().get(i).getStatus());
+				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getStatus());
 			}// end for
 			
 			insertCnt = pstmt.executeUpdate();
@@ -460,7 +460,7 @@ public class AdminDoctorDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				doctorCnt = rs.getInt(0);
+				doctorCnt = rs.getInt(1);
 			}// end if
 			
 		} catch (SQLException e) {
@@ -559,7 +559,7 @@ public class AdminDoctorDAO {
 			conn = DBConnection.getConnection();
 			
 			updateSql
-			.append("	update doctor_schedule")
+			.append("	update doctor_schedule		")
 			.append("	set day_of_week=?, 		")
 			.append("	start_time=?, 		")
 			.append("	end_time=?, 		")
@@ -600,7 +600,7 @@ public class AdminDoctorDAO {
 			conn = DBConnection.getConnection();
 
 			insertSql
-				.append(" insert all into doctor_schedule(schedule_no, doctor_license_no, day_of_week, start_time, end_time, status)		")
+				.append(" insert into doctor_schedule(schedule_no, doctor_license_no, day_of_week, start_time, end_time, status)		")
 				.append("	values(get_sSeq(),?,?,?,?,? )		");
 			
 			pstmt = conn.prepareStatement(insertSql.toString());
@@ -743,7 +743,7 @@ public class AdminDoctorDAO {
 		try {
 			conn = DBConnection.getConnection();
 			updateSql
-				.append("	update doctor_career")
+				.append("	update doctor_career		")
 				.append("	set career_year = ?, career_content = ?		")
 				.append("	where doctor_license_no = ? and career_no = ?		");
 				
@@ -851,7 +851,7 @@ public class AdminDoctorDAO {
 		try {
 			conn = DBConnection.getConnection();
 			updateSql
-				.append("	update doctor_education")
+				.append("	update doctor_education		")
 				.append("	set education_year = ?, education_content = ?		")
 				.append("	where doctor_license_no = ? and education_no = ?		");
 				

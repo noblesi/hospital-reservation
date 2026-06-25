@@ -45,4 +45,6 @@ public class UserAppointmentDTO {
 	/** 의사 테이블 조인으로 조회한 의료진명 */
 	private String doctorName;
 
+	private boolean cancelable;
+
 }

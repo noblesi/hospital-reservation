@@ -1,8 +1,8 @@
 package com.hospital.admin.member;
 
 import com.hospital.admin.member.dto.AdminMemberSearchDTO;
-import com.hospital.common.DBConnection;
 import com.hospital.common.dto.MemberDTO;
+import com.hospital.common.util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
