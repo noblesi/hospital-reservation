@@ -7,15 +7,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>한국중앙병원 | 진료예약</title>
 
+	<!-- Bootsctrap CDN -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
+	<!-- 외부 CSS -->
 	<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
 	<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointment.css' />">
 	<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointmentSidebar.css' />">
 
+	<!-- jQuery CDN -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	
 	<c:url var="appointmentAjaxUrl" value="/appointment/ajax.do" />
 	<c:url var="appointmentProcessUrl" value="/appointment/process.do" />
 	<script>
@@ -24,6 +28,8 @@
 			processUrl: "${appointmentProcessUrl}"
 		};
 	</script>
+	
+	<!-- 외부 js -->
 	<script src="<c:url value='/resources/js/appointment.js' />"></script>
 </head>
 <body>
@@ -55,27 +61,27 @@
 					<div class="dNameInputDiv">
 						<input type="text" placeholder="질병명 또는 의료진명" id="dNameInput">
 						<button id="searchBtn">
-							<img class="searchImg" src="<c:url value='/resources/images/appointment/search.png' />" alt="검색">
+							<i class="bi bi-search searchIcon"></i>
 						</button>
 					</div>
 				</div>
 
 				<div class="deptListDiv">
 					<button type="button" class="btnPrev">
-						<img class="arrowIcon" src="<c:url value='/resources/images/appointment/left.png' />" alt="이전">
+						<i class="bi bi-chevron-left arrowIcon"></i>
 					</button>
 					<div class="sliderWindow">
 						<div class="sliderTrack"></div>
 					</div>
 					<button type="button" class="btnNext">
-						<img class="arrowIcon" src="<c:url value='/resources/images/appointment/right.png' />" alt="다음">
+						<i class="bi bi-chevron-right arrowIcon"></i>
 					</button>
 				</div>
 			</div>
 
 			<div class="rsInfoWrap">
 				<h4 class="rsInfoTitle">예약하실 정보확인</h4>
-				<p class="rsInfoElm">환자명 : <span class="rsInfoName">로그인 회원</span></p>
+				<p class="rsInfoElm">환자명 : <span class="rsInfoName"><c:out value="${ loginUser.name }"/></span></p>
 				<p class="rsInfoElm">진료과 : <span class="rsInfoDept"></span></p>
 				<p class="rsInfoElm">의료진 : <span class="rsInfoDoctor"></span></p>
 				<p class="rsInfoElm"><span class="infoName">진료일시 : </span> <span class="rsInfoDate"></span></p>
@@ -158,13 +164,6 @@
 					</p>
 				</div>
 				<div class="lastConfirmBtnDiv">
-					<form style="display: none;" action="${appointmentProcessUrl}" method="post" id="apptFrm">
-						<input type="hidden" name="doctorLicenseNo" id="apptDln">
-						<input type="hidden" name="appointmentDate" id="apptDate">
-						<input type="hidden" name="appointmentTime" id="apptTime">
-						<input type="hidden" name="requirement" id="apptRequire">
-						<input type="hidden" name="appointmentNo" id="appointmentNo" value="${param.appointmentNo}">
-					</form>
 					<button id="lastConfrimCancelBtn" class="lastConfrimCancelBtn">취소</button>
 					<button id="lastConfrimBtn" class="lastConfrimBtn">확인</button>
 				</div>

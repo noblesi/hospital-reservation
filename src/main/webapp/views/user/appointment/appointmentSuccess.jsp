@@ -41,8 +41,8 @@
 </head>
 
 <body>
-	<%@ include file="/views/common/userHeader.jsp"%>
-	<%@ include file="/views/common/userBreadcrumb.jsp"%>
+	<c:import url="/views/common/userHeader.jsp" />
+	<c:import url="/views/common/userBreadcrumb.jsp" />
 
 	<div id="mainWrap">
 		<div id="container">
@@ -119,7 +119,8 @@
 			</div>
 		</div>
 	</div>
-	<%@ include file="/views/common/userFooter.jsp"%>
+	
+	<c:import url="/views/common/userFooter.jsp" />
 	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js"></script>
 </body>
 

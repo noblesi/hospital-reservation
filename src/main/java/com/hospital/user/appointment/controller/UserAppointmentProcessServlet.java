@@ -22,11 +22,13 @@ public class UserAppointmentProcessServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
         String patientNo = UserAppointmentSessionUtil.getLoginPatientNo(request);
+        
+        // 사용자가 로그인 하지 않았으면 로그인 페이지로 이동시킨다.
         if (UserAppointmentSessionUtil.isBlank(patientNo)) {
             response.sendRedirect(request.getContextPath() + "/member/login.do");
             return;
         }
-
+        
         Integer doctorLicenseNo = parseInt(request.getParameter("doctorLicenseNo"));
         Date appointmentDate = parseDate(request.getParameter("appointmentDate"));
         String appointmentTime = request.getParameter("appointmentTime");

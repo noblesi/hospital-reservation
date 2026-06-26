@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.hospital.common.dto.DepartmentDTO;
 import com.hospital.common.dto.DoctorDTO;
@@ -24,7 +25,8 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
 	private final UserAppointmentService userAppointmentService = new UserAppointmentService();
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
 
 		String action = request.getParameter("action");
@@ -53,9 +55,11 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
 	}
 
 	private void renderDepartmentList(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		List<DepartmentDTO> departmentList = new ArrayList<DepartmentDTO>(userAppointmentService.searchDepartmentList());
+		List<DepartmentDTO> departmentList = new ArrayList<DepartmentDTO>(
+				userAppointmentService.searchDepartmentList());
 		if ("ascending".equals(request.getParameter("sort"))) {
-			departmentList.sort(Comparator.comparing(DepartmentDTO::getDeptName, Comparator.nullsLast(String::compareTo)));
+			departmentList
+					.sort(Comparator.comparing(DepartmentDTO::getDeptName, Comparator.nullsLast(String::compareTo)));
 		}
 
 		StringBuilder html = new StringBuilder();
@@ -71,15 +75,8 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
 			String deptNo = escapeHtml(department.getDeptNo());
 			html.append("<td class='slCol'>")
 					.append("<input class='deptRadio' style='display: none;' type='radio' name='dept' value='")
-					.append(deptNo)
-					.append("' id='")
-					.append(deptNo)
-					.append("'>")
-					.append("<label for='")
-					.append(deptNo)
-					.append("'>")
-					.append(escapeHtml(department.getDeptName()))
-					.append("</label></td>");
+					.append(deptNo).append("' id='").append(deptNo).append("'>").append("<label for='").append(deptNo)
+					.append("'>").append(escapeHtml(department.getDeptName())).append("</label></td>");
 
 			if (i % 3 == 2 || i == departmentList.size() - 1) {
 				html.append("</tr>");
@@ -125,14 +122,12 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
 
 			html.append("<li class='doctorLi'><img class='doctorThumnail' src='")
 					.append(escapeHtml(doctor.getThumbnailUrl()))
-					.append("'><div class='doctorInfoDiv'><h4 class='doctorName'>")
-					.append(escapeHtml(doctor.getName()))
+					.append("'><div class='doctorInfoDiv'><h4 class='doctorName'>").append(escapeHtml(doctor.getName()))
 					.append("<a href='#void'><i class='bi bi-search blueSearchIcon'></i></a></h4><p class='detail'>");
 			if (!UserAppointmentSessionUtil.isBlank(deptName)) {
 				html.append("<strong class='deptName'>").append(escapeHtml(deptName)).append("</strong><br>");
 			}
-			html.append("세부전공: <span class='specialty'>")
-					.append(escapeHtml(doctor.getSpecialty()))
+			html.append("세부전공: <span class='specialty'>").append(escapeHtml(doctor.getSpecialty()))
 					.append("</span></p></div><button class='selectDoctorBtn' value='")
 					.append(doctor.getDoctorLicenseNo())
 					.append("'><i class='bi bi-check-circle checkIcon'></i> 선택</button></li>");
@@ -177,30 +172,31 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
 		}
 
 		StringBuilder html = new StringBuilder();
-		html.append("<div class='moveMonthBar'><button class='prevMonthBtn'><i class='bi bi-arrow-left-circle'></i></button>")
-				.append("<h4 class='nowMonthTitle'><span class='year'>")
-				.append(calendarDate.getYear())
-				.append("</span>년 <span class='month'>")
-				.append(calendarDate.getMonthValue())
-				.append("</span>월</h4>")
+		html.append(
+				"<div class='moveMonthBar'><button class='prevMonthBtn'><i class='bi bi-arrow-left-circle'></i></button>")
+				.append("<h4 class='nowMonthTitle'><span class='year'>").append(calendarDate.getYear())
+				.append("</span>년 <span class='month'>").append(calendarDate.getMonthValue()).append("</span>월</h4>")
 				.append("<button class='nextMonthBtn'><i class='bi bi-arrow-right-circle'></i></button></div>");
-		html.append("<table class='calTab'><thead><tr class='weekTr'><th style='color: #ee1c24'>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th style='color: #02348b'>토</th></tr></thead><tbody><tr>");
+		html.append(
+				"<table class='calTab'><thead><tr class='weekTr'><th style='color: #ee1c24'>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th style='color: #02348b'>토</th></tr></thead><tbody><tr>");
 
 		LocalDate firstDay = calendarDate.withDayOfMonth(1);
 		int blankCount = firstDay.getDayOfWeek().getValue() % 7;
 		for (int i = 0; i < blankCount; i++) {
 			html.append("<td><span></span></td>");
 		}
-
+		
+		LocalDate toDay = LocalDate.now();
 		for (int day = 1; day <= calendarDate.lengthOfMonth(); day++) {
 			LocalDate currentDay = calendarDate.withDayOfMonth(day);
 			int dayOfWeek = currentDay.getDayOfWeek().getValue();
+
 			String className = "";
-			if (allDay.contains(dayOfWeek)) {
+			if (allDay.contains(dayOfWeek) && currentDay.isAfter(toDay)) {
 				className = "available allDay";
-			} else if (am.contains(dayOfWeek)) {
+			} else if (am.contains(dayOfWeek) && currentDay.isAfter(toDay)) {
 				className = "available am";
-			} else if (pm.contains(dayOfWeek)) {
+			} else if (pm.contains(dayOfWeek) && currentDay.isAfter(toDay)) {
 				className = "available pm";
 			}
 
@@ -215,7 +211,8 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
 			}
 		}
 
-		html.append("</tr></tbody></table><div class='infoCal'><span class='am ex'></span> <span> 오전 </span> <span class='pm ex'></span> <span> 오후 </span> <span class='allDay ex'></span> <span> 종일 </span></div>");
+		html.append(
+				"</tr></tbody></table><div class='infoCal'><span class='am ex'></span> <span> 오전 </span> <span class='pm ex'></span> <span> 오후 </span> <span class='allDay ex'></span> <span> 종일 </span></div>");
 		response.getWriter().print(html);
 	}
 
@@ -230,7 +227,8 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
 		List<String> availableTimes = userAppointmentService.searchAvailableTime(doctorLicenseNo, Date.valueOf(date));
 		StringBuilder html = new StringBuilder("<ul class='timeTableUl'>");
 		if (availableTimes.isEmpty()) {
-			html.append("<p style='text-align: center; font-size: 18px;'>해당 일자의 예약이<br> 모두 완료되었습니다.<br>다른 날짜를 선택해주세요.</p>");
+			html.append(
+					"<p style='text-align: center; font-size: 18px;'>해당 일자의 예약이<br> 모두 완료되었습니다.<br>다른 날짜를 선택해주세요.</p>");
 		} else {
 			for (String availableTime : availableTimes) {
 				html.append("<li class='timeTableLi'>").append(escapeHtml(availableTime)).append("</li>");
@@ -253,10 +251,7 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
 			return "";
 		}
 
-		return value.replace("&", "&amp;")
-				.replace("<", "&lt;")
-				.replace(">", "&gt;")
-				.replace("\"", "&quot;")
+		return value.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;")
 				.replace("'", "&#39;");
 	}
 }

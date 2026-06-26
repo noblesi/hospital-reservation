@@ -16,10 +16,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
 <!-- 외부 CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment/appointment.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment/appointmentList.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment/appointmentSidebar.css">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointment.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointmentList.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointmentSidebar.css' />">
 
 <!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -44,9 +44,9 @@
 </head>
 
 <body>
-	<%@ include file="/views/common/userHeader.jsp"%>
-	<%@ include file="/views/common/userBreadcrumb.jsp"%>
-	<%@ include file="/views/common/message.jsp"%>
+	<c:import url="/views/common/userHeader.jsp" />
+	<c:import url="/views/common/userBreadcrumb.jsp" />
+	<c:import url="/views/common/message.jsp" />
 	
 	<div class="mainWrap">
 		<!-- 사이드바 -->
@@ -142,7 +142,7 @@
 		</div>
 	</div>
 
-	<%@ include file="/views/common/userFooter.jsp"%>
+	<c:import url="/views/common/userFooter.jsp" />
 	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=20260623-menu-hover-guard"></script>
 </body>
 
