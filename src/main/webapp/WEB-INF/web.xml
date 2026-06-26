@@ -72,6 +72,42 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>memberLoginProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberLoginProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberLoginProcessServlet</servlet-name>
+    <url-pattern>/member/login/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberFindIdProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberFindIdProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberFindIdProcessServlet</servlet-name>
+    <url-pattern>/member/find-id/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberFindPasswordProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberFindPasswordProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberFindPasswordProcessServlet</servlet-name>
+    <url-pattern>/member/find-password/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberResetPasswordProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberResetPasswordProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberResetPasswordProcessServlet</servlet-name>
+    <url-pattern>/member/reset-password/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>memberJoinPage</servlet-name>
     <jsp-file>/views/member/joinType.jsp</jsp-file>
   </servlet>
@@ -126,11 +162,11 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>memberLogoutPage</servlet-name>
-    <jsp-file>/views/member/process/logoutProcess.jsp</jsp-file>
+    <servlet-name>memberLogoutProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberLogoutProcessServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>memberLogoutPage</servlet-name>
+    <servlet-name>memberLogoutProcessServlet</servlet-name>
     <url-pattern>/member/logout.do</url-pattern>
     <url-pattern>/admin/logout.do</url-pattern>
   </servlet-mapping>

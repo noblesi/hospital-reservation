@@ -1,3 +1,10 @@
+<!--  
+ 로그인 처리는 MemberLoginProceeServlet으로 이동되었습니다.
+ 현재 파일은 기존 경로 보존용으로 남겨 둡니다.
+ 
+ 처리 경로 : /member/login/process.do
+-->
+
 <%@page import="com.hospital.common.MemberDTO"%>
 <%@page import="com.hospital.member.LoginService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -16,7 +23,7 @@ if(loginMember != null){
 %>
 <script>
 // 메인 화면 연결 전까지 로그인 화면으로 이동한다.
-location.href = "../login.jsp";
+location.href = "../main.do";
 </script>
 <%
     return;

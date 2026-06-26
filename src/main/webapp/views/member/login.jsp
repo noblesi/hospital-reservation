@@ -170,10 +170,17 @@ body{
 
 <body>
 
-<jsp:include page="../common/userHeader.jsp" />
-<jsp:include page="../common/userBreadcrumb.jsp" />
+<jsp:include page="/views/common/userHeader.jsp" />
+<jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 <main class="login-container">
+
+    <c:if test="${not empty sessionScope.loginMessage}">
+        <script>
+            alert("<c:out value='${sessionScope.loginMessage}' />");
+        </script>
+        <c:remove var="loginMessage" scope="session" />
+    </c:if>
 
     <section class="login-card">
 
@@ -191,7 +198,7 @@ body{
             </p>
 
             <form class="login-form"
-                  action="<c:url value='/views/member/process/loginProcess.jsp' />"
+                  action="<c:url value='/member/login/process.do' />"
                   method="post">
 
                 <input type="text"
@@ -236,7 +243,7 @@ body{
 
 </main>
 
-<jsp:include page="../common/userFooter.jsp" />
+<jsp:include page="/views/common/userFooter.jsp" />
 
 <script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
 
