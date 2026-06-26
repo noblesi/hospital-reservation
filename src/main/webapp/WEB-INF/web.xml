@@ -79,6 +79,15 @@
     <servlet-name>memberLoginProcessServlet</servlet-name>
     <url-pattern>/member/login/process.do</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>memberFindIdProcessServlet</servlet-name>
+  	<servlet-class>com.hospital.member.controller.MemberFindIdProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>memberFindIdProcessServlet</servlet-name>
+  	<url-pattern>/member/find-id/process.do</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>memberJoinPage</servlet-name>
