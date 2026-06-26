@@ -33,10 +33,7 @@ public class AdminBoardSaveServlet extends HttpServlet {
         boardPost.setCategory(request.getParameter("category"));
         boardPost.setTitle(request.getParameter("title"));
         boardPost.setContent(request.getParameter("content"));
-        boardPost.setWriterId(defaultValue(request.getParameter("writerId"), "admin"));
-        boardPost.setWriterName(defaultValue(request.getParameter("writerName"), "관리자"));
-        boardPost.setNoticeYn(request.getParameter("noticeYn"));
-        boardPost.setDisplayYn(defaultValue(request.getParameter("displayYn"), "Y"));
+        boardPost.setWriterId(defaultValue(request.getParameter("writerId"), "system"));
         return boardPost;
     }
 

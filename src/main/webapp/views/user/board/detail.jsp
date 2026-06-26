@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${boardPost.title}</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css?v=20260623-menu-hover-guard">
 </head>
 <body>
     <%@ include file="/views/common/userHeader.jsp" %>
@@ -16,7 +16,7 @@
         <div class="page-title-area">
             <h2>
                 <c:choose>
-                    <c:when test="${boardPost.category eq 'FAQ'}">FAQ</c:when>
+                    <c:when test="${boardPost.category eq 'F'}">FAQ</c:when>
                     <c:otherwise>공지사항</c:otherwise>
                 </c:choose>
             </h2>
@@ -39,7 +39,7 @@
 
             <div class="board-actions">
                 <c:choose>
-                    <c:when test="${boardPost.category eq 'FAQ'}">
+                    <c:when test="${boardPost.category eq 'F'}">
                         <a href="<c:url value='/board/faq/list.do' />" class="outline-link">목록</a>
                     </c:when>
                     <c:otherwise>
@@ -52,6 +52,6 @@
 
     <%@ include file="/views/common/userFooter.jsp" %>
 
-    <script src="${pageContext.request.contextPath}/resources/js/user-layout.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=20260623-menu-hover-guard"></script>
 </body>
 </html>

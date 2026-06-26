@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${searchDTO.categoryName} 관리</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css?v=20260623-admin-fluid">
 </head>
 <body>
     <%@ include file="/views/common/adminHeader.jsp" %>
@@ -33,14 +33,6 @@
                         </select>
                     </label>
                     <input type="text" name="keyword" value="${searchDTO.keyword}" placeholder="검색어">
-                    <label>
-                        공개
-                        <select name="displayYn">
-                            <option value="" ${empty searchDTO.displayYn ? 'selected' : ''}>전체</option>
-                            <option value="Y" ${searchDTO.displayYn eq 'Y' ? 'selected' : ''}>공개</option>
-                            <option value="N" ${searchDTO.displayYn eq 'N' ? 'selected' : ''}>비공개</option>
-                        </select>
-                    </label>
                     <button type="submit">검색</button>
                     <c:url var="boardFormCreateUrl" value="/admin/board/form.do">
                         <c:param name="category" value="${searchDTO.category}" />
@@ -55,8 +47,6 @@
                             <th>제목</th>
                             <th>작성자</th>
                             <th>등록일</th>
-                            <th>공지</th>
-                            <th>공개</th>
                             <th>관리</th>
                         </tr>
                     </thead>
@@ -67,8 +57,6 @@
                                 <td class="text-left"><c:out value="${boardPost.title}" /></td>
                                 <td><c:out value="${boardPost.writerName}" /></td>
                                 <td><c:out value="${boardPost.createdAt}" /></td>
-                                <td><c:out value="${boardPost.noticeYn}" /></td>
-                                <td><c:out value="${boardPost.displayYn}" /></td>
                                 <td class="admin-table-actions">
                                     <c:url var="boardFormEditUrl" value="/admin/board/form.do">
                                         <c:param name="postId" value="${boardPost.postId}" />
@@ -76,14 +64,14 @@
                                     <a href="${boardFormEditUrl}">수정</a>
                                     <form action="<c:url value='/admin/board/delete.do' />" method="post">
                                         <input type="hidden" name="postId" value="${boardPost.postId}">
-                                        <button type="submit">비공개</button>
+                                        <button type="submit">삭제</button>
                                     </form>
                                 </td>
                             </tr>
                         </c:forEach>
                         <c:if test="${empty boardPostList}">
                             <tr>
-                                <td colspan="7" class="empty-cell">등록된 게시글이 없습니다.</td>
+                                <td colspan="5" class="empty-cell">등록된 게시글이 없습니다.</td>
                             </tr>
                         </c:if>
                     </tbody>

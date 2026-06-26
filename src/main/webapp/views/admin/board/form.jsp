@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 관리</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css?v=20260623-admin-fluid">
 </head>
 <body>
     <%@ include file="/views/common/adminHeader.jsp" %>
@@ -27,8 +27,8 @@
                     <label>
                         게시판
                         <select name="category">
-                            <option value="NOTICE" ${(category eq 'NOTICE' or boardPost.category eq 'NOTICE') ? 'selected' : ''}>공지사항</option>
-                            <option value="FAQ" ${(category eq 'FAQ' or boardPost.category eq 'FAQ') ? 'selected' : ''}>FAQ</option>
+                            <option value="N" ${(category eq 'N' or boardPost.category eq 'N') ? 'selected' : ''}>공지사항</option>
+                            <option value="F" ${(category eq 'F' or boardPost.category eq 'F') ? 'selected' : ''}>FAQ</option>
                         </select>
                     </label>
 
@@ -42,38 +42,15 @@
                         <textarea name="content" rows="12" required>${boardPost.content}</textarea>
                     </label>
 
-                    <div class="admin-form-row">
-                        <label>
-                            작성자 ID
-                            <input type="text" name="writerId" value="${empty boardPost.writerId ? 'admin' : boardPost.writerId}">
-                        </label>
-                        <label>
-                            작성자명
-                            <input type="text" name="writerName" value="${empty boardPost.writerName ? '관리자' : boardPost.writerName}">
-                        </label>
-                    </div>
-
-                    <div class="admin-form-row">
-                        <label>
-                            상단 고정
-                            <select name="noticeYn">
-                                <option value="N" ${boardPost.noticeYn ne 'Y' ? 'selected' : ''}>아니오</option>
-                                <option value="Y" ${boardPost.noticeYn eq 'Y' ? 'selected' : ''}>예</option>
-                            </select>
-                        </label>
-                        <label>
-                            공개 여부
-                            <select name="displayYn">
-                                <option value="Y" ${boardPost.displayYn ne 'N' ? 'selected' : ''}>공개</option>
-                                <option value="N" ${boardPost.displayYn eq 'N' ? 'selected' : ''}>비공개</option>
-                            </select>
-                        </label>
-                    </div>
+                    <label>
+                        작성자 ID
+                        <input type="text" name="writerId" value="${empty boardPost.writerId ? 'system' : boardPost.writerId}" required>
+                    </label>
 
                     <div class="admin-form-actions">
                         <button type="submit">저장</button>
                         <c:choose>
-                            <c:when test="${category eq 'FAQ' or boardPost.category eq 'FAQ'}">
+                            <c:when test="${category eq 'F' or boardPost.category eq 'F'}">
                                 <a href="<c:url value='/admin/faq/list.do' />">취소</a>
                             </c:when>
                             <c:otherwise>
