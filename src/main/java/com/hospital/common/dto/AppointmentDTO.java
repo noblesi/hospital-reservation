@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 // 관리자 예약 관리용 DTO
 public class AppointmentDTO {
-    private int appointmentNo;
+    private String appointmentNo;
     private String patientNo;
     private int doctorLicenseNo;
     private Date appointmentDate;
@@ -13,11 +13,11 @@ public class AppointmentDTO {
     private String status;
     private Timestamp createDate;
 
-    public int getAppointmentNo() {
+    public String getAppointmentNo() {
         return appointmentNo;
     }
 
-    public void setAppointmentNo(int appointmentNo) {
+    public void setAppointmentNo(String appointmentNo) {
         this.appointmentNo = appointmentNo;
     }
 

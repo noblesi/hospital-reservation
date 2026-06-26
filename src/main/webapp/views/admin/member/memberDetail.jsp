@@ -2,127 +2,98 @@
 <%@ include file="/views/common/taglib.jsp" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 회원 상세</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css?v=20260623-admin-fluid">
 </head>
 <body>
+    <%@ include file="/views/common/adminHeader.jsp" %>
 
-<%@ include file="/views/common/adminHeader.jsp" %>
-<%@ include file="/views/common/adminSidebar.jsp" %>
+    <div class="admin-layout">
+        <%@ include file="/views/common/adminSidebar.jsp" %>
 
-<div class="admin-content">
-    <h2>회원 상세</h2>
+        <main class="admin-content">
+            <div class="admin-page-title">
+                <h2>회원 상세</h2>
+                <p>회원 기본 정보와 관리자 메모를 확인합니다.</p>
+            </div>
 
-    <!-- 회원 상세 정보 -->
-    <table border="1" width="100%">
-        <tr>
-            <th>회원번호</th>
-            <td>${member.memberNo}</td>
-        </tr>
-        <tr>
-            <th>아이디</th>
-            <td>${member.loginId}</td>
-        </tr>
-        <tr>
-            <th>회원명</th>
-            <td>${member.memberName}</td>
-        </tr>
-        <tr>
-            <th>이메일</th>
-            <td>${member.email}</td>
-        </tr>
-        <tr>
-            <th>전화번호</th>
-            <td>${member.tel}</td>
-        </tr>
-        <tr>
-            <th>상태</th>
-            <td>${member.status}</td>
-        </tr>
-        <tr>
-            <th>가입일</th>
-            <td>${member.createDate}</td>
-        </tr>
-    </table>
-
-    <br>
-
-    <!-- 메모 등록 영역 -->
-    <h3>회원 메모</h3>
-
-    <form method="post" action="">
-        <input type="hidden" name="memberNo" value="${member.memberNo}">
-
-        <table border="1" width="100%">
-            <tr>
-                <th>작성자</th>
-                <td>
-                    <input type="text" name="adminId" value="${sessionScope.loginAdminId}" readonly>
-                </td>
-            </tr>
-            <tr>
-                <th>메모 내용</th>
-                <td>
-                    <textarea name="memoContent" rows="4" cols="80"></textarea>
-                </td>
-            </tr>
-        </table>
-
-        <br>
-        <button type="submit">메모 등록</button>
-    </form>
-
-    <br>
-
-    <!-- 메모 목록 -->
-    <table border="1" width="100%">
-        <thead>
-            <tr>
-                <th>메모번호</th>
-                <th>작성자</th>
-                <th>메모내용</th>
-                <th>작성일</th>
-                <th>삭제</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:choose>
-                <c:when test="${empty memoList}">
-                    <tr>
-                        <td colspan="5">등록된 메모가 없습니다.</td>
-                    </tr>
-                </c:when>
-                <c:otherwise>
-                    <c:forEach var="memo" items="${memoList}">
+            <section class="admin-card">
+                <table class="admin-table">
+                    <tbody>
                         <tr>
-                            <td>${memo.memoNo}</td>
-                            <td>${memo.adminId}</td>
-                            <td>${memo.memoContent}</td>
-                            <td>${memo.createDate}</td>
+                            <th>회원번호</th>
+                            <td><c:out value="${member.patientNo}" /></td>
+                        </tr>
+                        <tr>
+                            <th>아이디</th>
+                            <td><c:out value="${member.loginId}" /></td>
+                        </tr>
+                        <tr>
+                            <th>회원명</th>
+                            <td><c:out value="${member.name}" /></td>
+                        </tr>
+                        <tr>
+                            <th>이메일</th>
+                            <td><c:out value="${member.email}" /></td>
+                        </tr>
+                        <tr>
+                            <th>전화번호</th>
+                            <td><c:out value="${member.phoneNumber}" /></td>
+                        </tr>
+                        <tr>
+                            <th>상태</th>
                             <td>
-                                <form method="post" action="">
-                                    <input type="hidden" name="memoNo" value="${memo.memoNo}">
-                                    <button type="submit">삭제</button>
-                                </form>
+                                <c:choose>
+                                    <c:when test="${member.isWithdrawnYn eq 'Y'}">탈퇴</c:when>
+                                    <c:otherwise>정상</c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
-                    </c:forEach>
-                </c:otherwise>
-            </c:choose>
-        </tbody>
-    </table>
+                        <tr>
+                            <th>가입일</th>
+                            <td><c:out value="${member.registeredAt}" /></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-    <br>
+                <h3>회원 메모</h3>
 
-    <!-- 목록으로 버튼 -->
-    <button type="button"
-            onclick="location.href='${pageContext.request.contextPath}/views/admin/member/memberList.jsp'">
-        목록으로
-    </button>
-</div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>메모번호</th>
+                            <th>작성자</th>
+                            <th>메모내용</th>
+                            <th>작성일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="memo" items="${memoList}">
+                            <tr>
+                                <td><c:out value="${memo.memoNo}" /></td>
+                                <td><c:out value="${memo.adminId}" /></td>
+                                <td class="text-left"><c:out value="${memo.memoContent}" /></td>
+                                <td><c:out value="${memo.createDate}" /></td>
+                            </tr>
+                        </c:forEach>
+                        <c:if test="${empty memoList}">
+                            <tr>
+                                <td colspan="4" class="empty-cell">등록된 메모가 없습니다.</td>
+                            </tr>
+                        </c:if>
+                    </tbody>
+                </table>
+
+                <div class="admin-table-actions">
+                    <a href="<c:url value='/admin/member/list.do' />">목록</a>
+                </div>
+            </section>
+        </main>
+    </div>
 
 </body>
 </html>

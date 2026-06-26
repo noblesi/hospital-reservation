@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.hospital.common.dto.MemberDTO;
+import com.hospital.common.MemberDTO;
 
 @WebServlet("/admin/member/detail")
 public class AdminMemberDetailServlet extends HttpServlet {
@@ -21,31 +21,28 @@ public class AdminMemberDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String memberNoParam = request.getParameter("memberNo");
+        String patientNo = request.getParameter("patientNo");
+        if (patientNo == null || patientNo.trim().isEmpty()) {
+            patientNo = request.getParameter("memberNo");
+        }
 
-        if (memberNoParam == null || memberNoParam.trim().isEmpty()) {
-            LOGGER.fine("memberNo parameter is missing");
+        if (patientNo == null || patientNo.trim().isEmpty()) {
+            LOGGER.fine("patientNo parameter is missing");
             response.sendRedirect(request.getContextPath() + "/admin/member/list.do");
             return;
         }
 
-        try {
-            int memberNo = Integer.parseInt(memberNoParam);
-            MemberDTO member = adminMemberService.getMemberDetail(memberNo);
+        MemberDTO member = adminMemberService.getMemberDetail(patientNo.trim());
 
-            if (member == null) {
-                LOGGER.fine("member detail not found: " + memberNo);
-                response.sendRedirect(request.getContextPath() + "/admin/member/list.do");
-                return;
-            }
-
-            request.setAttribute("member", member);
-            request.getRequestDispatcher("/views/admin/member/memberDetail.jsp").forward(request, response);
-
-        } catch (NumberFormatException e) {
-            LOGGER.fine("invalid memberNo parameter: " + memberNoParam);
+        if (member == null) {
+            LOGGER.fine("member detail not found: " + patientNo);
             response.sendRedirect(request.getContextPath() + "/admin/member/list.do");
+            return;
         }
+
+        request.setAttribute("adminMenu", "member");
+        request.setAttribute("member", member);
+        request.getRequestDispatcher("/views/admin/member/memberDetail.jsp").forward(request, response);
     }
 }
 

@@ -16,8 +16,8 @@
 
 <body>
 
-<jsp:include page="../common/userHeader.jsp" />
-<jsp:include page="../common/userBreadcrumb.jsp" />
+<jsp:include page="/views/common/userHeader.jsp" />
+<jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 <c:if test="${not empty sessionScope.mypageMessage}">
     <script>
@@ -28,7 +28,7 @@
 
 <%-- 마이페이지 본문 --%>
 <main id="content" class="mypageLayout">
-    <jsp:include page="userSideGuide2.jsp" />
+    <jsp:include page="/views/member/userSideGuide2.jsp" />
 
     <section class="mypageContent">
         <%-- 페이지 제목 영역 --%>
@@ -276,7 +276,7 @@
     </div>
 </div>
 
-<jsp:include page="../common/userFooter.jsp" />
+<jsp:include page="/views/common/userFooter.jsp" />
 
 <script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
 <script src="<c:url value='/resources/js/mypage.js' />"></script>

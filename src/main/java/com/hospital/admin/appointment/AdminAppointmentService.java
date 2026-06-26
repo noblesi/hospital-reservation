@@ -2,6 +2,7 @@ package com.hospital.admin.appointment;
 
 import com.hospital.admin.appointment.dto.AdminAppointmentSearchDTO;
 import com.hospital.common.dto.AppointmentDTO;
+import com.hospital.common.util.PaginationUtil;
 
 import java.util.List;
 
@@ -27,21 +28,67 @@ public class AdminAppointmentService {
     // 예약 상세 조회
     // - 예약번호로 예약 1건 조회
     public AppointmentDTO getAppointmentDetail(int appointmentNo) {
+        return getAppointmentDetail(String.valueOf(appointmentNo));
+    }
+
+    // 예약 상세 조회
+    // - 예약번호로 예약 1건 조회
+    public AppointmentDTO getAppointmentDetail(String appointmentNo) {
         return adminAppointmentDAO.selectAppointmentDetail(appointmentNo);
+    }
+
+    // 예약 목록과 pagination 정보를 한 번에 조회
+    public AdminAppointmentPage getAppointmentPage(AdminAppointmentSearchDTO searchDTO) {
+        if (searchDTO == null) {
+            searchDTO = new AdminAppointmentSearchDTO();
+        }
+
+        PaginationUtil.Pagination pagination = getPagination(searchDTO);
+        applyPagination(searchDTO, pagination);
+        return new AdminAppointmentPage(adminAppointmentDAO.selectAppointmentList(searchDTO), pagination);
+    }
+
+    // 예약 목록 pagination 계산
+    public PaginationUtil.Pagination getPagination(AdminAppointmentSearchDTO searchDTO) {
+        if (searchDTO == null) {
+            searchDTO = new AdminAppointmentSearchDTO();
+        }
+
+        int totalCount = adminAppointmentDAO.selectAppointmentCount(searchDTO);
+        return PaginationUtil.create(searchDTO.getCurrentPage(), totalCount, searchDTO.getPageScale());
     }
 
     // 예약 승인 처리
     public boolean approveAppointment(int appointmentNo) {
-        return adminAppointmentDAO.updateAppointmentStatus(appointmentNo, "APPROVED") > 0;
+        return approveAppointment(String.valueOf(appointmentNo));
+    }
+
+    // 예약 승인 처리
+    public boolean approveAppointment(String appointmentNo) {
+        return adminAppointmentDAO.updateAppointmentStatus(appointmentNo, "승인 완료") > 0;
     }
 
     // 예약 취소 처리
     public boolean cancelAppointment(int appointmentNo) {
-        return adminAppointmentDAO.updateAppointmentStatus(appointmentNo, "CANCELED") > 0;
+        return cancelAppointment(String.valueOf(appointmentNo));
+    }
+
+    // 예약 취소 처리
+    public boolean cancelAppointment(String appointmentNo) {
+        return adminAppointmentDAO.updateAppointmentStatus(appointmentNo, "예약취소") > 0;
     }
 
     // 예약 상태 변경 처리
     public boolean changeAppointmentStatus(int appointmentNo, String status) {
+        return changeAppointmentStatus(String.valueOf(appointmentNo), status);
+    }
+
+    // 예약 상태 변경 처리
+    public boolean changeAppointmentStatus(String appointmentNo, String status) {
+        if (!isSupportedStatus(status)) {
+            return false;
+        }
+
         return adminAppointmentDAO.updateAppointmentStatus(appointmentNo, status) > 0;
     }
 
@@ -67,5 +114,36 @@ public class AdminAppointmentService {
         searchDTO.setPageScale(pageScale);
         searchDTO.setStartNum(startNum);
         searchDTO.setEndNum(startNum + pageScale);
+    }
+
+    private void applyPagination(AdminAppointmentSearchDTO searchDTO, PaginationUtil.Pagination pagination) {
+        searchDTO.setCurrentPage(pagination.getCurrentPage());
+        searchDTO.setPageScale(pagination.getPageScale());
+        searchDTO.setStartNum((pagination.getCurrentPage() - 1) * pagination.getPageScale());
+        searchDTO.setEndNum(searchDTO.getStartNum() + pagination.getPageScale());
+    }
+
+    private boolean isSupportedStatus(String status) {
+        return "승인 대기".equals(status)
+                || "승인 완료".equals(status)
+                || "예약취소".equals(status);
+    }
+
+    public static class AdminAppointmentPage {
+        private final List<AppointmentDTO> appointmentList;
+        private final PaginationUtil.Pagination pagination;
+
+        public AdminAppointmentPage(List<AppointmentDTO> appointmentList, PaginationUtil.Pagination pagination) {
+            this.appointmentList = appointmentList;
+            this.pagination = pagination;
+        }
+
+        public List<AppointmentDTO> getAppointmentList() {
+            return appointmentList;
+        }
+
+        public PaginationUtil.Pagination getPagination() {
+            return pagination;
+        }
     }
 }

@@ -41,12 +41,12 @@ if(!"confirm".equals(request.getParameter("withdrawal"))){
 <link rel="stylesheet" href="<c:url value='/resources/css/mypage.css' />">
 </head>
 <body>
-<jsp:include page="../common/userHeader.jsp" />
-<jsp:include page="../common/userBreadcrumb.jsp" />
+<jsp:include page="/views/common/userHeader.jsp" />
+<jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 <%-- 회원 탈퇴 본문 --%>
 <main class="infoLayout">
-    <jsp:include page="userSideGuide2.jsp" />
+    <jsp:include page="/views/member/userSideGuide2.jsp" />
 
     <section class="infoContent">
         <div class="infoHeading">
@@ -131,7 +131,7 @@ if(!"confirm".equals(request.getParameter("withdrawal"))){
     </div>
 </div>
 
-<jsp:include page="../common/userFooter.jsp" />
+<jsp:include page="/views/common/userFooter.jsp" />
 <script src="<c:url value='/resources/js/user-layout.js' />"></script>
 <script src="<c:url value='/resources/js/mypage.js' />"></script>
 </body>

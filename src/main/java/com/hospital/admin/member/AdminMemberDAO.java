@@ -1,7 +1,7 @@
 package com.hospital.admin.member;
 
 import com.hospital.admin.member.dto.AdminMemberSearchDTO;
-import com.hospital.common.dto.MemberDTO;
+import com.hospital.common.MemberDTO;
 import com.hospital.common.util.DBConnection;
 
 import java.sql.Connection;
@@ -34,17 +34,21 @@ public class AdminMemberDAO {
 
             String keyword = "%" + searchDTO.getSearchKeyword().trim() + "%";
 
-            if ("loginId".equals(searchDTO.getSearchType())) {
+            if ("patientNo".equals(searchDTO.getSearchType())) {
+                sql.append(" AND patient_no LIKE ? ");
+                params.add(keyword);
+            } else if ("loginId".equals(searchDTO.getSearchType())) {
                 sql.append(" AND login_id LIKE ? ");
                 params.add(keyword);
             } else if ("memberName".equals(searchDTO.getSearchType())) {
-                sql.append(" AND member_name LIKE ? ");
+                sql.append(" AND name LIKE ? ");
                 params.add(keyword);
             } else if ("email".equals(searchDTO.getSearchType())) {
                 sql.append(" AND email LIKE ? ");
                 params.add(keyword);
             } else {
-                sql.append(" AND (login_id LIKE ? OR member_name LIKE ? OR email LIKE ?) ");
+                sql.append(" AND (patient_no LIKE ? OR login_id LIKE ? OR name LIKE ? OR email LIKE ?) ");
+                params.add(keyword);
                 params.add(keyword);
                 params.add(keyword);
                 params.add(keyword);
@@ -54,7 +58,7 @@ public class AdminMemberDAO {
         // 상태 조건이 있을 때만 추가
         if (searchDTO.getStatus() != null
                 && !searchDTO.getStatus().trim().isEmpty()) {
-            sql.append(" AND status = ? ");
+            sql.append(" AND is_withdrawn_yn = ? ");
             params.add(searchDTO.getStatus().trim());
         }
 
@@ -101,8 +105,8 @@ public class AdminMemberDAO {
         sql.append("FROM ( ");
         sql.append("    SELECT ROWNUM rnum, inner_query.* ");
         sql.append("    FROM ( ");
-        sql.append("        SELECT member_no, login_id, member_name, ");
-        sql.append("               email, tel, status, create_date ");
+        sql.append("        SELECT patient_no, login_id, name, ");
+        sql.append("               email, phone_number, is_withdrawn_yn, registered_at ");
         sql.append("        FROM member ");
         sql.append("        WHERE 1 = 1 ");
 
@@ -114,17 +118,21 @@ public class AdminMemberDAO {
 
             String keyword = "%" + searchDTO.getSearchKeyword().trim() + "%";
 
-            if ("loginId".equals(searchDTO.getSearchType())) {
+            if ("patientNo".equals(searchDTO.getSearchType())) {
+                sql.append(" AND patient_no LIKE ? ");
+                params.add(keyword);
+            } else if ("loginId".equals(searchDTO.getSearchType())) {
                 sql.append(" AND login_id LIKE ? ");
                 params.add(keyword);
             } else if ("memberName".equals(searchDTO.getSearchType())) {
-                sql.append(" AND member_name LIKE ? ");
+                sql.append(" AND name LIKE ? ");
                 params.add(keyword);
             } else if ("email".equals(searchDTO.getSearchType())) {
                 sql.append(" AND email LIKE ? ");
                 params.add(keyword);
             } else {
-                sql.append(" AND (login_id LIKE ? OR member_name LIKE ? OR email LIKE ?) ");
+                sql.append(" AND (patient_no LIKE ? OR login_id LIKE ? OR name LIKE ? OR email LIKE ?) ");
+                params.add(keyword);
                 params.add(keyword);
                 params.add(keyword);
                 params.add(keyword);
@@ -134,11 +142,11 @@ public class AdminMemberDAO {
         // 상태 조건
         if (searchDTO.getStatus() != null
                 && !searchDTO.getStatus().trim().isEmpty()) {
-            sql.append(" AND status = ? ");
+            sql.append(" AND is_withdrawn_yn = ? ");
             params.add(searchDTO.getStatus().trim());
         }
 
-        sql.append("        ORDER BY member_no DESC ");
+        sql.append("        ORDER BY registered_at DESC, patient_no DESC ");
         sql.append("    ) inner_query ");
         sql.append("    WHERE ROWNUM <= ? ");
         sql.append(") ");
@@ -161,13 +169,13 @@ public class AdminMemberDAO {
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     MemberDTO dto = new MemberDTO();
-                    dto.setMemberNo(rs.getInt("member_no"));
+                    dto.setPatientNo(rs.getString("patient_no"));
                     dto.setLoginId(rs.getString("login_id"));
-                    dto.setMemberName(rs.getString("member_name"));
+                    dto.setName(rs.getString("name"));
                     dto.setEmail(rs.getString("email"));
-                    dto.setTel(rs.getString("tel"));
-                    dto.setStatus(rs.getString("status"));
-                    dto.setCreateDate(rs.getString("create_date"));
+                    dto.setPhoneNumber(rs.getString("phone_number"));
+                    dto.setIsWithdrawnYn(rs.getString("is_withdrawn_yn"));
+                    dto.setRegisteredAt(rs.getDate("registered_at"));
                     memberList.add(dto);
                 }
             }
@@ -180,28 +188,28 @@ public class AdminMemberDAO {
     }
 
     // 회원 상세 조회
-    public MemberDTO selectMemberDetail(int memberNo) {
+    public MemberDTO selectMemberDetail(String patientNo) {
 
-        String sql = "SELECT member_no, login_id, member_name, "
-                   + "       email, tel, status, create_date "
+        String sql = "SELECT patient_no, login_id, name, "
+                   + "       email, phone_number, is_withdrawn_yn, registered_at "
                    + "FROM member "
-                   + "WHERE member_no = ? ";
+                   + "WHERE patient_no = ? ";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, memberNo);
+            pstmt.setString(1, patientNo);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     MemberDTO dto = new MemberDTO();
-                    dto.setMemberNo(rs.getInt("member_no"));
+                    dto.setPatientNo(rs.getString("patient_no"));
                     dto.setLoginId(rs.getString("login_id"));
-                    dto.setMemberName(rs.getString("member_name"));
+                    dto.setName(rs.getString("name"));
                     dto.setEmail(rs.getString("email"));
-                    dto.setTel(rs.getString("tel"));
-                    dto.setStatus(rs.getString("status"));
-                    dto.setCreateDate(rs.getString("create_date"));
+                    dto.setPhoneNumber(rs.getString("phone_number"));
+                    dto.setIsWithdrawnYn(rs.getString("is_withdrawn_yn"));
+                    dto.setRegisteredAt(rs.getDate("registered_at"));
                     return dto;
                 }
             }

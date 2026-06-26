@@ -16,8 +16,8 @@
 
 <body>
 
-<jsp:include page="../common/userHeader.jsp" />
-<jsp:include page="../common/userBreadcrumb.jsp" />
+<jsp:include page="/views/common/userHeader.jsp" />
+<jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 <main id="content" class="findContent">
 
@@ -69,7 +69,7 @@
 
     <div class="layerContent">
         <form id="hForm" name="hForm"
-              action="<c:url value='/views/member/process/findIdProcess.jsp' />"
+              action="<c:url value='/member/find-id/process.do' />"
               method="post">
 
             <input type="hidden" name="findType" value="tel">
@@ -118,7 +118,7 @@
 
     <div class="layerContent">
         <form id="mForm" name="mForm"
-              action="<c:url value='/views/member/process/findIdProcess.jsp' />"
+              action="<c:url value='/member/find-id/process.do' />"
               method="post">
 
             <input type="hidden" name="findType" value="email">
@@ -163,7 +163,7 @@
 </section>
 
 <script src="<c:url value='/resources/js/user-layout.js' />"></script>
-<jsp:include page="../common/userFooter.jsp" />
+<jsp:include page="/views/common/userFooter.jsp" />
 
 <!-- jQuery CDN: find-account.js보다 먼저 로드해야 한다. -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

@@ -3,7 +3,8 @@ package com.hospital.admin.member;
 import java.util.List;
 
 import com.hospital.admin.member.dto.AdminMemberSearchDTO;
-import com.hospital.common.dto.MemberDTO;
+import com.hospital.common.MemberDTO;
+import com.hospital.common.util.PaginationUtil;
 
 // 관리자 회원 관리 Service
 public class AdminMemberService {
@@ -27,7 +28,34 @@ public class AdminMemberService {
     // 회원 상세 조회
     // - memberNo 로 특정 회원 1명 조회
     public MemberDTO getMemberDetail(int memberNo) {
-        return adminMemberDAO.selectMemberDetail(memberNo);
+        return adminMemberDAO.selectMemberDetail(String.valueOf(memberNo));
+    }
+
+    // 회원 상세 조회
+    // - patientNo 로 특정 회원 1명 조회
+    public MemberDTO getMemberDetail(String patientNo) {
+        return adminMemberDAO.selectMemberDetail(patientNo);
+    }
+
+    // 회원 목록과 pagination 정보를 한 번에 조회
+    public AdminMemberPage getMemberPage(AdminMemberSearchDTO searchDTO) {
+        if (searchDTO == null) {
+            searchDTO = new AdminMemberSearchDTO();
+        }
+
+        PaginationUtil.Pagination pagination = getPagination(searchDTO);
+        applyPagination(searchDTO, pagination);
+        return new AdminMemberPage(adminMemberDAO.selectMemberList(searchDTO), pagination);
+    }
+
+    // 회원 목록 pagination 계산
+    public PaginationUtil.Pagination getPagination(AdminMemberSearchDTO searchDTO) {
+        if (searchDTO == null) {
+            searchDTO = new AdminMemberSearchDTO();
+        }
+
+        int totalCount = adminMemberDAO.selectMemberCount(searchDTO);
+        return PaginationUtil.create(searchDTO.getCurrentPage(), totalCount, searchDTO.getPageScale());
     }
 
     // 페이징 계산
@@ -52,6 +80,31 @@ public class AdminMemberService {
         searchDTO.setPageScale(pageScale);
         searchDTO.setStartNum(startNum);
         searchDTO.setEndNum(startNum + pageScale);
+    }
+
+    private void applyPagination(AdminMemberSearchDTO searchDTO, PaginationUtil.Pagination pagination) {
+        searchDTO.setCurrentPage(pagination.getCurrentPage());
+        searchDTO.setPageScale(pagination.getPageScale());
+        searchDTO.setStartNum((pagination.getCurrentPage() - 1) * pagination.getPageScale());
+        searchDTO.setEndNum(searchDTO.getStartNum() + pagination.getPageScale());
+    }
+
+    public static class AdminMemberPage {
+        private final List<MemberDTO> memberList;
+        private final PaginationUtil.Pagination pagination;
+
+        public AdminMemberPage(List<MemberDTO> memberList, PaginationUtil.Pagination pagination) {
+            this.memberList = memberList;
+            this.pagination = pagination;
+        }
+
+        public List<MemberDTO> getMemberList() {
+            return memberList;
+        }
+
+        public PaginationUtil.Pagination getPagination() {
+            return pagination;
+        }
     }
 }
 
