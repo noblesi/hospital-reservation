@@ -17,6 +17,10 @@ public class AdminAppointmentDAO {
     // 예약 목록 총 건수 조회
     public int selectAppointmentCount(AdminAppointmentSearchDTO searchDTO) {
 
+        if (searchDTO == null) {
+            searchDTO = new AdminAppointmentSearchDTO();
+        }
+
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(*) ");
         sql.append("FROM appointment ");
@@ -46,12 +50,9 @@ public class AdminAppointmentDAO {
         }
 
         // 검색 키워드 조건
-        // 현재는 예약번호 기준 예시
-        // 나중에 환자명/의사명 조인 구조에 맞게 수정 가능
         if (searchDTO.getSearchKeyword() != null
                 && !searchDTO.getSearchKeyword().trim().isEmpty()) {
-            sql.append(" AND TO_CHAR(appointment_no) LIKE ? ");
-            params.add("%" + searchDTO.getSearchKeyword().trim() + "%");
+            appendSearchCondition(sql, params, searchDTO);
         }
 
         try (Connection conn = DBConnection.getConnection();
@@ -78,6 +79,10 @@ public class AdminAppointmentDAO {
     public List<AppointmentDTO> selectAppointmentList(AdminAppointmentSearchDTO searchDTO) {
 
         List<AppointmentDTO> appointmentList = new ArrayList<>();
+
+        if (searchDTO == null) {
+            searchDTO = new AdminAppointmentSearchDTO();
+        }
 
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT * ");
@@ -115,8 +120,7 @@ public class AdminAppointmentDAO {
         // 검색 키워드 조건
         if (searchDTO.getSearchKeyword() != null
                 && !searchDTO.getSearchKeyword().trim().isEmpty()) {
-            sql.append(" AND TO_CHAR(appointment_no) LIKE ? ");
-            params.add("%" + searchDTO.getSearchKeyword().trim() + "%");
+            appendSearchCondition(sql, params, searchDTO);
         }
 
         // 정렬 + 페이징
@@ -141,7 +145,7 @@ public class AdminAppointmentDAO {
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     AppointmentDTO dto = new AppointmentDTO();
-                    dto.setAppointmentNo(rs.getInt("appointment_no"));
+                    dto.setAppointmentNo(rs.getString("appointment_no"));
                     dto.setPatientNo(rs.getString("patient_no"));
                     dto.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
                     dto.setAppointmentDate(rs.getDate("appointment_date"));
@@ -161,7 +165,7 @@ public class AdminAppointmentDAO {
     }
 
     // 예약 상세 조회
-    public AppointmentDTO selectAppointmentDetail(int appointmentNo) {
+    public AppointmentDTO selectAppointmentDetail(String appointmentNo) {
 
         String sql = "SELECT appointment_no, patient_no, doctor_license_no, "
                    + "       appointment_date, appointment_time, status, created_at "
@@ -171,12 +175,12 @@ public class AdminAppointmentDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, appointmentNo);
+            pstmt.setString(1, appointmentNo);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     AppointmentDTO dto = new AppointmentDTO();
-                    dto.setAppointmentNo(rs.getInt("appointment_no"));
+                    dto.setAppointmentNo(rs.getString("appointment_no"));
                     dto.setPatientNo(rs.getString("patient_no"));
                     dto.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
                     dto.setAppointmentDate(rs.getDate("appointment_date"));
@@ -195,7 +199,7 @@ public class AdminAppointmentDAO {
     }
 
     // 예약 상태 변경
-    public int updateAppointmentStatus(int appointmentNo, String status) {
+    public int updateAppointmentStatus(String appointmentNo, String status) {
 
         String sql = "UPDATE appointment "
                    + "SET status = ? "
@@ -205,7 +209,7 @@ public class AdminAppointmentDAO {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, status);
-            pstmt.setInt(2, appointmentNo);
+            pstmt.setString(2, appointmentNo);
 
             return pstmt.executeUpdate();
 
@@ -214,5 +218,21 @@ public class AdminAppointmentDAO {
         }
 
         return 0;
+    }
+
+    private void appendSearchCondition(StringBuilder sql, List<Object> params, AdminAppointmentSearchDTO searchDTO) {
+        String keyword = "%" + searchDTO.getSearchKeyword().trim() + "%";
+        String searchType = searchDTO.getSearchType();
+
+        if ("patientNo".equals(searchType)) {
+            sql.append(" AND patient_no LIKE ? ");
+            params.add(keyword);
+        } else if ("doctorLicenseNo".equals(searchType)) {
+            sql.append(" AND TO_CHAR(doctor_license_no) LIKE ? ");
+            params.add(keyword);
+        } else {
+            sql.append(" AND appointment_no LIKE ? ");
+            params.add(keyword);
+        }
     }
 }

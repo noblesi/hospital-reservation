@@ -236,6 +236,15 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>adminAppointmentStatusServlet</servlet-name>
+    <servlet-class>com.hospital.admin.appointment.controller.AdminAppointmentStatusServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminAppointmentStatusServlet</servlet-name>
+    <url-pattern>/admin/reservation/status.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>adminMemberListServlet</servlet-name>
     <servlet-class>com.hospital.admin.member.controller.AdminMemberListServlet</servlet-class>
   </servlet>
