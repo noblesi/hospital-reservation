@@ -188,7 +188,7 @@
 
     <div class="layerContent resetLayerContent">
         <form id="resetForm"
-              action="<c:url value='/views/member/process/resetPasswordProcess.jsp' />"
+              action="<c:url value='/member/reset-password/process.do' />"
               method="post">
 
             <div class="resetIcon">▣</div>

@@ -97,6 +97,15 @@
   	<servlet-name>memberFindPasswordProcessServlet</servlet-name>
   	<url-pattern>/member/find-password/process.do</url-pattern>
   </servlet-mapping>
+  
+<servlet>
+  <servlet-name>memberResetPasswordProcessServlet</servlet-name>
+  <servlet-class>com.hospital.member.controller.MemberResetPasswordProcessServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>memberResetPasswordProcessServlet</servlet-name>
+  <url-pattern>/member/reset-password/process.do</url-pattern>
+</servlet-mapping>
 
   <servlet>
     <servlet-name>memberJoinPage</servlet-name>
