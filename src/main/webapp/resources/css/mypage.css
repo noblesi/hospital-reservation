@@ -601,6 +601,26 @@ body {
     color: #7c8799;
 }
 
+.radioGroup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.infoRow .radioGroup input[type="radio"] {
+    width: auto;
+    height: auto;
+    padding: 0;
+    border: 0;
+}
+
+.infoRow .radioGroup label {
+    margin-right: 18px;
+    color: #4b586e;
+    font-size: 14px;
+    font-weight: 500;
+}
+
 .addressButton {
     height: 40px;
     margin-left: 8px;

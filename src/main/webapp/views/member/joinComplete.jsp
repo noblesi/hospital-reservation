@@ -15,8 +15,6 @@ if(registerLoginId != null){
     MemberRegisterService mrs = new MemberRegisterService();
     mDTO = mrs.searchRegister(registerLoginId);
 }
-
-pageContext.setAttribute("member", mDTO);
 %>
 
 <!DOCTYPE html>
@@ -25,7 +23,7 @@ pageContext.setAttribute("member", mDTO);
 <meta charset="UTF-8">
 <title>회원가입 완료</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/join.css' />">
 
 </head>
@@ -61,17 +59,17 @@ pageContext.setAttribute("member", mDTO);
 
             <div class="infoCard">
                 <span class="label">이름</span>
-                <strong><c:out value="${member.name}" /></strong>
+                <strong><%= mDTO != null ? mDTO.getName() : "" %></strong>
             </div>
 
             <div class="infoCard">
                 <span class="label">회원 아이디</span>
-                <strong><c:out value="${member.loginId}" /></strong>
+                <strong><%= mDTO != null ? mDTO.getLoginId() : "" %></strong>
             </div>
 
             <div class="infoCard">
                 <span class="label">가입일</span>
-                <strong><c:out value="${member.registeredAt}" /></strong>
+                <strong><%= mDTO != null ? mDTO.getRegisteredAt() : "" %></strong>
             </div>
 
         </div>
@@ -92,7 +90,7 @@ pageContext.setAttribute("member", mDTO);
 
 <jsp:include page="/views/common/userFooter.jsp" />
 
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js' />"></script>
 
 </body>
 </html>

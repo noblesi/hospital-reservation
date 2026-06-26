@@ -33,7 +33,6 @@ public class UserAppointmentDTO {
 
 	private String departmentName;
 	private String doctorName;
-
-	private boolean cancelable;
+	private boolean cancelable; //필드 추가 삭제된 예약내역 확인 
 
 }

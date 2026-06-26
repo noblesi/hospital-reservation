@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>로그인</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
 
 <style type="text/css">
 html, body{
@@ -218,7 +218,7 @@ body{
             <div class="login-links">
                 <a href="<c:url value='/views/member/findId.jsp' />">아이디/비밀번호 찾기</a>
                 <span>|</span>
-                <a href="<c:url value='/member/join.do' />">회원가입</a>
+                <a href="<c:url value='/views/member/joinType.jsp' />">회원가입</a>
             </div>
 
         </div>
@@ -245,7 +245,7 @@ body{
 
 <jsp:include page="/views/common/userFooter.jsp" />
 
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js' />"></script>
 
 </body>
 </html>

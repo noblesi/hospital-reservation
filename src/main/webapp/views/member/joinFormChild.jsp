@@ -14,46 +14,11 @@
 <meta charset="UTF-8">
 <title>한국중앙병원</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/join.css' />">
 
+<!-- 카카오 우편번호 서비스 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-function sample6_execDaumPostcode(){
-    new daum.Postcode({
-        oncomplete:function(data){
-            var addr = "";
-            var extraAddr = "";
-
-            addr = data.userSelectedType === "R" ? data.roadAddress : data.jibunAddress;
-
-            if(data.userSelectedType === "R"){
-                if(data.bname !== "" && /[동로가]$/.test(data.bname)){
-                    extraAddr += data.bname;
-                }
-
-                if(data.buildingName !== "" && data.apartment === "Y"){
-                    extraAddr += (extraAddr !== "" ? ", " + data.buildingName : data.buildingName);
-                }
-
-                if(extraAddr !== ""){
-                    extraAddr = " (" + extraAddr + ")";
-                }
-
-                document.getElementById("sample6_extraAddress").value = extraAddr;
-            } else {
-                document.getElementById("sample6_extraAddress").value = "";
-            }
-
-            document.getElementById("sample6_postcode").value = data.zonecode;
-            document.getElementById("sample6_address").value = addr;
-            document.getElementById("sample6_detailAddress").focus();
-        }
-    }).open();
-}
-</script>
-<!-- jQuery CDN -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -142,10 +107,14 @@ function sample6_execDaumPostcode(){
 
                                 <select id="month" name="month" class="dateMM">
                                     <option value="">월</option>
-                                    <c:forEach var="month" begin="1" end="12">
-                                        <fmt:formatNumber var="monthValue" value="${month}" pattern="00" />
-                                        <option value="<c:out value='${monthValue}' />"><c:out value="${monthValue}" /></option>
-                                    </c:forEach>
+                                    <%
+                                    for(int i = 1; i <= 12; i++){
+                                        String month = i < 10 ? "0" + i : String.valueOf(i);
+                                    %>
+                                        <option value="<%= month %>"><%= month %></option>
+                                    <%
+                                    }
+                                    %>
                                 </select>
                                 <span class="txtWrap">-</span>
 
@@ -248,19 +217,26 @@ function sample6_execDaumPostcode(){
                             <td>
                                 <select id="childYear" name="childYear" class="dateYY">
                                     <option value="">연도</option>
-                                    <c:forEach var="offset" begin="0" end="${currentYear - 1920}">
-                                        <c:set var="childYear" value="${currentYear - offset}" />
-                                        <option value="<c:out value='${childYear}' />"><c:out value="${childYear}" /></option>
-                                    </c:forEach>
+                                    <%
+                                    for(int i = currentYear; i >= 1920; i--){
+                                    %>
+                                        <option value="<%= i %>"><%= i %></option>
+                                    <%
+                                    }
+                                    %>
                                 </select>
                                 <span class="txtWrap">-</span>
 
                                 <select id="childMonth" name="childMonth" class="dateMM">
                                     <option value="">월</option>
-                                    <c:forEach var="childMonth" begin="1" end="12">
-                                        <fmt:formatNumber var="childMonthValue" value="${childMonth}" pattern="00" />
-                                        <option value="<c:out value='${childMonthValue}' />"><c:out value="${childMonthValue}" /></option>
-                                    </c:forEach>
+                                    <%
+                                    for(int i = 1; i <= 12; i++){
+                                        String childMonth = i < 10 ? "0" + i : String.valueOf(i);
+                                    %>
+                                        <option value="<%= childMonth %>"><%= childMonth %></option>
+                                    <%
+                                    }
+                                    %>
                                 </select>
                                 <span class="txtWrap">-</span>
 

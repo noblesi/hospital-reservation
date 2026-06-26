@@ -9,8 +9,47 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
+<%@page import="java.util.List"%>
+<%@page import="com.hospital.common.MemberDTO"%>
+<%@page import="com.hospital.member.UserMyPageService"%>
+<%@page import="com.hospital.member.dto.UserAppointmentDTO"%>
+<%@page import="com.hospital.member.dto.UserMedicalRecordDTO"%>
+
+<%
+MemberDTO loginUser = (MemberDTO)session.getAttribute("loginUser");
+
+if(loginUser == null){
+    response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
+    return;
+}
+
+UserMyPageService umps = new UserMyPageService();
+
+MemberDTO memberInfo = umps.searchMemberInfo(loginUser.getLoginId());
+
+String patientNo = "";
+if(memberInfo != null){
+    patientNo = memberInfo.getPatientNo();
+}
+
+// 예약 현황 모달용: 오늘 이후 예약 전체를 조회한다.
+List<UserAppointmentDTO> appList = umps.searchAppointmentList(patientNo);
+// 예약 취소 및 변경 영역용: 현재일 기준 최근 3개월 예약을 조회한다.
+List<UserAppointmentDTO> manageAppList = umps.searchManageAppointmentList(patientNo);
+List<UserMedicalRecordDTO> medicalList = umps.searchMedicalRecordList(patientNo);
+
+int appointmentCount = appList.size();
+int medicalCount = medicalList.size();
+
+pageContext.setAttribute("memberInfo", memberInfo);
+pageContext.setAttribute("appointmentCount", appointmentCount);
+pageContext.setAttribute("medicalCount", medicalCount);
+pageContext.setAttribute("appList", appList);
+pageContext.setAttribute("manageAppList", manageAppList);
+pageContext.setAttribute("medicalList", medicalList);
+%>
 <link rel="stylesheet" href="<c:url value='/resources/css/sideBar.css' />">
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/mypage.css' />">
 </head>
 
@@ -18,13 +57,6 @@
 
 <jsp:include page="/views/common/userHeader.jsp" />
 <jsp:include page="/views/common/userBreadcrumb.jsp" />
-
-<c:if test="${not empty sessionScope.mypageMessage}">
-    <script>
-    alert("<c:out value='${sessionScope.mypageMessage}' />");
-    </script>
-    <c:remove var="mypageMessage" scope="session" />
-</c:if>
 
 <%-- 마이페이지 본문 --%>
 <main id="content" class="mypageLayout">
@@ -57,7 +89,7 @@
                 </div>
                 <div>
                     <strong>예약 내역</strong>
-                    <em><c:out value="${appointmentCount}" />건</em>
+                    <em>${appointmentCount}건</em>
                     <span>예정된 예약 확인</span>
                 </div>
             </a>
@@ -73,7 +105,7 @@
                 </div>
                 <div>
                     <strong>진료 기록</strong>
-                    <em class="greenText"><c:out value="${medicalCount}" />건</em>
+                    <em class="greenText">${medicalCount}건</em>
                     <span>진료 및 검사 내역 확인</span>
                 </div>
             </a>
@@ -83,7 +115,7 @@
         <div class="reservationBox">
             <div class="boxTitle">
                 <h3>예약 취소 및 변경</h3>
-                <a href="<c:url value='/appointment/list.do' />">예약 전체보기</a>
+                <a href="<c:url value='/views/reservation/main.jsp' />">예약 전체보기</a>
             </div>
                 <span class="boxTitle2">*3개월 전 예약내역 부터 조회됩니다.</span>
 
@@ -107,19 +139,19 @@
                             </td>
                             <td>${app.departmentName}</td>
                             <td>
-                                <c:out value="${app.appointmentDate}" />
-                                <c:out value="${app.appointmentTime}" />
+                                ${app.appointmentDate}
+                                ${app.appointmentTime}
                             </td>
-                            <td><c:out value="${app.doctorName}" /></td>
+                            <td>${app.doctorName}</td>
                             <td>
                                 <c:choose>
                                     <c:when test="${app.cancelable}">
-                                        <form action="<c:url value='/member/mypage/appointment/cancel.do' />"
+                                        <form action="<c:url value='/views/member/process/cancelAppointmentProcess.jsp' />"
                                               method="post"
                                               class="reservationCancelForm">
                                             <input type="hidden"
                                                    name="appointmentNo"
-                                                   value="<c:out value='${app.appointmentNo}' />">
+                                                   value="${app.appointmentNo}">
                                             <button type="submit" class="cancelBtn">예약 취소</button>
                                         </form>
                                     </c:when>
@@ -255,12 +287,12 @@
                         </thead>
                         <tbody>
                             <c:forEach var="medical" items="${medicalList}">
-                                <tr data-medical-status="<c:out value='${medical.status}' />">
-                                    <td><c:out value="${medical.treatmentDate}" /></td>
-                                    <td><c:out value="${medical.deptName}" /></td>
-                                    <td><c:out value="${empty medical.doctorName ? '-' : medical.doctorName}" /></td>
+                                <tr data-medical-status="${medical.status}">
+                                    <td>${medical.treatmentDate}</td>
+                                    <td>${medical.deptName}</td>
+                                    <td>${empty medical.doctorName ? '-' : medical.doctorName}</td>
                                     <td>
-                                        <span class="state green"><c:out value="${medical.status}" /></span>
+                                        <span class="state green">${medical.status}</span>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -278,7 +310,7 @@
 
 <jsp:include page="/views/common/userFooter.jsp" />
 
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js' />"></script>
 <script src="<c:url value='/resources/js/mypage.js' />"></script>
 
 </body>

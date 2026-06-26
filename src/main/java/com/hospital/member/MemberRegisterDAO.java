@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.hospital.common.util.DBConnection;
+import com.hospital.common.DBConnection;
 import com.hospital.common.MemberDTO;
 import com.hospital.common.MinorMemberDTO;
 
@@ -144,7 +144,7 @@ public class MemberRegisterDAO {
 	
 	/**
 	 * 미성년자 정보 추가
-	 * @param MinorDTO 미성년자 정보 
+	 * @param MinorDTO 미성년자 이름, 생년월일, 성별, 보호자 관계 정보 
 	 * @return 추가될 행 수 
 	 */
 	public int insertMinorMember(MinorMemberDTO minorDTO) throws SQLException{
