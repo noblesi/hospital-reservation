@@ -1,6 +1,8 @@
 <%--
 	비밀번호 재설정 처리는 MemberResetPasswordProcessServlet으로 이동되었습니다.
 	기존 restPAsswordPRocess.jsp는 사용되지 않습니다.
+	
+	
  --%>
 
 <%@ page import="com.hospital.member.FindAccountService"%>
