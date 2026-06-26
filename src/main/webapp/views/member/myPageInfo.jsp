@@ -1,10 +1,10 @@
 ﻿<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.hospital.common.MemberDTO"%>
 <%@ page import="com.hospital.common.MinorMemberDTO"%>
 <%@ page import="com.hospital.member.UpdateUserInfoService"%>
 <%@ page import="java.time.LocalDate"%>
-<%@ page import="java.util.Calendar"%>
 
 <%
 MemberDTO loginUser = (MemberDTO)session.getAttribute("loginUser");
@@ -123,14 +123,12 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 								class="birthSelect" id="memberBirthMonth"
 								name="memberBirthMonth" required>
 								<option value="">월</option>
-								<%
-                            for(int month = 1; month <= 12; month++){
-                                String memberMonthValue = month < 10 ? "0" + month : String.valueOf(month);
-                            %>
-								<option value="<%= memberMonthValue %>"
-									<%= memberMonthValue.equals(pageContext.getAttribute("memberBirthMonth")) ? "selected" : "" %>>
-									<%= memberMonthValue %>
-								</option>
+								<c:forEach var="month" begin="1" end="12">
+									<fmt:formatNumber var="memberMonthValue" value="${month}" pattern="00" />
+									<option value="<c:out value='${memberMonthValue}' />"
+										${memberMonthValue eq memberBirthMonth ? 'selected' : ''}>
+										<c:out value="${memberMonthValue}" />
+									</option>
 								</c:forEach>
 							</select> <span class="birthSeparator">-</span> <select
 								class="birthSelect" id="memberBirthDay" name="memberBirthDay"
@@ -205,14 +203,12 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 									class="birthSelect" id="minorBirthMonth" name="minorBirthMonth"
 									required>
 									<option value="">월</option>
-									<%
-                                for(int month = 1; month <= 12; month++){
-                                    String monthValue = month < 10 ? "0" + month : String.valueOf(month);
-                                %>
-									<option value="<%= monthValue %>"
-										<%= monthValue.equals(pageContext.getAttribute("minorBirthMonth")) ? "selected" : "" %>>
-										<%= monthValue %>
-									</option>
+									<c:forEach var="month" begin="1" end="12">
+										<fmt:formatNumber var="minorMonthValue" value="${month}" pattern="00" />
+										<option value="<c:out value='${minorMonthValue}' />"
+											${minorMonthValue eq minorBirthMonth ? 'selected' : ''}>
+											<c:out value="${minorMonthValue}" />
+										</option>
 									</c:forEach>
 								</select> <span class="birthSeparator">-</span> <select
 									class="birthSelect" id="minorBirthDay" name="minorBirthDay"

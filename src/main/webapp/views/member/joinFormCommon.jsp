@@ -93,24 +93,19 @@
 
                                 <select title="생년월일 연도" id="year" name="year" class="dateYY">
                                     <option value="">연도</option>
-                                    <%
-                                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-                                    
-                                    for(int i = currentYear; i>=1920; i--){
-                                    %>
-                                        <option value="<%= i %>"><%= i %></option>
-                                    <%}//end for %>
+                                    <c:forEach var="offset" begin="0" end="${currentYear - 1920}">
+                                        <c:set var="yearValue" value="${currentYear - offset}" />
+                                        <option value="<c:out value='${yearValue}' />"><c:out value="${yearValue}" /></option>
+                                    </c:forEach>
                                 </select>
                                 <span class="txtWrap">-</span>
 
                                 <select title="생년월일 월" id="month" name="month" class="dateMM">
                                     <option value="">월</option>
-                                    <%
-                                    for(int i = 1; i < 13; i++){
-                                        String month = i<10?"0"+i:String.valueOf(i);
-                                    %>
-                                    <option value="<%= month %>"><%= month %></option>
-                                    <%}//end for %>
+                                    <c:forEach var="month" begin="1" end="12">
+                                        <fmt:formatNumber var="monthValue" value="${month}" pattern="00" />
+                                        <option value="<c:out value='${monthValue}' />"><c:out value="${monthValue}" /></option>
+                                    </c:forEach>
                                 </select>
                                 <span class="txtWrap">-</span>
 

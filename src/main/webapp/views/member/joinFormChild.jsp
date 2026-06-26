@@ -128,14 +128,10 @@ function sample6_execDaumPostcode(){
                                 <input id="birth" name="birth" type="hidden" value="">
                                 <select id="year" name="year" class="dateYY">
                                     <option value="">연도</option>
-                                    <%
-                                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-                                    for(int i = currentYear; i >= 1920; i--){
-                                    %>
-                                        <option value="<%= i %>"><%= i %></option>
-                                    <%
-                                    }
-                                    %>
+                                    <c:forEach var="offset" begin="0" end="${currentYear - 1920}">
+                                        <c:set var="yearValue" value="${currentYear - offset}" />
+                                        <option value="<c:out value='${yearValue}' />"><c:out value="${yearValue}" /></option>
+                                    </c:forEach>
                                 </select>
                                 <span class="txtWrap">-</span>
 
