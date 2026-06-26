@@ -117,6 +117,15 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>memberJoinProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberJoinProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberJoinProcessServlet</servlet-name>
+    <url-pattern>/member/join/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>memberMyPage</servlet-name>
     <servlet-class>com.hospital.member.controller.MemberMyPageServlet</servlet-class>
   </servlet>

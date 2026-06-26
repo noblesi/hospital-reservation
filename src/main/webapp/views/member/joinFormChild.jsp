@@ -63,6 +63,13 @@ function sample6_execDaumPostcode(){
 
 <main id="content" class="memJoinContent">
 
+    <c:if test="${not empty sessionScope.joinMessage}">
+        <script>
+            alert("<c:out value='${sessionScope.joinMessage}' />");
+        </script>
+        <c:remove var="joinMessage" scope="session" />
+    </c:if>
+
     <div class="contHeadingWrap">
         <h2>만 <span class="title child">14세 미만</span> 회원가입</h2>
     </div>
@@ -76,7 +83,7 @@ function sample6_execDaumPostcode(){
 
     <form id="memberVo"
           name="hForm"
-          action="<c:url value='/views/member/process/joinProcess.jsp' />"
+          action="<c:url value='/member/join/process.do' />"
           method="post">
         <input id="join_type" name="join_type" type="hidden" value="${param.join_type}">
         <input id="idChecked" name="idChecked" type="hidden" value="N">
