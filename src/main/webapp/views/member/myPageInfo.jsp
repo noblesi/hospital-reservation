@@ -65,12 +65,12 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-	<jsp:include page="../common/userHeader.jsp" />
-	<jsp:include page="../common/userBreadcrumb.jsp" />
+	<jsp:include page="/views/common/userHeader.jsp" />
+	<jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 	<%-- 회원 정보 관리 본문 --%>
 	<main class="infoLayout">
-		<jsp:include page="userSideGuide2.jsp" />
+		<jsp:include page="/views/member/userSideGuide2.jsp" />
 
 		<section class="infoContent">
 			<%-- 페이지 제목 영역 --%>
@@ -270,7 +270,7 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 		</section>
 	</main>
 
-	<jsp:include page="../common/userFooter.jsp" />
+	<jsp:include page="/views/common/userFooter.jsp" />
 	<script
 		src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
 	<script src="<c:url value='/resources/js/mypage.js' />"></script>

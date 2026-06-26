@@ -83,6 +83,7 @@ public class MemberUpdateInfoServlet extends HttpServlet {
 		minor.setPatientNo(memberInfo.getPatientNo());
 		minor.setMinorName(request.getParameter("minorName"));
 		minor.setRelationship(request.getParameter("relationship"));
+		minor.setMinorGenderFM(request.getParameter("minorGenderFM"));
 
 		try {
 			String minorBirthDate = request.getParameter("minorBirthYear")
