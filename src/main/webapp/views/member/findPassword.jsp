@@ -22,6 +22,13 @@
 
 <main id="content" class="findContent">
 
+    <c:if test="${not empty sessionScope.findPasswordMsg}">
+        <script>
+            alert("<c:out value='${sessionScope.findPasswordMsg}' />");
+        </script>
+        <c:remove var="findPasswordMsg" scope="session" />
+    </c:if>
+
     <div class="contHeadingWrap">
         <h2>아이디/비밀번호 찾기</h2>
     </div>
@@ -70,7 +77,7 @@
 
     <div class="layerContent">
         <form id="hForm" name="hForm"
-              action="<c:url value='/views/member/process/findPasswordProcess.jsp' />"
+              action="<c:url value='/member/find-password/process.do' />"
               method="post">
 
             <input type="hidden" name="findType" value="tel">
@@ -125,7 +132,7 @@
 
     <div class="layerContent">
         <form id="mForm" name="mForm"
-              action="<c:url value='/views/member/process/findPasswordProcess.jsp' />"
+              action="<c:url value='/member/find-password/process.do' />"
               method="post">
 
             <input type="hidden" name="findType" value="email">

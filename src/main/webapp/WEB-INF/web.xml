@@ -90,6 +90,15 @@
   </servlet-mapping>
 
   <servlet>
+  	<servlet-name>memberFindPasswordProcessServlet</servlet-name>
+  	<servlet-class>com.hospital.member.controller.MemberFindPasswordProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>memberFindPasswordProcessServlet</servlet-name>
+  	<url-pattern>/member/find-password/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>memberJoinPage</servlet-name>
     <jsp-file>/views/member/joinType.jsp</jsp-file>
   </servlet>
