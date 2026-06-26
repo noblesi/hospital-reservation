@@ -455,6 +455,7 @@
 
 <script type="text/javascript">
 	$(function() {
+		
 		<%String paramLicenseNo = (String) request.getParameter("doctorLicenseNo");
 		AdminDoctorService adminDoctorService = new AdminDoctorService();
 		//파라미터 있을때 정보 넣어주기
@@ -487,19 +488,7 @@
 			$('#detailFile').trigger('click');
 		});
 
-		function previewImage(input, targetId) {
-			const file = input.files && input.files[0];
-			if (!file)
-				return;
-
-			const reader = new FileReader();
-			reader.onload = function(e) {
-				const $target = $('#' + targetId);
-				$target.css('background-image', 'url(' + e.target.result + ')');
-				$target.find('.doctor-photo-text').hide();
-			};
-			reader.readAsDataURL(file);
-		}
+		
 
 		$('#thumbFile').change(function() {
 			previewImage(this, 'thumbPreview');
@@ -561,23 +550,25 @@
 		//$("#department").append(`<option value=''></option>`);
 		
 		$("[name='ampm[]']").change(function(){
+			
 			var ChkVal = $(this).val();
+			var changeSelInd = $("[name='ampm[]']").index(this);
+			
 			if(ChkVal == '휴진'){
-				var changeSelInd = $("[name='ampm[]']").index(this);
-				$("[name='startTime[]']").eq(changeSelInd).hide();
-				$("[name='endTime[]']").eq(changeSelInd).hide();
-				$("[name='spanStartTime[]']").eq(changeSelInd).hide();
-				$("[name='spanEndTime[]']").eq(changeSelInd).hide();
-			} else {
-				var changeSelInd = $("[name='ampm[]']").index(this);
-				$("[name='startTime[]']").eq(changeSelInd).show();
-				$("[name='endTime[]']").eq(changeSelInd).show();
-				$("[name='spanStartTime[]']").eq(changeSelInd).show();
-				$("[name='spanEndTime[]']").eq(changeSelInd).show();
-			}
-		});
-		
-		$("[name='startTime[]']")
+				
+				elementHide($("[name='startTime[]']").eq(changeSelInd));
+				elementHide($("[name='endTime[]']").eq(changeSelInd));
+				elementHide($("[name='spanStartTime[]']").eq(changeSelInd));
+				elementHide($("[name='spanEndTime[]']").eq(changeSelInd));
+				
+			}else if(ChkVal == '오전' ){
+				elementShow($("[name='startTime[]']").eq(changeSelInd));
+				elementShow($("[name='endTime[]']").eq(changeSelInd));
+				elementShow($("[name='spanStartTime[]']").eq(changeSelInd));
+				elementShow($("[name='spanEndTime[]']").eq(changeSelInd));
+				$("[name='startTime[]'] option").eq(changeSelInd).remove();
+				$("[name='endTime[]'] option").eq(changeSelInd).remove();
+				$("[name='startTime[]']").eq(changeSelInd)
 				.append(`<option value='09:00'>09:00</option>`)
 				.append(`<option value='09:30'>09:30</option>`)
 				.append(`<option value='10:00'>10:00</option>`)
@@ -587,8 +578,24 @@
 				.append(`<option value='12:00'>12:00</option>`)
 				.append(`<option value='12:30'>12:30</option>`)
 				.append(`<option value='13:00'>13:00</option>`);
-
-		$("[name='endTime[]']")
+			$("[name='endTime[]']").eq(changeSelInd)
+				.append(`<option value='09:00'>09:00</option>`)
+				.append(`<option value='09:30'>09:30</option>`)
+				.append(`<option value='10:00'>10:00</option>`)
+				.append(`<option value='10:30'>10:30</option>`)
+				.append(`<option value='11:00'>11:00</option>`)
+				.append(`<option value='11:30'>11:30</option>`)
+				.append(`<option value='12:00'>12:00</option>`)
+				.append(`<option value='12:30'>12:30</option>`)
+				.append(`<option value='13:00'>13:00</option>`);
+		} else if(ChkVal == '오후' ){
+			elementShow($("[name='startTime[]']").eq(changeSelInd));
+			elementShow($("[name='endTime[]']").eq(changeSelInd));
+			elementShow($("[name='spanStartTime[]']").eq(changeSelInd));
+			elementShow($("[name='spanEndTime[]']").eq(changeSelInd));
+			$("[name='startTime[]'] option").eq(changeSelInd).remove();
+			$("[name='endTime[]'] option").eq(changeSelInd).remove();
+			$("[name='startTime[]']").eq(changeSelInd)
 				.append(`<option value='14:00'>14:00</option>`)
 				.append(`<option value='14:30'>14:30</option>`)
 				.append(`<option value='15:00'>15:00</option>`)
@@ -596,8 +603,139 @@
 				.append(`<option value='16:00'>16:00</option>`)
 				.append(`<option value='16:30'>16:30</option>`)
 				.append(`<option value='17:00'>17:00</option>`);
-
+			$("[name='endTime[]']").eq(changeSelInd)
+				.append(`<option value='14:00'>14:00</option>`)
+				.append(`<option value='14:30'>14:30</option>`)
+				.append(`<option value='15:00'>15:00</option>`)
+				.append(`<option value='15:30'>15:30</option>`)
+				.append(`<option value='16:00'>16:00</option>`)
+				.append(`<option value='16:30'>16:30</option>`)
+				.append(`<option value='17:00'>17:00</option>`);
+		} else if(ChkVal == '전일' ){
+			elementShow($("[name='startTime[]']").eq(changeSelInd));
+			elementShow($("[name='endTime[]']").eq(changeSelInd));
+			elementShow($("[name='spanStartTime[]']").eq(changeSelInd));
+			elementShow($("[name='spanEndTime[]']").eq(changeSelInd));
+			$("[name='startTime[]'] option").eq(changeSelInd).remove();
+			$("[name='endTime[]'] option").eq(changeSelInd).remove();
+			$("[name='startTime[]']").eq(changeSelInd)
+				.append(`<option value='09:00'>09:00</option>`)
+				.append(`<option value='09:30'>09:30</option>`)
+				.append(`<option value='10:00'>10:00</option>`)
+				.append(`<option value='10:30'>10:30</option>`)
+				.append(`<option value='11:00'>11:00</option>`)
+				.append(`<option value='11:30'>11:30</option>`)
+				.append(`<option value='12:00'>12:00</option>`)
+				.append(`<option value='12:30'>12:30</option>`)
+				.append(`<option value='13:00'>13:00</option>`);
+			$("[name='endTime[]']").eq(changeSelInd)
+				.append(`<option value='14:00'>14:00</option>`)
+				.append(`<option value='14:30'>14:30</option>`)
+				.append(`<option value='15:00'>15:00</option>`)
+				.append(`<option value='15:30'>15:30</option>`)
+				.append(`<option value='16:00'>16:00</option>`)
+				.append(`<option value='16:30'>16:30</option>`)
+				.append(`<option value='17:00'>17:00</option>`);
+			}
+		});
+		
+		
+		
+		selectSetting();
 	}); //ready
+	
+	function elementHide(obj){
+		obj.hide();
+	}
+	function elementShow(obj){
+		obj.show();
+	}
+	
+	function selectSetting(){
+		var ampmArr = $("[name='ampm[]']");
+		
+		 for(var i = 0 ; i < 7; i++ ){
+			 
+			//alert("그려지니?");
+			if(ampmArr.eq(i).val() == '휴진' ){
+				elementHide($("[name='startTime[]']").eq(i));
+				elementHide($("[name='endTime[]']").eq(i));
+				elementHide($("[name='spanStartTime[]']").eq(i));
+				elementHide($("[name='spanEndTime[]']").eq(i));
+			} else if(ampmArr.eq(i).val() == '오전' ){
+				$("[name='startTime[]']").eq(i)
+					.append(`<option value='09:00'>09:00</option>`)
+					.append(`<option value='09:30'>09:30</option>`)
+					.append(`<option value='10:00'>10:00</option>`)
+					.append(`<option value='10:30'>10:30</option>`)
+					.append(`<option value='11:00'>11:00</option>`)
+					.append(`<option value='11:30'>11:30</option>`)
+					.append(`<option value='12:00'>12:00</option>`)
+					.append(`<option value='12:30'>12:30</option>`)
+					.append(`<option value='13:00'>13:00</option>`);
+				$("[name='endTime[]']").eq(i)
+					.append(`<option value='09:00'>09:00</option>`)
+					.append(`<option value='09:30'>09:30</option>`)
+					.append(`<option value='10:00'>10:00</option>`)
+					.append(`<option value='10:30'>10:30</option>`)
+					.append(`<option value='11:00'>11:00</option>`)
+					.append(`<option value='11:30'>11:30</option>`)
+					.append(`<option value='12:00'>12:00</option>`)
+					.append(`<option value='12:30'>12:30</option>`)
+					.append(`<option value='13:00'>13:00</option>`);
+			} else if(ampmArr.eq(i).val() == '오후' ){
+				$("[name='startTime[]']").eq(i)
+					.append(`<option value='14:00'>14:00</option>`)
+					.append(`<option value='14:30'>14:30</option>`)
+					.append(`<option value='15:00'>15:00</option>`)
+					.append(`<option value='15:30'>15:30</option>`)
+					.append(`<option value='16:00'>16:00</option>`)
+					.append(`<option value='16:30'>16:30</option>`)
+					.append(`<option value='17:00'>17:00</option>`);
+				$("[name='endTime[]']").eq(i)
+					.append(`<option value='14:00'>14:00</option>`)
+					.append(`<option value='14:30'>14:30</option>`)
+					.append(`<option value='15:00'>15:00</option>`)
+					.append(`<option value='15:30'>15:30</option>`)
+					.append(`<option value='16:00'>16:00</option>`)
+					.append(`<option value='16:30'>16:30</option>`)
+					.append(`<option value='17:00'>17:00</option>`);
+			} else if(ampmArr.eq(i).val() == '전일' ){
+				$("[name='startTime[]']").eq(i)
+					.append(`<option value='09:00'>09:00</option>`)
+					.append(`<option value='09:30'>09:30</option>`)
+					.append(`<option value='10:00'>10:00</option>`)
+					.append(`<option value='10:30'>10:30</option>`)
+					.append(`<option value='11:00'>11:00</option>`)
+					.append(`<option value='11:30'>11:30</option>`)
+					.append(`<option value='12:00'>12:00</option>`)
+					.append(`<option value='12:30'>12:30</option>`)
+					.append(`<option value='13:00'>13:00</option>`);
+				$("[name='endTime[]']").eq(i)
+					.append(`<option value='14:00'>14:00</option>`)
+					.append(`<option value='14:30'>14:30</option>`)
+					.append(`<option value='15:00'>15:00</option>`)
+					.append(`<option value='15:30'>15:30</option>`)
+					.append(`<option value='16:00'>16:00</option>`)
+					.append(`<option value='16:30'>16:30</option>`)
+					.append(`<option value='17:00'>17:00</option>`);
+			}
+		}// end for 
+	}
+	function previewImage(input, targetId) {
+		const file = input.files && input.files[0];
+		if (!file)
+			return;
+
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			const $target = $('#' + targetId);
+			$target.css('background-image', 'url(' + e.target.result + ')');
+			$target.find('.doctor-photo-text').hide();
+		};
+		reader.readAsDataURL(file);
+	}
+	
 </script>
 
 <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css?v=20260623-admin-fluid' />">

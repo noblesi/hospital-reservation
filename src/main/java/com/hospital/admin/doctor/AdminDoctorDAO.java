@@ -120,12 +120,12 @@ public class AdminDoctorDAO {
 		
 		StringBuilder selectSql = new StringBuilder();
 		selectSql
-			.append("	select num, doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code		")
-			.append("	from (select rownum num, doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code from doctor)		")
+			.append("	select doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code		")
+			.append("	from doctor		")
 			.append("	where "	);
 		
 		
-		if(!adminDoctorSearchDTO.getDeptNo().isEmpty()) {
+		if( adminDoctorSearchDTO.getDeptNo()!=null ) {
 			selectSql
 				.append(andCulmn)
 				.append("	dept_no = '")
@@ -138,7 +138,20 @@ public class AdminDoctorDAO {
 			}// end if
 		}//end if
 		
-		if(!adminDoctorSearchDTO.getPositionCode().isEmpty()) {
+		if( adminDoctorSearchDTO.getName()!=null ) {
+			selectSql
+				.append(andCulmn)
+				.append("	name = '")
+				.append(adminDoctorSearchDTO.getName())
+				.append("'		");
+			
+			if(!firstSearchCulmn) { 
+				firstSearchCulmn = true;
+				andCulmn = "	and	"; 
+			}// end if
+		}//end if
+		
+		if(adminDoctorSearchDTO.getPositionCode()!=null ) {
 			selectSql
 				.append(andCulmn)
 				.append("	position_code ='")
@@ -151,7 +164,7 @@ public class AdminDoctorDAO {
 			}// end if
 		}// end if
 		
-		if(!adminDoctorSearchDTO.getStatusCode().isEmpty()) {
+		if(adminDoctorSearchDTO.getStatusCode()!=null ) {
 			selectSql
 				.append(andCulmn)
 				.append("	status_code = '")
@@ -164,7 +177,7 @@ public class AdminDoctorDAO {
 			}// end if
 		}// end if
 		
-		if(!adminDoctorSearchDTO.getSpecialty().isEmpty()) {
+		if(adminDoctorSearchDTO.getSpecialty()!=null ) {
 			selectSql
 				.append(andCulmn)
 				.append("	spacialty like '%")
@@ -192,7 +205,6 @@ public class AdminDoctorDAO {
 		}// end if
 				
 		try {
-			
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(selectSql.toString());
 			
@@ -208,6 +220,7 @@ public class AdminDoctorDAO {
 				doctorDTO.setName(rs.getString("name"));
 				doctorDTO.setPhoneNum(rs.getString("phone_num"));
 				doctorDTO.setPositionCode(rs.getString("position_code"));
+				doctorDTO.setStatusCode(rs.getString("status_code"));
 				doctorDTO.setIntroTitle(rs.getString("intro_title"));
 				doctorDTO.setIntroContent(rs.getString("intro_content"));
 				doctorDTO.setThumbnailUrl(rs.getString("thumbnail_url"));
@@ -358,7 +371,6 @@ public class AdminDoctorDAO {
 			
 			insertCnt = pstmt.executeUpdate();
 		
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
