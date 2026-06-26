@@ -77,7 +77,7 @@ pageContext.setAttribute("member", mDTO);
         </div>
 
         <div class="btnWrap">
-            <a href="<c:url value='/main.jsp' />" class="btnType02">
+            <a href="<c:url value='/main.do' />" class="btnType02">
                 메인으로 이동
             </a>
 
