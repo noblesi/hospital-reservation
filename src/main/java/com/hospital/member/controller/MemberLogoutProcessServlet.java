@@ -8,6 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 회원 로그아웃을 처리하는 Servlet controller
+ * 
+ * 기존 logout.process에서 처리되던 세션 제거와 화면 이동 처리를 
+ * Servlet으로 분리한다. 
+ */
 public class MemberLogoutProcessServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
