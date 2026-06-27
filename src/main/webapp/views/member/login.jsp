@@ -170,6 +170,7 @@ body{
 
 <body>
 
+
 <jsp:include page="/views/common/userHeader.jsp" />
 <jsp:include page="/views/common/userBreadcrumb.jsp" />
 
@@ -242,6 +243,7 @@ body{
     </section>
 
 </main>
+
 
 <jsp:include page="/views/common/userFooter.jsp" />
 
