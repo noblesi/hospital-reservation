@@ -65,12 +65,12 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-	<jsp:include page="../common/userHeader.jsp" />
-	<jsp:include page="../common/userBreadcrumb.jsp" />
+	<jsp:include page="/views/common/userHeader.jsp" />
+	<jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 	<%-- 회원 정보 관리 본문 --%>
 	<main class="infoLayout">
-		<jsp:include page="userSideGuide2.jsp" />
+		<jsp:include page="/views/member/userSideGuide2.jsp" />
 
 		<section class="infoContent">
 			<%-- 페이지 제목 영역 --%>
@@ -228,6 +228,20 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 									${minorInfo.relationship eq '기타' or minorInfo.relationship eq 'etc' ? 'selected' : ''}>기타</option>
 							</select>
 						</div>
+						<div class="infoRow">
+							<label>성별</label>
+							<div class="radioGroup">
+								<input type="radio" id="minorGenderM" name="minorGenderFM"
+									value="M" ${minorInfo.minorGenderFM eq 'M' ? 'checked' : ''}
+									required>
+								<label for="minorGenderM">남자</label>
+
+								<input type="radio" id="minorGenderF" name="minorGenderFM"
+									value="F" ${minorInfo.minorGenderFM eq 'F' ? 'checked' : ''}
+									required>
+								<label for="minorGenderF">여자</label>
+							</div>
+						</div>
 						<div class="infoButtons">
 							<a class="cancelInfoBtn"
 								href="<c:url value='/member/mypage.do' />">취소</a>
@@ -248,7 +262,7 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 		</section>
 	</main>
 
-	<jsp:include page="../common/userFooter.jsp" />
+	<jsp:include page="/views/common/userFooter.jsp" />
 	<script
 		src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
 	<script src="<c:url value='/resources/js/mypage.js' />"></script>

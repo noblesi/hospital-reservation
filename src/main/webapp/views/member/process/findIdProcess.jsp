@@ -1,4 +1,10 @@
-﻿<%@page import="java.sql.Date"%>
+﻿<%--
+	아이디 찾기 처리는 memberFindIdProcessServlet으로 이동 되었습니다.
+	기존 findidprocess.jsp는 더이상 사용되지 않습니다.
+
+ --%>
+
+<%@page import="java.sql.Date"%>
 <%@page import="com.hospital.member.FindAccountService"%>
 <%@page import="com.hospital.member.dto.FindAccountDTO"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>

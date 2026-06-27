@@ -17,10 +17,17 @@
 
 <body>
 
-<jsp:include page="../common/userHeader.jsp" />
-<jsp:include page="../common/userBreadcrumb.jsp" />
+<jsp:include page="/views/common/userHeader.jsp" />
+<jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 <main id="content" class="findContent">
+
+    <c:if test="${not empty sessionScope.findPasswordMsg}">
+        <script>
+            alert("<c:out value='${sessionScope.findPasswordMsg}' />");
+        </script>
+        <c:remove var="findPasswordMsg" scope="session" />
+    </c:if>
 
     <div class="contHeadingWrap">
         <h2>아이디/비밀번호 찾기</h2>
@@ -70,7 +77,7 @@
 
     <div class="layerContent">
         <form id="hForm" name="hForm"
-              action="<c:url value='/views/member/process/findPasswordProcess.jsp' />"
+              action="<c:url value='/member/find-password/process.do' />"
               method="post">
 
             <input type="hidden" name="findType" value="tel">
@@ -125,7 +132,7 @@
 
     <div class="layerContent">
         <form id="mForm" name="mForm"
-              action="<c:url value='/views/member/process/findPasswordProcess.jsp' />"
+              action="<c:url value='/member/find-password/process.do' />"
               method="post">
 
             <input type="hidden" name="findType" value="email">
@@ -181,7 +188,7 @@
 
     <div class="layerContent resetLayerContent">
         <form id="resetForm"
-              action="<c:url value='/views/member/process/resetPasswordProcess.jsp' />"
+              action="<c:url value='/member/reset-password/process.do' />"
               method="post">
 
             <div class="resetIcon">▣</div>
@@ -206,7 +213,7 @@
     <button type="button" class="layerCloseBtn">×</button>
 </section>
 <script src="<c:url value='/resources/js/user-layout.js' />"></script>
-<jsp:include page="../common/userFooter.jsp" />
+<jsp:include page="/views/common/userFooter.jsp" />
 
 <!-- jQuery CDN: find-account.js보다 먼저 로드해야 한다. -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

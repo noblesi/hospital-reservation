@@ -32,8 +32,8 @@ pageContext.setAttribute("member", mDTO);
 
 <body>
 
-<jsp:include page="../common/userHeader.jsp" />
-<jsp:include page="../common/userBreadcrumb.jsp" />
+<jsp:include page="/views/common/userHeader.jsp" />
+<jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 <main id="content" class="memJoinContent">
 
@@ -77,7 +77,7 @@ pageContext.setAttribute("member", mDTO);
         </div>
 
         <div class="btnWrap">
-            <a href="<c:url value='/main.jsp' />" class="btnType02">
+            <a href="<c:url value='/main.do' />" class="btnType02">
                 메인으로 이동
             </a>
 
@@ -90,7 +90,7 @@ pageContext.setAttribute("member", mDTO);
 
 </main>
 
-<jsp:include page="../common/userFooter.jsp" />
+<jsp:include page="/views/common/userFooter.jsp" />
 
 <script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
 

@@ -175,6 +175,13 @@ body{
 
 <main class="login-container">
 
+    <c:if test="${not empty sessionScope.loginMessage}">
+        <script>
+            alert("<c:out value='${sessionScope.loginMessage}' />");
+        </script>
+        <c:remove var="loginMessage" scope="session" />
+    </c:if>
+
     <section class="login-card">
 
         <div class="login-left">
@@ -191,7 +198,7 @@ body{
             </p>
 
             <form class="login-form"
-                  action="<c:url value='/views/member/process/loginProcess.jsp' />"
+                  action="<c:url value='/member/login/process.do' />"
                   method="post">
 
                 <input type="text"

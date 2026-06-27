@@ -1,3 +1,8 @@
+<%--
+	비밀번호 찾기 회원 확인 관리는 MemberFindPasswordProcessServlet으로 이동하였습니다.
+	기존 findPasswordProcess.jsp는 더이상 직접 사용하지 않습니다.
+ --%>
+
 <%@ page import="com.hospital.member.FindAccountService" %>
 <%@ page import="com.hospital.member.dto.FindAccountDTO" %>
 <%@ page import="java.sql.Date" %>
