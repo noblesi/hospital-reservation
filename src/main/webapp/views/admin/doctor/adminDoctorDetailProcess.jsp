@@ -22,12 +22,100 @@ request.setCharacterEncoding("UTF-8");
 
 AdminDoctorService adminDoctorService = new AdminDoctorService();
 AdminDoctorFormDTO adminDoctorFormDTO = new AdminDoctorFormDTO();
+List<DoctorCareerDTO> careerList = new ArrayList<DoctorCareerDTO>();
+List<DoctorEducationDTO>educationList = new ArrayList<DoctorEducationDTO>();
+List<DoctorScheduleDTO> scheduleList = new ArrayList<DoctorScheduleDTO>();
 doctorDTO.setStatusCode("CLS");
-adminDoctorFormDTO.setDoctorDTO(doctorDTO);
-String[] educationYear = request.getParameterValues("educatgionYear[]");// reqest로 받아서 String[]에 담아서 값 저장  
-
-if(doctorDTO != null){
-	adminDoctorService.registerDoctor(adminDoctorFormDTO);
+if(doctorDTO.getThumbnailUrl() == null){
+	doctorDTO.setThumbnailUrl("");
 }
-//System.out.println("나간다~=================");
+if(doctorDTO.getDetailImageUrl() == null){
+	doctorDTO.setDetailImageUrl("");
+}
+
+String[] educationYear = request.getParameterValues("educationYear[]");// reqest로 받아서 String[]에 담아서 값 저장  
+String[] educationContent = request.getParameterValues("educationContent[]");
+String[] careerYear = request.getParameterValues("careerYear[]");
+String[] careerContent = request.getParameterValues("careerContent[]");
+String[] scheduleAmPm = request.getParameterValues("ampm[]");
+String[] scheduleStartTime = request.getParameterValues("startTime[]");
+String[] scheduleEndTime = request.getParameterValues("endTime[]");
+
+if(educationYear!=null && educationYear.length>0){
+	
+	DoctorEducationDTO doctorEducationDTO = null;
+	
+	for(int i=0; i < educationYear.length; i++){
+		if(!"".equals(educationYear[i].trim()) && educationYear[i]!=null){
+			doctorEducationDTO = new DoctorEducationDTO();
+			doctorEducationDTO.setDoctorLicenseNo(doctorDTO.getDoctorLicenseNo());
+			doctorEducationDTO.setEducationYear(educationYear[i].trim());
+			educationList.add(doctorEducationDTO);
+		}// end if
+	}// end for
+	
+	for(int i =0; i < educationList.size(); i++){
+		educationList.get(i).setEducationContent(educationContent[i]);
+	}//end for
+	
+}//end if
+
+if(careerYear!=null && careerYear.length>0){
+	
+	DoctorCareerDTO doctorCareerDTO = null;
+	
+	for(int i=0; i < careerYear.length; i++){
+		if(!"".equals(careerYear[i].trim()) && careerYear[i]!=null){
+			doctorCareerDTO = new DoctorCareerDTO();
+			doctorCareerDTO.setDoctorLicenseNo(doctorDTO.getDoctorLicenseNo());
+			doctorCareerDTO.setCareerYear(careerYear[i].trim());
+			careerList.add(doctorCareerDTO);
+		}// end if
+	}// end for
+	
+	for(int i=0; i < careerContent.length; i++){
+		careerList.get(i).setCareerContent(careerContent[i]);
+	}//end for
+	
+}// end if
+
+DoctorScheduleDTO doctorScheduleDTO = null;
+int  timeCnt = 0;
+		
+for(int i=1; i < 8; i++){
+	doctorScheduleDTO = new DoctorScheduleDTO();
+	doctorScheduleDTO.setDoctorLicenseNo(doctorDTO.getDoctorLicenseNo());
+	doctorScheduleDTO.setDayOfWeek(i);
+	doctorScheduleDTO.setStatus(scheduleAmPm[i]);
+	if(!"휴진".equals(scheduleAmPm[i])){
+		if(timeCnt < scheduleStartTime.length){
+			doctorScheduleDTO.setStartTime(scheduleStartTime[timeCnt]);
+			doctorScheduleDTO.setEndTime(scheduleEndTime[timeCnt]);
+			timeCnt++;
+		}
+	} else {
+		doctorScheduleDTO.setStartTime("");
+		doctorScheduleDTO.setEndTime("");
+	}
+	scheduleList.add(doctorScheduleDTO);
+}// end for
+
+adminDoctorFormDTO.setDoctorDTO(doctorDTO);
+adminDoctorFormDTO.setEducationList(educationList);
+adminDoctorFormDTO.setCareerList(careerList);
+adminDoctorFormDTO.setScheduleList(scheduleList);
+
+adminDoctorService.registerDoctor(adminDoctorFormDTO);
+
+response.sendRedirect("adminDoctorListView.jsp");
+
 %>
+
+
+
+
+
+
+
+
+

@@ -31,7 +31,7 @@ public class AdminDoctorFormDTO {
 	private List<DepartmentDTO> departmentList;
 	private List<DoctorPositionDTO> positionList;
 	private List<DoctorStatusDTO> statusList;
-	private String porfileImageFileName;
+	private String profileImageFileName;
 	private String detailImageFileName;
 	
 }//class

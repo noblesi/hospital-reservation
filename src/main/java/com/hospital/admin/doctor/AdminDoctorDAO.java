@@ -324,7 +324,7 @@ public class AdminDoctorDAO {
 			}// end for
 			
 			conn = DBConnection.getConnection();
-			insertSql.append("select * from dual;");
+			insertSql.append("select * from dual");
 			
 			pstmt = conn.prepareStatement(insertSql.toString());
 			
@@ -358,7 +358,7 @@ public class AdminDoctorDAO {
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getEducationList().get(i).getEducationYear());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getEducationList().get(i).getEducationContent());
 			}// end for
-			
+			System.out.println("이제 스캐슐 넘어옴"+markCnt);
 			//schedule
 			for(int i = 0; i < 7; i++) {
 				// doctor_license_no, day_of_week, start_time, end_time, status
@@ -366,7 +366,7 @@ public class AdminDoctorDAO {
 				pstmt.setInt(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getDayOfWeek());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getStartTime());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getEndTime());
-				pstmt.setString(markCnt, adminDoctorFormDTOTemp.getScheduleList().get(i).getStatus());
+				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getScheduleList().get(i).getStatus());
 			}// end for
 			
 			insertCnt = pstmt.executeUpdate();
@@ -472,7 +472,7 @@ public class AdminDoctorDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				doctorCnt = rs.getInt(0);
+				doctorCnt = rs.getInt(1);
 			}// end if
 			
 		} catch (SQLException e) {

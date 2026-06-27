@@ -457,29 +457,39 @@
 <script type="text/javascript">
 	$(function() {
 		
-		<%String paramLicenseNo = (String) request.getParameter("doctorLicenseNo");
+		<%
+		
+		String paramLicenseNo = (String) request.getParameter("doctorLicenseNo");
+		
 		AdminDoctorService adminDoctorService = new AdminDoctorService();
 		//파라미터 있을때 정보 넣어주기
 		if (paramLicenseNo != null && !"".equals(paramLicenseNo)) {
 		
 			AdminDoctorFormDTO adminDoctorFormDTO = new AdminDoctorFormDTO();
-			adminDoctorFormDTO = adminDoctorService.searchDoctorDetail(Integer.parseInt(paramLicenseNo));
-			DoctorDTO doctorDTO = adminDoctorFormDTO.getDoctorDTO();
-			List<DepartmentDTO> departmentDTOList = adminDoctorFormDTO.getDepartmentList();
-			List<DoctorPositionDTO> positionDTOList = adminDoctorFormDTO.getPositionList();
-			List<DoctorStatusDTO> statusDTOList = adminDoctorFormDTO.getStatusList();
-			List<DoctorCareerDTO> careerDTOList = adminDoctorFormDTO.getCareerList();
-			List<DoctorScheduleDTO> scheduleDTOList = adminDoctorFormDTO.getScheduleList();
-			List<DoctorEducationDTO> educationDTOList = adminDoctorFormDTO.getEducationList();
-		
-			pageContext.setAttribute("departmentList", departmentDTOList);
-			pageContext.setAttribute("statusList", statusDTOList);
-			pageContext.setAttribute("positionList", positionDTOList);
-			pageContext.setAttribute("doctor", doctorDTO);
-			pageContext.setAttribute("careerList", careerDTOList);
-			pageContext.setAttribute("scheduleDTOList", scheduleDTOList);
-			pageContext.setAttribute("educationList", educationDTOList);
-		
+			
+			if(adminDoctorService.checkDoctorLicenseNo(Integer.parseInt(paramLicenseNo))){
+				adminDoctorFormDTO = adminDoctorService.searchDoctorDetail(Integer.parseInt(paramLicenseNo));
+				DoctorDTO doctorDTO = adminDoctorFormDTO.getDoctorDTO();
+				List<DepartmentDTO> departmentDTOList = adminDoctorFormDTO.getDepartmentList();
+				List<DoctorPositionDTO> positionDTOList = adminDoctorFormDTO.getPositionList();
+				List<DoctorStatusDTO> statusDTOList = adminDoctorFormDTO.getStatusList();
+				List<DoctorCareerDTO> careerDTOList = adminDoctorFormDTO.getCareerList();
+				List<DoctorScheduleDTO> scheduleDTOList = adminDoctorFormDTO.getScheduleList();
+				List<DoctorEducationDTO> educationDTOList = adminDoctorFormDTO.getEducationList();
+			
+				pageContext.setAttribute("departmentList", departmentDTOList);
+				pageContext.setAttribute("statusList", statusDTOList);
+				pageContext.setAttribute("positionList", positionDTOList);
+				pageContext.setAttribute("doctor", doctorDTO);
+				pageContext.setAttribute("careerList", careerDTOList);
+				pageContext.setAttribute("scheduleDTOList", scheduleDTOList);
+				pageContext.setAttribute("educationList", educationDTOList);
+			} else {
+				System.out.println("없어서 탓니?");
+				response.sendRedirect("adminDoctorDetail.jsp?flag=N");
+				return;
+			}
+			
 		} else {
 			AdminDoctorFormOptionDTO adminDoctorFormOptionDTO = adminDoctorService.getDoctorFormOptions();
 			List<DepartmentDTO> departmentDTOList = adminDoctorFormOptionDTO.getDepartmentList();
@@ -533,14 +543,14 @@
 		$('#addCareerBtn').click(function() {
 			$('#careerListScroll')
 					.append('<div class="doctor-career-row">')
-					.append('<input type="text" class="doctor-input" name="careerPeriod[]" placeholder="기간" />')
+					.append('<input type="text" class="doctor-input" name="careerYear[]" placeholder="기간" />')
 					.append('<input type="text" class="doctor-input" name="careerContent[]" style="width: 500px;" placeholder="경력을 입력해주세요..." />')
 					.append('</div>');
 		});
 
 		$('#removeCareerBtn').click(function() {
 			const $divRows = $('#careerListScroll .doctor-career-row');
-			const $carPerRows = $("[name='careerPeriod[]']");
+			const $carPerRows = $("[name='careerYear[]']");
 			const $carConRows = $("[name='careerContent[]']");
 			if ($divRows.length > 1){
 				$divRows.last().remove();
@@ -549,21 +559,7 @@
 			}
 		});
 
-		$('#btnLicenseSearchTop').click(function() {
-			var licenseNo = $.trim($('#doctorLicenseNo').val());
-			if (licenseNo.length < 6) {
-				alert('숫자 6자를 입력해주세요');
-				$('#doctorLicenseNo').focus();
-				return;
-			}
-
-			if (!licenseNo) {
-				alert('면허 번호를 입력해주세요.');
-				$('#doctorLicenseNo').focus();
-				return;
-			}
-			alert('면허번호 조회: ' + licenseNo);
-		});
+		$('#btnLicenseSearchTop').click(chkNull);
 
 		$('#doctorCancelBtn').click(function() {
 			history.back();
@@ -679,6 +675,32 @@
 		
 		selectSetting();
 	}); //ready
+	
+	function chkNull() {
+		<%-- if( <%= paramLicenseNo != null %> ){
+			$("#doctorLicenseNo").val("<%= paramLicenseNo%>");
+			alert($("#doctorLicenseNo").val());
+		} --%>
+		var licenseNo = $("#doctorLicenseNo").val();
+		if (licenseNo.length < 6) {
+			alert('숫자 6자를 입력해주세요');
+			$('#doctorLicenseNo').focus();
+			return;
+		}
+
+		if (!licenseNo) {
+			alert('면허 번호를 입력해주세요.');
+			$('#doctorLicenseNo').focus();
+			return;
+		}
+		
+		if(licenseNo != null &&  licenseNo != ""){
+			licenseNo = $.trim(licenseNo);
+			var queryString ="doctorLicenseNo=" + licenseNo;
+			location.href="<c:url value='adminDoctorDetail.jsp?"+queryString+"' />";
+		}
+		//alert('면허번호 조회: ' + licenseNo);
+	}
 	
 	function elementHide(obj){
 		obj.hide();
@@ -818,14 +840,25 @@
 										<div class="doctor-field-row">
 											<label class="doctor-label" for="doctorLicenseNo">의사 면허 번호</label>
 											<c:if test="${ empty param.doctorLicenseNo  }">
-												<input type="text" class="doctor-input" id="doctorLicenseNo" maxlength="6" name="doctorLicenseNo" value="${doctor.doctorLicenseNo}" />
+												<input type="text" class="doctor-input" id="doctorLicenseNo" maxlength="6" name="doctorLicenseNo" value="" />
 											</c:if>
 											<c:if test="${ not empty param.doctorLicenseNo  }">
-												<input type="text" class="doctor-input" id="licenseNo" maxlength="6" name="doctorLicenseNo" value="${param.doctorLicenseNo}" />
+												<input type="text" class="doctor-input" id="doctorLicenseNo" maxlength="6" name="doctorLicenseNo" value="${param.doctorLicenseNo}" />
 											</c:if>
 											<button type="button" class="doctor-btn doctor-btn-primary" id="btnLicenseSearchTop">면허번호 조회</button>
+											<c:if test="${ param.flag == 'N' }">
+												<div class="form-floating">
+												<span style="color: #F00" id="warning">등록되지 않은 면허번호입니다.</span>
+												<script type="text/javascript">
+													for(var i = 0 ; i < 5; i++){
+														$("#warning").fadeOut(500).fadeIn(500);
+													}
+													$("#warning").fadeOut(1500);
+													//location.reload();
+												</script>
+												</div>
+											</c:if>
 										</div>
-
 										<div class="doctor-field-row">
 											<label class="doctor-label" for="name">이름</label> 
 											<input type="text" class="doctor-input" id="name" name="name" value="${doctor.name}" />
@@ -1114,12 +1147,12 @@
 												<div class="doctor-scroll doctor-history-scroll" id="careerListScroll" style=" width: 800px;">
 													<c:forEach var="career" items="${ careerList }">
 														<div class="doctor-career-row">
-															<input type="text" class="doctor-input" name="careerPeriod[]" placeholder="기간" value="${ career.careerYear }" /> 
+															<input type="text" class="doctor-input" name="careerYear[]" placeholder="기간" value="${ career.careerYear }" /> 
 															<input type="text" class="doctor-input" name="careerContent[]" style="width: 500px;" placeholder="경력을 입력해주세요..." value="${ career.careerContent }" />
 														</div>
 													</c:forEach>
 													<div class="doctor-career-row">
-														<input type="text" class="doctor-input"  name="careerPeriod[]" placeholder="기간" /> 
+														<input type="text" class="doctor-input"  name="careerYear[]" placeholder="기간" /> 
 														<input 	type="text" class="doctor-input" name="careerContent[]" style="width: 500px;"	placeholder="경력을 입력해주세요..." />
 													</div>
 												</div>
