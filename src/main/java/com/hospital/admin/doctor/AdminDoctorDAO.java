@@ -358,7 +358,6 @@ public class AdminDoctorDAO {
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getEducationList().get(i).getEducationYear());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getEducationList().get(i).getEducationContent());
 			}// end for
-			System.out.println("이제 스캐슐 넘어옴"+markCnt);
 			//schedule
 			for(int i = 0; i < 7; i++) {
 				// doctor_license_no, day_of_week, start_time, end_time, status

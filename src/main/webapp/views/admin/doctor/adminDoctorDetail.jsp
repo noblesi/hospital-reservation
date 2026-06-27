@@ -485,7 +485,6 @@
 				pageContext.setAttribute("scheduleDTOList", scheduleDTOList);
 				pageContext.setAttribute("educationList", educationDTOList);
 			} else {
-				System.out.println("없어서 탓니?");
 				response.sendRedirect("adminDoctorDetail.jsp?flag=N");
 				return;
 			}
