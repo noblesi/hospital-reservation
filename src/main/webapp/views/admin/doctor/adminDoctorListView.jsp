@@ -1,5 +1,19 @@
+<%@page import="com.hospital.admin.doctor.dto.AdminDoctorSearchDTO"%>
+<%@page import="com.hospital.common.dto.DoctorDTO"%>
+<%@page import="com.hospital.common.dto.DoctorStatusDTO"%>
+<%@page import="com.hospital.admin.doctor.dto.AdminDoctorFormOptionDTO"%>
+<%@page import="com.hospital.common.dto.DoctorPositionDTO"%>
+<%@page import="com.hospital.admin.department.AdminDepartmentService"%>
+<%@page import="com.hospital.admin.doctor.AdminDoctorService"%>
+<%@page import="com.hospital.admin.doctor.controller.AdminDoctorListServlet"%>
+<%@page import="com.hospital.admin.doctor.controller.AdminDoctorListViewServlet"%>
+<%@page import="com.hospital.common.dto.DepartmentDTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="/views/common/taglib.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set var="adminMenu" value="reservation" scope="request" />
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -164,13 +178,59 @@
 
 <script type="text/javascript">
     $(function(){
+		<%
+		String deptNo = (String)request.getParameter("deptNo");
+		String status =(String) request.getParameter("status");
+		String name = (String)request.getParameter("name");
+		
+		AdminDoctorService adminDoctorService = new AdminDoctorService();
+		AdminDoctorFormOptionDTO adminDoctorFormOptionDTO = adminDoctorService.getDoctorFormOptions();
+		List<DepartmentDTO> deptList = adminDoctorFormOptionDTO.getDepartmentList();
+		List<DoctorPositionDTO> positionList = adminDoctorFormOptionDTO.getPositionList();
+		List<DoctorStatusDTO> statusList = adminDoctorFormOptionDTO.getStatusList();
+		pageContext.setAttribute("deptList", deptList);
+		pageContext.setAttribute("statusList", statusList);
+		pageContext.setAttribute("positionList", positionList);
+		//log(deptNo + status + name);
+		
+		if((deptNo==null && status == null && name == null) ||("".equals(deptNo) && "".equals(status) && "".equals(name)) ){
+			List<DoctorDTO> doctorList = adminDoctorService.searchDoctorList();
+			pageContext.setAttribute("doctorList", doctorList);
+		} else {
+			AdminDoctorSearchDTO adminDoctorSearchDTO = new AdminDoctorSearchDTO(); 
+			adminDoctorSearchDTO.setDeptNo(deptNo);
+			adminDoctorSearchDTO.setName(name);
+			adminDoctorSearchDTO.setStatusCode(status);
+			
+			List<DoctorDTO> doctorList = adminDoctorService.searchDoctorList(adminDoctorSearchDTO);
+			pageContext.setAttribute("doctorList", doctorList);
+			
+			
+		}
+		
+		%>
+    	
         $("#searchBtn").click(function () {
-            const dept = $("#dept").val();
+            const deptNo = $("#dept").val();
             const status = $("#status").val();
             const name = $("#name").val();
-
-            console.log("검색 조건:", dept, status, name);
-            alert("검색 조건\n진료과: " + dept + "\n상태: " + status + "\n이름: " + name);
+            
+            if((deptNo == "" && status == "" && name == "") || (dept == null && status == null && name == null)){
+            	alert("검색 조건은 입력해주세요");
+            	return;
+            }//end if
+            var queryString = "";
+            if("" != deptNo && null != deptNo){
+            	queryString = "deptNo="+deptNo;
+            }
+            if("" != status && null != status){
+            	queryString += "&status="+status;
+            }
+            if("" != name && null != name){
+            	queryString += "&name="+name;
+            }
+             location.href = "<c:url value='adminDoctorListView.jsp?"+queryString+"' />";
+            //alert("검색 조건\n진료과: " + dept + "\n상태: " + status + "\n이름: " + name);
         });
 
         $("#registerBtn").click(function () {
@@ -252,6 +312,8 @@
                                 </tr>
                             </thead>
                             <tbody id="doctorTable">
+								<c:choose>
+								<c:when test="${ not empty doctorList }">
 								<c:forEach var="doctor" items="${doctorList}" varStatus="st">
 									<tr>
 										<td>${st.count}</td>
@@ -266,9 +328,9 @@
 												<td><c:out value="${ dept.deptName }"/></td>
 											</c:if>
 										</c:forEach>
-										<c:forEach var="position" items="${ positionList }">
-											<c:if test="${ doctor.positionCode eq position.positionCode }">
-												<td><c:out value="${ position.positionName }"/></td>
+										<c:forEach var="positions" items="${ positionList }">
+											<c:if test="${ doctor.positionCode eq positions.positionCode }">
+												<td><c:out value="${ positions.positionName }"/></td>
 											</c:if>
 										</c:forEach>
 										<c:forEach var="docstatus" items="${ statusList }">
@@ -278,6 +340,13 @@
 										</c:forEach>
 									</tr>
 								</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="5"> 검색된 데이터가 없습니다. </td>
+									</tr>
+								</c:otherwise>
+								</c:choose>
 							</tbody>
                         </table>
 

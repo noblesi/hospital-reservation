@@ -138,7 +138,20 @@ public class AdminDoctorDAO {
 			}// end if
 		}//end if
 		
-		if(adminDoctorSearchDTO.getPositionCode() != null && !adminDoctorSearchDTO.getPositionCode().isEmpty()) {
+		if( adminDoctorSearchDTO.getName()!=null ) {
+			selectSql
+				.append(andCulmn)
+				.append("	name = '")
+				.append(adminDoctorSearchDTO.getName())
+				.append("'		");
+			
+			if(!firstSearchCulmn) { 
+				firstSearchCulmn = true;
+				andCulmn = "	and	"; 
+			}// end if
+		}//end if
+		
+		if(adminDoctorSearchDTO.getPositionCode()!=null ) {
 			selectSql
 				.append(andCulmn)
 				.append("	position_code ='")
@@ -192,7 +205,6 @@ public class AdminDoctorDAO {
 		}// end if
 				
 		try {
-			
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(selectSql.toString());
 			
@@ -208,6 +220,7 @@ public class AdminDoctorDAO {
 				doctorDTO.setName(rs.getString("name"));
 				doctorDTO.setPhoneNum(rs.getString("phone_num"));
 				doctorDTO.setPositionCode(rs.getString("position_code"));
+				doctorDTO.setStatusCode(rs.getString("status_code"));
 				doctorDTO.setIntroTitle(rs.getString("intro_title"));
 				doctorDTO.setIntroContent(rs.getString("intro_content"));
 				doctorDTO.setThumbnailUrl(rs.getString("thumbnail_url"));
@@ -311,7 +324,7 @@ public class AdminDoctorDAO {
 			}// end for
 			
 			conn = DBConnection.getConnection();
-			insertSql.append("select * from dual;");
+			insertSql.append("select * from dual");
 			
 			pstmt = conn.prepareStatement(insertSql.toString());
 			
@@ -345,7 +358,7 @@ public class AdminDoctorDAO {
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getEducationList().get(i).getEducationYear());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getEducationList().get(i).getEducationContent());
 			}// end for
-			
+			System.out.println("이제 스캐슐 넘어옴"+markCnt);
 			//schedule
 			for(int i = 0; i < 7; i++) {
 				// doctor_license_no, day_of_week, start_time, end_time, status
@@ -358,7 +371,6 @@ public class AdminDoctorDAO {
 			
 			insertCnt = pstmt.executeUpdate();
 		
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

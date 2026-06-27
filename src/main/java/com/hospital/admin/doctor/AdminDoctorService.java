@@ -57,8 +57,8 @@ public class AdminDoctorService {
 		adminDoctorFormDTO.setScheduleList(adminDoctorDAO.selectDoctorSchedules(doctorLicenseNoTemp));
 		adminDoctorFormDTO.setPositionList(adminDoctorDAO.selectDoctorPostionAllList());
 		adminDoctorFormDTO.setStatusList(adminDoctorDAO.selectDoctorStatusAllList());
-		adminDoctorFormDTO.setPorfileImageFileName(null);
-		adminDoctorFormDTO.setDetailImageFileName(null);
+		adminDoctorFormDTO.setProfileImageFileName(adminDoctorDAO.selectDoctorDetail(doctorLicenseNoTemp).getThumbnailUrl());
+		adminDoctorFormDTO.setDetailImageFileName(adminDoctorDAO.selectDoctorDetail(doctorLicenseNoTemp).getDetailImageUrl());
 		
 		return adminDoctorFormDTO;
 	}
@@ -102,15 +102,12 @@ public class AdminDoctorService {
 	}
 	public boolean checkDoctorLicenseNo(int doctorLicenseNo) {
 		// 의사면허번호 중복 확인
-		int checkCnt = 0;
-		boolean successFlag = false;
+		int checkCnt = 0; 
+		
 		int doctorLicenseNoTemp = doctorLicenseNo;
 		checkCnt = adminDoctorDAO.selectDoctorLicenseNoCnt(doctorLicenseNoTemp);
-		if(checkCnt == 0) {
-			successFlag = true;
-		}// end if
 		
-		return successFlag;
+		return checkCnt > 0;
 	}
 	public AdminDoctorFormOptionDTO getDoctorFormOptions(){
 		// 진료과/직급/상태 선택값 조회
