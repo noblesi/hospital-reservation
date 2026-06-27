@@ -125,6 +125,144 @@ src/main/webapp
 - 관리자 화면 JSP는 `views/admin`, 사용자 화면 JSP는 `views/user` 아래에서 기능별로 나눈다.
 - 공통 include JSP, 공통 CSS/JS, 공통 util은 `common` 또는 `resources`의 공통 위치에 둔다.
 
+## JSP, Servlet, Service, DAO, DTO 역할 기준
+
+이 프로젝트는 기존 Model1 방식의 JSP 중심 처리를 줄이고, 요청 처리는 `Servlet`, 업무 흐름은 `Service`, DB 접근은 `DAO`, 화면 출력은 `JSP`가 맡는 구조로 정리한다.
+
+기본 흐름은 다음 기준을 따른다.
+
+```text
+브라우저 요청
+-> Servlet
+-> Service
+-> DAO
+-> DB
+-> DAO
+-> Service
+-> Servlet
+-> JSP
+-> 브라우저 응답
+```
+
+| 구분 | 역할 | 작성해야 하는 내용 | 작성하지 않는 내용 |
+|---|---|---|---|
+| `JSP` | 화면 출력 담당 | HTML 구조, CSS/JS 연결, form, table, button, EL/JSTL 기반 데이터 출력, 공통 header/footer/sidebar include | DB 연결, SQL 실행, Service 직접 생성, 복잡한 조건 처리, 회원가입/예약/수정 같은 업무 처리 |
+| `Servlet` | 요청과 응답 흐름 제어 | URL 매핑, request parameter 수집, 기본 validation, session 확인, Service 호출, request/session attribute 설정, forward/redirect 결정 | SQL 실행, ResultSet 처리, 화면 HTML 생성, 복잡한 business rule 직접 처리 |
+| `Service` | 업무 규칙과 처리 순서 담당 | 중복 확인, 권한/상태 판단, 여러 DAO 호출 조합, transaction이 필요한 업무 흐름 판단, Controller에 반환할 결과 정리 | request/response 직접 사용, JSP forward, SQL 문자열 작성, ResultSet 처리 |
+| `DAO` | DB 접근 담당 | SQL 작성, `PreparedStatement` parameter binding, query/update 실행, `ResultSet`을 DTO로 변환, JDBC 자원 정리 | 화면 이동 결정, session 처리, HTML 생성, 업무 정책 판단 |
+| `DTO` | 데이터 전달 객체 | 화면 입력값, 검색 조건, DB 조회 결과, 계층 간 전달할 필드와 getter/setter | DB 연결, 업무 처리 method, 화면 이동 logic |
+
+### JSP 작성 기준
+
+- JSP에서는 Java scriptlet(`<% %>`)과 표현식(`<%= %>`) 사용을 줄인다.
+- 단순 출력은 EL 또는 JSTL을 사용한다.
+- 사용자 입력값이나 DB 조회값을 출력할 때는 가능하면 `<c:out>`을 사용한다.
+- JSP에서 `new Service()`, `new DAO()`, `DBConnection.getConnection()`을 직접 호출하지 않는다.
+- JSP가 필요한 데이터는 Servlet에서 `request.setAttribute()`로 전달한다.
+
+예시:
+
+```jsp
+<c:out value="${member.name}" />
+```
+
+### Servlet 작성 기준
+
+- Servlet은 화면과 Service 사이의 controller 역할을 한다.
+- `request.getParameter()`로 요청값을 받고, 필요한 기본 검증을 수행한다.
+- 업무 처리는 Service에 맡긴다.
+- 처리 결과에 따라 `forward` 또는 `redirect`를 선택한다.
+- JSP에서 사용할 데이터는 `request.setAttribute()`에 담는다.
+- 로그인 사용자 정보, 일회성 메시지처럼 요청 이후에도 잠시 필요한 값은 `session.setAttribute()`를 사용할 수 있다.
+
+### Service 작성 기준
+
+- Service는 한 기능의 업무 흐름을 표현한다.
+- 예를 들어 회원가입에서는 아이디 중복 확인, DTO 값 검증, 회원 insert, 미성년자 정보 insert 같은 순서를 조율한다.
+- 예약에서는 예약 가능 여부 확인, 예약 등록, 예약 중복 방지 같은 업무 규칙을 담당한다.
+- DB 접근은 DAO에 맡기고, Service는 DAO 결과를 바탕으로 성공/실패 또는 화면에 필요한 결과를 반환한다.
+
+### DAO 작성 기준
+
+- DAO는 DB와 직접 대화하는 계층이다.
+- SQL은 DAO 안에 작성하고, 외부 입력값은 문자열 결합이 아니라 `PreparedStatement`의 `?` parameter로 바인딩한다.
+- `ResultSet`에서 값을 꺼내 DTO에 담아 Service로 반환한다.
+- `Connection`, `PreparedStatement`, `ResultSet` 같은 JDBC 자원은 `finally`에서 정리한다.
+
+### DTO 작성 기준
+
+- DTO는 데이터를 담아서 계층 사이에 전달하는 객체다.
+- 예를 들어 `MemberDTO`는 회원 데이터, `AdminDoctorSearchDTO`는 의료진 검색 조건, `UserAppointmentConfirmDTO`는 예약 완료 화면에 필요한 데이터를 담는다.
+- DTO에는 DB 처리, 화면 이동, 업무 판단 logic을 넣지 않는다.
+
+## Ajax 역할
+
+`Ajax`는 `JSP`, `Servlet`, `Service`, `DAO`, `DTO`처럼 별도의 계층이 아니라, 브라우저가 화면 전체를 새로고침하지 않고 서버와 통신하는 방식이다.
+
+이 프로젝트에서는 주로 다음 상황에서 사용한다.
+
+- 진료과 선택 후 의료진 목록만 다시 조회
+- 의사 선택 후 예약 가능 날짜/시간만 다시 조회
+- 아이디 중복 확인처럼 작은 결과만 즉시 확인
+- 검색 조건 변경 후 일부 화면 영역만 갱신
+
+Ajax 흐름은 일반 요청과 거의 같지만, 응답이 전체 JSP 화면이 아니라 필요한 데이터나 HTML 조각이라는 점이 다르다.
+
+```text
+브라우저 JavaScript
+-> Ajax 요청
+-> Servlet
+-> Service
+-> DAO
+-> DB
+-> Servlet 응답
+-> JavaScript가 현재 화면 일부 갱신
+```
+
+Ajax를 사용할 때도 DB 처리나 업무 로직을 JavaScript에 넣지 않는다. JavaScript는 사용자 이벤트를 받아 Ajax 요청을 보내고, 서버 응답을 화면에 반영하는 역할만 담당한다.
+
+| 구분 | 역할 |
+|---|---|
+| JavaScript | 클릭, 선택 변경 같은 이벤트 처리, Ajax 요청 전송, 응답을 받아 화면 일부 갱신 |
+| Ajax Servlet | Ajax 요청 parameter 검증, Service 호출, 필요한 응답 생성 |
+| Service | Ajax 요청에서도 동일하게 업무 규칙 처리 |
+| DAO | Ajax 요청에서도 동일하게 DB 조회/수정 처리 |
+| DTO | Ajax 요청/응답에 필요한 데이터 전달 |
+
+### 예약 화면 Ajax 예시
+
+사용자 예약 화면에서는 `appointment.jsp`가 처음 화면 구조를 출력하고, `appointment.js`가 사용자의 선택에 따라 `/appointment/ajax.do`로 Ajax 요청을 보낸다.
+
+예를 들어 예약 과정은 다음처럼 진행된다.
+
+```text
+진료과 선택
+-> Ajax 요청: /appointment/ajax.do?action=doctorList&deptNo=...
+-> UserAppointmentAjaxServlet
+-> UserAppointmentService
+-> UserAppointmentDAO
+-> 해당 진료과 의료진 조회
+-> 의료진 목록 영역만 갱신
+
+의료진 선택
+-> Ajax 요청: /appointment/ajax.do?action=schedule&dln=...
+-> UserAppointmentAjaxServlet
+-> UserAppointmentService
+-> UserAppointmentDAO
+-> 해당 의료진의 진료 가능 날짜 조회
+-> 진료일정 영역만 갱신
+
+진료 날짜 선택
+-> Ajax 요청: /appointment/ajax.do?action=timeTable&date=...&dln=...
+-> UserAppointmentAjaxServlet
+-> UserAppointmentService
+-> UserAppointmentDAO
+-> 해당 날짜의 예약 가능 시간 조회
+-> 시간 선택 영역만 갱신
+```
+
+이처럼 Ajax는 예약 화면에서 진료과, 의료진, 진료 날짜를 선택할 때마다 전체 페이지를 새로고침하지 않고 필요한 영역만 바꾸는 데 사용한다. 단, Ajax가 직접 DB를 조회하는 것은 아니며 실제 조회와 업무 처리는 항상 `Servlet -> Service -> DAO` 흐름을 따른다.
+
 ## 역할분담
 
 | 담당 | 업무 영역 | 클래스 설계 및 비즈니스 로직 | 홈페이지 UI |
