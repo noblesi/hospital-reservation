@@ -1,5 +1,7 @@
 package com.hospital.common.dto;
 
+import com.hospital.user.board.dto.BoardSearchDTO;
+
 import java.sql.Timestamp;
 
 public class BoardPostDTO {
@@ -9,11 +11,8 @@ public class BoardPostDTO {
     private String content;
     private String writerId;
     private String writerName;
-    private String noticeYn = "N";
-    private String displayYn = "Y";
     private int viewCount;
     private Timestamp createdAt;
-    private Timestamp updatedAt;
 
     public int getPostId() {
         return postId;
@@ -28,7 +27,12 @@ public class BoardPostDTO {
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        if (BoardSearchDTO.CATEGORY_FAQ.equalsIgnoreCase(category) || "FAQ".equalsIgnoreCase(category)) {
+            this.category = BoardSearchDTO.CATEGORY_FAQ;
+            return;
+        }
+
+        this.category = BoardSearchDTO.CATEGORY_NOTICE;
     }
 
     public String getTitle() {
@@ -63,22 +67,6 @@ public class BoardPostDTO {
         this.writerName = writerName;
     }
 
-    public String getNoticeYn() {
-        return noticeYn;
-    }
-
-    public void setNoticeYn(String noticeYn) {
-        this.noticeYn = normalizeYn(noticeYn);
-    }
-
-    public String getDisplayYn() {
-        return displayYn;
-    }
-
-    public void setDisplayYn(String displayYn) {
-        this.displayYn = normalizeYn(displayYn);
-    }
-
     public int getViewCount() {
         return viewCount;
     }
@@ -95,23 +83,11 @@ public class BoardPostDTO {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public boolean isNotice() {
-        return "Y".equals(noticeYn);
+        return BoardSearchDTO.CATEGORY_NOTICE.equals(category);
     }
 
-    public boolean isDisplay() {
-        return "Y".equals(displayYn);
-    }
-
-    private String normalizeYn(String value) {
-        return "Y".equalsIgnoreCase(value) ? "Y" : "N";
+    public String getCategoryName() {
+        return BoardSearchDTO.CATEGORY_FAQ.equals(category) ? "FAQ" : "공지사항";
     }
 }

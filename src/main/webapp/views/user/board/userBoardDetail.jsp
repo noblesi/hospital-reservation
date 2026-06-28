@@ -16,7 +16,7 @@
         <div class="page-title-area">
             <h2>
                 <c:choose>
-                    <c:when test="${boardPost.category eq 'FAQ'}">FAQ</c:when>
+                    <c:when test="${boardPost.category eq 'F'}">FAQ</c:when>
                     <c:otherwise>공지사항</c:otherwise>
                 </c:choose>
             </h2>
@@ -39,7 +39,7 @@
 
             <div class="board-actions">
                 <c:choose>
-                    <c:when test="${boardPost.category eq 'FAQ'}">
+                    <c:when test="${boardPost.category eq 'F'}">
                         <a href="<c:url value='/board/faq/list.do' />" class="outline-link">목록</a>
                     </c:when>
                     <c:otherwise>

@@ -32,7 +32,7 @@ public class BoardDetailServlet extends HttpServlet {
             request.setAttribute("boardPost", boardPost);
             request.setAttribute("activeMenu", "hospital");
             request.setAttribute("depth1", "병원소개");
-            request.setAttribute("depth2", boardPost.getCategory());
+            request.setAttribute("depth2", boardPost.getCategoryName());
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/board/userBoardDetail.jsp");
             dispatcher.forward(request, response);

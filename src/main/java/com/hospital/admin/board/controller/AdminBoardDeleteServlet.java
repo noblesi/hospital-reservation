@@ -22,7 +22,7 @@ public class AdminBoardDeleteServlet extends HttpServlet {
             BoardPostDTO boardPost = adminBoardService.getBoardPost(postId);
             String category = boardPost == null ? BoardSearchDTO.CATEGORY_NOTICE : boardPost.getCategory();
             adminBoardService.deleteBoardPost(postId);
-            request.getSession().setAttribute("message", "게시글이 비공개 처리되었습니다.");
+            request.getSession().setAttribute("message", "게시글이 삭제되었습니다.");
             response.sendRedirect(request.getContextPath() + getListUrl(category));
         } catch (SQLException e) {
             throw new ServletException("게시글을 삭제하지 못했습니다.", e);

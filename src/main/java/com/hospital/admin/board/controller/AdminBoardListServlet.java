@@ -46,7 +46,6 @@ public class AdminBoardListServlet extends HttpServlet {
         searchDTO.setCategory(resolveCategory(request));
         searchDTO.setSearchType(request.getParameter("searchType"));
         searchDTO.setKeyword(request.getParameter("keyword"));
-        searchDTO.setDisplayYn(request.getParameter("displayYn"));
         searchDTO.setCurrentPage(parseInt(request.getParameter("currentPage"), 1));
         return searchDTO;
     }
@@ -74,7 +73,6 @@ public class AdminBoardListServlet extends HttpServlet {
         StringBuilder queryString = new StringBuilder();
         appendQueryParam(queryString, "searchType", searchDTO.getSearchType());
         appendQueryParam(queryString, "keyword", searchDTO.getKeyword());
-        appendQueryParam(queryString, "displayYn", searchDTO.getDisplayYn());
         return queryString.toString();
     }
 

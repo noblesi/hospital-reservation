@@ -21,6 +21,8 @@
                 <p>회원 기본 정보와 관리자 메모를 확인합니다.</p>
             </div>
 
+            <%@ include file="/views/common/message.jsp" %>
+
             <section class="admin-card">
                 <table class="admin-table">
                     <tbody>
@@ -62,6 +64,21 @@
 
                 <h3>회원 메모</h3>
 
+                <form class="admin-form" action="<c:url value='/admin/member/memo/save.do' />" method="post">
+                    <input type="hidden" name="patientNo" value="${member.patientNo}">
+                    <label>
+                        작성자 ID
+                        <input type="text" name="adminId" value="${empty sessionScope.loginAdmin.adminId ? 'system' : sessionScope.loginAdmin.adminId}" required>
+                    </label>
+                    <label>
+                        메모 내용
+                        <textarea name="content" rows="4" maxlength="500" required></textarea>
+                    </label>
+                    <div class="admin-form-actions">
+                        <button type="submit">메모 등록</button>
+                    </div>
+                </form>
+
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -69,6 +86,7 @@
                             <th>작성자</th>
                             <th>메모내용</th>
                             <th>작성일</th>
+                            <th>관리</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,13 +94,20 @@
                             <tr>
                                 <td><c:out value="${memo.memoNo}" /></td>
                                 <td><c:out value="${memo.adminId}" /></td>
-                                <td class="text-left"><c:out value="${memo.memoContent}" /></td>
-                                <td><c:out value="${memo.createDate}" /></td>
+                                <td class="text-left"><c:out value="${memo.content}" /></td>
+                                <td><c:out value="${memo.createdAt}" /></td>
+                                <td class="admin-table-actions">
+                                    <form action="<c:url value='/admin/member/memo/delete.do' />" method="post">
+                                        <input type="hidden" name="patientNo" value="${member.patientNo}">
+                                        <input type="hidden" name="memoNo" value="${memo.memoNo}">
+                                        <button type="submit">삭제</button>
+                                    </form>
+                                </td>
                             </tr>
                         </c:forEach>
                         <c:if test="${empty memoList}">
                             <tr>
-                                <td colspan="4" class="empty-cell">등록된 메모가 없습니다.</td>
+                                <td colspan="5" class="empty-cell">등록된 메모가 없습니다.</td>
                             </tr>
                         </c:if>
                     </tbody>
