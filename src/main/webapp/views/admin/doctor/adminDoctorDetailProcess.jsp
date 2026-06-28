@@ -63,7 +63,7 @@ if(educationYear!=null && educationYear.length>0){
 if(careerYear!=null && careerYear.length>0){
 	
 	DoctorCareerDTO doctorCareerDTO = null;
-	
+	//System.out.println(careerYear.length+" / "+careerContent.length);
 	for(int i=0; i < careerYear.length; i++){
 		if(!"".equals(careerYear[i].trim()) && careerYear[i]!=null){
 			doctorCareerDTO = new DoctorCareerDTO();
@@ -74,7 +74,9 @@ if(careerYear!=null && careerYear.length>0){
 	}// end for
 	
 	for(int i=0; i < careerContent.length; i++){
-		careerList.get(i).setCareerContent(careerContent[i]);
+		if(!"".equals(careerYear[i].trim()) && careerYear[i]!=null){
+			careerList.get(i).setCareerContent(careerContent[i]);
+		}// end if
 	}//end for
 	
 }// end if
