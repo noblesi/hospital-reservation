@@ -82,11 +82,12 @@ if(careerYear!=null && careerYear.length>0){
 DoctorScheduleDTO doctorScheduleDTO = null;
 int  timeCnt = 0;
 		
-for(int i=1; i < 8; i++){
+for(int i=0; i < 7; i++){
 	doctorScheduleDTO = new DoctorScheduleDTO();
 	doctorScheduleDTO.setDoctorLicenseNo(doctorDTO.getDoctorLicenseNo());
-	doctorScheduleDTO.setDayOfWeek(i);
+	doctorScheduleDTO.setDayOfWeek(i+1);
 	doctorScheduleDTO.setStatus(scheduleAmPm[i]);
+	
 	if(!"휴진".equals(scheduleAmPm[i])){
 		if(timeCnt < scheduleStartTime.length){
 			doctorScheduleDTO.setStartTime(scheduleStartTime[timeCnt]);
