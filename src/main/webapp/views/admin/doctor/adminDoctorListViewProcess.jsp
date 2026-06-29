@@ -6,7 +6,6 @@
 <%@page import="com.hospital.admin.department.AdminDepartmentService"%>
 <%@page import="com.hospital.admin.doctor.AdminDoctorService"%>
 <%@page import="com.hospital.admin.doctor.controller.AdminDoctorListServlet"%>
-<%@page import="com.hospital.admin.doctor.controller.AdminDoctorListViewServlet"%>
 <%@page import="com.hospital.common.dto.DepartmentDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page import="java.util.List" %>
@@ -15,7 +14,7 @@
 
 <c:set var="adminMenu" value="reservation" scope="request" />
 
-<% 
+<%
 String statusCode = (String)request.getParameter("statusCode");
 String doctorLicenseNo = (String)request.getParameter("doctorLicenseNo");
 AdminDoctorService adminDoctorService = new AdminDoctorService();

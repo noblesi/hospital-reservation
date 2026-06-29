@@ -32,7 +32,7 @@
 				location.href = "${pageContext.request.contextPath}/appointment/reserve.do?appointmentNo=" + $(this).val();
 			}
 		});
-		
+
 		/* 예약 취소 버튼 */
 		$(".apptCancelBtn").on("click", function() {
 			if(confirm("예약을 취소하시겠습니까?")) {
@@ -47,15 +47,15 @@
 	<c:import url="/views/common/userHeader.jsp" />
 	<c:import url="/views/common/userBreadcrumb.jsp" />
 	<c:import url="/views/common/message.jsp" />
-	
+
 	<div class="mainWrap">
 		<!-- 사이드바 -->
 		<jsp:include page="/views/user/appointment/appointmentSidebar.jsp" />
-		
+
 		<!-- 유저의 진료 목록 -->
 		<h1 class="title">진료예약확인</h1>
 		<ul class="apptListUl">
-		
+
 			<c:if test="${ not empty uasDTOList }">
 				<c:forEach var="uasDTO" items="${ uasDTOList }" varStatus="i">
 				<li class="apptListLi">
@@ -83,7 +83,7 @@
 				</li>
 				</c:forEach>
 			</c:if>
-			
+
 			<c:if test="${ empty uasDTOList }">
 				<li class="apptListLi">
 					<p class="noResultP">
@@ -91,9 +91,9 @@
 					</p>
 				</li>
 			</c:if>
-			
+
 		</ul>
-		
+
 		<!-- 준비, 주의사항등 공지 -->
 		<div class="warnNotiDiv">
 			<h2 class="warnNotiTitle"><i class="bi bi-exclamation-triangle warnIcon"></i>주의</h2>
@@ -103,7 +103,7 @@
 				예약이 조회되지 않은 경우에는 <span class="blue">예약센터(1577-0000)</span>나 해당 진료과로 문의해 주십시오.
 			</p>
 		</div>
-		
+
 		<div class="requireNotiDiv">
 			<h2 class="requireNotiTitle">준비사항</h2>
 			<strong>요양급여의뢰서(진료의뢰서)를 반드시 지참하십시오</strong>
@@ -119,7 +119,7 @@
 				자</span>가 재활의학과 진료를 볼 경우도 요양급여의뢰서는 없어도 됩니다.
 			</p>
 		</div>
-		
+
 		<div class="useNotiDiv">
 			<h2 class="useNotiTitle">이용안내</h2>
 			<strong>1. 진료비 수납</strong>
@@ -143,7 +143,7 @@
 	</div>
 
 	<c:import url="/views/common/userFooter.jsp" />
-	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=20260623-menu-hover-guard"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js"></script>
 </body>
 
 </html>

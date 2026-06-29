@@ -14,7 +14,7 @@
 <meta charset="UTF-8">
 <title>한국중앙병원</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/join.css' />">
 
 <!-- 카카오 우편번호 서비스 -->
@@ -75,7 +75,7 @@
                         <tr>
                             <th scope="row"><span class="required">*</span> 비밀번호</th>
                                 <td>
-                                    <input id="pass" name="pass" title="비밀번호"class="inputText" type="password"> 
+                                    <input id="pass" name="pass" title="비밀번호"class="inputText" type="password">
                                     <span class="desc">영문,숫자, 특수문자 조합으로 9~16자</span>
                                     <p class="errorPass" role="alert"></p>
                                 </td>
@@ -208,7 +208,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="<c:url value='/resources/js/join.js' />"></script>
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js' />"></script>
 
 </body>
 </html>

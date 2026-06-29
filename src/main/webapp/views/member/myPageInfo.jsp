@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.hospital.common.MemberDTO"%>
@@ -58,7 +58,7 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/sideBar.css' />">
 <link rel="stylesheet"
-	href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+	href="<c:url value='/resources/css/user-layout.css' />">
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/mypage.css' />">
 <script
@@ -264,7 +264,7 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 
 	<jsp:include page="/views/common/userFooter.jsp" />
 	<script
-		src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+		src="<c:url value='/resources/js/user-layout.js' />"></script>
 	<script src="<c:url value='/resources/js/mypage.js' />"></script>
 </body>
 </html>
