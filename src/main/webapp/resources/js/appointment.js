@@ -141,7 +141,7 @@ function handleDeptSelect() {
     
     var deptNo = $(this).val();
     deptName = $("label[for='" + deptNo + "']").text();
-    $(".rsInfoDept").html(deptName);
+    $(".rsInfoDept").text(deptName);
 
     $.ajax({
         url: getAppointmentAjaxUrl(),

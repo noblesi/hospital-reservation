@@ -17,6 +17,7 @@ public class UserAppointmentListServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String patientNo = UserAppointmentSessionUtil.getLoginPatientNo(request);
 		if (UserAppointmentSessionUtil.isBlank(patientNo)) {
 			response.sendRedirect(request.getContextPath() + "/member/login.do");
