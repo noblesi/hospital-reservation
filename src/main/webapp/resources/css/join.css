@@ -2,7 +2,8 @@
 
 /* 회원가입 공통 레이아웃 */
 .memJoinContent{
-    width:1200px;
+    width:min(1200px, var(--user-page-width, 94vw));
+    max-width:1200px;
     margin:0 auto;
     /* 회원가입 계열 화면의 상하 여백을 로그인/찾기 화면과 비슷하게 맞춘다. */
     padding:60px 0 110px;
@@ -337,7 +338,8 @@
 }
 .btnWrap2{
     margin-top:40px;
-	padding-left: 200px;
+	padding-left: 0;
+    text-align:center;
 }
 
 /* 기본 버튼 */
@@ -423,6 +425,14 @@
     border-collapse:collapse;
 }
 
+.joinFormLabelCol{
+    width:150px;
+}
+
+.joinFormFieldCol{
+    width:auto;
+}
+
 .boardTypeForm th{
     width:180px;
     /* 입력 폼 라벨 영역의 여백을 늘려 회원가입 폼이 작아 보이지 않게 한다. */
@@ -471,7 +481,7 @@
 
 /* 주소 입력창 */
 .inputAddress{
-    width:500px;
+    width:min(500px, 100%);
     height:42px;
     margin-top:8px;
     padding:0 12px;
@@ -572,7 +582,7 @@
 
 .joinCompleteWrap{
     /* 가입완료 결과 카드는 아이디 찾기 결과 화면과 비슷한 시각 비중을 갖도록 확대한다. */
-    width:820px;
+    width:min(820px, 100%);
     margin:0 auto 60px;
     padding:65px 70px;
     background:#fff;
@@ -671,4 +681,144 @@
 
 .joinCompleteWrap .btnBig{
     min-width:180px;
+}
+
+@media (max-width: 900px) {
+    .memJoinContent{
+        padding:44px 0 80px;
+    }
+
+    .stepWrap{
+        flex-wrap:wrap;
+    }
+
+    .stepWrap li{
+        flex:1 1 50%;
+        border:1px solid #d9d9d9;
+    }
+
+    .memJoinWrap{
+        height:auto;
+        flex-direction:column;
+    }
+
+    .memJoinWrap .card{
+        min-height:0;
+    }
+
+    .boardTypeForm{
+        overflow-x:auto;
+    }
+
+    .joinCompleteWrap{
+        padding:50px 44px;
+    }
+}
+
+@media (max-width: 640px) {
+    .contHeadingWrap h2{
+        font-size:30px;
+    }
+
+    .stepWrap li{
+        flex-basis:100%;
+        height:70px;
+        padding-left:20px;
+    }
+
+    .memJoinWrap .card{
+        padding:42px 24px 34px;
+    }
+
+    .memJoinWrap .card-icon{
+        width:86px;
+        height:86px;
+        margin-bottom:28px;
+    }
+
+    .memJoinWrap .card-icon img{
+        max-width:86px;
+        max-height:86px;
+    }
+
+    .memJoinWrap .card-header h3{
+        font-size:24px;
+    }
+
+    .memJoinWrap .button,
+    .btnType01,
+    .btnType02,
+    .btnType03{
+        width:100%;
+        min-width:0;
+        margin-left:0;
+    }
+
+    .btnWrap,
+    .btnWrap2{
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .boardTypeForm,
+    .boardTypeForm table,
+    .boardTypeForm tbody,
+    .boardTypeForm tr,
+    .boardTypeForm th,
+    .boardTypeForm td{
+        display:block;
+        width:100%;
+    }
+
+    .boardTypeForm th{
+        padding:16px 18px 8px;
+        border-bottom:0;
+    }
+
+    .boardTypeForm td{
+        padding:8px 18px 16px;
+    }
+
+    .inputText,
+    .inputAddress,
+    .selectTypeE{
+        width:100%;
+    }
+
+    .dateYY,
+    .dateMM,
+    .dateDD,
+    .selectTypeM{
+        width:calc((100% - 18px) / 3);
+    }
+
+    .txtWrap{
+        margin:0 2px;
+    }
+
+    .joinCompleteWrap{
+        padding:42px 22px;
+    }
+
+    .infoCard{
+        display:block;
+        padding:18px;
+    }
+
+    .infoCard .label{
+        display:block;
+        width:100%;
+        margin-bottom:6px;
+    }
+
+    .joinCompleteWrap .btnWrap{
+        flex-direction:column;
+    }
+
+    .joinCompleteWrap .btnType02,
+    .joinCompleteWrap .btnType03{
+        width:100%;
+        min-width:0;
+    }
 }

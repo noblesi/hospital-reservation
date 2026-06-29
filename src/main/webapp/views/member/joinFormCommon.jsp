@@ -59,8 +59,8 @@
             <div class="boardTypeForm">
                 <table>
                     <colgroup>
-                        <col style="width:150px;">
-                        <col style="width:auto;">
+                        <col class="joinFormLabelCol">
+                        <col class="joinFormFieldCol">
                     </colgroup>
                     <tbody>
                         <tr>

@@ -56,6 +56,10 @@
 	text-align: center;
 }
 
+.doctor-warning-message {
+	color: #F00;
+}
+
 .admin-view-area {
 	margin: 20px;
 	position: relative;
@@ -849,7 +853,7 @@
 											<button type="button" class="doctor-btn doctor-btn-primary" id="btnLicenseSearchTop">면허번호 조회</button>
 											<c:if test="${ param.flag == 'N' }">
 												<div class="form-floating">
-												<span style="color: #F00" id="warning">등록되지 않은 면허번호입니다.</span>
+												<span class="doctor-warning-message" id="warning">등록되지 않은 면허번호입니다.</span>
 												<script type="text/javascript">
 													for(var i = 0 ; i < 5; i++){
 														$("#warning").fadeOut(500).fadeIn(500);

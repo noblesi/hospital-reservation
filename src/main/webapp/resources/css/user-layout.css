@@ -65,6 +65,8 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
     font-size: 0;
 }
 
@@ -781,10 +783,15 @@ body {
     .user-gnb-inner {
         height: auto;
         min-height: 56px;
+        justify-content: space-between;
     }
 
     .user-gnb-inner .menu-btn {
         margin-right: 8px;
+    }
+
+    .user-gnb {
+        display: none;
     }
 
     .user-gnb ul {
@@ -820,6 +827,47 @@ body {
 
     .user-all-menu-grid {
         grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    .user-all-menu-grid a {
+        padding: 10px 0;
+        text-align: left;
+    }
+
+    .logo {
+        font-size: 19px;
+    }
+
+    .user-util {
+        gap: 8px;
+        font-size: 12px;
+    }
+
+    .main-visual-inner {
+        padding: 42px 0;
+    }
+
+    .main-visual h2 {
+        font-size: 30px;
+    }
+
+    .main-board-title,
+    .main-board-list li {
+        height: auto;
+        min-height: 58px;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        gap: 6px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .main-board-list span {
+        flex: none;
+        width: 100%;
+        text-align: left;
     }
 
     .error-page {
