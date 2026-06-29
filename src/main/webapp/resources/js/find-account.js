@@ -60,7 +60,7 @@ $(function() {
         }
 
         // 회원가입 시 저장한 형식과 동일하게 숫자만 전송한다.
-        phoneNumber.val(phoneNumber.val().replace(/[^0-9]/g, ""));
+        phoneNumber.val(formatPhoneNumber(phoneNumber.val()));
         birthDate.val(formatBirthDate(birthDate.val()));
 
         $("#hForm").submit();
@@ -150,6 +150,27 @@ $(function() {
         }
 
         return true;
+    }
+
+    /**
+     * 01012345678 또는 010-1234-5678 값을 DB 저장 기준인 010-1234-5678 형식으로 정리한다.
+     */
+    function formatPhoneNumber(value) {
+        var phone = value.replace(/[^0-9]/g, "");
+
+        if(phone.length === 11){
+            return phone.substring(0, 3) + "-" +
+                   phone.substring(3, 7) + "-" +
+                   phone.substring(7);
+        }
+
+        if(phone.length === 10){
+            return phone.substring(0, 3) + "-" +
+                   phone.substring(3, 6) + "-" +
+                   phone.substring(6);
+        }
+
+        return value;
     }
 
     /**

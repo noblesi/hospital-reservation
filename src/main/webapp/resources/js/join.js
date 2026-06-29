@@ -419,8 +419,8 @@ $(function() {
         // 휴대전화번호 조합
         if($("#hp_no").length){
             $("#hp_no").val(
-                $("#hp1").val() +
-                $("#hp2").val() +
+                $("#hp1").val() + "-" +
+                $("#hp2").val() + "-" +
                 $("#hp3").val()
             );
         }
