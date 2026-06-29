@@ -63,7 +63,7 @@ if(!"confirm".equals(request.getParameter("withdrawal"))){
         </div>
 
         <%-- 탈퇴 대상 회원 및 현재 비밀번호 확인 --%>
-        <form action="process/checkWithdrawalPasswordProcess.jsp"
+        <form action="<c:url value='/member/withdraw/password-check.do' />"
               method="post"
               class="withdrawalForm">
             <div class="withdrawalInfoBox">

@@ -162,6 +162,15 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>memberWithdrawalPasswordCheckServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberWithdrawalPasswordCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberWithdrawalPasswordCheckServlet</servlet-name>
+    <url-pattern>/member/withdraw/password-check.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>memberCancelAppointmentServlet</servlet-name>
     <servlet-class>com.hospital.member.controller.MemberCancelAppointmentServlet</servlet-class>
   </servlet>
