@@ -3,8 +3,6 @@ package com.hospital.common.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -59,8 +57,13 @@ public class GetKey {
 	}
 
 	private static String decrypt(String enKey) throws Exception {
-		String deKey = "";
 		String key = "";
+		String deKey = "";
+
+		if (enKey == null || "".equals(enKey)) {
+			System.err.println("DB에 저장된 키가 존재하지 않습니다.");
+			return key;
+		}
 
 		File file = new File("C:/qoeryqoeryqoe.txt");
 
