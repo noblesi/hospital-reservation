@@ -485,7 +485,6 @@
 				pageContext.setAttribute("scheduleDTOList", scheduleDTOList);
 				pageContext.setAttribute("educationList", educationDTOList);
 			} else {
-				System.out.println("없어서 탓니?");
 				response.sendRedirect("adminDoctorDetail.jsp?flag=N");
 				return;
 			}
@@ -526,6 +525,7 @@
 					.append('<div class="doctor-edu-row">')
 					.append('<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" />')
 					.append('<input type="text" class="doctor-input" name="educationContent[]" style="width: 300px;" placeholder="학교와 학위를 입력해주세요..." />')
+					.append('<input type="hidden" name="educationNo[]" value=""/>')
 					.append('</div>');
 		});
 		
@@ -545,6 +545,7 @@
 					.append('<div class="doctor-career-row">')
 					.append('<input type="text" class="doctor-input" name="careerYear[]" placeholder="기간" />')
 					.append('<input type="text" class="doctor-input" name="careerContent[]" style="width: 500px;" placeholder="경력을 입력해주세요..." />')
+					.append('<input type="hidden" name="careerNo[]" value=""/>')
 					.append('</div>');
 		});
 
@@ -1396,7 +1397,7 @@
 														<div class="doctor-schedule-row">
 															<span class="doctor-inline-label">목</span>
 															<select class="doctor-mini-select" name="ampm[]">
-																<option value='오전' selected='selected'>오전</option>
+																<option value='오전'>오전</option>
 																<option value='오후'>오후</option>
 																<option value='전일'>전일</option>
 																<option value='휴진' selected='selected'>휴진</option>
@@ -1472,11 +1473,13 @@
 													<div class="doctor-edu-row">
 														<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" value="${ education.educationYear }" /> 
 														<input type="text" class="doctor-input" name="educationContent[]" style="width: 300px;" placeholder="학교와 학위를 입력해주세요..." value="${ education.educationContent }" />
+														<input type="hidden" name="educationNo[]" value="${ education.educationNo }"/>
 													</div>
 												</c:forEach>
 												<div class="doctor-edu-row">
 													<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" /> 
 													<input type="text" class="doctor-input" name="educationContent[]" style="width: 300px;" placeholder="학교와 학위를 입력해주세요..." />
+													<input type="hidden" name="educationNo[]" value=""/>
 												</div>
 											</div>
 										</div>
@@ -1497,11 +1500,13 @@
 														<div class="doctor-career-row">
 															<input type="text" class="doctor-input" name="careerYear[]" placeholder="기간" value="${ career.careerYear }" /> 
 															<input type="text" class="doctor-input" name="careerContent[]" style="width: 500px;" placeholder="경력을 입력해주세요..." value="${ career.careerContent }" />
+															<input type="hidden" name="careerNo[]" value="${ career.careerNo }"/>
 														</div>
 													</c:forEach>
 													<div class="doctor-career-row">
 														<input type="text" class="doctor-input"  name="careerYear[]" placeholder="기간" /> 
 														<input 	type="text" class="doctor-input" name="careerContent[]" style="width: 500px;"	placeholder="경력을 입력해주세요..." />
+														<input type="hidden" name="careerNo[]" value=""/>
 													</div>
 												</div>
 											</div>

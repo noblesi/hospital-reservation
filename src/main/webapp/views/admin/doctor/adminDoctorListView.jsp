@@ -180,7 +180,7 @@
     $(function(){
 		<%
 		String deptNo = (String)request.getParameter("deptNo");
-		String status =(String) request.getParameter("status");
+		String status =(String)request.getParameter("status");
 		String name = (String)request.getParameter("name");
 		
 		AdminDoctorService adminDoctorService = new AdminDoctorService();
@@ -204,8 +204,6 @@
 			
 			List<DoctorDTO> doctorList = adminDoctorService.searchDoctorList(adminDoctorSearchDTO);
 			pageContext.setAttribute("doctorList", doctorList);
-			
-			
 		}
 		
 		%>
@@ -232,10 +230,18 @@
              location.href = "<c:url value='adminDoctorListView.jsp?"+queryString+"' />";
             //alert("검색 조건\n진료과: " + dept + "\n상태: " + status + "\n이름: " + name);
         });
-
+		
+        $("[name='doctorStatus[]']").change(function(evt){
+        	const changeStat = evt.target.value;
+        	const chkInd = $("[name='doctorStatus[]']").index(this);
+        	const docLicense = $("[name='doctorLicenseNo[]']").eq(chkInd).val();
+            queryString = "doctorLicenseNo="+docLicense+"&statusCode="+changeStat;
+            //alert(queryString);
+        	location.href = "<c:url value='adminDoctorListViewProcess.jsp' />?"+queryString;
+        });
+        
         $("#registerBtn").click(function () {
-            alert("의료진 등록 페이지로 이동");
-             location.href = "<c:url value='/admin/doctor/form.do' />";
+             location.href = "<c:url value='adminDoctorDetail.jsp' />";
         });
 
         $(".status-select").on("change", function () {
@@ -333,11 +339,19 @@
 												<td><c:out value="${ positions.positionName }"/></td>
 											</c:if>
 										</c:forEach>
+										<td>
+										<select id="doctorStatus" name="doctorStatus[]">
 										<c:forEach var="docstatus" items="${ statusList }">
 											<c:if test="${ doctor.statusCode eq docstatus.statusCode }">
-												<td><c:out value="${docstatus.statusName}"/></td>
+												<option selected="selected" value="${ docstatus.statusCode }"><c:out value="${docstatus.statusName}"/></option>
+											</c:if>
+											<c:if test="${ doctor.statusCode ne docstatus.statusCode }">
+												<option value="${ docstatus.statusCode }"><c:out value="${docstatus.statusName}"/></option>
 											</c:if>
 										</c:forEach>
+										</select>
+											<input type="hidden" name="doctorLicenseNo[]" value="${ doctor.doctorLicenseNo }"/>
+										</td>
 									</tr>
 								</c:forEach>
 								</c:when>

@@ -321,7 +321,6 @@ public class AdminDoctorDAO {
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getEducationList().get(i).getEducationYear());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getEducationList().get(i).getEducationContent());
 			}// end for
-			System.out.println("이제 스캐슐 넘어옴"+markCnt);
 			//schedule
 			for(int i = 0; i < 7; i++) {
 				// doctor_license_no, day_of_week, start_time, end_time, status
@@ -705,6 +704,40 @@ public class AdminDoctorDAO {
 		return insertCnt;
 	}//insertDoctorCareer
 
+	public boolean selectDoctorCareerChk(int doctorLicenseNo, int careerNo) {
+		
+		boolean chkSelect = false;
+		
+		int doctorLicenseNoTemp = doctorLicenseNo;
+		int careerNoTemp = careerNo;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		StringBuilder selectSql = new StringBuilder();
+		selectSql
+			.append("	select * from doctor_career		")
+			.append("	where doctor_license_no = ?	and career_no = ?	");
+		try {
+			conn = DBConnection.getConnection();
+			pstmt = conn.prepareStatement(selectSql.toString());
+			pstmt.setInt(1, doctorLicenseNoTemp);
+			pstmt.setInt(2, careerNoTemp);
+			
+			rs = pstmt.executeQuery();
+			
+			chkSelect = rs.next();
+			
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(rs,pstmt,conn);
+		}// end try catch
+		
+		return chkSelect;
+	}
+	
 	public int updateDoctorCareer(int doctorLicenseNo, DoctorCareerDTO careerDTO) {
 		DoctorCareerDTO doctorCareerDTO = careerDTO; 
 		int doctorLicenseNoTemp = doctorLicenseNo;
