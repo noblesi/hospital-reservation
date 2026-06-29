@@ -53,9 +53,19 @@ public class MemberUpdateInfoServlet extends HttpServlet {
 	}// updateInfo
 
 	private boolean updateMember(HttpServletRequest request, MemberDTO loginUser) {
+		String phoneNumber = request.getParameter("phoneNumber");
+		
+		/*
+		 * 회원정보 수정 시 전화번호 형식을 검증한다.
+		 * 암호화 전 평문 기준을 010-0000-0000 형식으로 통일하기 위해 서버에서도 한 번 더 확인한다.
+		 */
+		if(phoneNumber == null || !phoneNumber.matches("^010-\\d{4}-\\d{4}$")) {
+			return false;
+		}//end if
+		
 		MemberDTO member = new MemberDTO();
 		member.setLoginId(loginUser.getLoginId());
-		member.setPhoneNumber(request.getParameter("phoneNumber"));
+		member.setPhoneNumber(phoneNumber);
 		member.setEmail(request.getParameter("email"));
 		member.setZipCode(request.getParameter("zipCode"));
 		member.setAddress(request.getParameter("address"));

@@ -88,7 +88,8 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 			</c:if>
 
 			<form action="<c:url value='/member/mypage/update.do' />"
-				method="post">
+				method="post"
+				id="memberInfoUpdateForm">
 				<input type="hidden" name="actionType" value="member">
 				<div class="infoSection">
 					<h3>${userInfo.hasMinorMemberYn eq 'Y' ? '보호자회원 정보 변경' : '일반회원 정보 변경'}</h3>

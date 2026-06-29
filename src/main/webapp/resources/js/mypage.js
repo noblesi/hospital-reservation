@@ -248,6 +248,27 @@
     }
 
     /**
+     * 회원정보 수정 시 전화번호를 010-0000-0000 형식으로 입력했는지 확인한다.
+     */
+    function bindMemberInfoValidation() {
+        const form = document.getElementById("memberInfoUpdateForm");
+        const phoneNumber = document.getElementById("phoneNumber");
+        const phonePattern = /^010-\d{4}-\d{4}$/;
+
+        if (!form || !phoneNumber) {
+            return;
+        }
+
+        form.addEventListener("submit", function (event) {
+            if (!phonePattern.test(phoneNumber.value.trim())) {
+                alert("하이픈(-)이 없습니다. 휴대전화번호는 010-0000-0000 형식으로 입력해주세요.");
+                phoneNumber.focus();
+                event.preventDefault();
+            }
+        });
+    }
+
+    /**
      * 서버 비밀번호 확인 후 최종 회원 탈퇴 확인 모달을 제어한다.
      */
     function bindWithdrawalConfirmModal() {
@@ -326,6 +347,7 @@
     bindBirthSelect("memberBirthYear", "memberBirthMonth", "memberBirthDay");
     bindBirthSelect("minorBirthYear", "minorBirthMonth", "minorBirthDay");
     bindDaumPostcode();
+    bindMemberInfoValidation();
     bindReservationCancelConfirm();
     bindWithdrawalConfirmModal();
 })();
