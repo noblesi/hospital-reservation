@@ -1,7 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%--
+    회원탈퇴 취소 처리는 MemberCancelWithdrawalServlet으로 이동되었습니다.
+    기존 cancelWithdrawalProcess.jsp는 더 이상 직접 사용하지 않습니다.
+
+    처리 경로:
+    /member/withdraw/cancel.do
+--%>
 
 <%
-// 최종 탈퇴를 취소한 경우 비밀번호 확인 세션값을 즉시 폐기한다.
-session.removeAttribute("withdrawalPasswordVerified");
-response.sendRedirect("../withdrawUser.jsp");
+    response.sendRedirect(request.getContextPath() + "/member/withdraw.do");
 %>

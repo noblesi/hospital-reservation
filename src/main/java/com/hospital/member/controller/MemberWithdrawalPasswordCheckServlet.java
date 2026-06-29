@@ -38,16 +38,16 @@ public class MemberWithdrawalPasswordCheckServlet extends HttpServlet {
 		// 현재 비밀번호가 일치한 경우에만 최종 탈퇴 처리가 가능하도록 세션에 확인값을 저장한다.
 		if(password != null && updateUserInfoService.checkPassword(loginUser.getLoginId(), password)) {
 			request.getSession().setAttribute("withdrawalPasswordVerified", Boolean.TRUE);
-			response.sendRedirect(request.getContextPath() + "/views/member/withdrawUser.jsp?withdrawal=confirm");
+			response.sendRedirect(request.getContextPath() + "/member/withdraw.do?withdrawal=confirm");
 			return;
 		}//end if
 
 		request.getSession().removeAttribute("withdrawalPasswordVerified");
-		response.sendRedirect(request.getContextPath() + "/views/member/withdrawUser.jsp?withdrawal=fail");
+		response.sendRedirect(request.getContextPath() + "/member/withdraw.do?withdrawal=fail");
 	}//doPost
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect(request.getContextPath() + "/views/member/withdrawUser.jsp");
+		response.sendRedirect(request.getContextPath() + "/member/withdraw.do");
 	}//doGet
 }//class

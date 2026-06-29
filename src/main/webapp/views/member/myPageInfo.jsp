@@ -265,7 +265,7 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 					<strong>회원 탈퇴</strong>
 					<p>회원 탈퇴 시 모든 회원 서비스 이용이 제한됩니다.</p>
 				</div>
-				<a href="withdrawUser.jsp" class="withdrawalLink">회원 탈퇴</a>
+				<a href="<c:url value='/member/withdraw.do' />" class="withdrawalLink">회원 탈퇴</a>
 			</div>
 		</section>
 	</main>

@@ -8,5 +8,5 @@
 --%>
 
 <%
-    response.sendRedirect(request.getContextPath() + "/views/member/withdrawUser.jsp");
+    response.sendRedirect(request.getContextPath() + "/member/withdraw.do");
 %>
