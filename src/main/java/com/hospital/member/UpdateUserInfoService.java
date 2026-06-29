@@ -1,9 +1,14 @@
 package com.hospital.member;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import com.hospital.common.MemberDTO;
 import com.hospital.common.MinorMemberDTO;
+import com.hospital.common.util.GetKey;
+
+import kr.co.sist.chipher.DataDecryption;
+import kr.co.sist.chipher.DataEncryption;
 
 /**
  * UpdateUserInfoService
@@ -25,17 +30,27 @@ public class UpdateUserInfoService {
 	 * @return DB 비밀번호와 일치하면 true
 	 */
 	public boolean checkPassword(String loginId, String inputPassword) {
-
+		
 		boolean flag = false;
 
 		try {
 			String dbPassword = uDAO.selectPassword(loginId);
+			/*
+        	 *	마이페이지 들어가기전 비밀번호 입력 암호화 코드 추가
+        	 *  DB에 비밀번호가 암호화 되어 있으므로 입력된 비밀번호번호도 암호화 하여 
+        	 *  DB의 비밀번호와 비교한다.
+        	 *  2026.06.29 코드 추가 
+        	 */
+			String hashedPassword = DataEncryption.messageDigest("SHA-1", inputPassword);
+			
 
-			flag = dbPassword != null && dbPassword.equals(inputPassword);
+			flag = dbPassword != null && dbPassword.equals(hashedPassword);
 
 		} catch(SQLException se) {
 			se.printStackTrace();
-		}//end catch
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}//end catch 
 
 		return flag;
 	}//checkPassword
@@ -52,9 +67,24 @@ public class UpdateUserInfoService {
 
 		try {
 			mDTO = uDAO.selectUserInfo(loginId);
+			
+			/*
+        	 *	마이페이지 회원정보 조회 복호화 코드 추가
+        	 *  DB에는 이메일과 전화번호가 암호화 되어 저장되므로,
+        	 *  화면에 보여주기 전에 복호화한다.
+        	 *  2026.06.29 코드 추가 
+        	 */
+			if(mDTO != null) {
+				DataDecryption dd = new DataDecryption(GetKey.getKey());
+				
+				mDTO.setEmail(dd.decrypt(mDTO.getEmail()));
+				mDTO.setPhoneNumber(dd.decrypt(mDTO.getPhoneNumber()));
+			}//end if
 
 		} catch(SQLException se) {
 			se.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}//end catch
 
 		return mDTO;
@@ -91,12 +121,25 @@ public class UpdateUserInfoService {
 		boolean flag = false;
 
 		try {
+			/*
+        	 *	마이페이지 회원정보 수정 암호화 코드 추가
+        	 *  이메일과 전화번호는 개인정보이므로 DB 저장 전에 암호화한다.
+        	 *  전화번호는 팀 공통 기준인 010-0000-0000 형식 그대로 암호화한다.
+        	 *  2026.06.29 코드 추가 
+        	 */
+			DataEncryption de = new DataEncryption(GetKey.getKey());
+			
+			mDTO.setEmail(de.encrypt(mDTO.getEmail()));
+			mDTO.setPhoneNumber(de.encrypt(mDTO.getPhoneNumber()));
+			
 			int cnt = uDAO.updateUserInfo(mDTO);
 
 			flag = cnt == 1;
 
 		} catch(SQLException se) {
 			se.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}//end catch
 
 		return flag;

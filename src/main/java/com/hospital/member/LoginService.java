@@ -1,8 +1,11 @@
 package com.hospital.member;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import com.hospital.common.MemberDTO;
+
+import kr.co.sist.chipher.DataEncryption;
 
 
 /**
@@ -26,8 +29,16 @@ public class LoginService {
             if (mDTO == null) {
                 return null;
             }// end if
-
-            if (!password.equals(mDTO.getPassword())) {
+            /*
+             * 로그인 전 비밀번호 비교를 위한 암호화 처리 코드 추가 
+             * 
+             * 회원 가입시 DB에는 Hash 값으로 저장되므로 
+             * 사용자가 입력한 비밀번호도 같은 방식으로 Hash 처리한 다음 비교한다.  
+             * 
+             * 2026.06.29 코드 추가  
+             */
+				String hashedPassword = DataEncryption.messageDigest("SHA-1", password);
+            if (!hashedPassword.equals(mDTO.getPassword())) {
                 return null;
             }// end if
 
@@ -38,7 +49,10 @@ public class LoginService {
         } catch (SQLException se) {
             se.printStackTrace();
             return null;
-        }//end catch
+        } catch (NoSuchAlgorithmException e) {
+        	e.printStackTrace();
+        	return null;
+        }//end catch 
 
         return mDTO;
     }// login
