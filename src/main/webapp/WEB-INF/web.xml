@@ -162,6 +162,42 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>memberWithdrawPage</servlet-name>
+    <jsp-file>/views/member/withdrawUser.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberWithdrawPage</servlet-name>
+    <url-pattern>/member/withdraw.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberWithdrawalPasswordCheckServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberWithdrawalPasswordCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberWithdrawalPasswordCheckServlet</servlet-name>
+    <url-pattern>/member/withdraw/password-check.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberWithdrawProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberWithdrawProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberWithdrawProcessServlet</servlet-name>
+    <url-pattern>/member/withdraw/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberCancelWithdrawalServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberCancelWithdrawalServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberCancelWithdrawalServlet</servlet-name>
+    <url-pattern>/member/withdraw/cancel.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>memberCancelAppointmentServlet</servlet-name>
     <servlet-class>com.hospital.member.controller.MemberCancelAppointmentServlet</servlet-class>
   </servlet>
