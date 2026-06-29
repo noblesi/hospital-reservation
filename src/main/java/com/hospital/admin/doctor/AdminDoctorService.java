@@ -81,6 +81,74 @@ public class AdminDoctorService {
 		int successCnt = 0 ;
 		AdminDoctorFormDTO adminDoctorFormDTO = formDTO;
 		successCnt = adminDoctorDAO.updateDoctor(adminDoctorFormDTO.getDoctorDTO());
+		int doctorLicenseNo = adminDoctorFormDTO.getDoctorDTO().getDoctorLicenseNo();
+		List<DoctorCareerDTO> originCareerList = adminDoctorDAO.selectDoctorCareerList(doctorLicenseNo);
+		List<DoctorEducationDTO> originEducationList = adminDoctorDAO.selectDoctorEducationList(doctorLicenseNo);
+		
+		int careerNo = 0;
+		int originCareerNo = 0;
+		
+		List<DoctorCareerDTO> careerList = adminDoctorFormDTO.getCareerList();
+		List<DoctorEducationDTO> educationList = adminDoctorFormDTO.getEducationList();
+		
+		////////////////////////////////////////////////////////////////////////////////////////////
+		// 업데이트 또는 인설트 판단
+		boolean deleteCareerFlag = false;
+		for(int i = 0; i < careerList.size(); i++) {
+			careerNo = careerList.get(i).getCareerNo();
+			if( adminDoctorDAO.selectDoctorCareerChk(doctorLicenseNo, careerNo) ) {
+				adminDoctorDAO.updateDoctorCareer(doctorLicenseNo, adminDoctorFormDTO.getCareerList().get(i) );
+			} else if(careerNo==0 && (!careerList.get(i).getCareerYear().isEmpty() || !careerList.get(i).getCareerContent().isEmpty()) ){
+				adminDoctorDAO.insertDoctorCareer(adminDoctorFormDTO.getCareerList().get(i));
+			} 
+		}// end for
+		
+		for(int i =0; i < originCareerList.size(); i++ ) {
+			originCareerNo = originCareerList.get(i).getCareerNo();
+			deleteCareerFlag= false;
+			for(int j =0; j < careerList.size(); j++) {
+				if(originCareerList.get(i).getCareerNo() == careerList.get(j).getCareerNo()) {
+					j=careerList.size();
+					deleteCareerFlag=false;
+				} else if(j == careerList.size()-1) {
+					deleteCareerFlag= true;
+				}
+			}// end for
+			if(deleteCareerFlag) {
+				adminDoctorDAO.deleteDoctorCareers(doctorLicenseNo, originCareerNo);
+			}
+		}// end for
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////
+		int educationNo = 0;
+		int originEducationNo = 0;
+		boolean deleteEducationFlag = false;
+		// 업데이트 또는 인설트 판단
+				for(int i = 0; i < educationList.size(); i++) {
+					educationNo = educationList.get(i).getEducationNo();
+					if( adminDoctorDAO.selectDoctorCareerChk(doctorLicenseNo, educationNo) ) {
+						adminDoctorDAO.updateDoctorEducation(doctorLicenseNo, educationList.get(i) );
+					} else if(educationNo==0 && (!educationList.get(i).getEducationYear().isEmpty() || !educationList.get(i).getEducationContent().isEmpty()) ){
+						adminDoctorDAO.insertDoctorEducation(educationList.get(i));
+					} 
+				}// end for
+				
+				for(int i =0; i < originEducationList.size(); i++ ) {
+					originEducationNo = originEducationList.get(i).getEducationNo();
+					deleteEducationFlag= false;
+					for(int j =0; j < educationList.size(); j++) {
+						if(originEducationList.get(i).getEducationNo() == originEducationList.get(j).getEducationNo()) {
+							j=educationList.size();
+							deleteEducationFlag=false;
+						} else if(j == educationList.size()-1) {
+							deleteEducationFlag= true;
+						}
+					}// end for
+					if(deleteEducationFlag) {
+						adminDoctorDAO.deleteDoctorCareers(doctorLicenseNo, originEducationNo);
+					}
+				}// end for
+		
 		if(successCnt > 0) {
 			successFlag = true;
 		}// end if

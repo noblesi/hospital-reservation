@@ -20,6 +20,7 @@
 <% 
 request.setCharacterEncoding("UTF-8");
 
+
 AdminDoctorService adminDoctorService = new AdminDoctorService();
 AdminDoctorFormDTO adminDoctorFormDTO = new AdminDoctorFormDTO();
 List<DoctorCareerDTO> careerList = new ArrayList<DoctorCareerDTO>();
@@ -35,11 +36,16 @@ if(doctorDTO.getDetailImageUrl() == null){
 
 String[] educationYear = request.getParameterValues("educationYear[]");// reqest로 받아서 String[]에 담아서 값 저장  
 String[] educationContent = request.getParameterValues("educationContent[]");
+String[] educationNo = request.getParameterValues("educationNo[]");
 String[] careerYear = request.getParameterValues("careerYear[]");
 String[] careerContent = request.getParameterValues("careerContent[]");
+String[] careerNo = request.getParameterValues("careerNo[]");
 String[] scheduleAmPm = request.getParameterValues("ampm[]");
 String[] scheduleStartTime = request.getParameterValues("startTime[]");
 String[] scheduleEndTime = request.getParameterValues("endTime[]");
+
+
+
 
 if(educationYear!=null && educationYear.length>0){
 	
@@ -50,6 +56,9 @@ if(educationYear!=null && educationYear.length>0){
 			doctorEducationDTO = new DoctorEducationDTO();
 			doctorEducationDTO.setDoctorLicenseNo(doctorDTO.getDoctorLicenseNo());
 			doctorEducationDTO.setEducationYear(educationYear[i].trim());
+			if(!"".equals(educationNo[i]) && educationNo!=null){
+				doctorEducationDTO.setEducationNo(Integer.parseInt(educationNo[i]));
+			}
 			educationList.add(doctorEducationDTO);
 		}// end if
 	}// end for
@@ -69,6 +78,9 @@ if(careerYear!=null && careerYear.length>0){
 			doctorCareerDTO = new DoctorCareerDTO();
 			doctorCareerDTO.setDoctorLicenseNo(doctorDTO.getDoctorLicenseNo());
 			doctorCareerDTO.setCareerYear(careerYear[i].trim());
+			if(!"".equals(careerNo[i]) && careerNo!=null){
+				doctorCareerDTO.setCareerNo(Integer.parseInt(careerNo[i]));
+			}
 			careerList.add(doctorCareerDTO);
 		}// end if
 	}// end for
@@ -108,7 +120,14 @@ adminDoctorFormDTO.setEducationList(educationList);
 adminDoctorFormDTO.setCareerList(careerList);
 adminDoctorFormDTO.setScheduleList(scheduleList);
 
-adminDoctorService.registerDoctor(adminDoctorFormDTO);
+//System.out.println(adminDoctorService.checkDoctorLicenseNo(doctorDTO.getDoctorLicenseNo())+": true여야하는데?");
+if(adminDoctorService.checkDoctorLicenseNo(doctorDTO.getDoctorLicenseNo())){
+	// update로 실행
+	//System.out.println("업데이트 탐");
+	adminDoctorService.modifyDoctor(adminDoctorFormDTO);
+} else {	
+	adminDoctorService.registerDoctor(adminDoctorFormDTO);
+}
 
 response.sendRedirect("adminDoctorListView.jsp");
 
