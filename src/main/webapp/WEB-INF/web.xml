@@ -6,6 +6,11 @@
 	version="4.0">
 	<display-name>hospital-reservation</display-name>
 
+  <context-param>
+    <param-name>kakaoMapAppKey</param-name>
+    <param-value></param-value>
+  </context-param>
+
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
@@ -41,6 +46,24 @@
   <servlet-mapping>
     <servlet-name>mainPageServlet</servlet-name>
     <url-pattern>/main.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>hospitalIntroPage</servlet-name>
+    <jsp-file>/views/user/hospital/intro.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>hospitalIntroPage</servlet-name>
+    <url-pattern>/hospital/intro.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>hospitalLocationPage</servlet-name>
+    <jsp-file>/views/user/hospital/location.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>hospitalLocationPage</servlet-name>
+    <url-pattern>/hospital/location.do</url-pattern>
   </servlet-mapping>
 
   <servlet>

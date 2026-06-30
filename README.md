@@ -1,5 +1,32 @@
 # Hospital Reservation
 
+## 주의사항
+
+이 프로젝트에 표시되는 병원명, 주소, 대표전화, 오시는 길 안내, 지도 좌표는 학습용 가상 정보이다.
+실제 병원 또는 의료기관의 공식 정보가 아니며, 특정 기관의 위치와 연락처를 안내할 목적으로 사용하지 않는다.
+
+## 지도 API 연결 방법
+
+오시는 길 화면은 카카오 지도 JavaScript API 연동을 기준으로 준비되어 있다. 실제 API 키는 저장소에 커밋하지 않는다.
+
+1. 카카오 개발자 사이트에서 애플리케이션을 생성하고 JavaScript 키를 발급한다.
+2. 플랫폼 설정의 Web 도메인에 로컬 실행 주소를 등록한다.
+   - 예: `http://localhost:8080`
+   - 예: `http://localhost:8080/hospital-reservation`
+3. 로컬 테스트 시 `src/main/webapp/WEB-INF/web.xml`의 `kakaoMapAppKey` `param-value`에 개인 JavaScript 키를 넣는다.
+
+```xml
+<context-param>
+  <param-name>kakaoMapAppKey</param-name>
+  <param-value>발급받은_JAVASCRIPT_KEY</param-value>
+</context-param>
+```
+
+4. 실제 키를 넣은 상태로 커밋하지 않는다. 키가 비어 있으면 지도 API는 로드되지 않고 임시 위치 안내 영역이 표시된다.
+5. 지도 좌표는 `location.jsp`의 `#hospitalMap` `data-latitude`, `data-longitude` 값으로 관리한다.
+
+현재 좌표는 학습용 임시 좌표이며 실제 병원 위치와 무관하다.
+
 ## 폴더 구조 기준
 
 ```text
