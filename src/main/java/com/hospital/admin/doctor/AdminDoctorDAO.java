@@ -521,7 +521,7 @@ public class AdminDoctorDAO {
 	}//selectDoctorSchedules
 	
 	public int updateDoctorSchedules(int doctorLicenseNo, DoctorScheduleDTO scheduleDTO) {
-		DoctorScheduleDTO doctorScheduleDTO = scheduleDTO; 
+		DoctorScheduleDTO doctorScheduleDTOList = scheduleDTO; 
 		int doctorLicenseNoTemp = doctorLicenseNo;
 		StringBuilder updateSql = new StringBuilder();
 		int successCnt = 0;
@@ -539,18 +539,19 @@ public class AdminDoctorDAO {
 			.append("	end_time=?, 		")
 			.append("	status=?  		")
 			.append("	where doctor_license_no=? 		")
-			.append("	and schedule_no=? 		");
-				
+			.append("	and day_of_week=? 		");
+			
+			
 			pstmt = conn.prepareStatement(updateSql.toString());
-
-	        pstmt.setInt(1, doctorScheduleDTO.getDayOfWeek());
-	        pstmt.setString(2, doctorScheduleDTO.getStartTime());
-	        pstmt.setString(3, doctorScheduleDTO.getEndTime());
-	        pstmt.setString(4, doctorScheduleDTO.getStatus());
-	        pstmt.setInt(5, doctorLicenseNoTemp);
-	        pstmt.setInt(6, doctorScheduleDTO.getScheduleNo());
-
-	        successCnt = pstmt.executeUpdate();
+			
+		        pstmt.setString(1, doctorScheduleDTOList.getStartTime());
+		        pstmt.setString(2, doctorScheduleDTOList.getEndTime());
+		        pstmt.setString(3, doctorScheduleDTOList.getStatus());
+		        pstmt.setInt(4, doctorLicenseNoTemp);
+		        pstmt.setInt(5, doctorScheduleDTOList.getDayOfWeek());
+		        
+			
+		        successCnt = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
