@@ -103,6 +103,7 @@
 }
 
 .doctor-top-area {
+	width: 850px;
 	display: grid;
 	grid-template-columns: minmax(404px, 1fr) 310px;
 	column-gap: 40px;
@@ -111,6 +112,7 @@
 }
 
 .doctor-field-row {
+	width: 500px;
 	display: grid;
 	grid-template-columns: 122px minmax(156px, 1fr) 100px;
 	align-items: center;
@@ -173,7 +175,7 @@
 }
 
 .doctor-btn-primary:hover {
-	background: #888;
+	background: #333;
 	transform: translateY(-1px);
 }
 
@@ -252,7 +254,9 @@
 	padding-top: 16px;
 	text-align: center;
 }
-
+.doctor-mid-area{
+	width: 850px;
+}
 .doctor-mid-area, .doctor-bottom-area {
 	margin-top: 26px;
 	margin-left: 6px;
@@ -397,6 +401,7 @@
 }
 
 .doctor-actions {
+	width: 850px;
 	display: flex;
 	justify-content: center;
 	gap: 12px;
@@ -407,6 +412,13 @@
 	width: 92px;
 	height: 34px;
 	font-size: 14px;
+}
+.doctor-left-form{
+	width: 520px;
+}
+
+.doctor-intro-section{
+	width: 850px;
 }
 
 @media ( max-width : 980px) {
@@ -420,6 +432,13 @@
 	.doctor-photo-grid {
 		justify-content: start;
 	}
+}
+.admin-card{
+	align-items: center;
+}
+.admin-search-area{
+	
+
 }
 .doctor-input {
 	align-items: center;
@@ -452,6 +471,11 @@
 	}
 	
 }
+#btnLicenseSearchTop {
+	text-align: left;
+}
+
+
 </style>
 
 <script type="text/javascript">
@@ -590,16 +614,18 @@
 		});
 		
 		$("#btnSubmit").click(function(){
+			
 			$("#doctorDetailFrm")[0].submit();
 		});
 		
 		$("[name='startTime[]']").change(function(){
 			var changeSelInd = $("[name='startTime[]']").index(this);
 			var changeTimevalue = $("[name='startTime[]']").eq(changeSelInd).val();
-			
-			$("[name='startTimeValue[]']").eq(changeSelInd).val(changeTimevalue);
-			
+			//alert("체인지"+changeTimevalue );
+			$("[name='startTimeValue[]']").eq(parseInt(changeSelInd)).val(changeTimevalue);
+			//alert("체인지"+$("[name='startTimeValue[]']").eq(changeSelInd).val() +" / " +$("[name='startTimeValue[]']").length);
 		});
+		
 		$("[name='endTime[]']").change(function(){
 			var changeSelInd = $("[name='endTime[]']").index(this);
 			var changeTimevalue = $("[name='endTime[]']").eq(changeSelInd).val();
@@ -612,85 +638,7 @@
 			
 			var ChkVal = $(this).val();
 			var changeSelInd = $("[name='ampm[]']").index(this);
-			
-			if(ChkVal == '휴진'){
-				elementHide(changeSelInd);
-				
-				$("[name='startTime[]']").eq(changeSelInd).empty();
-				$("[name='endTime[]']").eq(changeSelInd).empty();
-				
-			}else if(ChkVal == '오전' ){
-				
-				elementShow(changeSelInd);
-				
-				$("[name='startTime[]']").eq(changeSelInd).empty();
-				$("[name='endTime[]']").eq(changeSelInd).empty();
-				
-				$("[name='startTime[]']").eq(changeSelInd)
-				.append(`<option value='09:00'>09:00</option>`)
-				.append(`<option value='09:30'>09:30</option>`)
-				.append(`<option value='10:00'>10:00</option>`)
-				.append(`<option value='10:30'>10:30</option>`)
-				.append(`<option value='11:00'>11:00</option>`)
-				.append(`<option value='11:30'>11:30</option>`)
-				.append(`<option value='12:00'>12:00</option>`)
-				.append(`<option value='12:30'>12:30</option>`)
-				.append(`<option value='13:00'>13:00</option>`);
-			$("[name='endTime[]']").eq(changeSelInd)
-				.append(`<option value='09:00'>09:00</option>`)
-				.append(`<option value='09:30'>09:30</option>`)
-				.append(`<option value='10:00'>10:00</option>`)
-				.append(`<option value='10:30'>10:30</option>`)
-				.append(`<option value='11:00'>11:00</option>`)
-				.append(`<option value='11:30'>11:30</option>`)
-				.append(`<option value='12:00'>12:00</option>`)
-				.append(`<option value='12:30'>12:30</option>`)
-				.append(`<option value='13:00'>13:00</option>`);
-		} else if(ChkVal == '오후' ){
-			elementShow(changeSelInd);
-			
-			$("[name='startTime[]']").eq(changeSelInd).empty();
-			$("[name='endTime[]']").eq(changeSelInd).empty();
-			
-			$("[name='startTime[]']").eq(changeSelInd)
-				.append(`<option value='14:00'>14:00</option>`)
-				.append(`<option value='14:30'>14:30</option>`)
-				.append(`<option value='15:00'>15:00</option>`)
-				.append(`<option value='15:30'>15:30</option>`)
-				.append(`<option value='16:00'>16:00</option>`)
-				.append(`<option value='16:30'>16:30</option>`)
-				.append(`<option value='17:00'>17:00</option>`);
-			$("[name='endTime[]']").eq(changeSelInd)
-				.append(`<option value='14:00'>14:00</option>`)
-				.append(`<option value='14:30'>14:30</option>`)
-				.append(`<option value='15:00'>15:00</option>`)
-				.append(`<option value='15:30'>15:30</option>`)
-				.append(`<option value='16:00'>16:00</option>`)
-				.append(`<option value='16:30'>16:30</option>`)
-				.append(`<option value='17:00'>17:00</option>`);
-		} else if(ChkVal == '전일' ){
-			elementShow(changeSelInd);
-			$("[name='startTime[]']").eq(changeSelInd).empty();
-			$("[name='endTime[]']").eq(changeSelInd).empty();
-			$("[name='startTime[]']").eq(changeSelInd)
-				.append(`<option value='09:00'>09:00</option>`)
-				.append(`<option value='09:30'>09:30</option>`)
-				.append(`<option value='10:00'>10:00</option>`)
-				.append(`<option value='10:30'>10:30</option>`)
-				.append(`<option value='11:00'>11:00</option>`)
-				.append(`<option value='11:30'>11:30</option>`)
-				.append(`<option value='12:00'>12:00</option>`)
-				.append(`<option value='12:30'>12:30</option>`)
-				.append(`<option value='13:00'>13:00</option>`);
-			$("[name='endTime[]']").eq(changeSelInd)
-				.append(`<option value='14:00'>14:00</option>`)
-				.append(`<option value='14:30'>14:30</option>`)
-				.append(`<option value='15:00'>15:00</option>`)
-				.append(`<option value='15:30'>15:30</option>`)
-				.append(`<option value='16:00'>16:00</option>`)
-				.append(`<option value='16:30'>16:30</option>`)
-				.append(`<option value='17:00'>17:00</option>`);
-			}
+			selectTimeSetting(changeSelInd);
 		});
 		
 		selectSetting();
@@ -768,10 +716,12 @@
 			
 		} else if(status == "오전") {
 			elementShow(objIndex);
-			
+			selStartNode.empty();
+			selEndNode.empty();
 			startTimeSet = generateTimeArray(9, 12);
 			endTimeSet = generateTimeArray(10, 13);
-			
+			selStartNode.append(new Option("시간","",startTimeIsSelectFlag,startTimeIsSelectFlag));
+			selEndNode.append(new Option("시간","",endTimeIsSelectFlag,endTimeIsSelectFlag));
 			$.each(startTimeSet, function(i,time){
 				if(time == startIsSelected) {
 					startTimeIsSelectFlag = true;
@@ -791,10 +741,12 @@
 			});
 		} else if(status == "오후"){
 			elementShow(objIndex);
-			
+			selStartNode.empty();
+			selEndNode.empty();
 			startTimeSet = generateTimeArray(14, 16);
 			endTimeSet = generateTimeArray(15, 17);
-			
+			selStartNode.append(new Option("시간","",startTimeIsSelectFlag,startTimeIsSelectFlag));
+			selEndNode.append(new Option("시간","",endTimeIsSelectFlag,endTimeIsSelectFlag));
 			$.each(startTimeSet, function(i,time){
 				if(time == startIsSelected) {
 					startTimeIsSelectFlag = true;
@@ -815,10 +767,12 @@
 			});
 		} else if(status == "전일"){
 			elementShow(objIndex);
-			
+			selStartNode.empty();
+			selEndNode.empty();
 			startTimeSet = generateTimeArray(9, 16);
 			endTimeSet = generateTimeArray(10, 17);
-			
+			selStartNode.append(new Option("시간","",startTimeIsSelectFlag,startTimeIsSelectFlag));
+			selEndNode.append(new Option("시간","",endTimeIsSelectFlag,endTimeIsSelectFlag));
 			$.each(startTimeSet, function(i,time){
 				if(time == startIsSelected) {
 					startTimeIsSelectFlag = true;
@@ -1004,7 +958,7 @@
 															<span class="doctor-inline-label">월</span>
 														</c:when>
 														<c:when test="${ schedule.dayOfWeek == 2 }">
-														<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
+															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
 															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
 															<span class="doctor-inline-label">화</span>
 														</c:when>
@@ -1074,6 +1028,8 @@
 											<c:if test="${ empty scheduleDTOList }">
 														<div class="doctor-schedule-row">
 															<span class="doctor-inline-label">월</span>
+															<input type="hidden" name="startTimeValue[]" value=""/>
+															<input type="hidden" name="endTimeValue[]" value=""/>
 															<select class="doctor-mini-select" name="ampm[]">
 																<option value='오전'>오전</option>
 																<option value='오후'>오후</option>
@@ -1090,6 +1046,8 @@
 														
 														<div class="doctor-schedule-row">
 															<span class="doctor-inline-label">화</span>
+															<input type="hidden" name="startTimeValue[]" value=""/>
+															<input type="hidden" name="endTimeValue[]" value=""/>
 															<select class="doctor-mini-select" name="ampm[]">
 																<option value='오전'>오전</option>
 																<option value='오후'>오후</option>
@@ -1105,6 +1063,8 @@
 														</div>
 														<div class="doctor-schedule-row">
 															<span class="doctor-inline-label">수</span>
+															<input type="hidden" name="startTimeValue[]" value=""/>
+															<input type="hidden" name="endTimeValue[]" value=""/>
 															<select class="doctor-mini-select" name="ampm[]">
 																<option value='오전'>오전</option>
 																<option value='오후'>오후</option>
@@ -1120,6 +1080,8 @@
 														</div>	
 														<div class="doctor-schedule-row">
 															<span class="doctor-inline-label">목</span>
+															<input type="hidden" name="startTimeValue[]" value=""/>
+															<input type="hidden" name="endTimeValue[]" value=""/>
 															<select class="doctor-mini-select" name="ampm[]">
 																<option value='오전'>오전</option>
 																<option value='오후'>오후</option>
@@ -1136,6 +1098,8 @@
 														</div>
 														<div class="doctor-schedule-row">
 															<span class="doctor-inline-label">금</span>
+															<input type="hidden" name="startTimeValue[]" value=""/>
+															<input type="hidden" name="endTimeValue[]" value=""/>
 															<select class="doctor-mini-select" name="ampm[]">
 																<option value='오전'>오전</option>
 																<option value='오후'>오후</option>
@@ -1151,6 +1115,8 @@
 														</div>
 														<div class="doctor-schedule-row">
 															<span class="doctor-inline-label">토</span>
+															<input type="hidden" name="startTimeValue[]" value=""/>
+															<input type="hidden" name="endTimeValue[]" value=""/>
 															<select class="doctor-mini-select" name="ampm[]">
 																<option value='오전'>오전</option>
 																<option value='오후'>오후</option>
@@ -1166,6 +1132,8 @@
 														</div>
 														<div class="doctor-schedule-row">
 															<span class="doctor-inline-label">일</span>
+															<input type="hidden" name="startTimeValue[]" value=""/>
+															<input type="hidden" name="endTimeValue[]" value=""/>
 															<select class="doctor-mini-select" name="ampm[]">
 																<option value='오전'>오전</option>
 																<option value='오후'>오후</option>
@@ -1245,7 +1213,7 @@
 
 
 										<div class="doctor-actions">
-											<button type="submit" id="btnSubmit" name="btnSubmit" class="doctor-btn doctor-btn-primary">저장</button>
+											<button type="button" id="btnSubmit" name="btnSubmit" class="doctor-btn doctor-btn-primary">저장</button>
 											<button type="button" class="doctor-btn doctor-btn-secondary" id="doctorCancelBtn">취소</button>
 										</div>
 									

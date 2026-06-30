@@ -102,6 +102,7 @@ for(int i=0; i < 7; i++){
 	doctorScheduleDTO.setStatus(scheduleAmPm[i]);
 	
 	if(!"휴진".equals(scheduleAmPm[i]) && scheduleAmPm != null){
+		System.out.println(scheduleStartTime[i]);
 		doctorScheduleDTO.setStartTime(scheduleStartTime[i]);
 		doctorScheduleDTO.setEndTime(scheduleEndTime[i]);
 	} else {
