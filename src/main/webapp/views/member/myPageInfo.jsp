@@ -141,7 +141,7 @@ if(minorInfo != null && minorInfo.getMinorBirthDate() != null){
 					<div class="infoRow">
 						<label for="phoneNumber">휴대전화</label> <input class="mediumInput"
 							id="phoneNumber" name="phoneNumber"
-							value="${userInfo.phoneNumber}" required>
+							value="<c:out value='${userInfo.phoneNumber}' />" required>
 					</div>
 					<div class="infoRow">
 						<label for="email">이메일</label> <input class="mediumInput"
