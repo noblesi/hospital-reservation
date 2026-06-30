@@ -1,31 +1,5 @@
 ﻿<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.hospital.common.MemberDTO"%>
-<%@ page import="com.hospital.member.UpdateUserInfoService"%>
-
-<%
-MemberDTO loginUser = (MemberDTO)session.getAttribute("loginUser");
-Boolean verified = (Boolean)session.getAttribute("userInfoVerified");
-
-if(loginUser == null){
-    response.sendRedirect(request.getContextPath() + "/member/login.do");
-    return;
-}
-
-if(!Boolean.TRUE.equals(verified)){
-    response.sendRedirect(request.getContextPath() + "/member/mypage.do");
-    return;
-}
-
-UpdateUserInfoService service = new UpdateUserInfoService();
-MemberDTO userInfo = service.searchUserInfo(loginUser.getLoginId());
-pageContext.setAttribute("userInfo", userInfo);
-
-// 최종 확인 단계가 아닌 일반 진입에서는 이전 탈퇴 비밀번호 확인값을 폐기한다.
-if(!"confirm".equals(request.getParameter("withdrawal"))){
-    session.removeAttribute("withdrawalPasswordVerified");
-}
-%>
 
 <c:set var="activeMenu" value="mypage" scope="request" />
 <c:set var="depth1" value="마이페이지" scope="request" />
@@ -102,7 +76,7 @@ if(!"confirm".equals(request.getParameter("withdrawal"))){
             </div>
 
             <div class="withdrawalButtons">
-                <a href="myPageInfo.jsp" class="withdrawalCancelButton">취소</a>
+                <a href="<c:url value='/member/mypage/info.do' />" class="withdrawalCancelButton">취소</a>
                 <button type="submit" class="withdrawalSubmitButton">회원탈퇴</button>
             </div>
         </form>

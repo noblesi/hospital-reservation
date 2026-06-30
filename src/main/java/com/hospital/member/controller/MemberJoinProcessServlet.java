@@ -87,7 +87,7 @@ public class MemberJoinProcessServlet extends HttpServlet {
 
             if(result) {
                 request.getSession().setAttribute("registerLoginId", loginId);
-                response.sendRedirect(request.getContextPath() + "/views/member/joinComplete.jsp");
+                response.sendRedirect(request.getContextPath() + "/member/join/complete.do");
                 return;
             }//end if
 

@@ -23,10 +23,27 @@
 			<param-value>false</param-value>
 		</init-param>
 	</filter>
+  <filter>
+    <filter-name>adminAuthFilter</filter-name>
+    <filter-class>com.hospital.common.filter.AdminAuthFilter</filter-class>
+  </filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+  <filter-mapping>
+    <filter-name>adminAuthFilter</filter-name>
+    <url-pattern>/admin</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>adminAuthFilter</filter-name>
+    <url-pattern>/admin/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>adminAuthFilter</filter-name>
+    <url-pattern>/views/admin/*</url-pattern>
+  </filter-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
@@ -149,6 +166,24 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>memberIdCheckServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberIdCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberIdCheckServlet</servlet-name>
+    <url-pattern>/member/id-check.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberJoinCompleteServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberJoinCompleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberJoinCompleteServlet</servlet-name>
+    <url-pattern>/member/join/complete.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>memberMyPage</servlet-name>
     <servlet-class>com.hospital.member.controller.MemberMyPageServlet</servlet-class>
   </servlet>
@@ -186,7 +221,7 @@
 
   <servlet>
     <servlet-name>memberWithdrawPage</servlet-name>
-    <jsp-file>/views/member/withdrawUser.jsp</jsp-file>
+    <servlet-class>com.hospital.member.controller.MemberWithdrawPageServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>memberWithdrawPage</servlet-name>

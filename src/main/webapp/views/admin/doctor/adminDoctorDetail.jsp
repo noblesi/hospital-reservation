@@ -492,54 +492,7 @@
 		            return false;
 		        }
 		    });
-		<%
-		
-		String paramLicenseNo = (String) request.getParameter("doctorLicenseNo");
-		List<DepartmentDTO> departmentDTOList = null;
-		List<DoctorPositionDTO> positionDTOList = null;
-		List<DoctorStatusDTO> statusDTOList = null;
-		List<DoctorCareerDTO> careerDTOList = null;
-		List<DoctorScheduleDTO> scheduleDTOList = null;
-		List<DoctorEducationDTO> educationDTOList = null;
-		
-		
-		AdminDoctorService adminDoctorService = new AdminDoctorService();
 		//파라미터 있을때 정보 넣어주기
-		if (paramLicenseNo != null && !"".equals(paramLicenseNo)) {
-		
-			AdminDoctorFormDTO adminDoctorFormDTO = new AdminDoctorFormDTO();
-			
-			if(adminDoctorService.checkDoctorLicenseNo(Integer.parseInt(paramLicenseNo))){
-				adminDoctorFormDTO = adminDoctorService.searchDoctorDetail(Integer.parseInt(paramLicenseNo));
-				DoctorDTO doctorDTO = adminDoctorFormDTO.getDoctorDTO();
-				departmentDTOList = adminDoctorFormDTO.getDepartmentList();
-				positionDTOList = adminDoctorFormDTO.getPositionList();
-				statusDTOList = adminDoctorFormDTO.getStatusList();
-				careerDTOList = adminDoctorFormDTO.getCareerList();
-				scheduleDTOList = adminDoctorFormDTO.getScheduleList();
-				educationDTOList = adminDoctorFormDTO.getEducationList();
-			
-				pageContext.setAttribute("departmentList", departmentDTOList);
-				pageContext.setAttribute("statusList", statusDTOList);
-				pageContext.setAttribute("positionList", positionDTOList);
-				pageContext.setAttribute("doctor", doctorDTO);
-				pageContext.setAttribute("careerList", careerDTOList);
-				pageContext.setAttribute("scheduleDTOList", scheduleDTOList);
-				pageContext.setAttribute("educationList", educationDTOList);
-			} else {
-				response.sendRedirect("adminDoctorDetail.jsp?flag=N");
-				return;
-			}
-			
-		} else {
-			AdminDoctorFormOptionDTO adminDoctorFormOptionDTO = adminDoctorService.getDoctorFormOptions();
-			departmentDTOList = adminDoctorFormOptionDTO.getDepartmentList();
-			positionDTOList = adminDoctorFormOptionDTO.getPositionList();
-			statusDTOList = adminDoctorFormOptionDTO.getStatusList();
-			pageContext.setAttribute("departmentList", departmentDTOList);
-			pageContext.setAttribute("statusList", statusDTOList);
-			pageContext.setAttribute("positionList", positionDTOList);
-		}//end if%>
 	$('#thumbUploadBtn').click(function() {
 			$('#thumbnailUrl').trigger('click');
 		});
@@ -665,7 +618,7 @@
 		if(licenseNo != null &&  licenseNo != ""){
 			licenseNo = $.trim(licenseNo);
 			var queryString ="doctorLicenseNo=" + licenseNo;
-			location.href="<c:url value='adminDoctorDetail.jsp?"+queryString+"' />";
+			location.href="<c:url value='/admin/doctor/form.do' />?" + queryString;
 		}
 		//alert('면허번호 조회: ' + licenseNo);
 	}
@@ -847,7 +800,7 @@
 			</div>
 
 			<section class="admin-card">
-				<form class="admin-search-area" action="http://localhost/hospital-reservation/views/admin/doctor/adminDoctorDetailProcess.jsp" method="post" name="doctorDetailFrm" id="doctorDetailFrm" onsubmit="return false;">
+				<form class="admin-search-area" action="<c:url value='/admin/doctor/form.do' />" method="post" name="doctorDetailFrm" id="doctorDetailFrm" onsubmit="return false;">
 					<div class="admin-view-area">
 						<div class="doctor-register-form">
 							<div class="doctor-layout">

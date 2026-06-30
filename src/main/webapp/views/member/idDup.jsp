@@ -1,46 +1,12 @@
-<%@page import="com.hospital.member.MemberRegisterService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<%
-request.setCharacterEncoding("UTF-8");
-
-String loginId = request.getParameter("id");
-boolean checked = false;
-boolean idAvailable = false;
-boolean validPattern = false;
-
-if(loginId != null){
-    loginId = loginId.trim();
-}
-
-if(loginId != null && !"".equals(loginId)){
-    // 아이디는 한글 3자 이상 또는 영문+숫자 혼용 6~12자만 허용한다.
-    validPattern = loginId.matches("^[가-힣]{3,}$|^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{6,12}$");
-
-    if(validPattern){
-        MemberRegisterService service = new MemberRegisterService();
-
-        // 입력한 아이디가 이미 사용 중인지 DB에서 확인한다.
-        idAvailable = !service.checkLoginIdDuplicate(loginId);
-    }
-    checked = true;
-}
-
-pageContext.setAttribute("loginId", loginId);
-pageContext.setAttribute("checked", checked);
-pageContext.setAttribute("idAvailable", idAvailable);
-pageContext.setAttribute("validPattern", validPattern);
-%>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>아이디 중복확인</title>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
 <style>
 body {
     margin: 0;
@@ -64,13 +30,11 @@ body {
     color: #222;
     font-size: 25px;
     font-weight: 400;
-    letter-spacing: -1.5px;
 }
 
 .idDupWrap h2 strong {
     font-size: 24px;
     font-weight: 800;
-    letter-spacing: -2px;
 }
 
 .idDesc {
@@ -152,7 +116,6 @@ body {
     font-size: 14px;
 }
 </style>
-
 <script>
 $(function() {
     $("#id").focus();
@@ -177,13 +140,13 @@ function checkId() {
     var idRegex = /^(?:[가-힣]{3,}|(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{6,12})$/;
 
     if (id.replace(/\s/g, "") == "") {
-        alert("아이디를 입력해주세요.");
+        alert("아이디를 입력해 주세요.");
         $("#id").val("").focus();
         return;
     }
 
     if (!idRegex.test(id.replace(/\s/g, ""))) {
-        alert("아이디는 한글 3자 이상 또는 영문+숫자 혼용 6~12자로 입력해주세요.");
+        alert("아이디는 한글 3자 이상 또는 영문+숫자 조합 6~12자로 입력해 주세요.");
         $("#id").focus();
         return;
     }
@@ -203,17 +166,16 @@ function sendId(id) {
 }
 </script>
 </head>
-
 <body>
 <div class="idDupWrap">
     <h2><strong>ID CHECK</strong> 아이디 중복확인</h2>
 
     <p class="idDesc">
-        사용하고자 하는 아이디를 입력해주세요.<br>
-        아이디 중복확인 후 사용 가능한 아이디로 선택하시면 됩니다.
+        사용하려는 아이디를 입력해 주세요.<br>
+        아이디 중복확인 후 사용 가능한 아이디를 선택하면 됩니다.
     </p>
 
-    <form name="dupFrm" id="dupFrm" action="idDup.jsp" method="get">
+    <form name="dupFrm" id="dupFrm" action="<c:url value='/member/id-check.do' />" method="get">
         <div class="idInputRow">
             <label for="id">아이디</label>
             <input type="text"
@@ -221,7 +183,7 @@ function sendId(id) {
                    name="id"
                    maxlength="12"
                    value="<c:out value='${loginId}'/>"
-                   placeholder="아이디를 입력해주세요">
+                   placeholder="아이디 입력">
             <button type="button" id="btnUseId">중복확인</button>
         </div>
     </form>
@@ -229,11 +191,11 @@ function sendId(id) {
     <div class="resultBox">
         <c:choose>
             <c:when test="${checked}">
-                <strong><c:out value="${loginId}"/></strong> 는
+                <strong><c:out value="${loginId}"/></strong> 은
                 <c:choose>
                     <c:when test="${not validPattern}">
                         <span class="no">사용할 수 없는 아이디 형식</span>입니다.<br>
-                        한글 3자 이상 또는 영문+숫자 혼용 6~12자로 입력해주세요.
+                        한글 3자 이상 또는 영문+숫자 조합 6~12자로 입력해 주세요.
                     </c:when>
                     <c:when test="${idAvailable}">
                         <span class="ok">사용 가능한 아이디</span>입니다.
@@ -244,7 +206,7 @@ function sendId(id) {
                 </c:choose>
             </c:when>
             <c:otherwise>
-                사용할 아이디를 입력한 뒤 중복확인을 눌러주세요.
+                사용할 아이디를 입력한 후 중복확인을 눌러주세요.
             </c:otherwise>
         </c:choose>
     </div>
