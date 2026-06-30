@@ -457,9 +457,23 @@
 <script type="text/javascript">
 	$(function() {
 		
+		    // 폼 안의 input 태그에서 엔터키 입력을 감지
+		    $("#doctorDetailFrm").keydown(function(e) {
+		        if (e.which == 13) { // 13은 엔터키의 keyCode입니다.
+		            e.preventDefault(); // 기본 submit 동작을 막음
+		            return false;
+		        }
+		    });
 		<%
 		
 		String paramLicenseNo = (String) request.getParameter("doctorLicenseNo");
+		List<DepartmentDTO> departmentDTOList = null;
+		List<DoctorPositionDTO> positionDTOList = null;
+		List<DoctorStatusDTO> statusDTOList = null;
+		List<DoctorCareerDTO> careerDTOList = null;
+		List<DoctorScheduleDTO> scheduleDTOList = null;
+		List<DoctorEducationDTO> educationDTOList = null;
+		
 		
 		AdminDoctorService adminDoctorService = new AdminDoctorService();
 		//파라미터 있을때 정보 넣어주기
@@ -470,12 +484,12 @@
 			if(adminDoctorService.checkDoctorLicenseNo(Integer.parseInt(paramLicenseNo))){
 				adminDoctorFormDTO = adminDoctorService.searchDoctorDetail(Integer.parseInt(paramLicenseNo));
 				DoctorDTO doctorDTO = adminDoctorFormDTO.getDoctorDTO();
-				List<DepartmentDTO> departmentDTOList = adminDoctorFormDTO.getDepartmentList();
-				List<DoctorPositionDTO> positionDTOList = adminDoctorFormDTO.getPositionList();
-				List<DoctorStatusDTO> statusDTOList = adminDoctorFormDTO.getStatusList();
-				List<DoctorCareerDTO> careerDTOList = adminDoctorFormDTO.getCareerList();
-				List<DoctorScheduleDTO> scheduleDTOList = adminDoctorFormDTO.getScheduleList();
-				List<DoctorEducationDTO> educationDTOList = adminDoctorFormDTO.getEducationList();
+				departmentDTOList = adminDoctorFormDTO.getDepartmentList();
+				positionDTOList = adminDoctorFormDTO.getPositionList();
+				statusDTOList = adminDoctorFormDTO.getStatusList();
+				careerDTOList = adminDoctorFormDTO.getCareerList();
+				scheduleDTOList = adminDoctorFormDTO.getScheduleList();
+				educationDTOList = adminDoctorFormDTO.getEducationList();
 			
 				pageContext.setAttribute("departmentList", departmentDTOList);
 				pageContext.setAttribute("statusList", statusDTOList);
@@ -491,9 +505,9 @@
 			
 		} else {
 			AdminDoctorFormOptionDTO adminDoctorFormOptionDTO = adminDoctorService.getDoctorFormOptions();
-			List<DepartmentDTO> departmentDTOList = adminDoctorFormOptionDTO.getDepartmentList();
-			List<DoctorPositionDTO> positionDTOList = adminDoctorFormOptionDTO.getPositionList();
-			List<DoctorStatusDTO> statusDTOList = adminDoctorFormOptionDTO.getStatusList();
+			departmentDTOList = adminDoctorFormOptionDTO.getDepartmentList();
+			positionDTOList = adminDoctorFormOptionDTO.getPositionList();
+			statusDTOList = adminDoctorFormOptionDTO.getStatusList();
 			pageContext.setAttribute("departmentList", departmentDTOList);
 			pageContext.setAttribute("statusList", statusDTOList);
 			pageContext.setAttribute("positionList", positionDTOList);
@@ -579,28 +593,39 @@
 			$("#doctorDetailFrm")[0].submit();
 		});
 		
+		$("[name='startTime[]']").change(function(){
+			var changeSelInd = $("[name='startTime[]']").index(this);
+			var changeTimevalue = $("[name='startTime[]']").eq(changeSelInd).val();
+			
+			$("[name='startTimeValue[]']").eq(changeSelInd).val(changeTimevalue);
+			
+		});
+		$("[name='endTime[]']").change(function(){
+			var changeSelInd = $("[name='endTime[]']").index(this);
+			var changeTimevalue = $("[name='endTime[]']").eq(changeSelInd).val();
+			
+			$("[name='endTimeValue[]']").eq(changeSelInd).val(changeTimevalue);
+			
+		});
+		
 		$("[name='ampm[]']").change(function(){
 			
 			var ChkVal = $(this).val();
 			var changeSelInd = $("[name='ampm[]']").index(this);
 			
 			if(ChkVal == '휴진'){
-				elementHide($("[name='startTime[]']").eq(changeSelInd));
-				elementHide($("[name='endTime[]']").eq(changeSelInd));
-				elementHide($("[name='spanStartTime[]']").eq(changeSelInd));
-				elementHide($("[name='spanEndTime[]']").eq(changeSelInd));
+				elementHide(changeSelInd);
 				
 				$("[name='startTime[]']").eq(changeSelInd).empty();
 				$("[name='endTime[]']").eq(changeSelInd).empty();
 				
 			}else if(ChkVal == '오전' ){
 				
-				elementShow($("[name='startTime[]']").eq(changeSelInd));
-				elementShow($("[name='endTime[]']").eq(changeSelInd));
-				elementShow($("[name='spanStartTime[]']").eq(changeSelInd));
-				elementShow($("[name='spanEndTime[]']").eq(changeSelInd));
+				elementShow(changeSelInd);
+				
 				$("[name='startTime[]']").eq(changeSelInd).empty();
 				$("[name='endTime[]']").eq(changeSelInd).empty();
+				
 				$("[name='startTime[]']").eq(changeSelInd)
 				.append(`<option value='09:00'>09:00</option>`)
 				.append(`<option value='09:30'>09:30</option>`)
@@ -622,10 +647,7 @@
 				.append(`<option value='12:30'>12:30</option>`)
 				.append(`<option value='13:00'>13:00</option>`);
 		} else if(ChkVal == '오후' ){
-			elementShow($("[name='startTime[]']").eq(changeSelInd));
-			elementShow($("[name='endTime[]']").eq(changeSelInd));
-			elementShow($("[name='spanStartTime[]']").eq(changeSelInd));
-			elementShow($("[name='spanEndTime[]']").eq(changeSelInd));
+			elementShow(changeSelInd);
 			
 			$("[name='startTime[]']").eq(changeSelInd).empty();
 			$("[name='endTime[]']").eq(changeSelInd).empty();
@@ -647,10 +669,7 @@
 				.append(`<option value='16:30'>16:30</option>`)
 				.append(`<option value='17:00'>17:00</option>`);
 		} else if(ChkVal == '전일' ){
-			elementShow($("[name='startTime[]']").eq(changeSelInd));
-			elementShow($("[name='endTime[]']").eq(changeSelInd));
-			elementShow($("[name='spanStartTime[]']").eq(changeSelInd));
-			elementShow($("[name='spanEndTime[]']").eq(changeSelInd));
+			elementShow(changeSelInd);
 			$("[name='startTime[]']").eq(changeSelInd).empty();
 			$("[name='endTime[]']").eq(changeSelInd).empty();
 			$("[name='startTime[]']").eq(changeSelInd)
@@ -678,10 +697,6 @@
 	}); //ready
 	
 	function chkNull() {
-		<%-- if( <%= paramLicenseNo != null %> ){
-			$("#doctorLicenseNo").val("<%= paramLicenseNo%>");
-			alert($("#doctorLicenseNo").val());
-		} --%>
 		var licenseNo = $("#doctorLicenseNo").val();
 		if (licenseNo.length < 6) {
 			alert('숫자 6자를 입력해주세요');
@@ -703,104 +718,147 @@
 		//alert('면허번호 조회: ' + licenseNo);
 	}
 	
-	function elementHide(obj){
-		obj.hide();
+	function elementHide(objIndex){
+		$("[name='startTime[]']").eq(objIndex).hide();
+		$("[name='endTime[]']").eq(objIndex).hide();
+		$("[name='spanStartTime[]']").eq(objIndex).hide();
+		$("[name='spanEndTime[]']").eq(objIndex).hide();
 	}
-	function elementShow(obj){
-		obj.show();
+	
+	function elementShow(objIndex){
+		$("[name='startTime[]']").eq(objIndex).show();
+		$("[name='endTime[]']").eq(objIndex).show();
+		$("[name='spanStartTime[]']").eq(objIndex).show();
+		$("[name='spanEndTime[]']").eq(objIndex).show();
+	}
+	
+	function generateTimeArray(stime, etime) {
+	    let times = [];
+	    
+	    for (let h = stime; h < etime; h++) {
+	        for (let m = 0; m < 60; m += 30) {
+	            // padStart(2, '0')를 사용해 1자릿수 시간을 '09'처럼 2자릿수로 만듭니다.
+	            let hh = String(h).padStart(2, '0');
+	            let mm = String(m).padStart(2, '0');
+	            times.push(hh + ':' + mm);
+	        }
+	    }
+	    return times;
+	}
+	
+	function selectTimeSetting(objIndex){
+		//alert("셀렉트 셋팅!");
+		var selStartNode = $("[name='startTime[]']").eq(objIndex);
+		var selEndNode = $("[name='endTime[]']").eq(objIndex);
+		var startIsSelected = $("[name='startTimeValue[]']").eq(objIndex).val();
+		var endIsSelected = $("[name='endTimeValue[]']").eq(objIndex).val();
+		var status = $("[name='ampm[]']").eq(objIndex).val();
+		var startTimeIsSelectFlag = false;
+		var endTimeIsSelectFlag = false;
+		
+		if(status == null){
+			return;
+		}
+				
+		if(status == "휴진"){
+			
+			elementHide(objIndex);
+			selStartNode.empty();
+			selEndNode.empty();
+			
+		} else if(status == "오전") {
+			elementShow(objIndex);
+			
+			startTimeSet = generateTimeArray(9, 12);
+			endTimeSet = generateTimeArray(10, 13);
+			
+			$.each(startTimeSet, function(i,time){
+				if(time == startIsSelected) {
+					startTimeIsSelectFlag = true;
+				} else {
+					startTimeIsSelectFlag = false;
+				}
+				selStartNode.append(new Option(time,time,startTimeIsSelectFlag,startTimeIsSelectFlag));
+			});
+			
+			$.each(endTimeSet, function(i,time){
+				if(time == endIsSelected) {
+					endTimeIsSelectFlag = true;
+				} else {
+					endTimeIsSelectFlag = false;
+				}
+				selEndNode.append(new Option(time,time,endTimeIsSelectFlag,endTimeIsSelectFlag));
+			});
+		} else if(status == "오후"){
+			elementShow(objIndex);
+			
+			startTimeSet = generateTimeArray(14, 16);
+			endTimeSet = generateTimeArray(15, 17);
+			
+			$.each(startTimeSet, function(i,time){
+				if(time == startIsSelected) {
+					startTimeIsSelectFlag = true;
+				} else {
+					startTimeIsSelectFlag = false;
+				}
+					
+				selStartNode.append(new Option(time,time,startTimeIsSelectFlag,startTimeIsSelectFlag));
+			});
+			
+			$.each(endTimeSet, function(i,time){
+				if(time == endIsSelected) {
+					endTimeIsSelectFlag = true;
+				} else {
+					endTimeIsSelectFlag = false;
+				}
+				selEndNode.append(new Option(time,time,endTimeIsSelectFlag,endTimeIsSelectFlag));
+			});
+		} else if(status == "전일"){
+			elementShow(objIndex);
+			
+			startTimeSet = generateTimeArray(9, 16);
+			endTimeSet = generateTimeArray(10, 17);
+			
+			$.each(startTimeSet, function(i,time){
+				if(time == startIsSelected) {
+					startTimeIsSelectFlag = true;
+				} else {
+					startTimeIsSelectFlag = false;
+				}
+					
+				selStartNode.append(new Option(time,time,startTimeIsSelectFlag,startTimeIsSelectFlag));
+			});
+			
+			$.each(endTimeSet, function(i,time){
+				if(time == endIsSelected) {
+					endTimeIsSelectFlag = true;
+				} else {
+					endTimeIsSelectFlag = false;
+				}
+				selEndNode.append(new Option(time,time,endTimeIsSelectFlag,endTimeIsSelectFlag));
+			});
+		}
 	}
 	
 	function selectSetting(){
 		var ampmArr = $("[name='ampm[]']");
-		if($.hasParams()){
-			for(var i = 0 ; i < 7; i++ ){
-				if(ampmArr.eq(i).val() == '휴진' ){
-					elementHide($("[name='startTime[]']").eq(i));
-					elementHide($("[name='endTime[]']").eq(i));
-					elementHide($("[name='spanStartTime[]']").eq(i));
-					elementHide($("[name='spanEndTime[]']").eq(i));
-				} else if(ampmArr.eq(i).val() == '오전' ){
-					elementShow($("[name='startTime[]']").eq(i));
-					elementShow($("[name='endTime[]']").eq(i));
-					elementShow($("[name='spanStartTime[]']").eq(i));
-					elementShow($("[name='spanEndTime[]']").eq(i));
-					$("[name='startTime[]']").eq(i)
-						.append(`<option value='09:00'>09:00</option>`)
-						.append(`<option value='09:30'>09:30</option>`)
-						.append(`<option value='10:00'>10:00</option>`)
-						.append(`<option value='10:30'>10:30</option>`)
-						.append(`<option value='11:00'>11:00</option>`)
-						.append(`<option value='11:30'>11:30</option>`)
-						.append(`<option value='12:00'>12:00</option>`)
-						.append(`<option value='12:30'>12:30</option>`)
-						.append(`<option value='13:00'>13:00</option>`);
-					$("[name='endTime[]']").eq(i)
-						.append(`<option value='09:00'>09:00</option>`)
-						.append(`<option value='09:30'>09:30</option>`)
-						.append(`<option value='10:00'>10:00</option>`)
-						.append(`<option value='10:30'>10:30</option>`)
-						.append(`<option value='11:00'>11:00</option>`)
-						.append(`<option value='11:30'>11:30</option>`)
-						.append(`<option value='12:00'>12:00</option>`)
-						.append(`<option value='12:30'>12:30</option>`)
-						.append(`<option value='13:00'>13:00</option>`);
-				} else if(ampmArr.eq(i).val() == '오후' ){
-					elementShow($("[name='startTime[]']").eq(i));
-					elementShow($("[name='endTime[]']").eq(i));
-					elementShow($("[name='spanStartTime[]']").eq(i));
-					elementShow($("[name='spanEndTime[]']").eq(i));
-					$("[name='startTime[]']").eq(i)
-						.append(`<option value='14:00'>14:00</option>`)
-						.append(`<option value='14:30'>14:30</option>`)
-						.append(`<option value='15:00'>15:00</option>`)
-						.append(`<option value='15:30'>15:30</option>`)
-						.append(`<option value='16:00'>16:00</option>`)
-						.append(`<option value='16:30'>16:30</option>`)
-						.append(`<option value='17:00'>17:00</option>`);
-					$("[name='endTime[]']").eq(i)
-						.append(`<option value='14:00'>14:00</option>`)
-						.append(`<option value='14:30'>14:30</option>`)
-						.append(`<option value='15:00'>15:00</option>`)
-						.append(`<option value='15:30'>15:30</option>`)
-						.append(`<option value='16:00'>16:00</option>`)
-						.append(`<option value='16:30'>16:30</option>`)
-						.append(`<option value='17:00'>17:00</option>`);
-				} else if(ampmArr.eq(i).val() == '전일' ){
-					elementShow($("[name='startTime[]']").eq(i));
-					elementShow($("[name='endTime[]']").eq(i));
-					elementShow($("[name='spanStartTime[]']").eq(i));
-					elementShow($("[name='spanEndTime[]']").eq(i));
-					$("[name='startTime[]']").eq(i)
-						.append(`<option value='09:00'>09:00</option>`)
-						.append(`<option value='09:30'>09:30</option>`)
-						.append(`<option value='10:00'>10:00</option>`)
-						.append(`<option value='10:30'>10:30</option>`)
-						.append(`<option value='11:00'>11:00</option>`)
-						.append(`<option value='11:30'>11:30</option>`)
-						.append(`<option value='12:00'>12:00</option>`)
-						.append(`<option value='12:30'>12:30</option>`)
-						.append(`<option value='13:00'>13:00</option>`);
-					$("[name='endTime[]']").eq(i)
-						.append(`<option value='14:00'>14:00</option>`)
-						.append(`<option value='14:30'>14:30</option>`)
-						.append(`<option value='15:00'>15:00</option>`)
-						.append(`<option value='15:30'>15:30</option>`)
-						.append(`<option value='16:00'>16:00</option>`)
-						.append(`<option value='16:30'>16:30</option>`)
-						.append(`<option value='17:00'>17:00</option>`);
-				}// end else if
-			}// end for 
-		} else {
-			elementHide($("[name='startTime[]']"));
-			elementHide($("[name='endTime[]']"));
-			elementHide($("[name='spanStartTime[]']"));
-			elementHide($("[name='spanEndTime[]']"));
+		//alert("셋팅 function"+ ampmArr.length);
+		
+		if(${ not empty scheduleDTOList }){
 			
-			$("[name='startTime[]']").empty();
-			$("[name='endTime[]']").empty();
+			for(var i = 0 ; i < ampmArr.length; i++){
+				selectTimeSetting(i);
+			}
+
+		} else {
+			
+			for(var i = 0 ; i < ampmArr.length; i++){
+				elementHide(i);
+			}
 			
 		}// end else if
 	}
+	
 	function previewImage(input, targetId) {
 		const file = input.files && input.files[0];
 		if (!file)
@@ -941,24 +999,38 @@
 												<div class="doctor-schedule-row">
 													<c:choose>
 														<c:when test="${ schedule.dayOfWeek == 1 }">
+															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
+															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
 															<span class="doctor-inline-label">월</span>
 														</c:when>
 														<c:when test="${ schedule.dayOfWeek == 2 }">
+														<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
+															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
 															<span class="doctor-inline-label">화</span>
 														</c:when>
 														<c:when test="${ schedule.dayOfWeek == 3 }">
+															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
+															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
 															<span class="doctor-inline-label">수</span>
 														</c:when>
 														<c:when test="${ schedule.dayOfWeek == 4 }">
+															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
+															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
 															<span class="doctor-inline-label">목</span>
 														</c:when>
 														<c:when test="${ schedule.dayOfWeek == 5 }">
+															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
+															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
 															<span class="doctor-inline-label">금</span>
 														</c:when>
 														<c:when test="${ schedule.dayOfWeek == 6 }">
+															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
+															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
 															<span class="doctor-inline-label">토</span>
 														</c:when>
 														<c:when test="${ schedule.dayOfWeek == 7 }">
+															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
+															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
 															<span class="doctor-inline-label">일</span>
 														</c:when>
 													</c:choose>

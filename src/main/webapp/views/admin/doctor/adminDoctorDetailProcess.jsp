@@ -41,8 +41,8 @@ String[] careerYear = request.getParameterValues("careerYear[]");
 String[] careerContent = request.getParameterValues("careerContent[]");
 String[] careerNo = request.getParameterValues("careerNo[]");
 String[] scheduleAmPm = request.getParameterValues("ampm[]");
-String[] scheduleStartTime = request.getParameterValues("startTime[]");
-String[] scheduleEndTime = request.getParameterValues("endTime[]");
+String[] scheduleStartTime = request.getParameterValues("startTimeValue[]");
+String[] scheduleEndTime = request.getParameterValues("endTimeValue[]");
 
 
 
@@ -94,7 +94,6 @@ if(careerYear!=null && careerYear.length>0){
 }// end if
 
 DoctorScheduleDTO doctorScheduleDTO = null;
-int  timeCnt = 0;
 		
 for(int i=0; i < 7; i++){
 	doctorScheduleDTO = new DoctorScheduleDTO();
@@ -102,12 +101,9 @@ for(int i=0; i < 7; i++){
 	doctorScheduleDTO.setDayOfWeek(i+1);
 	doctorScheduleDTO.setStatus(scheduleAmPm[i]);
 	
-	if(!"휴진".equals(scheduleAmPm[i])){
-		if(timeCnt < scheduleStartTime.length){
-			doctorScheduleDTO.setStartTime(scheduleStartTime[timeCnt]);
-			doctorScheduleDTO.setEndTime(scheduleEndTime[timeCnt]);
-			timeCnt++;
-		}
+	if(!"휴진".equals(scheduleAmPm[i]) && scheduleAmPm != null){
+		doctorScheduleDTO.setStartTime(scheduleStartTime[i]);
+		doctorScheduleDTO.setEndTime(scheduleEndTime[i]);
 	} else {
 		doctorScheduleDTO.setStartTime("");
 		doctorScheduleDTO.setEndTime("");
@@ -120,7 +116,7 @@ adminDoctorFormDTO.setEducationList(educationList);
 adminDoctorFormDTO.setCareerList(careerList);
 adminDoctorFormDTO.setScheduleList(scheduleList);
 
-//System.out.println(adminDoctorService.checkDoctorLicenseNo(doctorDTO.getDoctorLicenseNo())+": true여야하는데?");
+//System.out.println(scheduleList.size() + "이거 싸이즈 무조건 7이야 함");
 if(adminDoctorService.checkDoctorLicenseNo(doctorDTO.getDoctorLicenseNo())){
 	// update로 실행
 	//System.out.println("업데이트 탐");

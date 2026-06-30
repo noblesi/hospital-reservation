@@ -85,14 +85,16 @@ public class AdminDoctorService {
 		List<DoctorCareerDTO> originCareerList = adminDoctorDAO.selectDoctorCareerList(doctorLicenseNo);
 		List<DoctorEducationDTO> originEducationList = adminDoctorDAO.selectDoctorEducationList(doctorLicenseNo);
 		
+		List<DoctorCareerDTO> careerList = adminDoctorFormDTO.getCareerList();
+		List<DoctorEducationDTO> educationList = adminDoctorFormDTO.getEducationList();
+		List<DoctorScheduleDTO> scheduleList = adminDoctorFormDTO.getScheduleList();
+		
+		/////career///////////////////////////////////////////////////////////////
+		// 업데이트 또는 인설트 판단
+		
 		int careerNo = 0;
 		int originCareerNo = 0;
 		
-		List<DoctorCareerDTO> careerList = adminDoctorFormDTO.getCareerList();
-		List<DoctorEducationDTO> educationList = adminDoctorFormDTO.getEducationList();
-		
-		////////////////////////////////////////////////////////////////////////////////////////////
-		// 업데이트 또는 인설트 판단
 		boolean deleteCareerFlag = false;
 		for(int i = 0; i < careerList.size(); i++) {
 			careerNo = careerList.get(i).getCareerNo();
@@ -119,36 +121,39 @@ public class AdminDoctorService {
 			}
 		}// end for
 		
-		///////////////////////////////////////////////////////////////////////////////////////////////////
+		//////education//////////////////////////////////////////////////////////////////////////////////
 		int educationNo = 0;
 		int originEducationNo = 0;
 		boolean deleteEducationFlag = false;
 		// 업데이트 또는 인설트 판단
-				for(int i = 0; i < educationList.size(); i++) {
-					educationNo = educationList.get(i).getEducationNo();
-					if( adminDoctorDAO.selectDoctorCareerChk(doctorLicenseNo, educationNo) ) {
-						adminDoctorDAO.updateDoctorEducation(doctorLicenseNo, educationList.get(i) );
-					} else if(educationNo==0 && (!educationList.get(i).getEducationYear().isEmpty() || !educationList.get(i).getEducationContent().isEmpty()) ){
-						adminDoctorDAO.insertDoctorEducation(educationList.get(i));
-					} 
-				}// end for
-				
-				for(int i =0; i < originEducationList.size(); i++ ) {
-					originEducationNo = originEducationList.get(i).getEducationNo();
-					deleteEducationFlag= false;
-					for(int j =0; j < educationList.size(); j++) {
-						if(originEducationList.get(i).getEducationNo() == originEducationList.get(j).getEducationNo()) {
-							j=educationList.size();
-							deleteEducationFlag=false;
-						} else if(j == educationList.size()-1) {
-							deleteEducationFlag= true;
-						}
-					}// end for
-					if(deleteEducationFlag) {
-						adminDoctorDAO.deleteDoctorCareers(doctorLicenseNo, originEducationNo);
-					}
-				}// end for
+		for(int i = 0; i < educationList.size(); i++) {
+			educationNo = educationList.get(i).getEducationNo();
+			if( adminDoctorDAO.selectDoctorCareerChk(doctorLicenseNo, educationNo) ) {
+				adminDoctorDAO.updateDoctorEducation(doctorLicenseNo, educationList.get(i) );
+			} else if(educationNo==0 && (!educationList.get(i).getEducationYear().isEmpty() || !educationList.get(i).getEducationContent().isEmpty()) ){
+				adminDoctorDAO.insertDoctorEducation(educationList.get(i));
+			} 
+		}// end for
 		
+		for(int i =0; i < originEducationList.size(); i++ ) {
+			originEducationNo = originEducationList.get(i).getEducationNo();
+			deleteEducationFlag= false;
+			for(int j =0; j < educationList.size(); j++) {
+				if(originEducationList.get(i).getEducationNo() == originEducationList.get(j).getEducationNo()) {
+					j=educationList.size();
+					deleteEducationFlag=false;
+				} else if(j == educationList.size()-1) {
+					deleteEducationFlag= true;
+				}
+			}// end for
+			if(deleteEducationFlag) {
+				adminDoctorDAO.deleteDoctorCareers(doctorLicenseNo, originEducationNo);
+			}
+		}// end for
+		////////schedule///////////////////////////////////////////////////////////////////////////
+		//adminDoctorDAO.updateDoctorSchedules(doctorLicenseNo, scheduleList);
+		saveDoctorSchedule(doctorLicenseNo, scheduleList);
+				
 		if(successCnt > 0) {
 			successFlag = true;
 		}// end if
@@ -185,6 +190,7 @@ public class AdminDoctorService {
 		adminDoctorFormOptionDTO.setStatusList(adminDoctorDAO.selectDoctorStatusAllList());
 		return adminDoctorFormOptionDTO;
 	}
+	
 	public boolean saveDoctorSchedule(int doctorLicenseNo, List<DoctorScheduleDTO> schedules) {
 		// 진료 가능 요일 저장
 		int doctorLicenseNoTemp = doctorLicenseNo;
