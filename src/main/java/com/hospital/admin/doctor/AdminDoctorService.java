@@ -10,6 +10,9 @@ import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorEducationDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
 
+import kr.co.sist.chipher.DataDecryption;
+
+
 
 public class AdminDoctorService {
 	private AdminDoctorDAO adminDoctorDAO;
@@ -49,6 +52,16 @@ public class AdminDoctorService {
 		// 의료진 상세 조회
 		int doctorLicenseNoTemp = doctorLicenseNo;
 		AdminDoctorFormDTO adminDoctorFormDTO = new AdminDoctorFormDTO();
+		
+		DoctorDTO doctorDTO = adminDoctorDAO.selectDoctorDetail(doctorLicenseNoTemp);
+		
+		DataDecryption dd = new DataDecryption(null);
+		
+		try {
+			doctorDTO.setName(dd.decrypt(doctorDTO.getName()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		adminDoctorFormDTO.setDoctorDTO(adminDoctorDAO.selectDoctorDetail(doctorLicenseNoTemp));
 		adminDoctorFormDTO.setCareerList(adminDoctorDAO.selectDoctorCareerList(doctorLicenseNoTemp));

@@ -1,5 +1,8 @@
 package com.hospital.admin.doctor;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +19,8 @@ import com.hospital.common.dto.DoctorPositionDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
 import com.hospital.common.dto.DoctorStatusDTO;
 import com.hospital.common.util.DBConnection;
+
+import kr.co.sist.chipher.DataDecryption;
 
 public class AdminDoctorDAO {
 	private static AdminDoctorDAO adminDoctorDAO; 
@@ -1054,5 +1059,62 @@ public class AdminDoctorDAO {
 		
 		return list;
 	}// selectDoctorStatusList
+	
+	public String selectKey() {
+		String key = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		StringBuilder selectSql = new StringBuilder();
+		selectSql
+			.append("	select * from server_property		")
+			.append("	where type=?		");
+		try {
+			conn = DBConnection.getConnection();
+			pstmt = conn.prepareStatement(selectSql.toString());
+			
+			pstmt.setString(1, "1");
+			
+			rs = pstmt.executeQuery();
+			
+			DataDecryption dd = new DataDecryption(getKey());
+			
+			if(rs.next()) {
+				try {
+					key = dd.decrypt(rs.getString("key"));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}// end if
+			
+			}  catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				DBConnection.close(rs,pstmt,conn);
+			}// end try catch
+			
+		return key;
+	}
+	
+	private String getKey() {
+		String key = "";
+		
+		String filePath = "C:/qoeryqoeryqoe.txt";
+		
+		 try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                key = line; // 한 줄씩 읽어서 출력
+            }
+            System.out.println(key);
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+		
+		return key;
+	}
+	
 	
 }// class
