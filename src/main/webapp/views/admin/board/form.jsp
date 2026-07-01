@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 관리</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css?v=${initParam.assetVersion}">
 </head>
 <body>
     <%@ include file="/views/common/adminHeader.jsp" %>

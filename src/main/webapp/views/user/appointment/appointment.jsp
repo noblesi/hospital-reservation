@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
 	<!-- 외부 CSS -->
-	<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
+	<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 	<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointment.css' />">
 	<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointmentSidebar.css' />">
 
@@ -172,6 +172,6 @@
 	</div>
 
 	<jsp:include page="/views/common/userFooter.jsp" />
-	<script src="<c:url value='/resources/js/user-layout.js' />"></script>
+	<script src="<c:url value='/resources/js/user-layout.js?v=${initParam.assetVersion}' />"></script>
 </body>
 </html>

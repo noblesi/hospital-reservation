@@ -11,6 +11,11 @@
     <param-value></param-value>
   </context-param>
 
+  <context-param>
+    <param-name>assetVersion</param-name>
+    <param-value>20260701</param-value>
+  </context-param>
+
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
