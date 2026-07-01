@@ -10,14 +10,14 @@
 <meta charset="UTF-8">
 <title>어린이 회원가입 약관동의</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/join.css' />">
 </head>
 
 <body>
 
-<jsp:include page="../common/userHeader.jsp" />
-<jsp:include page="../common/userBreadcrumb.jsp" />
+<jsp:include page="/views/common/userHeader.jsp" />
+<jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 <main id="content" class="memJoinContent">
 
@@ -148,7 +148,7 @@
                     <label for="checkbox02">개인정보 수집 이용하는 것에 동의합니다.</label>
                 </div>
             </div>
-            
+
              <div class="persInforWrap">
                 <div class="contTextWrap">
                     <h4>민감정보 수집 및 이용 동의 <span class="colorPoint requiredTxt">(필수)</span></h4>
@@ -172,7 +172,7 @@
                         </p>
                     </div>
                 </div>
-                
+
                 <div class="checkWrap">
                     <input id="checkbox03" type="checkbox" title="개인정보 선택 동의">
                     <label for="checkbox03">민감정보 수집 및 이용하는 것에 동의합니다.</label>
@@ -186,10 +186,10 @@
                 <div class="scrollBox">
                     <div class="innerScroll">
                         <h3>동의 목적</h3>
-						<p>
-							만 14세 미만의 아동의 회원가입 및 병원 홈페이지 서비스 이용을 위하여 
-							법정대리인(보호자)의 동의를 확인합니다.
-						</p>
+                        <p>
+                            만 14세 미만의 아동의 회원가입 및 병원 홈페이지 서비스 이용을 위하여
+                            법정대리인(보호자)의 동의를 확인합니다.
+                        </p>
                         <h3>동의 내용</h3>
                         <ul>
                             <li>법정대리인은 아동의 회원가입에 동의합니다.</li>
@@ -200,11 +200,11 @@
                         <h3>보유 및 이용기간</h3>
                         <p class="colorPoint">
                            법정대리인은 아동의 회원정보가 정확하게 입력되었는지 확인해야 하며,
-    						아동의 서비스 이용과 개인정보 관리에 대한 책임이 있습니다.
+                            아동의 서비스 이용과 개인정보 관리에 대한 책임이 있습니다.
                         </p>
                     </div>
                 </div>
-                
+
                 <div class="checkWrap">
                     <input id="checkbox04" type="checkbox" title="개인정보 선택 동의">
                     <label for="checkbox04">법정대리인의 아동의 정보를 이용하는 것에 동의합니다.</label>
@@ -215,13 +215,16 @@
                 <input type="checkbox" id="checkboxAll" title="이용약관, 개인정보 처리 방침 모두 동의">
                 <label for="checkboxAll">이용약관, 개인정보 수집 이용 <b>모두</b> 동의합니다.</label>
             </div>
-            
-            
+
+
 
         </fieldset>
     </form>
 
-    <form id="gForm" name="gForm" action="<c:url value='joinFormChild.jsp' />" method="post">
+    <form id="gForm"
+          name="gForm"
+          action="<c:url value='/views/member/joinFormChild.jsp' />"
+          method="post">
         <input type="hidden" name="join_type" value="TC">
 
        <div class="btnWrap">
@@ -232,11 +235,11 @@
 
 </main>
 
-<jsp:include page="../common/userFooter.jsp" />
+<jsp:include page="/views/common/userFooter.jsp" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="<c:url value='/resources/js/join.js' />"></script>
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js?v=${initParam.assetVersion}' />"></script>
 
 </body>
 </html>

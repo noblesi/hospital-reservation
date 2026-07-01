@@ -20,7 +20,7 @@ public class UserAppointmentRequestDTO {
 	private String appointmentTime;
 	private String requirement;
 	private String status;
-	private Date createdAt;
-	private String reservationTargetType;
-	private String guardianRelation;
+	// private Date createdAt; DB에서 자동 입력.
+	// private String reservationTargetType;
+	// private String guardianRelation;
 }

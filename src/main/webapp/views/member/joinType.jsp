@@ -10,15 +10,15 @@
 <meta charset="UTF-8">
 <title>회원가입 유형 선택</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/join.css' />">
 
 </head>
 
 <body>
 
-<jsp:include page="../common/userHeader.jsp" />
-<jsp:include page="../common/userBreadcrumb.jsp" />
+<jsp:include page="/views/common/userHeader.jsp" />
+<jsp:include page="/views/common/userBreadcrumb.jsp" />
 <main id="content" class="memJoinContent">
 
     <div class="contHeadingWrap">
@@ -88,8 +88,8 @@
 </main>
 
 
-<jsp:include page="../common/userFooter.jsp" />
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<jsp:include page="/views/common/userFooter.jsp" />
+<script src="<c:url value='/resources/js/user-layout.js?v=${initParam.assetVersion}' />"></script>
 
 </body>
 </html>

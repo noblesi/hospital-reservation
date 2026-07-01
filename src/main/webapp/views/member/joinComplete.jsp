@@ -1,21 +1,9 @@
-<%@page import="com.hospital.common.MemberDTO"%>
-<%@page import="com.hospital.member.MemberRegisterService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:set var="activeMenu" value="login" scope="request" />
 <c:set var="depth1" value="회원가입" scope="request" />
 
-<%
-String registerLoginId = (String)session.getAttribute("registerLoginId");
-
-MemberDTO mDTO = null;
-
-if(registerLoginId != null){
-    MemberRegisterService mrs = new MemberRegisterService();
-    mDTO = mrs.searchRegister(registerLoginId);
-}
-%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -23,15 +11,15 @@ if(registerLoginId != null){
 <meta charset="UTF-8">
 <title>회원가입 완료</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/join.css' />">
 
 </head>
 
 <body>
 
-<jsp:include page="../common/userHeader.jsp" />
-<jsp:include page="../common/userBreadcrumb.jsp" />
+<jsp:include page="/views/common/userHeader.jsp" />
+<jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 <main id="content" class="memJoinContent">
 
@@ -49,7 +37,7 @@ if(registerLoginId != null){
     <div class="joinCompleteWrap">
 
         <div class="completeIcon">
-        	  <img src="<c:url value='/resources/images/security/login_check.png' />" alt="가입완료">
+              <img src="<c:url value='/resources/images/security/login_check.png' />" alt="가입완료">
         </div>
 
         <h3>가입이 완료되었습니다.</h3>
@@ -59,40 +47,38 @@ if(registerLoginId != null){
 
             <div class="infoCard">
                 <span class="label">이름</span>
-                <strong><%= mDTO != null ? mDTO.getName() : "" %></strong>
+                <strong><c:out value="${member.name}" /></strong>
             </div>
 
             <div class="infoCard">
                 <span class="label">회원 아이디</span>
-                <strong><%= mDTO != null ? mDTO.getLoginId() : "" %></strong>
+                <strong><c:out value="${member.loginId}" /></strong>
             </div>
 
             <div class="infoCard">
                 <span class="label">가입일</span>
-                <strong><%= mDTO != null ? mDTO.getRegisteredAt() : "" %></strong>
+                <strong><c:out value="${member.registeredAt}" /></strong>
             </div>
 
         </div>
 
         <div class="btnWrap">
-            <button type="button" class="btnType02"
-                onclick="location.href='../main.jsp'">
+            <a href="<c:url value='/main.do' />" class="btnType02">
                 메인으로 이동
-            </button>
+            </a>
 
-            <button type="button" class="btnType03"
-                onclick="location.href='login.jsp'">
+            <a href="<c:url value='/member/login.do' />" class="btnType03">
                 로그인
-            </button>
+            </a>
         </div>
 
     </div>
 
 </main>
 
-<jsp:include page="../common/userFooter.jsp" />
+<jsp:include page="/views/common/userFooter.jsp" />
 
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js?v=${initParam.assetVersion}' />"></script>
 
 </body>
 </html>

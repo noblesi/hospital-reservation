@@ -19,9 +19,5 @@ public class UserAppointmentOptionDTO {
 	private String positionName;
 	private String specialty;
 	private String thumbnailUrl;
-	private int dayOfWeek;
-	private String startTime;
-	private String endTime;
-	private String availableTime;
 	private boolean reservable;
 }

@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%-- 마이페이지 공통 사이드바 --%>
 <aside class="side-card">
     <div class="side-top">
         <div class="side-icon">
-            <img src="<%= request.getContextPath() %>/resources/images/common/userSideBar_myPage2.png"
+            <img src="<%= request.getContextPath() %>/resources/images/myPage/userSideBar_myPage2.png"
                  alt="마이페이지 사용자">
         </div>
 
-        <h3>${sessionScope.loginUser.name}</h3>
+        <h3><c:out value="${sessionScope.loginUser.name}" /></h3>
 
         <p>
             안녕하세요!<br>
@@ -19,7 +20,7 @@
 
     <ul class="side-menu">
         <li>
-            <a href="<%= request.getContextPath() %>/views/member/myPage.jsp">
+            <a href="<c:url value='/member/mypage.do' />">
                 마이페이지
                 <span>›</span>
             </a>
@@ -54,12 +55,15 @@
      aria-modal="true"
      aria-labelledby="passwordCheckTitle"
      aria-hidden="true"
-     data-auto-open="<%= "fail".equals(request.getParameter("passwordCheck")) %>">
+     data-auto-open="${param.passwordCheck eq 'fail'}">
     <div class="passwordCheckContent">
-        <div class="passwordUserIcon">♙</div>
+        <div class="passwordUserIcon">
+            <img src="<%= request.getContextPath() %>/resources/images/myPage/userSideBar_myPage2.png"
+                 alt="비밀번호 확인">
+        </div>
         <h3 id="passwordCheckTitle">비밀번호를 입력해주세요</h3>
 
-        <form action="<%= request.getContextPath() %>/views/member/process/checkUserPasswordProcess.jsp"
+        <form action="<c:url value='/member/mypage/password-check.do' />"
               method="post"
               id="passwordCheckForm">
             <div class="passwordInputWrap">
@@ -74,7 +78,7 @@
             </div>
 
             <p class="passwordCheckError" id="passwordCheckError">
-                <%= "fail".equals(request.getParameter("passwordCheck")) ? "비밀번호가 일치하지 않습니다." : "" %>
+                <c:if test="${param.passwordCheck eq 'fail'}">비밀번호가 일치하지 않습니다.</c:if>
             </p>
 
             <div class="passwordCheckButtons">

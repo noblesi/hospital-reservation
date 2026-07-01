@@ -18,7 +18,6 @@ public class MainPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("recentNoticeList", getRecentNoticeList());
         request.setAttribute("recentFaqList", getRecentFaqList());
-        request.setAttribute("activeMenu", "hospital");
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/main.jsp");
         dispatcher.forward(request, response);

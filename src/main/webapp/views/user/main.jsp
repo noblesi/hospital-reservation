@@ -1,12 +1,18 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/views/common/taglib.jsp" %>
+<%
+    if (request.getAttribute("recentNoticeList") == null || request.getAttribute("recentFaqList") == null) {
+        response.sendRedirect(request.getContextPath() + "/main.do");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KMCH 한국중앙병원</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css?v=20260623-menu-hover-guard">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css?v=${initParam.assetVersion}">
 </head>
 <body>
     <%@ include file="/views/common/userHeader.jsp" %>
@@ -16,7 +22,7 @@
             <div class="main-visual-inner">
                 <p>환자 중심 진료 예약 서비스</p>
                 <h2>빠르고 편리한 병원 예약</h2>
-                <a href="<c:url value='/views/user/appointment/appointment.jsp' />" class="main-primary-link">진료 예약하기</a>
+                <a href="<c:url value='/appointment/reserve.do' />" class="main-primary-link">진료 예약하기</a>
             </div>
         </section>
 
@@ -71,6 +77,6 @@
 
     <%@ include file="/views/common/userFooter.jsp" %>
 
-    <script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=20260623-menu-hover-guard"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=${initParam.assetVersion}"></script>
 </body>
 </html>

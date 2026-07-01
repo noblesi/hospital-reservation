@@ -8,12 +8,12 @@
 
 					<c:if test="${not empty depth1}">
 						<span class="breadcrumb-separator">›</span>
-						<span>${depth1}</span>
+						<span><c:out value="${depth1}" /></span>
 					</c:if>
 
 					<c:if test="${not empty depth2}">
 						<span class="breadcrumb-separator">›</span>
-						<strong>${depth2}</strong>
+						<strong><c:out value="${depth2}" /></strong>
 					</c:if>
 				</div>
 			</div>

@@ -3,8 +3,8 @@ package com.hospital.user.board.dto;
 import com.hospital.common.dto.BaseSearchDTO;
 
 public class BoardSearchDTO extends BaseSearchDTO {
-    public static final String CATEGORY_NOTICE = "NOTICE";
-    public static final String CATEGORY_FAQ = "FAQ";
+    public static final String CATEGORY_NOTICE = "N";
+    public static final String CATEGORY_FAQ = "F";
 
     private String category = CATEGORY_NOTICE;
     private String searchType = "titleContent";
@@ -15,7 +15,7 @@ public class BoardSearchDTO extends BaseSearchDTO {
     }
 
     public void setCategory(String category) {
-        if (CATEGORY_FAQ.equalsIgnoreCase(category)) {
+        if (CATEGORY_FAQ.equalsIgnoreCase(category) || "FAQ".equalsIgnoreCase(category)) {
             this.category = CATEGORY_FAQ;
             return;
         }

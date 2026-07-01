@@ -6,6 +6,16 @@
 	version="4.0">
 	<display-name>hospital-reservation</display-name>
 
+  <context-param>
+    <param-name>kakaoMapAppKey</param-name>
+    <param-value></param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>assetVersion</param-name>
+    <param-value>20260701</param-value>
+  </context-param>
+
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
@@ -18,10 +28,27 @@
 			<param-value>false</param-value>
 		</init-param>
 	</filter>
+  <filter>
+    <filter-name>adminAuthFilter</filter-name>
+    <filter-class>com.hospital.common.filter.AdminAuthFilter</filter-class>
+  </filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+  <filter-mapping>
+    <filter-name>adminAuthFilter</filter-name>
+    <url-pattern>/admin</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>adminAuthFilter</filter-name>
+    <url-pattern>/admin/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>adminAuthFilter</filter-name>
+    <url-pattern>/views/admin/*</url-pattern>
+  </filter-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
@@ -44,6 +71,24 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>hospitalIntroPage</servlet-name>
+    <jsp-file>/views/user/hospital/intro.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>hospitalIntroPage</servlet-name>
+    <url-pattern>/hospital/intro.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>hospitalLocationPage</servlet-name>
+    <jsp-file>/views/user/hospital/location.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>hospitalLocationPage</servlet-name>
+    <url-pattern>/hospital/location.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>boardListServlet</servlet-name>
     <servlet-class>com.hospital.user.board.controller.BoardListServlet</servlet-class>
   </servlet>
@@ -60,6 +105,258 @@
   <servlet-mapping>
     <servlet-name>boardDetailServlet</servlet-name>
     <url-pattern>/board/detail.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberLoginPage</servlet-name>
+    <jsp-file>/views/member/login.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberLoginPage</servlet-name>
+    <url-pattern>/member/login.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberLoginProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberLoginProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberLoginProcessServlet</servlet-name>
+    <url-pattern>/member/login/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminLoginPage</servlet-name>
+    <jsp-file>/views/admin/auth/login.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminLoginPage</servlet-name>
+    <url-pattern>/admin/login.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminLoginProcessServlet</servlet-name>
+    <servlet-class>com.hospital.admin.auth.controller.AdminLoginProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminLoginProcessServlet</servlet-name>
+    <url-pattern>/admin/login/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberFindIdProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberFindIdProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberFindIdProcessServlet</servlet-name>
+    <url-pattern>/member/find-id/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberFindPasswordProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberFindPasswordProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberFindPasswordProcessServlet</servlet-name>
+    <url-pattern>/member/find-password/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberResetPasswordProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberResetPasswordProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberResetPasswordProcessServlet</servlet-name>
+    <url-pattern>/member/reset-password/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberJoinPage</servlet-name>
+    <jsp-file>/views/member/joinType.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberJoinPage</servlet-name>
+    <url-pattern>/member/join.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberJoinProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberJoinProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberJoinProcessServlet</servlet-name>
+    <url-pattern>/member/join/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberIdCheckServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberIdCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberIdCheckServlet</servlet-name>
+    <url-pattern>/member/id-check.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberJoinCompleteServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberJoinCompleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberJoinCompleteServlet</servlet-name>
+    <url-pattern>/member/join/complete.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberMyPage</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberMyPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberMyPage</servlet-name>
+    <url-pattern>/member/mypage.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberMyPageInfoServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberMyPageInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberMyPageInfoServlet</servlet-name>
+    <url-pattern>/member/mypage/info.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberPasswordCheckServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberPasswordCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberPasswordCheckServlet</servlet-name>
+    <url-pattern>/member/mypage/password-check.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberUpdateInfoServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberUpdateInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberUpdateInfoServlet</servlet-name>
+    <url-pattern>/member/mypage/update.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberWithdrawPage</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberWithdrawPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberWithdrawPage</servlet-name>
+    <url-pattern>/member/withdraw.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberWithdrawalPasswordCheckServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberWithdrawalPasswordCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberWithdrawalPasswordCheckServlet</servlet-name>
+    <url-pattern>/member/withdraw/password-check.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberWithdrawProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberWithdrawProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberWithdrawProcessServlet</servlet-name>
+    <url-pattern>/member/withdraw/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberCancelWithdrawalServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberCancelWithdrawalServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberCancelWithdrawalServlet</servlet-name>
+    <url-pattern>/member/withdraw/cancel.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberCancelAppointmentServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberCancelAppointmentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberCancelAppointmentServlet</servlet-name>
+    <url-pattern>/member/mypage/appointment/cancel.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberLogoutProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberLogoutProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberLogoutProcessServlet</servlet-name>
+    <url-pattern>/member/logout.do</url-pattern>
+    <url-pattern>/admin/logout.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>appointmentReserveServlet</servlet-name>
+    <servlet-class>com.hospital.user.appointment.controller.UserAppointmentReserveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appointmentReserveServlet</servlet-name>
+    <url-pattern>/appointment/reserve.do</url-pattern>
+    <url-pattern>/appointment/appointment.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>appointmentListServlet</servlet-name>
+    <servlet-class>com.hospital.user.appointment.controller.UserAppointmentListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appointmentListServlet</servlet-name>
+    <url-pattern>/appointment/list.do</url-pattern>
+    <url-pattern>/appointment/appointmentList.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>appointmentAjaxServlet</servlet-name>
+    <servlet-class>com.hospital.user.appointment.controller.UserAppointmentAjaxServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appointmentAjaxServlet</servlet-name>
+    <url-pattern>/appointment/ajax.do</url-pattern>
+    <url-pattern>/appointment/appointment_ajax.jsp</url-pattern>
+    <url-pattern>/appointment/process/appointmentAjax.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>appointmentProcessServlet</servlet-name>
+    <servlet-class>com.hospital.user.appointment.controller.UserAppointmentProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appointmentProcessServlet</servlet-name>
+    <url-pattern>/appointment/process.do</url-pattern>
+    <url-pattern>/appointment/appointmentProcess.jsp</url-pattern>
+    <url-pattern>/appointment/process/appointmentProcess.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>appointmentCancelServlet</servlet-name>
+    <servlet-class>com.hospital.user.appointment.controller.UserAppointmentCancelServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appointmentCancelServlet</servlet-name>
+    <url-pattern>/appointment/cancel.do</url-pattern>
+    <url-pattern>/appointment/process/appointmentCancel.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>appointmentSuccessServlet</servlet-name>
+    <servlet-class>com.hospital.user.appointment.controller.UserAppointmentSuccessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appointmentSuccessServlet</servlet-name>
+    <url-pattern>/appointment/success.do</url-pattern>
+    <url-pattern>/appointment/appointmentSuccess.jsp</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -83,12 +380,30 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>adminDepartmentFormServlet</servlet-name>
+    <servlet-class>com.hospital.admin.department.controller.AdminDepartmentFormServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminDepartmentFormServlet</servlet-name>
+    <url-pattern>/admin/department/form.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>adminAppointmentListServlet</servlet-name>
     <servlet-class>com.hospital.admin.appointment.controller.AdminAppointmentListServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>adminAppointmentListServlet</servlet-name>
     <url-pattern>/admin/reservation/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminAppointmentStatusServlet</servlet-name>
+    <servlet-class>com.hospital.admin.appointment.controller.AdminAppointmentStatusServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminAppointmentStatusServlet</servlet-name>
+    <url-pattern>/admin/reservation/status.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -101,12 +416,49 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>adminMemberDetailServlet</servlet-name>
+    <servlet-class>com.hospital.admin.member.AdminMemberDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminMemberDetailServlet</servlet-name>
+    <url-pattern>/admin/member/detail</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminMemoSaveServlet</servlet-name>
+    <servlet-class>com.hospital.admin.memo.controller.AdminMemoSaveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminMemoSaveServlet</servlet-name>
+    <url-pattern>/admin/member/memo/save.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminMemoDeleteServlet</servlet-name>
+    <servlet-class>com.hospital.admin.memo.controller.AdminMemoDeleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminMemoDeleteServlet</servlet-name>
+    <url-pattern>/admin/member/memo/delete.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>adminDoctorListServlet</servlet-name>
     <servlet-class>com.hospital.admin.doctor.controller.AdminDoctorListServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>adminDoctorListServlet</servlet-name>
     <url-pattern>/admin/doctor/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminDoctorFormServlet</servlet-name>
+    <servlet-class>com.hospital.admin.doctor.controller.AdminDoctorFormServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminDoctorFormServlet</servlet-name>
+    <url-pattern>/admin/doctor/form.do</url-pattern>
+    <url-pattern>/admin/doctor/adminDoctorDetail.jsp</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -145,6 +497,38 @@
     <servlet-name>adminBoardDeleteServlet</servlet-name>
     <url-pattern>/admin/board/delete.do</url-pattern>
   </servlet-mapping>
+
+  <resource-ref>
+    <description>Hospital reservation Oracle DBCP DataSource</description>
+    <res-ref-name>jdbc/hospitalDB</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
+  <error-page>
+    <error-code>400</error-code>
+    <location>/views/error/error.jsp</location>
+  </error-page>
+
+  <error-page>
+    <error-code>403</error-code>
+    <location>/views/error/error.jsp</location>
+  </error-page>
+
+  <error-page>
+    <error-code>404</error-code>
+    <location>/views/error/error.jsp</location>
+  </error-page>
+
+  <error-page>
+    <error-code>500</error-code>
+    <location>/views/error/error.jsp</location>
+  </error-page>
+
+  <error-page>
+    <exception-type>java.lang.Throwable</exception-type>
+    <location>/views/error/error.jsp</location>
+  </error-page>
 
   <jsp-config>
     <jsp-property-group>

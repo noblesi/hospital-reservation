@@ -1,305 +1,390 @@
-/**
- * 
- */
-var pageLength = $(".slTab").length - 1;
-var curPage = 0;
-
-var deptName;
-var dln;
-var specialty;
-var appointmentDate;
-var appointmentTime;
-
 $(function() {
-    /* 진료과 리스트 넘기는 기능 */
-
+    var pageLength = $(".slTab").length;
+    var curPage = 0;
+    
+    var deptName;
+    var dln;
+    var specialty;
+    var appointmentDate;
+    var appointmentTime;
+    
+    /* [이벤트 바인딩] */
     $(".btnNext").click(function() {
-        if (curPage < pageLength) {
-            curPage = moveRightPage(curPage);
-        }
+        if (curPage < pageLength) curPage = moveToNextPage(curPage);
     });
-
     $(".btnPrev").click(function() {
-        if (curPage > 0) {
-            curPage = moveLeftPage(curPage);
-        }
+        if (curPage > 0) curPage = moveToPrevPage(curPage);
     });
 
-
-    /* 정렬 기능 */
-    $("input[name='sortType']").on("change", sortDept);
+    $("input[name='sortType']").on("change", handleDeptSort);
     $("input[name='sortType']:checked").trigger("change");
-
-    /* 진료과 선택 시 */
-    $(".deptWrap").on("click", ".deptRadio", deptHandler);
-
-    /*의료진 선택 시*/
+    $(".deptWrap").on("click", ".deptRadio", handleDeptSelect);
+        
+    $("#searchBtn").on("click", handleDoctorSearch);
+    $("#dNameInput").on("keydown", function(e) {
+        if (e.keyCode == 13) $("#searchBtn").trigger("click");
+    });
+    
     $(".doctorListMain").on("click", ".selectDoctorBtn", handleDoctorSelect);
 
-    /* 달력 버튼 클릭 시 */
-    $(".scheduleCal").on("click", ".nextMonthBtn", nextMonth);
-    $(".scheduleCal").on("click", ".prevMonthBtn", prevMonth);
-
-    /* 날짜 선택 시 */
-    $(".scheduleDiv").on("click", ".available", selectDate);
-	
-	/* 시간 선택 시 */
-	$(".scheduleDiv").on("click", ".timeTableLi", selectTime);
-	
-	/* 예약 확정하기 버튼 클릭 시 */
-	$("#appointBtn").on("click", appointHandler)
-	
-	$(".modalXBtn").on("click", closeModal)
-	
-	/* modal 창 확인 버튼 클릭 시 */
-	$("#confirmBtn").on("click", confirmAppointment)
-	
-	/* 마지막 confirm 창 */
-	$("#lastConfrimCancelBtn").on("click", closeModal);
-	$("#lastConfrimBtn").on("click", sendRequestAppointment)
+    $(".scheduleCal").on("click", ".nextMonthBtn", changeToNextMonth);
+    $(".scheduleCal").on("click", ".prevMonthBtn", changeToPrevMonth);
+    $(".scheduleDiv").on("click", ".available", handleDateSelect);
+    $(".scheduleDiv").on("click", ".timeTableLi", handleTimeSelect);
+    
+    $("#appointBtn").on("click", handleAppointSubmit);
+    $(".modalXBtn").on("click", closeModal);
+    $("#confirmBtn").on("click", handleRequirementConfirm);
+    $("#lastConfrimCancelBtn").on("click", closeModal);
+    $("#lastConfrimBtn").on("click", sendRequestAppointment);
 });
 
-function removeFocusBorder() {
-	$(".deptWrap").removeClass("focusBorder");
-	$(".doctorListDiv").removeClass("focusBorder");
-	$(".scheduleCalDiv").removeClass("focusBorder");
-	$(".timeTableDiv").removeClass("focusBorder");
+function getAppointmentConfig() {
+    return window.hospitalAppointmentConfig || {};
 }
 
-function moveRightPage(curPage) {
+function getAppointmentAjaxUrl() {
+    return getAppointmentConfig().ajaxUrl || "ajax.do";
+}
+
+function getAppointmentProcessUrl() {
+    return getAppointmentConfig().processUrl || "process.do";
+}
+
+/* [UI 및 포커스 제어 함수] */
+function removeFocusBorder() {
+    $(".deptWrap").removeClass("focusBorder");
+    $(".doctorListDiv").removeClass("focusBorder");
+    $(".scheduleCalDiv").removeClass("focusBorder");
+    $(".timeTableDiv").removeClass("focusBorder");
+}
+
+function closeModal() {
+    $(".modalOverlay").removeClass("show");
+    $(".modalContent").removeClass("show");
+    $(".lastConfirmDiv").removeClass("show");
+}
+
+/* [페이지 슬라이더 관련 함수] */
+function moveToNextPage(curPage) {
     curPage++;
     var amount = -700 / curPage;
-
-    $(".sliderTrack").animate({
-        left: amount + "px"
-    }, 400);
-
+    $(".sliderTrack").animate({ left: amount + "px" }, 400);
     return curPage;
 }
 
-function moveLeftPage(curPage) {
+function moveToPrevPage(curPage) {
     curPage--;
-    if (curPage == 0) {
-        var amount = 0;
-    } else {
-        var amount = 700 / curPage;
+    var amount = (curPage == 0) ? 0 : 700 / curPage;
+    $(".sliderTrack").animate({ left: amount + "px" }, 400);
+    return curPage;
+}
+
+/* [HTML 생성 함수] */
+
+// 진료과 목록 HTML 생성
+function buildDepartmentHtml(data) {
+    var html = "";
+    $.each(data, function(i, dept) {
+        if (i % 9 === 0) html += "<div class='sliderPage'><table class='slTab'>";
+        if (i % 3 === 0) html += "<tr class='slRow'>";
+
+        html += "<td class='slCol'>"
+              + "<input class='deptRadio' style='display:none;' type='radio' name='dept'"
+              + " value='" + dept.deptNo + "' id='" + dept.deptNo + "'>"
+              + "<label for='" + dept.deptNo + "'>" + dept.deptName + "</label>"
+              + "</td>";
+
+        if (i % 3 === 2 || i === data.length - 1) html += "</tr>";
+        if (i % 9 === 8 || i === data.length - 1) html += "</table></div>";
+    });
+    return html;
+}
+
+// 의사 카드 HTML 생성
+function buildDoctorHtml(data) {
+    if (data.doctors.length === 0) {
+        return "<p class='noResult'>조건에 일치하는 의료진이 없습니다.</p>";
     }
 
-    $(".sliderTrack").animate({
-        left: amount + "px"
-    }, 400);
+    var html = "<ul class='doctorUl'>";
+    $.each(data.doctors, function(i, doctor) {
+        if (i % 2 === 0) html += "<div class='col'>";
 
-    return curPage;
+        html += "<li class='doctorLi'>"
+              + "<img class='doctorThumnail' src='" + doctor.thumbnailUrl + "'>"
+              + "<div class='doctorInfoDiv'>"
+              + "<h4 class='doctorName'>" + doctor.name
+              + "<a href='#void'><i class='bi bi-search blueSearchIcon'></i></a></h4>"
+              + "<p class='detail'>"
+              + (data.deptName ? "<strong class='deptName'>" + data.deptName + "</strong><br>" : "")
+              + "세부전공: <span class='specialty'>" + doctor.specialty + "</span>"
+              + "</p></div>"
+              + "<button class='selectDoctorBtn' value='" + doctor.doctorLicenseNo + "'>"
+              + "<i class='bi bi-check-circle checkIcon'></i> 선택"
+              + "</button></li>";
+
+        if (i % 2 === 1 || i === data.doctors.length - 1) html += "</div>";
+    });
+    html += "</ul>";
+    return html;
 }
 
-/* 진료과를 정렬하는 업무 */
-function sortDept() {
-    var selectedSort = $(this).val(); // "default" 또는 "ascending"
+// 달력 HTML 생성
+function buildCalendarHtml(data) {
+    var prevYear  = data.month === 1  ? data.year - 1 : data.year;
+    var prevMonth = data.month === 1  ? 12 : data.month - 1;
+    var nextYear  = data.month === 12 ? data.year + 1 : data.year;
+    var nextMonth = data.month === 12 ? 1  : data.month + 1;
 
+    var html = "<div class='moveMonthBar'>"
+             + "<button class='prevMonthBtn'><i class='bi bi-arrow-left-circle'></i></button>"
+             + "<h4 class='nowMonthTitle'>"
+             + "<span class='year'>" + data.year + "</span>년 "
+             + "<span class='month'>" + data.month + "</span>월"
+             + "</h4>"
+             + "<button class='nextMonthBtn'><i class='bi bi-arrow-right-circle'></i></button>"
+             + "</div>"
+             + "<table class='calTab'><thead><tr class='weekTr'>"
+             + "<th style='color:#ee1c24'>일</th>"
+             + "<th>월</th><th>화</th><th>수</th><th>목</th><th>금</th>"
+             + "<th style='color:#02348b'>토</th>"
+             + "</tr></thead><tbody><tr>";
+
+    for (var i = 0; i < data.blankCount; i++) {
+        html += "<td><span></span></td>";
+    }
+
+    $.each(data.days, function(i, d) {
+        var attr = d.status
+            ? " class='available " + d.status + "' data-date='" + d.date + "'"
+            : "";
+        html += "<td><span" + attr + ">" + d.day + "</span></td>";
+        if (d.isSaturday) html += "</tr><tr>";
+    });
+
+    html += "</tr></tbody></table>"
+          + "<div class='infoCal'>"
+          + "<span class='am ex'></span> <span>오전</span> "
+          + "<span class='pm ex'></span> <span>오후</span> "
+          + "<span class='allDay ex'></span> <span>종일</span>"
+          + "</div>";
+    return html;
+}
+
+// 시간표 HTML 생성
+function buildTimeTableHtml(data) {
+    if (data.times.length === 0) {
+        return "<p style='text-align:center; font-size:18px;'>"
+             + "해당 일자의 예약이<br>모두 완료되었습니다.<br>다른 날짜를 선택해주세요.</p>";
+    }
+
+    var html = "<ul class='timeTableUl'>";
+    $.each(data.times, function(i, time) {
+        html += "<li class='timeTableLi'>" + time + "</li>";
+    });
+    html += "</ul>";
+    return html;
+}
+
+/* [Ajax 렌더링 함수] */
+function renderCalendar(year, month) {
     $.ajax({
-        url: "appointment_ajax.jsp",
+        url: getAppointmentAjaxUrl(),
         type: "GET",
-        data: { action: "sort", sort: selectedSort },
-        success: function(receivedHtml) {
-            $(".sliderTrack").html(receivedHtml);
+        dataType: "json",
+        data: { action: "schedule", dln: dln, year: year, month: month },
+        success: function(data) {
+            $(".scheduleCal").html(buildCalendarHtml(data));
+        },
+        error: function() { alert("달력 로딩 실패"); }
+    });
+}
 
+function renderTimeTable(selectedDate) {
+    $.ajax({
+        url: getAppointmentAjaxUrl(),
+        type: "GET",
+        dataType: "json",
+        data: { action: "timeTable", date: selectedDate, dln: dln },
+        success: function(data) {
+            $(".timeTableDiv").html(buildTimeTableHtml(data));
+        },
+        error: function() { alert("시간표 로딩 실패"); }
+    });
+}
+
+/* [이벤트 핸들러 함수] */
+function handleDeptSort() {
+    var selectedSort = $(this).val();
+    $.ajax({
+        url: getAppointmentAjaxUrl(),
+        type: "GET",
+        dataType: "json",
+        data: { action: "sort", sort: selectedSort },
+        success: function(data) {
+            $(".sliderTrack").html(buildDepartmentHtml(data));
+            pageLength = $(".slTab").length;
             curPage = 0;
             $(".sliderTrack").css("left", "0px");
         },
-        error: function() {
-            alert("통신 실패!");
-        }
+        error: function() { alert("통신 실패!"); }
     });
-
 }
 
-/* 진료과를 선택한 후 업무 */
-function deptHandler() {
-    /* 선택한 진료과에 CSS 적용 */
+function handleDeptSelect() {
     $(".slTab label").removeClass("selectDept");
     $(this).next("label").addClass("selectDept");
-	
+
     removeFocusBorder();
-	
-	$(".doctorListDiv").addClass("focusBorder");
+    $(".doctorListDiv").addClass("focusBorder");
 
-    /* 기존에 있던 진료과 선택 문구 태그를 지운다. */
-    $(".noResult").remove();
+    $(".noResult").attr("style", "display: none;");
+    $(".scheduleCal").attr("style", "display: none;");
+    $(".timeTableDiv").attr("style", "display: none;");
+    $(".rsInfoDoctor").text("");
+    $(".rsInfoDate").text("");
 
-    /* 선택한 진료과 코드를 가져온다. */
     var deptNo = $(this).val();
     deptName = $("label[for='" + deptNo + "']").text();
+    $(".rsInfoDept").text(deptName);
 
-    /*예약 정보 확인에 선택한 과 출력*/
-    $(".rsInfoDept").html(deptName);
-
-    /* HTML 태그를 생성한다 */
     $.ajax({
-        url: "appointment_ajax.jsp",
+        url: getAppointmentAjaxUrl(),
         type: "GET",
+        dataType: "json",
         data: { action: "doctorList", deptNo: deptNo, deptName: deptName },
-        success: function(receivedHtml) {
-            /* 생성된 HTML 태그를 보여준다 */
-            $(".doctorListMain").html(receivedHtml)
-        }
-
+        success: function(data) {
+            $(".doctorListMain").html(buildDoctorHtml(data));
+        },
+        error: function() { alert("의사 목록 로딩 실패"); }
     });
-
 }
 
-/* 의료진 선택 후 업무 */
+function handleDoctorSearch() {
+    var keyword = $("#dNameInput").val();
+    if (keyword.trim() == "") {
+        alert("검색하실 단어를 입력해주세요.");
+        return;
+    }
+    $.ajax({
+        url: getAppointmentAjaxUrl(),
+        type: "GET",
+        dataType: "json",
+        data: { action: "searchDoctor", keyword: keyword },
+        success: function(data) {
+            $(".doctorListMain").html(buildDoctorHtml(data));
+        },
+        error: function() { alert("의사 검색 실패"); }
+    });
+}
+
 function handleDoctorSelect() {
-    /* CSS 강조 설정 */
     $(".selectDoctorBtn").removeClass("selectedBtn");
     $(".doctorThumnail").removeAttr("style");
     $(".result").attr("style", "display: none;");
-	
-    removeFocusBorder();
+    $(".timeTableDiv").attr("style", "display: none;");
 
+    removeFocusBorder();
+    $(".scheduleCal").removeAttr("style");
     $(".scheduleCalDiv").addClass("focusBorder");
+
     $(this).addClass("selectedBtn");
     $(this).closest(".doctorLi").find(".doctorThumnail").attr("style", "border: 2px solid #2763ba");
 
-	dln = $(".selectedBtn").val();
-	specialty = $(this).closest(".doctorLi").find(".specialty").text();
-    renderCal();
+    dln = $(".selectedBtn").val();
+    $("#apptDln").val(dln);
+    specialty = $(this).closest(".doctorLi").find(".specialty").text();
+
+    renderCalendar();
 
     var doctorName = $(this).closest(".doctorLi").find(".doctorName").text().trim();
     $(".rsInfoDoctor").text(doctorName);
 }
 
-/* 달력 출력 */
-function renderCal(year, month) {
-
-    $.ajax({
-        url: "appointment_ajax.jsp",
-        type: "GET",
-        data: { action: "schedule", dln: dln, year: year, month: month },
-        success: function(recivedHtml) {
-            $(".scheduleCal").html(recivedHtml);
-        }
-    });
-}
-
-function nextMonth() {
-    var year = Number($(".year").text());
+function changeToNextMonth() {
+    var year  = Number($(".year").text());
     var month = Number($(".month").text());
-
-    month = month + 1;
-
-    if (month == 13) {
-        month = 1;
-        year = year + 1;
-    }
-
-    renderCal(year, month);
+    month++;
+    if (month == 13) { month = 1; year++; }
+    renderCalendar(year, month);
 }
 
-function prevMonth() {
-    var year = Number($(".year").text());
+function changeToPrevMonth() {
+    var year  = Number($(".year").text());
     var month = Number($(".month").text());
-
-    month = month - 1;
-
-    if (month == 0) {
-        month = 12;
-        year = year - 1;
-    }
-
-    renderCal(year, month);
+    month--;
+    if (month == 0) { month = 12; year--; }
+    renderCalendar(year, month);
 }
 
-/* 날짜 선택 */
-function selectDate() {
-    /* 클릭한 날짜에 달력 css 추가 */
+function handleDateSelect() {
     $(".available").removeClass("selectedDay");
     $(this).addClass("selectedDay");
-	
+    $(".timeTableDiv").removeAttr("style");
 
-	appointmentDate = $(this).data("date");
-	
+    appointmentDate = $(this).data("date");
+    $("#apptDate").val(appointmentDate);
+
     renderTimeTable(appointmentDate);
-	
-	removeFocusBorder();
-	$(".timeTableDiv").addClass("focusBorder");
+    removeFocusBorder();
+    $(".timeTableDiv").addClass("focusBorder");
 }
 
-function renderTimeTable(selectedDate) {
-    $.ajax({
-        url: "appointment_ajax.jsp",
-        type: "GET",
-        data: { action: "timeTable", date: selectedDate, dln: dln},
-        success: function(recivedHtml) {
-           $(".timeTableDiv").html(recivedHtml);
-        }
-    });
+function handleTimeSelect() {
+    $(".timeTableLi").removeClass("selectedTime");
+    $(this).addClass("selectedTime");
+
+    appointmentTime = $(this).text();
+    $("#apptTime").val(appointmentTime);
+    $(".rsInfoDate").html(appointmentDate + "<br>" + appointmentTime);
 }
 
-function selectTime() {
-	$(".timeTableLi").removeClass("selectedTime");
-	$(this).addClass("selectedTime");
-	
-	appointmentTime = $(this).text();
-	
-	$(".rsInfoDate").html(appointmentDate + "<br>" + appointmentTime);
+function handleAppointSubmit() {
+    if (dln == null)             { alert("의료진을 선택해 주세요");   return; }
+    if (appointmentDate == null) { alert("예약 날짜를 선택해 주세요"); return; }
+    if (appointmentTime == null) { alert("예약 시간을 선택해 주세요"); return; }
+
+    $(".modalDept").text(deptName);
+    $(".madalDoctorName").text($(".rsInfoDoctor").text());
+    $(".specialty").text(specialty);
+    $("#modalContainer").addClass("show");
+    $(".modalContent").addClass("show");
 }
 
-function appointHandler() {
-	/* 의료진과 예약 날짜가 정상적으로 선택되어있으면 모달창을 보여준다. */
-	if(dln == null) {
-		alert("의료진을 선택해 주세요");
-		return;
-	}
-	
-	if(appointmentDate == null) {
-		alert("예약 날짜를 선택해 주세요")
-		return;
-	}
-	
-	if(appointmentTime == null) {
-		alert("예약 시간을 선택해 주세요")
-		return;
-	}
-	
-	$(".modalDept").text(deptName);
-	$(".madalDoctorName").text($(".rsInfoDoctor").text());
-	$(".specialty").text(specialty);
-	$("#modalContainer").addClass("show");
-	$(".modalContent").addClass("show");
-}
+function handleRequirementConfirm() {
+    var isCheck     = $(".checkInfo").is(":checked");
+    var requirement = $("#requireTa").val();
 
-function closeModal() {
-	$(".modalOverlay").removeClass("show");
-}
+    if (requirement.trim() == "") {
+        alert("아프신 곳을 입력해 주세요.");
+        return;
+    }
 
-function confirmAppointment() {
-	var isCheck = $(".checkInfo").is(":checked");
-	
-	if(isCheck) {
-		$(".modalContent").removeClass("show");
-		$(".lastConfirmDiv").addClass("show");
-	} else {
-		alert("체크박스를 확인해 주세요.")
-	}
-	
+    if (isCheck) {
+        $(".modalContent").removeClass("show");
+        $(".lastConfirmDiv").addClass("show");
+        $("#apptRequire").val(requirement);
+
+        $(".confirmDate").text(appointmentDate + " " + appointmentTime);
+        $(".confirmDept").text(deptName);
+        $(".confirmDoctor").text($(".rsInfoDoctor").text());
+    } else {
+        alert("체크박스를 확인해 주세요.");
+    }
 }
 
 function sendRequestAppointment() {
-	/* 
-	1. 사용자가 입력한 값을 검증한다.
-	2. 입력받은 값에 문제 없으면 back-end로 값을 전달한다.
-	3. DB에 예약정보가 저장되면 예약완료 페이지로 이동한다.
-	*/
-	var form = $("<form>", {
-		method: "POST",
-		action: "appointmentProcess.jsp"
-	});
+    var form = $("<form>", {
+        method: "POST",
+        action: getAppointmentProcessUrl()
+    });
 
-	form.append($("<input>", { type: "hidden", name: "doctorLicenseNo", value: dln }));
-	form.append($("<input>", { type: "hidden", name: "appointmentDate", value: appointmentDate }));
-	form.append($("<input>", { type: "hidden", name: "appointmentTime", value: $.trim(appointmentTime) }));
-	form.append($("<input>", { type: "hidden", name: "requirement", value: $("#requireTa").val() }));
+    form.append($("<input>", { type: "hidden", name: "doctorLicenseNo",  value: dln }));
+    form.append($("<input>", { type: "hidden", name: "appointmentDate",  value: appointmentDate }));
+    form.append($("<input>", { type: "hidden", name: "appointmentTime",  value: $.trim(appointmentTime) }));
+    form.append($("<input>", { type: "hidden", name: "requirement",      value: $("#requireTa").val() }));
 
-	$("body").append(form);
-	form.submit();
+    $("body").append(form);
+    form.submit();
 }

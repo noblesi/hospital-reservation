@@ -45,11 +45,9 @@ a {
 }
 
 .admin-name {
-	padding: 8px 14px;
-	background-color: #fff;
-	border: 1px solid #d8d8e8;
-	border-radius: 4px;
+	color: #333;
 	font-size: 14px;
+	font-weight: 700;
 }
 
 .logout-btn {

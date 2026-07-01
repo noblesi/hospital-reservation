@@ -1,0 +1,234 @@
+.mainWrap {
+	width: min(1100px, var(--user-page-width));
+	min-height: 600px;
+	margin: 0px auto;
+}
+
+.title {
+	width: 100%;
+	margin: 60px 0px;
+	display: inline-block;
+}
+
+/* 진료 예약 목록 */
+.apptListUl {
+	display: inline-block;
+	width: 100%;
+	min-height: 100px;
+	overflow: auto;
+	margin-bottom: 50px;
+	border-top: 1px solid #CCC;
+}
+
+.apptListLi {
+	height: 250px;
+	font-size: 18px;
+	border-bottom: 1px solid #CCC;
+	padding: 20px 15px;
+	
+}
+
+.noResultP {
+	height: 100%;
+	text-align: center;
+	font-size: 18px;
+	line-height: 220px;
+	margin: 0;
+}
+
+.docImg {
+	width: 140px;
+	height: 210px;
+	float: left;
+}
+
+.deptName {
+	display: inline-block;
+	margin: 0px 30px;
+	background-color: #3fb8f3;
+	width: 100px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 40%;
+	color: #fff;
+	font-weight: 700;
+	font-size: 20px;
+}
+
+.docName {
+	width: 100px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	font-weight: 700;
+	font-size: 20px;
+}
+
+.apptInfoTable {
+	display: inline-block;
+	width: 900px;
+	margin-left: 30px;
+	margin-top: 10px;
+	margin-left: 30px;
+}
+
+.apptInfoTable tr {
+	height: 30px;
+}
+
+.apptInfoTable th {
+	width: 100px;
+	color: #2763ba;
+}
+
+.apptCancelBtn, .apptChangeBtn {
+	width: 150px;
+	height: 50px;
+	float: right;
+}
+
+.apptCancelBtn {
+	margin-right: 10px;
+	border: 1px solid #777;
+	background-color: #FFF;
+}
+
+.apptChangeBtn {
+	border: none;
+	background-color: #87c8e8;
+	color: #FFF;
+}
+
+/* 주의, 준비 각종 공지들 */
+.warnNotiDiv {
+	width: 100%;
+	min-height: 220px;
+	background-color: #f9f9f9;
+	margin-bottom: 50px;
+	padding: 25px;
+}
+
+.warnNotiTitle {
+	color: #0066c9;
+	font-size: 24px;
+	font-weight: 700;
+}
+
+.warnIcon {
+	margin-right: 15px;
+	font-size: 34px;
+}
+
+.warnNotiP {
+	line-height: 35px;
+	margin-top: 10px;
+}
+
+.blue {
+	color: #0066c9;
+}
+
+.noticeMuted {
+	color: #6e6e6e;
+}
+
+.requireNotiDiv {
+
+}
+
+.requireNotiTitle, .useNotiTitle {
+	font-weight: 700;
+	font-size: 28px;
+	margin-bottom: 25px;
+}
+
+.requireNotiDiv strong {
+	display: inline-block;
+	margin-bottom: 25px;
+	font-size: 20px;
+}
+
+.requireNotiP {
+	margin-bottom: 30px;
+}
+
+.useNotiDiv {
+	margin-top: 60px;
+	margin-bottom: 90px;
+}
+
+.useNotiDiv strong {
+	font-size: 20px;
+	margin-bottom: 10px;
+	display: inline-block;
+}
+
+.useNotiDiv p {
+	line-height: 40px;
+}
+
+@media (max-width: 900px) {
+	.title {
+		margin: 42px 0px;
+	}
+
+	.apptListLi {
+		height: auto;
+		min-height: 250px;
+	}
+
+	.docImg {
+		width: 112px;
+		height: 168px;
+	}
+
+	.apptInfoTable {
+		width: calc(100% - 160px);
+	}
+
+	.warnNotiP,
+	.useNotiDiv p {
+		line-height: 1.8;
+	}
+}
+
+@media (max-width: 640px) {
+	.apptListLi {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.docImg,
+	.apptInfoTable,
+	.apptCancelBtn,
+	.apptChangeBtn {
+		float: none;
+	}
+
+	.docImg {
+		width: 120px;
+		height: 180px;
+	}
+
+	.deptName {
+		margin: 0px 12px 0px 0px;
+	}
+
+	.apptInfoTable {
+		width: 100%;
+		margin: 0;
+	}
+
+	.apptCancelBtn,
+	.apptChangeBtn {
+		width: 100%;
+	}
+
+	.requireNotiP br,
+	.useNotiDiv p br,
+	.warnNotiP br {
+		display: none;
+	}
+}

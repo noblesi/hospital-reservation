@@ -13,14 +13,14 @@ import java.util.List;
 
 public class BoardDAO {
     private static final String BOARD_COLUMNS =
-            "POST_ID, CATEGORY, TITLE, CONTENT, WRITER_ID, WRITER_NAME, "
-                    + "NOTICE_YN, DISPLAY_YN, VIEW_COUNT, CREATED_AT, UPDATED_AT";
+            "BP.POST_NO, BP.POST_TYPE, BP.TITLE, BP.CONTENT, BP.ADMIN_ID, "
+                    + "NVL(A.NAME, BP.ADMIN_ID) ADMIN_NAME, BP.VIEW_COUNT, BP.CREATED_AT";
 
     public int selectBoardPostCount(BoardSearchDTO searchDTO) throws SQLException {
         StringBuilder sql = new StringBuilder();
         List<Object> params = new ArrayList<>();
 
-        sql.append("SELECT COUNT(*) FROM BOARD_POST WHERE DISPLAY_YN = 'Y'");
+        sql.append("SELECT COUNT(*) FROM BOARD_POST BP WHERE 1 = 1");
         appendSearchCondition(sql, params, searchDTO);
 
         try (Connection con = DBConnection.getConnection();
@@ -38,9 +38,9 @@ public class BoardDAO {
         List<Object> params = new ArrayList<>();
 
         sql.append("SELECT * FROM (");
-        sql.append(" SELECT ROW_NUMBER() OVER (ORDER BY NOTICE_YN DESC, CREATED_AT DESC, POST_ID DESC) RN, ");
+        sql.append(" SELECT ROW_NUMBER() OVER (ORDER BY BP.CREATED_AT DESC, BP.POST_NO DESC) RN, ");
         sql.append(BOARD_COLUMNS);
-        sql.append(" FROM BOARD_POST WHERE DISPLAY_YN = 'Y'");
+        sql.append(" FROM BOARD_POST BP LEFT JOIN ADMIN A ON BP.ADMIN_ID = A.ADMIN_ID WHERE 1 = 1");
         appendSearchCondition(sql, params, searchDTO);
         sql.append(") WHERE RN BETWEEN ? AND ?");
 
@@ -63,7 +63,9 @@ public class BoardDAO {
     }
 
     public BoardPostDTO selectBoardPostById(int postId) throws SQLException {
-        String sql = "SELECT " + BOARD_COLUMNS + " FROM BOARD_POST WHERE POST_ID = ? AND DISPLAY_YN = 'Y'";
+        String sql = "SELECT " + BOARD_COLUMNS
+                + " FROM BOARD_POST BP LEFT JOIN ADMIN A ON BP.ADMIN_ID = A.ADMIN_ID "
+                + "WHERE BP.POST_NO = ?";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -76,7 +78,7 @@ public class BoardDAO {
     }
 
     public void increaseViewCount(int postId) throws SQLException {
-        String sql = "UPDATE BOARD_POST SET VIEW_COUNT = NVL(VIEW_COUNT, 0) + 1 WHERE POST_ID = ? AND DISPLAY_YN = 'Y'";
+        String sql = "UPDATE BOARD_POST SET VIEW_COUNT = NVL(VIEW_COUNT, 0) + 1 WHERE POST_NO = ?";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -87,22 +89,19 @@ public class BoardDAO {
 
     protected BoardPostDTO mapBoardPost(ResultSet rs) throws SQLException {
         BoardPostDTO boardPost = new BoardPostDTO();
-        boardPost.setPostId(rs.getInt("POST_ID"));
-        boardPost.setCategory(rs.getString("CATEGORY"));
+        boardPost.setPostId(rs.getInt("POST_NO"));
+        boardPost.setCategory(rs.getString("POST_TYPE"));
         boardPost.setTitle(rs.getString("TITLE"));
         boardPost.setContent(rs.getString("CONTENT"));
-        boardPost.setWriterId(rs.getString("WRITER_ID"));
-        boardPost.setWriterName(rs.getString("WRITER_NAME"));
-        boardPost.setNoticeYn(rs.getString("NOTICE_YN"));
-        boardPost.setDisplayYn(rs.getString("DISPLAY_YN"));
+        boardPost.setWriterId(rs.getString("ADMIN_ID"));
+        boardPost.setWriterName(rs.getString("ADMIN_NAME"));
         boardPost.setViewCount(rs.getInt("VIEW_COUNT"));
         boardPost.setCreatedAt(rs.getTimestamp("CREATED_AT"));
-        boardPost.setUpdatedAt(rs.getTimestamp("UPDATED_AT"));
         return boardPost;
     }
 
     protected void appendSearchCondition(StringBuilder sql, List<Object> params, BoardSearchDTO searchDTO) {
-        sql.append(" AND CATEGORY = ?");
+        sql.append(" AND BP.POST_TYPE = ?");
         params.add(searchDTO.getCategory());
 
         if (!searchDTO.hasKeyword()) {
@@ -110,21 +109,22 @@ public class BoardDAO {
         }
 
         String keyword = "%" + searchDTO.getKeyword() + "%";
+        String contentKeyword = searchDTO.getKeyword();
         if ("title".equals(searchDTO.getSearchType())) {
-            sql.append(" AND TITLE LIKE ?");
+            sql.append(" AND BP.TITLE LIKE ?");
             params.add(keyword);
             return;
         }
 
         if ("content".equals(searchDTO.getSearchType())) {
-            sql.append(" AND CONTENT LIKE ?");
-            params.add(keyword);
+            sql.append(" AND DBMS_LOB.INSTR(BP.CONTENT, ?) > 0");
+            params.add(contentKeyword);
             return;
         }
 
-        sql.append(" AND (TITLE LIKE ? OR CONTENT LIKE ?)");
+        sql.append(" AND (BP.TITLE LIKE ? OR DBMS_LOB.INSTR(BP.CONTENT, ?) > 0)");
         params.add(keyword);
-        params.add(keyword);
+        params.add(contentKeyword);
     }
 
     protected void bindParams(PreparedStatement pstmt, List<Object> params) throws SQLException {

@@ -50,7 +50,7 @@ public class AdminDoctorDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				totalCnt=rs.getInt(0);
+				totalCnt=rs.getInt(1);
 			}// end if
 			
 		} catch (SQLException e) {
@@ -69,7 +69,7 @@ public class AdminDoctorDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String andCulmn="";
+		String andCulmn="	and	";
 		boolean firstSearchCulmn=false;
 		
 		StringBuilder selectSql = new StringBuilder();
@@ -115,104 +115,63 @@ public class AdminDoctorDAO {
 	public List<DoctorDTO> selectDoctorList(AdminDoctorSearchDTO searchDTO ) {
 		List<DoctorDTO> list = new ArrayList<DoctorDTO>();
 		AdminDoctorSearchDTO adminDoctorSearchDTO = searchDTO;
-		
+		List<Object> bindValues = new ArrayList<Object>();
+
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
-		String andCulmn="";
-		boolean firstSearchCulmn=false;
-		
+
 		StringBuilder selectSql = new StringBuilder();
 		selectSql
-			.append("	select doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code		")
-			.append("	from doctor		")
-			.append("	where "	);
-		
-		
-		if( adminDoctorSearchDTO.getDeptNo()!=null ) {
+			.append("	select num, doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code		")
+			.append("	from (select rownum num, doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code from doctor)		")
+			.append("	where 1 = 1	"	);
+
+
+		if(hasText(adminDoctorSearchDTO.getDeptNo())) {
 			selectSql
-				.append(andCulmn)
-				.append("	dept_no = '")
-				.append(adminDoctorSearchDTO.getDeptNo())
-				.append("'		");
-			
-			if(!firstSearchCulmn) { 
-				firstSearchCulmn = true;
-				andCulmn = "	and	"; 
-			}// end if
+				.append("	and dept_no = ?		");
+			bindValues.add(adminDoctorSearchDTO.getDeptNo().trim());
 		}//end if
-		
-		if( adminDoctorSearchDTO.getName()!=null ) {
+
+		if(hasText(adminDoctorSearchDTO.getName())) {
 			selectSql
-				.append(andCulmn)
-				.append("	name = '")
-				.append(adminDoctorSearchDTO.getName())
-				.append("'		");
-			
-			if(!firstSearchCulmn) { 
-				firstSearchCulmn = true;
-				andCulmn = "	and	"; 
-			}// end if
+				.append("	and name = ?		");
+			bindValues.add(adminDoctorSearchDTO.getName().trim());
 		}//end if
-		
-		if(adminDoctorSearchDTO.getPositionCode()!=null ) {
+
+		if(hasText(adminDoctorSearchDTO.getPositionCode())) {
 			selectSql
-				.append(andCulmn)
-				.append("	position_code ='")
-				.append(adminDoctorSearchDTO.getPositionCode())
-				.append("'		");
-			
-			if(!firstSearchCulmn) { 
-				firstSearchCulmn = true;
-				andCulmn = "	and	"; 
-			}// end if
+				.append("	and position_code = ?		");
+			bindValues.add(adminDoctorSearchDTO.getPositionCode().trim());
 		}// end if
-		
-		if(adminDoctorSearchDTO.getStatusCode()!=null ) {
+
+		if(hasText(adminDoctorSearchDTO.getStatusCode())) {
 			selectSql
-				.append(andCulmn)
-				.append("	status_code = '")
-				.append(adminDoctorSearchDTO.getStatusCode())
-				.append("'		");
-			
-			if(!firstSearchCulmn) { 
-				firstSearchCulmn = true;
-				andCulmn = "	and	"; 
-			}// end if
+				.append("	and status_code = ?		");
+			bindValues.add(adminDoctorSearchDTO.getStatusCode().trim());
 		}// end if
-		
-		if(adminDoctorSearchDTO.getSpecialty()!=null ) {
+
+		if(hasText(adminDoctorSearchDTO.getSpecialty())) {
 			selectSql
-				.append(andCulmn)
-				.append("	spacialty like '%")
-				.append(adminDoctorSearchDTO.getSpecialty())
-				.append("%'		");
-			
-			if(!firstSearchCulmn) { 
-				firstSearchCulmn = true;
-				andCulmn = "	and	"; 
-			}// end if
+				.append("	and specialty like ?		");
+			bindValues.add("%" + adminDoctorSearchDTO.getSpecialty().trim() + "%");
 		}// end if
-		
-		if(adminDoctorSearchDTO.getStartNum() > 0 && adminDoctorSearchDTO.getEndNum() > 0) {
+
+		if(adminDoctorSearchDTO.getEndNum() > 0) {
 			selectSql
-				.append(andCulmn)
-				.append("	num between ")
-				.append(adminDoctorSearchDTO.getStartNum())
-				.append("	and		")
-				.append(adminDoctorSearchDTO.getEndNum());
-			
-			if(!firstSearchCulmn) { 
-				firstSearchCulmn = true;
-				andCulmn = "	and	"; 
-			}// end if
+				.append("	and num between ? and ?		");
+			bindValues.add(adminDoctorSearchDTO.getStartNum());
+			bindValues.add(adminDoctorSearchDTO.getEndNum());
 		}// end if
-				
+
 		try {
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(selectSql.toString());
-			
+			for(int i = 0; i < bindValues.size(); i++) {
+				pstmt.setObject(i + 1, bindValues.get(i));
+			}//end for
+
 			rs = pstmt.executeQuery();
 			
 			DoctorDTO doctorDTO = null;
@@ -240,10 +199,14 @@ public class AdminDoctorDAO {
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
-		
+
 		return list;
 	}// selectDoctorList
-	
+
+	private boolean hasText(String value) {
+		return value != null && !value.trim().isEmpty();
+	}//hasText
+
 	public DoctorDTO selectDoctorDetail(int doctorLicenseNo) {
 		DoctorDTO doctorDTO = new DoctorDTO();
 		
@@ -573,10 +536,10 @@ public class AdminDoctorDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			//쿼리 수정
+			
 			updateSql
-			.append("	update doctor_schedule")
-			.append("	set  		")
+			.append("	update doctor_schedule		")
+			.append("	set day_of_week=?, 		")
 			.append("	start_time=?, 		")
 			.append("	end_time=?, 		")
 			.append("	status=?  		")
@@ -617,7 +580,7 @@ public class AdminDoctorDAO {
 			conn = DBConnection.getConnection();
 
 			insertSql
-				.append(" insert all into doctor_schedule(schedule_no, doctor_license_no, day_of_week, start_time, end_time, status)		")
+				.append(" insert into doctor_schedule(schedule_no, doctor_license_no, day_of_week, start_time, end_time, status)		")
 				.append("	values(get_sSeq(),?,?,?,?,? )		");
 			
 			pstmt = conn.prepareStatement(insertSql.toString());
@@ -794,7 +757,7 @@ public class AdminDoctorDAO {
 		try {
 			conn = DBConnection.getConnection();
 			updateSql
-				.append("	update doctor_career")
+				.append("	update doctor_career		")
 				.append("	set career_year = ?, career_content = ?		")
 				.append("	where doctor_license_no = ? and career_no = ?		");
 				
@@ -902,7 +865,7 @@ public class AdminDoctorDAO {
 		try {
 			conn = DBConnection.getConnection();
 			updateSql
-				.append("	update doctor_education")
+				.append("	update doctor_education		")
 				.append("	set education_year = ?, education_content = ?		")
 				.append("	where doctor_license_no = ? and education_no = ?		");
 				

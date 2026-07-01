@@ -1,0 +1,193 @@
+/* 예약정보확인 */
+.appointmentInfoDiv {
+	width: 100%;
+	min-height: 650px;
+	background-color: #FFF;
+	padding: 25px;
+	background-color: #FFF;
+}
+
+.appoitmentInfoTitle {
+	font-size: 24px;
+	font-weight: 700;
+}
+
+.appointmentInfoTop {
+	width: 100%;
+	height: 180px;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.checkIcon {
+	font-size: 60px;
+	color: #2763ba;
+	font-weight: 100;
+}
+
+.appointmentInfoNoti {
+	font-size: 32px;
+}
+
+.appoitmentInfoSubTitle {
+	font-size: 20px;
+	font-weight: 700;
+	margin-top: 20px;
+}
+
+.infoTable {
+	width: 100%;
+	margin: 25px 0px;
+	border-top: 2px solid #333;
+	border-bottom: 2px solid #333;
+}
+
+.infoTable tr {
+	height: 60px;
+	border-bottom: 1px solid #CCC;
+}
+
+.infoTable td {
+	width: 500px;
+	font-weight: 500;
+}
+
+.infoTh {
+	padding-left: 20px;
+	width: 200px;
+	font-weight: 500;
+	color: #636363;
+}
+
+.checkAppointListBtn, .cancelAppointBtn {
+	border: none;
+	width: 120px;
+	height: 40px;
+	color: #fff;
+	float: right;
+}
+
+.checkAppointListBtn {
+	background-color: #2763ba;
+	margin-right: 10px;
+}
+
+.cancelAppointBtn {
+	background-color: #777777;	
+}
+
+/* 주의사항, 준비사항 박스 */
+.noticeDiv {
+	background-color: #FFF;
+	width: 100%;
+	min-height: 520px;
+	margin: 50px 0px;
+	padding: 25px
+}
+
+.subTitle {
+	font-size: 24px;
+	font-weight: 700;
+}
+
+.warningNoti {
+	line-height: 40px;
+	margin-bottom: 40px;
+}
+
+.subNoti {
+	color: #777;
+}
+
+.requiredDocImg {
+	float: left;	
+	margin-right: 10px;
+	height: 183px;
+}
+
+.requireP {
+	float: left;
+}
+
+.red {
+	color: #e84b3f;
+}
+
+.blue {
+	color: #2263bb;
+}
+
+@media (max-width: 900px) {
+	.appointmentInfoNoti {
+		font-size: 26px;
+	}
+
+	.infoTable,
+	.infoTable tbody,
+	.infoTable tr,
+	.infoTable th,
+	.infoTable td {
+		display: block;
+		width: 100%;
+	}
+
+	.infoTable tr {
+		height: auto;
+		padding: 14px 0;
+	}
+
+	.infoTh {
+		padding-left: 0;
+		margin-bottom: 4px;
+	}
+
+	.requiredDocImg,
+	.requireP {
+		float: none;
+	}
+
+	.requiredDocImg {
+		max-width: 100%;
+		height: auto;
+		margin-bottom: 14px;
+	}
+
+	.warningNoti,
+	.requireP,
+	.noticeDiv p {
+		line-height: 1.8;
+	}
+}
+
+@media (max-width: 640px) {
+	.appointmentInfoDiv,
+	.noticeDiv {
+		padding: 20px 16px;
+	}
+
+	.appointmentInfoTop {
+		height: auto;
+		padding: 20px 0 28px;
+	}
+
+	.appointmentInfoNoti {
+		font-size: 22px;
+	}
+
+	.checkAppointListBtn,
+	.cancelAppointBtn {
+		float: none;
+		width: 100%;
+		margin-top: 8px;
+	}
+
+	.checkAppointListBtn {
+		margin-right: 0;
+	}
+
+	.warningNoti br,
+	.requireP br,
+	.noticeDiv p br {
+		display: none;
+	}
+}

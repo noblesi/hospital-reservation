@@ -10,14 +10,14 @@
 <meta charset="UTF-8">
 <title>회원가입 약관동의</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/join.css' />">
 </head>
 
 <body>
 
-<jsp:include page="../common/userHeader.jsp" />
-<jsp:include page="../common/userBreadcrumb.jsp" />
+<jsp:include page="/views/common/userHeader.jsp" />
+<jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 <main id="content" class="memJoinContent">
 
@@ -162,7 +162,10 @@
         </fieldset>
     </form>
 
-    <form id="gForm" name="gForm" action="<c:url value='joinFormCommon.jsp' />" method="post">
+    <form id="gForm"
+          name="gForm"
+          action="<c:url value='/views/member/joinFormCommon.jsp' />"
+          method="post">
         <input type="hidden" name="join_type" value="TG">
 
         <div class="btnWrap">
@@ -173,11 +176,11 @@
 
 </main>
 
-<jsp:include page="../common/userFooter.jsp" />
+<jsp:include page="/views/common/userFooter.jsp" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="<c:url value='/resources/js/join.js' />"></script>
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js?v=${initParam.assetVersion}' />"></script>
 
 </body>
 </html>

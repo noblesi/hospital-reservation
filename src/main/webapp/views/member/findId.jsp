@@ -10,14 +10,14 @@
 <meta charset="UTF-8">
 <title>아이디/비밀번호 찾기</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/find-account.css' />">
 </head>
 
 <body>
 
-<jsp:include page="../common/userHeader.jsp" />
-<jsp:include page="../common/userBreadcrumb.jsp" />
+<jsp:include page="/views/common/userHeader.jsp" />
+<jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 <main id="content" class="findContent">
 
@@ -31,31 +31,33 @@
                 <a href="#">아이디 찾기</a>
             </li>
             <li>
-                <a href="<c:url value='findPassword.jsp' />">비밀번호 찾기</a>
+                <a href="<c:url value='/views/member/findPassword.jsp' />">비밀번호 찾기</a>
             </li>
         </ul>
     </div>
 
     <div class="confirmWrap">
-        <p>아이디를 잊으셨습니까?</p>
+        <h2>아이디를 잊으셨습니까?</h2>
         <p>인증 방법 중 한가지를 선택하여 찾으실 수 있습니다.</p>
     </div>
 
     <div class="memType03">
         <a href="#" class="layerBtn" data-layer="layerHp">
             <span class="icon">
-                <img src="http://localhost:8081/hospital_reservation/resources/images/login_phone.png">
+                <img src="<c:url value='/resources/images/security/login_phone.png' />"
+                     alt="휴대전화 인증">
             </span>
             <span class="methodSub">가입정보</span>
-            <span class="methodTitle">휴대전화 이용하기</span>
+            <span class="methodTitle"><strong>휴대전화 이용하기</strong></span>
         </a>
 
         <a href="#" class="layerBtn" data-layer="layerMail">
             <span class="icon">
-                <img src="http://localhost:8081/hospital_reservation/resources/images/login-email.png">
+                <img src="<c:url value='/resources/images/security/login_email.png' />"
+                     alt="이메일 인증">
             </span>
             <span class="methodSub">가입정보</span>
-            <span class="methodTitle">이메일 이용하기</span>
+            <span class="methodTitle"><strong>이메일 이용하기</strong></span>
         </a>
     </div>
 </main>
@@ -67,7 +69,7 @@
 
     <div class="layerContent">
         <form id="hForm" name="hForm"
-              action="<c:url value='process/findIdProcess.jsp' />"
+              action="<c:url value='/member/find-id/process.do' />"
               method="post">
 
             <input type="hidden" name="findType" value="tel">
@@ -116,7 +118,7 @@
 
     <div class="layerContent">
         <form id="mForm" name="mForm"
-              action="<c:url value='process/findIdProcess.jsp' />"
+              action="<c:url value='/member/find-id/process.do' />"
               method="post">
 
             <input type="hidden" name="findType" value="email">
@@ -160,10 +162,10 @@
     <button type="button" class="layerCloseBtn">×</button>
 </section>
 
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
-<jsp:include page="../common/userFooter.jsp" />
+<script src="<c:url value='/resources/js/user-layout.js?v=${initParam.assetVersion}' />"></script>
+<jsp:include page="/views/common/userFooter.jsp" />
 
-<!-- jQuery CDN -->
+<!-- jQuery CDN: find-account.js보다 먼저 로드해야 한다. -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- 아이디/비밀번호 찾기 전용 JS -->
 <script src="<c:url value='/resources/js/find-account.js' />"></script>
