@@ -219,12 +219,28 @@
 
 /* 안내 박스 */
 .joinStepDesc{
+    position:relative;
     padding:30px;
+    padding-right:330px;
     margin-bottom:30px;
     background:#f8f9fc;
     border:1px solid #ddd;
     font-size:16px;
     line-height:1.8;
+}
+
+.joinIntroImage{
+    position:absolute;
+    right:55px;
+    top:30px;
+    width:200px;
+    text-align:center;
+}
+
+.joinIntroImage img{
+    max-width:100%;
+    height:auto;
+    display:block;
 }
 
 .joinStepDesc p{

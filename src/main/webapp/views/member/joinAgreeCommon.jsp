@@ -54,6 +54,9 @@
         <p>진료회원으로 가입하면 인터넷 진료예약 등 보다 다양한 서비스를 이용할 수 있습니다.</p>
         <p>회원 가입을 하시려면 <em class="colorPoint">아래의 약관 및 개인정보 수집이용에 동의해주세요.</em><br>
         회원님의 개인정보보호와 더욱 안정된 서비스를 위해 최선을 다하겠습니다. 감사합니다.</p>
+   		<div class="joinIntroImage">
+       	 	<img src="<c:url value='/resources/images/security/agree_img.png' />" alt="회원가입 안내">
+    	</div>
     </div>
 
     <form>

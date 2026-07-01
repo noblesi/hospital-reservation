@@ -60,6 +60,9 @@
             <em class="colorPoint">아래의 약관 및 개인정보 수집이용에 동의해주세요.</em><br>
             회원님의 개인정보보호와 더욱 안정된 서비스를 위해 최선을 다하겠습니다. 감사합니다.
         </p>
+        <div class="joinIntroImage">
+            <img src="<c:url value='/resources/images/security/agree_img.png' />" alt="회원가입 안내">
+        </div>
     </div>
 
     <form>
