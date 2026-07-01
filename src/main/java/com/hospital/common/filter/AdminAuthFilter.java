@@ -16,7 +16,7 @@ public class AdminAuthFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		// No initialization needed.
+		// 초기화할 리소스가 없다.
 	}
 
 	@Override
@@ -25,7 +25,9 @@ public class AdminAuthFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-		if (isLogoutRequest(httpRequest) || hasAdminSession(httpRequest)) {
+		setNoStoreHeaders(httpResponse);
+
+		if (isPublicAdminRequest(httpRequest) || hasAdminSession(httpRequest)) {
 			chain.doFilter(request, response);
 			return;
 		}
@@ -36,13 +38,19 @@ public class AdminAuthFilter implements Filter {
 		}
 
 		HttpSession session = httpRequest.getSession();
-		session.setAttribute("loginMessage", "관리자 로그인 후 이용해 주세요.");
-		httpResponse.sendRedirect(httpRequest.getContextPath() + "/member/login.do");
+		session.setAttribute("adminLoginMessage", "관리자 로그인 후 이용해 주세요.");
+		httpResponse.sendRedirect(httpRequest.getContextPath() + "/admin/login.do");
 	}
 
 	@Override
 	public void destroy() {
-		// No resources to release.
+		// 해제할 리소스가 없다.
+	}
+
+	private void setNoStoreHeaders(HttpServletResponse response) {
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+		response.setHeader("Pragma", "no-cache");
+		response.setDateHeader("Expires", 0);
 	}
 
 	private boolean hasAdminSession(HttpServletRequest request) {
@@ -50,9 +58,11 @@ public class AdminAuthFilter implements Filter {
 		return session != null && session.getAttribute("loginAdmin") != null;
 	}
 
-	private boolean isLogoutRequest(HttpServletRequest request) {
+	private boolean isPublicAdminRequest(HttpServletRequest request) {
 		String path = request.getRequestURI().substring(request.getContextPath().length());
-		return "/admin/logout.do".equals(path);
+		return "/admin/login.do".equals(path)
+				|| "/admin/login/process.do".equals(path)
+				|| "/admin/logout.do".equals(path);
 	}
 
 	private boolean isAjaxRequest(HttpServletRequest request) {
