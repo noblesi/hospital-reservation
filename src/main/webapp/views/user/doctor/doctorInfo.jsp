@@ -60,7 +60,8 @@ pageContext.setAttribute("udDTO", udDTO);
 	<div id="mainWrap">
 		<div id="content" style="background-image: url('${ udDTO.thumbnailUrl }');">
 			<div class="contentTop">
-				<h2 class="name">${ udDTO.name }</h2>
+				<h2 class="name"><c:out value="${ udDTO.name }"/></h2>
+				<strong class="deptName"><c:out value="${ udDTO.deptName }"/></strong>
 			</div>
 			<div class="contentMain">
 				<strong class="position">${ udDTO.position }</strong><br> <span class="major">${ udDTO.specialty }</span>
@@ -140,7 +141,7 @@ pageContext.setAttribute("udDTO", udDTO);
 			<div class="careerDiv hidden">
 				<strong class="introTitle"><i class="bi bi-stop-circle-fill"></i> <span class="intTitleTxt">직위</span></strong>
 				<ul>
-					<li>분당서울대학교 <c:out value="${ udDTO.position }"/></li>
+					<li>한국중앙병원 <c:out value="${ udDTO.position }"/></li>
 				</ul>
 				
 				<strong class="introTitle"><i class="bi bi-stop-circle-fill"></i> <span class="intTitleTxt">학력</span></strong>

@@ -18,6 +18,7 @@ import lombok.ToString;
 public class UserDoctorDTO {
 	private int doctorLicenseNo;
 	private String name;
+	private String deptName;
 	private String position;
 	private String thumbnailUrl;
 	private String detailImageUrl;

@@ -39,9 +39,9 @@ public class UserDoctorDAO {
 
 			StringBuilder querySb = new StringBuilder();
 			querySb //
-					.append("	select	DOCTOR_LICENSE_NO, NAME, INTRO_TITLE, INTRO_CONTENT, THUMBNAIL_URL, DETAIL_IMAGE_URL, SPECIALTY, POSITION_NAME ")
-					.append("	from	doctor d, doctor_position dp ") //
-					.append("	where 	doctor_license_no = ? and d.position_code = dp.position_code ");
+					.append("	select	DOCTOR_LICENSE_NO, NAME, dept_name, INTRO_TITLE, INTRO_CONTENT, THUMBNAIL_URL, DETAIL_IMAGE_URL, SPECIALTY, POSITION_NAME ")
+					.append("	from	doctor d, doctor_position dp, department de ") //
+					.append("	where 	doctor_license_no = ? and d.position_code = dp.position_code and d.dept_no = de.dept_no ");
 
 			pstmt = con.prepareStatement(querySb.toString());
 			pstmt.setInt(1, doctorLicenseNo);
@@ -52,6 +52,7 @@ public class UserDoctorDAO {
 
 				udDTO.setDoctorLicenseNo(doctorLicenseNo);
 				udDTO.setName(rs.getString("name"));
+				udDTO.setDeptName(rs.getString("dept_name"));
 				udDTO.setIntroTitle(rs.getString("INTRO_TITLE"));
 				udDTO.setIntroContent(rs.getString("INTRO_CONTENT"));
 				udDTO.setThumbnailUrl(rs.getString("THUMBNAIL_URL"));
