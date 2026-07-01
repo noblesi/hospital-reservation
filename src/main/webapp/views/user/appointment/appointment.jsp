@@ -35,7 +35,6 @@
 <body>
 	<jsp:include page="/views/common/userHeader.jsp" />
 	<jsp:include page="/views/common/userBreadcrumb.jsp" />
-	<jsp:include page="/views/common/message.jsp" />
 	<jsp:include page="/views/user/appointment/appointmentSidebar.jsp" />
 
 	<div id="mainWrap">
@@ -59,7 +58,7 @@
 						</form>
 					</div>
 					<div class="dNameInputDiv">
-						<input type="text" placeholder="질병명 또는 의료진명" id="dNameInput">
+						<input type="text" placeholder="질병명 또는 의료진명" id="dNameInput" maxlength="30">
 						<button id="searchBtn">
 							<i class="bi bi-search searchIcon"></i>
 						</button>
@@ -136,7 +135,7 @@
 					</div>
 					<div class="inputRequireDiv">
 						<p class="inputDescript">아래 아프거나 불편하신 사항을 적어주세요.</p>
-						<textarea id="requireTa" placeholder="아프신 곳을 적어주세요."></textarea>
+						<textarea id="requireTa" placeholder="아프신 곳을 적어주세요." maxlength="500"></textarea>
 					</div>
 					<div class="checkBar">
 						<div class="checkDiv">

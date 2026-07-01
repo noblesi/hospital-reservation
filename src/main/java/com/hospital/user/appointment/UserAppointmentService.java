@@ -316,6 +316,8 @@ public class UserAppointmentService {
 	}
 
 	/**
+	 * 환자의 예약 목록 조회
+	 * 
 	 * @param patientNo
 	 * @return
 	 */

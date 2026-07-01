@@ -46,11 +46,10 @@
 <body>
 	<c:import url="/views/common/userHeader.jsp" />
 	<c:import url="/views/common/userBreadcrumb.jsp" />
-	<c:import url="/views/common/message.jsp" />
+	<!-- 사이드바 -->
+	<jsp:include page="/views/user/appointment/appointmentSidebar.jsp" />
 	
 	<div class="mainWrap">
-		<!-- 사이드바 -->
-		<jsp:include page="/views/user/appointment/appointmentSidebar.jsp" />
 		
 		<!-- 유저의 진료 목록 -->
 		<h1 class="title">진료예약확인</h1>
