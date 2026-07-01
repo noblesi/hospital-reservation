@@ -25,6 +25,8 @@ public class AdminAuthFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
+		setNoStoreHeaders(httpResponse);
+
 		if (isPublicAdminRequest(httpRequest) || hasAdminSession(httpRequest)) {
 			chain.doFilter(request, response);
 			return;
@@ -43,6 +45,12 @@ public class AdminAuthFilter implements Filter {
 	@Override
 	public void destroy() {
 		// 해제할 리소스가 없다.
+	}
+
+	private void setNoStoreHeaders(HttpServletResponse response) {
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+		response.setHeader("Pragma", "no-cache");
+		response.setDateHeader("Expires", 0);
 	}
 
 	private boolean hasAdminSession(HttpServletRequest request) {
