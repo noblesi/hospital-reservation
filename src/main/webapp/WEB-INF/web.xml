@@ -121,6 +121,24 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>adminLoginPage</servlet-name>
+    <jsp-file>/views/admin/auth/login.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminLoginPage</servlet-name>
+    <url-pattern>/admin/login.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminLoginProcessServlet</servlet-name>
+    <servlet-class>com.hospital.admin.auth.controller.AdminLoginProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminLoginProcessServlet</servlet-name>
+    <url-pattern>/admin/login/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>memberFindIdProcessServlet</servlet-name>
     <servlet-class>com.hospital.member.controller.MemberFindIdProcessServlet</servlet-class>
   </servlet>
