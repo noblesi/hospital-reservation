@@ -42,11 +42,6 @@
                         <textarea name="content" rows="12" required>${boardPost.content}</textarea>
                     </label>
 
-                    <label>
-                        작성자 ID
-                        <input type="text" name="writerId" value="${empty boardPost.writerId ? 'system' : boardPost.writerId}" required>
-                    </label>
-
                     <div class="admin-form-actions">
                         <button type="submit">저장</button>
                         <c:choose>
