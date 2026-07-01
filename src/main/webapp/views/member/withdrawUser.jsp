@@ -1,31 +1,5 @@
 ﻿<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.hospital.common.MemberDTO"%>
-<%@ page import="com.hospital.member.UpdateUserInfoService"%>
-
-<%
-MemberDTO loginUser = (MemberDTO)session.getAttribute("loginUser");
-Boolean verified = (Boolean)session.getAttribute("userInfoVerified");
-
-if(loginUser == null){
-    response.sendRedirect("login.jsp");
-    return;
-}
-
-if(!Boolean.TRUE.equals(verified)){
-    response.sendRedirect("myPage.jsp");
-    return;
-}
-
-UpdateUserInfoService service = new UpdateUserInfoService();
-MemberDTO userInfo = service.searchUserInfo(loginUser.getLoginId());
-pageContext.setAttribute("userInfo", userInfo);
-
-// 최종 확인 단계가 아닌 일반 진입에서는 이전 탈퇴 비밀번호 확인값을 폐기한다.
-if(!"confirm".equals(request.getParameter("withdrawal"))){
-    session.removeAttribute("withdrawalPasswordVerified");
-}
-%>
 
 <c:set var="activeMenu" value="mypage" scope="request" />
 <c:set var="depth1" value="마이페이지" scope="request" />
@@ -63,7 +37,7 @@ if(!"confirm".equals(request.getParameter("withdrawal"))){
         </div>
 
         <%-- 탈퇴 대상 회원 및 현재 비밀번호 확인 --%>
-        <form action="process/checkWithdrawalPasswordProcess.jsp"
+        <form action="<c:url value='/member/withdraw/password-check.do' />"
               method="post"
               class="withdrawalForm">
             <div class="withdrawalInfoBox">
@@ -96,10 +70,13 @@ if(!"confirm".equals(request.getParameter("withdrawal"))){
                 <c:if test="${param.withdrawal eq 'fail'}">
                     <p class="withdrawalError">비밀번호가 일치하지 않습니다.</p>
                 </c:if>
+                <c:if test="${param.withdrawal eq 'error'}">
+                    <p class="withdrawalError">회원 탈퇴 처리에 실패했습니다.</p>
+                </c:if>
             </div>
 
             <div class="withdrawalButtons">
-                <a href="myPageInfo.jsp" class="withdrawalCancelButton">취소</a>
+                <a href="<c:url value='/member/mypage/info.do' />" class="withdrawalCancelButton">취소</a>
                 <button type="submit" class="withdrawalSubmitButton">회원탈퇴</button>
             </div>
         </form>
@@ -114,17 +91,17 @@ if(!"confirm".equals(request.getParameter("withdrawal"))){
      aria-labelledby="withdrawalConfirmTitle"
      aria-hidden="true"
      data-auto-open="${param.withdrawal eq 'confirm'}"
-     data-cancel-url="<c:url value='/views/member/process/cancelWithdrawalProcess.jsp' />">
+     data-cancel-url="<c:url value='/member/withdraw/cancel.do' />">
     <div class="withdrawalConfirmContent">
         <div class="withdrawalWarningIcon">!</div>
         <h3 id="withdrawalConfirmTitle">정말 탈퇴하시겠습니까?</h3>
         <p>탈퇴 시 모든 정보가 삭제되며, 복구할 수 없습니다.</p>
 
-        <form action="process/withdrawUserProcess.jsp" method="post">
+        <form action="<c:url value='/member/withdraw/process.do' />" method="post">
             <div class="withdrawalConfirmButtons">
                 <button type="submit"
                         class="withdrawalModalCancel"
-                        formaction="process/cancelWithdrawalProcess.jsp">취소</button>
+                        formaction="<c:url value='/member/withdraw/cancel.do' />">취소</button>
                 <button type="submit" class="withdrawalModalConfirm">탈퇴</button>
             </div>
         </form>

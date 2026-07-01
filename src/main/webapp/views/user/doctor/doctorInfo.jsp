@@ -3,8 +3,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/views/common/taglib.jsp"%>
 <%
-// int dln = Integer.parseInt(request.getParameter("dln"));
-int dln = 123456;
+int dln = Integer.parseInt(request.getParameter("dln"));
 
 UserDoctorService uds = new UserDoctorService();
 
@@ -62,7 +61,6 @@ pageContext.setAttribute("udDTO", udDTO);
 		<div id="content" style="background-image: url('${ udDTO.thumbnailUrl }');">
 			<div class="contentTop">
 				<h2 class="name">${ udDTO.name }</h2>
-				<button class="apptBtn">진료 예약</button>
 			</div>
 			<div class="contentMain">
 				<strong class="position">${ udDTO.position }</strong><br> <span class="major">${ udDTO.specialty }</span>

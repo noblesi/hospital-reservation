@@ -110,92 +110,63 @@ public class AdminDoctorDAO {
 	public List<DoctorDTO> selectDoctorList(AdminDoctorSearchDTO searchDTO ) {
 		List<DoctorDTO> list = new ArrayList<DoctorDTO>();
 		AdminDoctorSearchDTO adminDoctorSearchDTO = searchDTO;
-		
+		List<Object> bindValues = new ArrayList<Object>();
+
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
-		String andCulmn="	and	";
-		boolean firstSearchCulmn=false;
-		
+
 		StringBuilder selectSql = new StringBuilder();
 		selectSql
 			.append("	select num, doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code		")
 			.append("	from (select rownum num, doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code from doctor)		")
 			.append("	where 1 = 1	"	);
-		
-		
-		if(adminDoctorSearchDTO.getDeptNo() != null && !adminDoctorSearchDTO.getDeptNo().isEmpty()) {
+
+
+		if(hasText(adminDoctorSearchDTO.getDeptNo())) {
 			selectSql
-				.append(andCulmn)
-				.append("	dept_no = '")
-				.append(adminDoctorSearchDTO.getDeptNo())
-				.append("'		");
-			
-			if(!firstSearchCulmn) { 
-				firstSearchCulmn = true;
-				andCulmn = "	and	"; 
-			}// end if
+				.append("	and dept_no = ?		");
+			bindValues.add(adminDoctorSearchDTO.getDeptNo().trim());
 		}//end if
-		
-		if(adminDoctorSearchDTO.getPositionCode() != null && !adminDoctorSearchDTO.getPositionCode().isEmpty()) {
+
+		if(hasText(adminDoctorSearchDTO.getName())) {
 			selectSql
-				.append(andCulmn)
-				.append("	position_code ='")
-				.append(adminDoctorSearchDTO.getPositionCode())
-				.append("'		");
-			
-			if(!firstSearchCulmn) { 
-				firstSearchCulmn = true;
-				andCulmn = "	and	"; 
-			}// end if
-		}// end if
-		
-		if(adminDoctorSearchDTO.getStatusCode() != null && !adminDoctorSearchDTO.getStatusCode().isEmpty()) {
+				.append("	and name = ?		");
+			bindValues.add(adminDoctorSearchDTO.getName().trim());
+		}//end if
+
+		if(hasText(adminDoctorSearchDTO.getPositionCode())) {
 			selectSql
-				.append(andCulmn)
-				.append("	status_code = '")
-				.append(adminDoctorSearchDTO.getStatusCode())
-				.append("'		");
-			
-			if(!firstSearchCulmn) { 
-				firstSearchCulmn = true;
-				andCulmn = "	and	"; 
-			}// end if
+				.append("	and position_code = ?		");
+			bindValues.add(adminDoctorSearchDTO.getPositionCode().trim());
 		}// end if
-		
-		if(adminDoctorSearchDTO.getSpecialty() != null && !adminDoctorSearchDTO.getSpecialty().isEmpty()) {
+
+		if(hasText(adminDoctorSearchDTO.getStatusCode())) {
 			selectSql
-				.append(andCulmn)
-				.append("	specialty like '%")
-				.append(adminDoctorSearchDTO.getSpecialty())
-				.append("%'		");
-			
-			if(!firstSearchCulmn) { 
-				firstSearchCulmn = true;
-				andCulmn = "	and	"; 
-			}// end if
+				.append("	and status_code = ?		");
+			bindValues.add(adminDoctorSearchDTO.getStatusCode().trim());
 		}// end if
-		
+
+		if(hasText(adminDoctorSearchDTO.getSpecialty())) {
+			selectSql
+				.append("	and specialty like ?		");
+			bindValues.add("%" + adminDoctorSearchDTO.getSpecialty().trim() + "%");
+		}// end if
+
 		if(adminDoctorSearchDTO.getEndNum() > 0) {
 			selectSql
-				.append(andCulmn)
-				.append("	num between ")
-				.append(adminDoctorSearchDTO.getStartNum())
-				.append("	and		")
-				.append(adminDoctorSearchDTO.getEndNum());
-			
-			if(!firstSearchCulmn) { 
-				firstSearchCulmn = true;
-				andCulmn = "	and	"; 
-			}// end if
+				.append("	and num between ? and ?		");
+			bindValues.add(adminDoctorSearchDTO.getStartNum());
+			bindValues.add(adminDoctorSearchDTO.getEndNum());
 		}// end if
-				
+
 		try {
-			
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(selectSql.toString());
-			
+			for(int i = 0; i < bindValues.size(); i++) {
+				pstmt.setObject(i + 1, bindValues.get(i));
+			}//end for
+
 			rs = pstmt.executeQuery();
 			
 			DoctorDTO doctorDTO = null;
@@ -208,6 +179,7 @@ public class AdminDoctorDAO {
 				doctorDTO.setName(rs.getString("name"));
 				doctorDTO.setPhoneNum(rs.getString("phone_num"));
 				doctorDTO.setPositionCode(rs.getString("position_code"));
+				doctorDTO.setStatusCode(rs.getString("status_code"));
 				doctorDTO.setIntroTitle(rs.getString("intro_title"));
 				doctorDTO.setIntroContent(rs.getString("intro_content"));
 				doctorDTO.setThumbnailUrl(rs.getString("thumbnail_url"));
@@ -222,10 +194,14 @@ public class AdminDoctorDAO {
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
-		
+
 		return list;
 	}// selectDoctorList
-	
+
+	private boolean hasText(String value) {
+		return value != null && !value.trim().isEmpty();
+	}//hasText
+
 	public DoctorDTO selectDoctorDetail(int doctorLicenseNo) {
 		DoctorDTO doctorDTO = new DoctorDTO();
 		
@@ -311,7 +287,7 @@ public class AdminDoctorDAO {
 			}// end for
 			
 			conn = DBConnection.getConnection();
-			insertSql.append("select * from dual;");
+			insertSql.append("select * from dual");
 			
 			pstmt = conn.prepareStatement(insertSql.toString());
 			
@@ -345,7 +321,6 @@ public class AdminDoctorDAO {
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getEducationList().get(i).getEducationYear());
 				pstmt.setString(markCnt++, adminDoctorFormDTOTemp.getEducationList().get(i).getEducationContent());
 			}// end for
-			
 			//schedule
 			for(int i = 0; i < 7; i++) {
 				// doctor_license_no, day_of_week, start_time, end_time, status
@@ -358,7 +333,6 @@ public class AdminDoctorDAO {
 			
 			insertCnt = pstmt.executeUpdate();
 		
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -547,7 +521,7 @@ public class AdminDoctorDAO {
 	}//selectDoctorSchedules
 	
 	public int updateDoctorSchedules(int doctorLicenseNo, DoctorScheduleDTO scheduleDTO) {
-		DoctorScheduleDTO doctorScheduleDTO = scheduleDTO; 
+		DoctorScheduleDTO doctorScheduleDTOList = scheduleDTO; 
 		int doctorLicenseNoTemp = doctorLicenseNo;
 		StringBuilder updateSql = new StringBuilder();
 		int successCnt = 0;
@@ -565,18 +539,19 @@ public class AdminDoctorDAO {
 			.append("	end_time=?, 		")
 			.append("	status=?  		")
 			.append("	where doctor_license_no=? 		")
-			.append("	and schedule_no=? 		");
-				
+			.append("	and day_of_week=? 		");
+			
+			
 			pstmt = conn.prepareStatement(updateSql.toString());
-
-	        pstmt.setInt(1, doctorScheduleDTO.getDayOfWeek());
-	        pstmt.setString(2, doctorScheduleDTO.getStartTime());
-	        pstmt.setString(3, doctorScheduleDTO.getEndTime());
-	        pstmt.setString(4, doctorScheduleDTO.getStatus());
-	        pstmt.setInt(5, doctorLicenseNoTemp);
-	        pstmt.setInt(6, doctorScheduleDTO.getScheduleNo());
-
-	        successCnt = pstmt.executeUpdate();
+			
+		        pstmt.setString(1, doctorScheduleDTOList.getStartTime());
+		        pstmt.setString(2, doctorScheduleDTOList.getEndTime());
+		        pstmt.setString(3, doctorScheduleDTOList.getStatus());
+		        pstmt.setInt(4, doctorLicenseNoTemp);
+		        pstmt.setInt(5, doctorScheduleDTOList.getDayOfWeek());
+		        
+			
+		        successCnt = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -730,6 +705,40 @@ public class AdminDoctorDAO {
 		return insertCnt;
 	}//insertDoctorCareer
 
+	public boolean selectDoctorCareerChk(int doctorLicenseNo, int careerNo) {
+		
+		boolean chkSelect = false;
+		
+		int doctorLicenseNoTemp = doctorLicenseNo;
+		int careerNoTemp = careerNo;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		StringBuilder selectSql = new StringBuilder();
+		selectSql
+			.append("	select * from doctor_career		")
+			.append("	where doctor_license_no = ?	and career_no = ?	");
+		try {
+			conn = DBConnection.getConnection();
+			pstmt = conn.prepareStatement(selectSql.toString());
+			pstmt.setInt(1, doctorLicenseNoTemp);
+			pstmt.setInt(2, careerNoTemp);
+			
+			rs = pstmt.executeQuery();
+			
+			chkSelect = rs.next();
+			
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(rs,pstmt,conn);
+		}// end try catch
+		
+		return chkSelect;
+	}
+	
 	public int updateDoctorCareer(int doctorLicenseNo, DoctorCareerDTO careerDTO) {
 		DoctorCareerDTO doctorCareerDTO = careerDTO; 
 		int doctorLicenseNoTemp = doctorLicenseNo;

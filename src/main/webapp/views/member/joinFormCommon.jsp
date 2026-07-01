@@ -14,7 +14,7 @@
 <meta charset="UTF-8">
 <title>한국중앙병원</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/join.css' />">
 
 <!-- 카카오 우편번호 서비스 -->
@@ -27,6 +27,13 @@
 <jsp:include page="/views/common/userBreadcrumb.jsp" />
 
 <main id="content" class="memJoinContent">
+
+    <c:if test="${not empty sessionScope.joinMessage}">
+        <script>
+            alert("<c:out value='${sessionScope.joinMessage}' />");
+        </script>
+        <c:remove var="joinMessage" scope="session" />
+    </c:if>
 
     <div class="contHeadingWrap">
         <h2>만 <span class="title">14세 이상</span> 회원가입</h2>
@@ -41,7 +48,7 @@
 
     <form id="memberVo"
           name="hForm"
-          action="<c:url value='/views/member/process/joinProcess.jsp' />"
+          action="<c:url value='/member/join/process.do' />"
           method="post">
         <input id="join_type" name="join_type" type="hidden" value="${param.join_type}">
         <input id="idChecked" name="idChecked" type="hidden" value="N">
@@ -52,8 +59,8 @@
             <div class="boardTypeForm">
                 <table>
                     <colgroup>
-                        <col style="width:150px;">
-                        <col style="width:auto;">
+                        <col class="joinFormLabelCol">
+                        <col class="joinFormFieldCol">
                     </colgroup>
                     <tbody>
                         <tr>
@@ -68,7 +75,7 @@
                         <tr>
                             <th scope="row"><span class="required">*</span> 비밀번호</th>
                                 <td>
-                                    <input id="pass" name="pass" title="비밀번호"class="inputText" type="password"> 
+                                    <input id="pass" name="pass" title="비밀번호"class="inputText" type="password">
                                     <span class="desc">영문,숫자, 특수문자 조합으로 9~16자</span>
                                     <p class="errorPass" role="alert"></p>
                                 </td>
@@ -94,24 +101,19 @@
 
                                 <select title="생년월일 연도" id="year" name="year" class="dateYY">
                                     <option value="">연도</option>
-                                    <%
-                                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-                                    
-                                    for(int i = currentYear; i>=1920; i--){
-                                    %>
-                                        <option value="<%= i %>"><%= i %></option>
-                                    <%}//end for %>
+                                    <c:forEach var="offset" begin="0" end="${currentYear - 1920}">
+                                        <c:set var="yearValue" value="${currentYear - offset}" />
+                                        <option value="<c:out value='${yearValue}' />"><c:out value="${yearValue}" /></option>
+                                    </c:forEach>
                                 </select>
                                 <span class="txtWrap">-</span>
 
                                 <select title="생년월일 월" id="month" name="month" class="dateMM">
                                     <option value="">월</option>
-                                    <%
-                                    for(int i = 1; i < 13; i++){
-                                        String month = i<10?"0"+i:String.valueOf(i);
-                                    %>
-                                    <option value="<%= month %>"><%= month %></option>
-                                    <%}//end for %>
+                                    <c:forEach var="month" begin="1" end="12">
+                                        <fmt:formatNumber var="monthValue" value="${month}" pattern="00" />
+                                        <option value="<c:out value='${monthValue}' />"><c:out value="${monthValue}" /></option>
+                                    </c:forEach>
                                 </select>
                                 <span class="txtWrap">-</span>
 
@@ -206,7 +208,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="<c:url value='/resources/js/join.js' />"></script>
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js' />"></script>
 
 </body>
 </html>

@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 public class AdminMemoDeleteServlet extends HttpServlet {
@@ -15,6 +17,11 @@ public class AdminMemoDeleteServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getSession(false) == null || request.getSession(false).getAttribute("loginAdmin") == null) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "관리자 로그인 후 이용해 주세요.");
+            return;
+        }
+
         int memoNo = parseInt(request.getParameter("memoNo"), 0);
         String patientNo = request.getParameter("patientNo");
 
@@ -28,7 +35,7 @@ public class AdminMemoDeleteServlet extends HttpServlet {
             throw new ServletException("회원 메모를 삭제하지 못했습니다.", e);
         }
 
-        response.sendRedirect(request.getContextPath() + "/admin/member/detail?patientNo=" + defaultValue(patientNo, ""));
+        response.sendRedirect(request.getContextPath() + "/admin/member/detail?patientNo=" + encode(defaultValue(patientNo, "")));
     }
 
     private int parseInt(String value, int defaultValue) {
@@ -41,5 +48,9 @@ public class AdminMemoDeleteServlet extends HttpServlet {
 
     private String defaultValue(String value, String defaultValue) {
         return value == null || value.isBlank() ? defaultValue : value.trim();
+    }
+
+    private String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 }

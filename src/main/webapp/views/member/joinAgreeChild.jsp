@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:set var="activeMenu" value="login" scope="request" />
@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>어린이 회원가입 약관동의</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/join.css' />">
 </head>
 
@@ -148,7 +148,7 @@
                     <label for="checkbox02">개인정보 수집 이용하는 것에 동의합니다.</label>
                 </div>
             </div>
-            
+
              <div class="persInforWrap">
                 <div class="contTextWrap">
                     <h4>민감정보 수집 및 이용 동의 <span class="colorPoint requiredTxt">(필수)</span></h4>
@@ -172,7 +172,7 @@
                         </p>
                     </div>
                 </div>
-                
+
                 <div class="checkWrap">
                     <input id="checkbox03" type="checkbox" title="개인정보 선택 동의">
                     <label for="checkbox03">민감정보 수집 및 이용하는 것에 동의합니다.</label>
@@ -187,7 +187,7 @@
                     <div class="innerScroll">
                         <h3>동의 목적</h3>
                         <p>
-                            만 14세 미만의 아동의 회원가입 및 병원 홈페이지 서비스 이용을 위하여 
+                            만 14세 미만의 아동의 회원가입 및 병원 홈페이지 서비스 이용을 위하여
                             법정대리인(보호자)의 동의를 확인합니다.
                         </p>
                         <h3>동의 내용</h3>
@@ -204,7 +204,7 @@
                         </p>
                     </div>
                 </div>
-                
+
                 <div class="checkWrap">
                     <input id="checkbox04" type="checkbox" title="개인정보 선택 동의">
                     <label for="checkbox04">법정대리인의 아동의 정보를 이용하는 것에 동의합니다.</label>
@@ -215,8 +215,8 @@
                 <input type="checkbox" id="checkboxAll" title="이용약관, 개인정보 처리 방침 모두 동의">
                 <label for="checkboxAll">이용약관, 개인정보 수집 이용 <b>모두</b> 동의합니다.</label>
             </div>
-            
-            
+
+
 
         </fieldset>
     </form>
@@ -239,7 +239,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="<c:url value='/resources/js/join.js' />"></script>
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js' />"></script>
 
 </body>
 </html>

@@ -6,6 +6,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class AdminMemoService {
+    private static final int ADMIN_ID_MAX_LENGTH = 20;
+    private static final int PATIENT_NO_MAX_LENGTH = 20;
+    private static final int CONTENT_MAX_LENGTH = 500;
+
     private final AdminMemoDAO adminMemoDAO = new AdminMemoDAO();
 
     public List<AdminMemoDTO> getMemoList(String patientNo) throws SQLException {
@@ -17,10 +21,20 @@ public class AdminMemoService {
             return false;
         }
 
+        patientNo = patientNo.trim();
+        adminId = adminId.trim();
+        content = content.trim();
+
+        if (patientNo.length() > PATIENT_NO_MAX_LENGTH
+                || adminId.length() > ADMIN_ID_MAX_LENGTH
+                || content.length() > CONTENT_MAX_LENGTH) {
+            return false;
+        }
+
         AdminMemoDTO memo = new AdminMemoDTO();
-        memo.setPatientNo(patientNo.trim());
-        memo.setAdminId(adminId.trim());
-        memo.setContent(content.trim());
+        memo.setPatientNo(patientNo);
+        memo.setAdminId(adminId);
+        memo.setContent(content);
         return adminMemoDAO.insertMemo(memo) > 0;
     }
 

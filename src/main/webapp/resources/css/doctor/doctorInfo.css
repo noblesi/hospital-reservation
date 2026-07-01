@@ -18,11 +18,10 @@
 	height: 80px;
 	margin-left: 400px;
 	margin-top: 30px;
-	border-bottom: 2px solid #CCC;
-	
 }
 
 .name {
+	border-bottom: 2px solid #CCC;
 	float: left;
 	line-height: 90px;
 	height: 80px;
@@ -30,16 +29,6 @@
 	display: inline-block;
 	font-weight: 700;
 	font-size: 30px;
-}
-
-.apptBtn {
-	float: right;
-	margin-top: 25px;
-	width: 120px;
-	height: 40px;
-	border: none;
-	background-color: #0066c9;
-	color: #FFF;
 }
 
 .contentMain {

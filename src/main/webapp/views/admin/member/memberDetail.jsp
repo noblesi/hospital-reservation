@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 회원 상세</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css?v=20260623-admin-fluid">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css">
 </head>
 <body>
     <%@ include file="/views/common/adminHeader.jsp" %>
@@ -66,10 +66,6 @@
 
                 <form class="admin-form" action="<c:url value='/admin/member/memo/save.do' />" method="post">
                     <input type="hidden" name="patientNo" value="${member.patientNo}">
-                    <label>
-                        작성자 ID
-                        <input type="text" name="adminId" value="${empty sessionScope.loginAdmin.adminId ? 'system' : sessionScope.loginAdmin.adminId}" required>
-                    </label>
                     <label>
                         메모 내용
                         <textarea name="content" rows="4" maxlength="500" required></textarea>

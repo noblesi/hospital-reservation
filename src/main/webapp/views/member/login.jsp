@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>로그인</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
 
 <style type="text/css">
 html, body{
@@ -43,7 +43,7 @@ body{
 
 .login-left{
     width:50%;
-    padding:75px 55px;	
+    padding:75px 55px;
     text-align:center;
 }
 
@@ -247,7 +247,7 @@ body{
 
 <jsp:include page="/views/common/userFooter.jsp" />
 
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js' />"></script>
 
 </body>
 </html>

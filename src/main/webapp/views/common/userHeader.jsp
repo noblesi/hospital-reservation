@@ -61,10 +61,10 @@
                         </div>
                     </li>
                     <li class="${activeMenu eq 'hospital' ? 'active' : ''}">
-                        <a href="<c:url value='/main.do' />">병원소개</a>
+                        <a href="<c:url value='/hospital/intro.do' />">병원소개</a>
                         <div class="user-gnb-submenu">
-                            <a href="<c:url value='/main.do' />">병원 소개</a>
-                            <a href="<c:url value='/main.do' />">오시는 길</a>
+                            <a href="<c:url value='/hospital/intro.do' />">병원 소개</a>
+                            <a href="<c:url value='/hospital/location.do' />">오시는 길</a>
                             <a href="<c:url value='/board/notice/list.do' />">공지사항</a>
                             <a href="<c:url value='/board/faq/list.do' />">FAQ</a>
                         </div>
@@ -87,8 +87,8 @@
                         <a href="<c:url value='/member/mypage.do' />">예약 내역</a>
                     </section>
                     <section>
-                        <a href="<c:url value='/main.do' />">병원 소개</a>
-                        <a href="<c:url value='/main.do' />">오시는 길</a>
+                        <a href="<c:url value='/hospital/intro.do' />">병원 소개</a>
+                        <a href="<c:url value='/hospital/location.do' />">오시는 길</a>
                         <a href="<c:url value='/board/notice/list.do' />">공지사항</a>
                         <a href="<c:url value='/board/faq/list.do' />">FAQ</a>
                     </section>

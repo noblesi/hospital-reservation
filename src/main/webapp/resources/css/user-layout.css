@@ -65,6 +65,8 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
     font-size: 0;
 }
 
@@ -663,6 +665,211 @@ body {
     text-align: right;
 }
 
+.hospital-hero {
+    min-height: 260px;
+    padding: 48px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #eef6ff 0%, #f7fbff 58%, #e9f5f1 100%);
+    border: 1px solid #dfeaf5;
+}
+
+.hospital-hero div {
+    max-width: 720px;
+}
+
+.hospital-hero span {
+    display: block;
+    margin-bottom: 12px;
+    color: #005bac;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.hospital-hero h3 {
+    margin: 0 0 18px;
+    color: #111;
+    font-size: 34px;
+    line-height: 1.35;
+}
+
+.hospital-hero p,
+.hospital-section p,
+.hospital-section li,
+.hospital-section dd,
+.hospital-location-summary p {
+    color: #555;
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.hospital-section {
+    margin-top: 34px;
+}
+
+.hospital-section h3 {
+    margin: 0 0 18px;
+    color: #111;
+    font-size: 24px;
+}
+
+.hospital-value-grid,
+.hospital-direction-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.hospital-value-grid article,
+.hospital-direction-grid article,
+.hospital-info-band {
+    border: 1px solid #e5e8ef;
+    background-color: #fff;
+}
+
+.hospital-value-grid article,
+.hospital-direction-grid article {
+    padding: 26px;
+}
+
+.hospital-value-grid strong {
+    display: block;
+    margin-bottom: 10px;
+    color: #005bac;
+    font-size: 18px;
+}
+
+.hospital-value-grid p,
+.hospital-direction-grid p,
+.hospital-direction-grid ul {
+    margin: 0;
+}
+
+.hospital-direction-grid ul {
+    padding-left: 18px;
+}
+
+.hospital-info-band {
+    padding: 30px;
+    background-color: #f7f9fc;
+}
+
+.hospital-info-band dl {
+    margin: 0;
+}
+
+.hospital-info-band div {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 18px;
+    padding: 16px 0;
+    border-top: 1px solid #e2e7ef;
+}
+
+.hospital-info-band div:first-of-type {
+    border-top: 0;
+}
+
+.hospital-info-band dt {
+    color: #111;
+    font-weight: 700;
+}
+
+.hospital-info-band dd {
+    margin: 0;
+}
+
+.hospital-map-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+    border: 1px solid #dfe6f0;
+    background-color: #fff;
+}
+
+.hospital-map-placeholder {
+    min-height: 340px;
+    padding: 36px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background:
+        linear-gradient(90deg, rgba(0, 91, 172, 0.10) 1px, transparent 1px),
+        linear-gradient(rgba(0, 91, 172, 0.10) 1px, transparent 1px),
+        #f1f7fc;
+    background-size: 34px 34px;
+    color: #005bac;
+    text-align: center;
+}
+
+.hospital-map-placeholder.is-map-loaded {
+    padding: 0;
+    display: block;
+}
+
+.hospital-map-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.hospital-map-fallback strong {
+    font-size: 28px;
+}
+
+.hospital-map-fallback span {
+    color: #333;
+    font-size: 16px;
+}
+
+.hospital-map-fallback small {
+    color: #666;
+    font-size: 13px;
+}
+
+.hospital-map-info {
+    min-width: 180px;
+    padding: 10px 12px;
+    color: #333;
+    font-size: 13px;
+    line-height: 1.45;
+    text-align: center;
+}
+
+.hospital-map-info strong,
+.hospital-map-info span {
+    display: block;
+}
+
+.hospital-map-info strong {
+    margin-bottom: 4px;
+    color: #005bac;
+    font-size: 14px;
+}
+
+.hospital-location-summary {
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    border-left: 1px solid #dfe6f0;
+}
+
+.hospital-location-summary h3 {
+    margin: 0 0 14px;
+    color: #111;
+    font-size: 24px;
+}
+
+.hospital-location-summary p {
+    margin: 0 0 24px;
+}
+
 .error-page {
     min-height: 100vh;
     padding: 80px 20px;
@@ -760,6 +967,17 @@ body {
         grid-template-columns: 1fr;
     }
 
+    .hospital-value-grid,
+    .hospital-direction-grid,
+    .hospital-map-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .hospital-location-summary {
+        border-top: 1px solid #dfe6f0;
+        border-left: 0;
+    }
+
     .user-footer-inner {
         padding: 24px 0;
         flex-direction: column;
@@ -781,10 +999,15 @@ body {
     .user-gnb-inner {
         height: auto;
         min-height: 56px;
+        justify-content: space-between;
     }
 
     .user-gnb-inner .menu-btn {
         margin-right: 8px;
+    }
+
+    .user-gnb {
+        display: none;
     }
 
     .user-gnb ul {
@@ -820,6 +1043,47 @@ body {
 
     .user-all-menu-grid {
         grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    .user-all-menu-grid a {
+        padding: 10px 0;
+        text-align: left;
+    }
+
+    .logo {
+        font-size: 19px;
+    }
+
+    .user-util {
+        gap: 8px;
+        font-size: 12px;
+    }
+
+    .main-visual-inner {
+        padding: 42px 0;
+    }
+
+    .main-visual h2 {
+        font-size: 30px;
+    }
+
+    .main-board-title,
+    .main-board-list li {
+        height: auto;
+        min-height: 58px;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        gap: 6px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .main-board-list span {
+        flex: none;
+        width: 100%;
+        text-align: left;
     }
 
     .error-page {
@@ -845,5 +1109,25 @@ body {
     .error-actions .main-primary-link,
     .error-actions .outline-link {
         width: 100%;
+    }
+
+    .hospital-hero {
+        padding: 34px 24px;
+    }
+
+    .hospital-hero h3 {
+        font-size: 28px;
+    }
+
+    .hospital-info-band div {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .hospital-map-placeholder,
+    .hospital-location-summary,
+    .hospital-value-grid article,
+    .hospital-direction-grid article {
+        padding: 24px;
     }
 }

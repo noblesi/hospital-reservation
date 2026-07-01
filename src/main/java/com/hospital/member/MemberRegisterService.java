@@ -1,9 +1,13 @@
 package com.hospital.member;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import com.hospital.common.MemberDTO;
 import com.hospital.common.MinorMemberDTO;
+import com.hospital.common.util.GetKey;
+
+import kr.co.sist.chipher.DataEncryption;
 
 /**
  * 회원가입 관련 비즈니스 로직 처리 
@@ -40,8 +44,21 @@ public class MemberRegisterService {
 	 * @return 가입 성공 여부 
 	 */
 	public boolean registerMember(MemberDTO mDTO, MinorMemberDTO minorDTO) {
-		try {
 			
+		
+		try {
+			/*
+			 * 회원가입 전 암호화 처리 코드 추가  
+			 * - 비밀번호   SHA-1 일방향 Hash 처리 
+			 * - 이메일    양방향 암호화 처리 
+			 * - 전화번호   양방향 암호화 처리 
+			 * 	2026.06.29 코드 추가  
+			*/
+			
+			mDTO.setPassword(DataEncryption.messageDigest("SHA-1", mDTO.getPassword()));
+			DataEncryption de = new DataEncryption(GetKey.getKey());
+				mDTO.setEmail(de.encrypt(mDTO.getEmail()));
+				mDTO.setPhoneNumber(de.encrypt(mDTO.getPhoneNumber()));
 			// 회원 정보 저장
 			int memberRow = mrDAO.insertMember(mDTO);
 			
@@ -66,8 +83,12 @@ public class MemberRegisterService {
 			return true;
 		} catch (SQLException se) {
 			se.printStackTrace();
-			return false;
-		}//end catch
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}//registerMember
 	
 	/**

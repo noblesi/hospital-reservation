@@ -32,7 +32,7 @@
 				location.href = "${pageContext.request.contextPath}/appointment/reserve.do?appointmentNo=" + $(this).val();
 			}
 		});
-		
+
 		/* 예약 취소 버튼 */
 		$(".apptCancelBtn").on("click", function() {
 			if(confirm("예약을 취소하시겠습니까?")) {
@@ -48,13 +48,13 @@
 	<c:import url="/views/common/userBreadcrumb.jsp" />
 	<!-- 사이드바 -->
 	<jsp:include page="/views/user/appointment/appointmentSidebar.jsp" />
-	
+
 	<div class="mainWrap">
-		
+
 		<!-- 유저의 진료 목록 -->
 		<h1 class="title">진료예약확인</h1>
 		<ul class="apptListUl">
-		
+
 			<c:if test="${ not empty uasDTOList }">
 				<c:forEach var="uasDTO" items="${ uasDTOList }" varStatus="i">
 				<li class="apptListLi">
@@ -82,7 +82,7 @@
 				</li>
 				</c:forEach>
 			</c:if>
-			
+
 			<c:if test="${ empty uasDTOList }">
 				<li class="apptListLi">
 					<p class="noResultP">
@@ -90,9 +90,9 @@
 					</p>
 				</li>
 			</c:if>
-			
+
 		</ul>
-		
+
 		<!-- 준비, 주의사항등 공지 -->
 		<div class="warnNotiDiv">
 			<h2 class="warnNotiTitle"><i class="bi bi-exclamation-triangle warnIcon"></i>주의</h2>
@@ -102,7 +102,7 @@
 				예약이 조회되지 않은 경우에는 <span class="blue">예약센터(1577-0000)</span>나 해당 진료과로 문의해 주십시오.
 			</p>
 		</div>
-		
+
 		<div class="requireNotiDiv">
 			<h2 class="requireNotiTitle">준비사항</h2>
 			<strong>요양급여의뢰서(진료의뢰서)를 반드시 지참하십시오</strong>
@@ -118,18 +118,18 @@
 				자</span>가 재활의학과 진료를 볼 경우도 요양급여의뢰서는 없어도 됩니다.
 			</p>
 		</div>
-		
+
 		<div class="useNotiDiv">
 			<h2 class="useNotiTitle">이용안내</h2>
 			<strong>1. 진료비 수납</strong>
 			<p>
 				진료·검사·치료 먼저 받으신 후 귀가 전 한번만 가까운 수납창구에 방문해 주시면 됩니다.<br>
-				<span style="color: #6e6e6e">※ 진료예약현황의 상세내용 중 진찬료를 미리 납부하신 경우는 수납/미수납 중 수납으로 표시됩니다.</span>
+				<span class="noticeMuted">※ 진료예약현황의 상세내용 중 진찬료를 미리 납부하신 경우는 수납/미수납 중 수납으로 표시됩니다.</span>
 			</p>
 			<strong>2. 진료예약 취소</strong>
 			<p>
 				수납 이력이나 검사 예약이 없는 진료만 취소가 가능합니다.<br>
-				<span style="color: #6e6e6e">-진료예약현황의 예약신청일 아래 정보는 예약을 신청한 곳을 의미하며, 진료일 전 자정(12시)까지 취소가 가능합니다.<br>
+				<span class="noticeMuted">-진료예약현황의 예약신청일 아래 정보는 예약을 신청한 곳을 의미하며, 진료일 전 자정(12시)까지 취소가 가능합니다.<br>
 				-예약 취소가 불가능할 경우, 예약센터(T.1588-0000)에서 취소해 주시기 바랍니다.<br></span>
 				예약변경/취소 없이 진료를 받지 않을 경우 홈페이지 진료예약서비스가 제한됩니다.
 			</p>
@@ -142,7 +142,7 @@
 	</div>
 
 	<c:import url="/views/common/userFooter.jsp" />
-	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=20260623-menu-hover-guard"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js"></script>
 </body>
 
 </html>

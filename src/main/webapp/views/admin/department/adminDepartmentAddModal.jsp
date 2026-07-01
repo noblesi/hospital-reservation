@@ -122,7 +122,7 @@ function selfClose(){
 <body>
 	<div id="wrap">
         <section class="admin-card">
-            <form id="deptFrm" class="admin-search-area" action="adminDepartmentAddModalProcess.jsp" method="post">
+            <form id="deptFrm" class="admin-search-area" action="<c:url value='/admin/department/form.do' />" method="post">
 	<c:forEach var="dept" items="${departmentList}">
 		<input type="hidden" class="existingDeptName" value="<c:out value='${dept.deptName}' />">
 	</c:forEach>

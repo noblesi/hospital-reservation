@@ -1,23 +1,9 @@
-﻿<%@page import="com.hospital.common.MemberDTO"%>
-<%@page import="com.hospital.member.MemberRegisterService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:set var="activeMenu" value="login" scope="request" />
 <c:set var="depth1" value="회원가입" scope="request" />
 
-<%
-String registerLoginId = (String)session.getAttribute("registerLoginId");
-
-MemberDTO mDTO = null;
-
-if(registerLoginId != null){
-    MemberRegisterService mrs = new MemberRegisterService();
-    mDTO = mrs.searchRegister(registerLoginId);
-}
-
-pageContext.setAttribute("member", mDTO);
-%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -25,7 +11,7 @@ pageContext.setAttribute("member", mDTO);
 <meta charset="UTF-8">
 <title>회원가입 완료</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=20260623-menu-hover-guard' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/join.css' />">
 
 </head>
@@ -77,11 +63,11 @@ pageContext.setAttribute("member", mDTO);
         </div>
 
         <div class="btnWrap">
-            <a href="<c:url value='/main.jsp' />" class="btnType02">
+            <a href="<c:url value='/main.do' />" class="btnType02">
                 메인으로 이동
             </a>
 
-            <a href="<c:url value='/views/member/login.jsp' />" class="btnType03">
+            <a href="<c:url value='/member/login.do' />" class="btnType03">
                 로그인
             </a>
         </div>
@@ -92,7 +78,7 @@ pageContext.setAttribute("member", mDTO);
 
 <jsp:include page="/views/common/userFooter.jsp" />
 
-<script src="<c:url value='/resources/js/user-layout.js?v=20260623-menu-hover-guard' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js' />"></script>
 
 </body>
 </html>

@@ -6,6 +6,11 @@
 	version="4.0">
 	<display-name>hospital-reservation</display-name>
 
+  <context-param>
+    <param-name>kakaoMapAppKey</param-name>
+    <param-value></param-value>
+  </context-param>
+
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
@@ -18,10 +23,27 @@
 			<param-value>false</param-value>
 		</init-param>
 	</filter>
+  <filter>
+    <filter-name>adminAuthFilter</filter-name>
+    <filter-class>com.hospital.common.filter.AdminAuthFilter</filter-class>
+  </filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+  <filter-mapping>
+    <filter-name>adminAuthFilter</filter-name>
+    <url-pattern>/admin</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>adminAuthFilter</filter-name>
+    <url-pattern>/admin/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>adminAuthFilter</filter-name>
+    <url-pattern>/views/admin/*</url-pattern>
+  </filter-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
@@ -41,6 +63,24 @@
   <servlet-mapping>
     <servlet-name>mainPageServlet</servlet-name>
     <url-pattern>/main.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>hospitalIntroPage</servlet-name>
+    <jsp-file>/views/user/hospital/intro.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>hospitalIntroPage</servlet-name>
+    <url-pattern>/hospital/intro.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>hospitalLocationPage</servlet-name>
+    <jsp-file>/views/user/hospital/location.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>hospitalLocationPage</servlet-name>
+    <url-pattern>/hospital/location.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -117,6 +157,33 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>memberJoinProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberJoinProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberJoinProcessServlet</servlet-name>
+    <url-pattern>/member/join/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberIdCheckServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberIdCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberIdCheckServlet</servlet-name>
+    <url-pattern>/member/id-check.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberJoinCompleteServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberJoinCompleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberJoinCompleteServlet</servlet-name>
+    <url-pattern>/member/join/complete.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>memberMyPage</servlet-name>
     <servlet-class>com.hospital.member.controller.MemberMyPageServlet</servlet-class>
   </servlet>
@@ -150,6 +217,42 @@
   <servlet-mapping>
     <servlet-name>memberUpdateInfoServlet</servlet-name>
     <url-pattern>/member/mypage/update.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberWithdrawPage</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberWithdrawPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberWithdrawPage</servlet-name>
+    <url-pattern>/member/withdraw.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberWithdrawalPasswordCheckServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberWithdrawalPasswordCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberWithdrawalPasswordCheckServlet</servlet-name>
+    <url-pattern>/member/withdraw/password-check.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberWithdrawProcessServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberWithdrawProcessServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberWithdrawProcessServlet</servlet-name>
+    <url-pattern>/member/withdraw/process.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>memberCancelWithdrawalServlet</servlet-name>
+    <servlet-class>com.hospital.member.controller.MemberCancelWithdrawalServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberCancelWithdrawalServlet</servlet-name>
+    <url-pattern>/member/withdraw/cancel.do</url-pattern>
   </servlet-mapping>
 
   <servlet>

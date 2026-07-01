@@ -57,8 +57,8 @@ public class AdminDoctorService {
 		adminDoctorFormDTO.setScheduleList(adminDoctorDAO.selectDoctorSchedules(doctorLicenseNoTemp));
 		adminDoctorFormDTO.setPositionList(adminDoctorDAO.selectDoctorPostionAllList());
 		adminDoctorFormDTO.setStatusList(adminDoctorDAO.selectDoctorStatusAllList());
-		adminDoctorFormDTO.setPorfileImageFileName(null);
-		adminDoctorFormDTO.setDetailImageFileName(null);
+		adminDoctorFormDTO.setProfileImageFileName(adminDoctorDAO.selectDoctorDetail(doctorLicenseNoTemp).getThumbnailUrl());
+		adminDoctorFormDTO.setDetailImageFileName(adminDoctorDAO.selectDoctorDetail(doctorLicenseNoTemp).getDetailImageUrl());
 		
 		return adminDoctorFormDTO;
 	}
@@ -81,6 +81,79 @@ public class AdminDoctorService {
 		int successCnt = 0 ;
 		AdminDoctorFormDTO adminDoctorFormDTO = formDTO;
 		successCnt = adminDoctorDAO.updateDoctor(adminDoctorFormDTO.getDoctorDTO());
+		int doctorLicenseNo = adminDoctorFormDTO.getDoctorDTO().getDoctorLicenseNo();
+		List<DoctorCareerDTO> originCareerList = adminDoctorDAO.selectDoctorCareerList(doctorLicenseNo);
+		List<DoctorEducationDTO> originEducationList = adminDoctorDAO.selectDoctorEducationList(doctorLicenseNo);
+		
+		List<DoctorCareerDTO> careerList = adminDoctorFormDTO.getCareerList();
+		List<DoctorEducationDTO> educationList = adminDoctorFormDTO.getEducationList();
+		List<DoctorScheduleDTO> scheduleList = adminDoctorFormDTO.getScheduleList();
+		
+		/////career///////////////////////////////////////////////////////////////
+		// 업데이트 또는 인설트 판단
+		
+		int careerNo = 0;
+		int originCareerNo = 0;
+		
+		boolean deleteCareerFlag = false;
+		for(int i = 0; i < careerList.size(); i++) {
+			careerNo = careerList.get(i).getCareerNo();
+			if( adminDoctorDAO.selectDoctorCareerChk(doctorLicenseNo, careerNo) ) {
+				adminDoctorDAO.updateDoctorCareer(doctorLicenseNo, adminDoctorFormDTO.getCareerList().get(i) );
+			} else if(careerNo==0 && (!careerList.get(i).getCareerYear().isEmpty() || !careerList.get(i).getCareerContent().isEmpty()) ){
+				adminDoctorDAO.insertDoctorCareer(adminDoctorFormDTO.getCareerList().get(i));
+			} 
+		}// end for
+		
+		for(int i =0; i < originCareerList.size(); i++ ) {
+			originCareerNo = originCareerList.get(i).getCareerNo();
+			deleteCareerFlag= false;
+			for(int j =0; j < careerList.size(); j++) {
+				if(originCareerList.get(i).getCareerNo() == careerList.get(j).getCareerNo()) {
+					j=careerList.size();
+					deleteCareerFlag=false;
+				} else if(j == careerList.size()-1) {
+					deleteCareerFlag= true;
+				}
+			}// end for
+			if(deleteCareerFlag) {
+				adminDoctorDAO.deleteDoctorCareers(doctorLicenseNo, originCareerNo);
+			}
+		}// end for
+		
+		//////education//////////////////////////////////////////////////////////////////////////////////
+		int educationNo = 0;
+		int originEducationNo = 0;
+		boolean deleteEducationFlag = false;
+		// 업데이트 또는 인설트 판단
+		for(int i = 0; i < educationList.size(); i++) {
+			educationNo = educationList.get(i).getEducationNo();
+			if( adminDoctorDAO.selectDoctorCareerChk(doctorLicenseNo, educationNo) ) {
+				adminDoctorDAO.updateDoctorEducation(doctorLicenseNo, educationList.get(i) );
+			} else if(educationNo==0 && (!educationList.get(i).getEducationYear().isEmpty() || !educationList.get(i).getEducationContent().isEmpty()) ){
+				adminDoctorDAO.insertDoctorEducation(educationList.get(i));
+			} 
+		}// end for
+		
+		for(int i =0; i < originEducationList.size(); i++ ) {
+			originEducationNo = originEducationList.get(i).getEducationNo();
+			deleteEducationFlag= false;
+			for(int j =0; j < educationList.size(); j++) {
+				if(originEducationList.get(i).getEducationNo() == originEducationList.get(j).getEducationNo()) {
+					j=educationList.size();
+					deleteEducationFlag=false;
+				} else if(j == educationList.size()-1) {
+					deleteEducationFlag= true;
+				}
+			}// end for
+			if(deleteEducationFlag) {
+				adminDoctorDAO.deleteDoctorCareers(doctorLicenseNo, originEducationNo);
+			}
+		}// end for
+		////////schedule///////////////////////////////////////////////////////////////////////////
+		//adminDoctorDAO.updateDoctorSchedules(doctorLicenseNo, scheduleList);
+		saveDoctorSchedule(doctorLicenseNo, scheduleList);
+				
 		if(successCnt > 0) {
 			successFlag = true;
 		}// end if
@@ -102,15 +175,12 @@ public class AdminDoctorService {
 	}
 	public boolean checkDoctorLicenseNo(int doctorLicenseNo) {
 		// 의사면허번호 중복 확인
-		int checkCnt = 0;
-		boolean successFlag = false;
+		int checkCnt = 0; 
+		
 		int doctorLicenseNoTemp = doctorLicenseNo;
 		checkCnt = adminDoctorDAO.selectDoctorLicenseNoCnt(doctorLicenseNoTemp);
-		if(checkCnt == 0) {
-			successFlag = true;
-		}// end if
 		
-		return successFlag;
+		return checkCnt > 0;
 	}
 	public AdminDoctorFormOptionDTO getDoctorFormOptions(){
 		// 진료과/직급/상태 선택값 조회
@@ -120,6 +190,7 @@ public class AdminDoctorService {
 		adminDoctorFormOptionDTO.setStatusList(adminDoctorDAO.selectDoctorStatusAllList());
 		return adminDoctorFormOptionDTO;
 	}
+	
 	public boolean saveDoctorSchedule(int doctorLicenseNo, List<DoctorScheduleDTO> schedules) {
 		// 진료 가능 요일 저장
 		int doctorLicenseNoTemp = doctorLicenseNo;

@@ -258,7 +258,7 @@ $(function() {
         }
 
         window.open(
-            "idDup.jsp?id=" + encodeURIComponent(loginId),
+            contextPath() + "/member/id-check.do?id=" + encodeURIComponent(loginId),
             "idDup",
             "width=380,height=360,top=150,left=500"
         );
@@ -419,8 +419,8 @@ $(function() {
         // 휴대전화번호 조합
         if($("#hp_no").length){
             $("#hp_no").val(
-                $("#hp1").val() +
-                $("#hp2").val() +
+                $("#hp1").val() + "-" +
+                $("#hp2").val() + "-" +
                 $("#hp3").val()
             );
         }
@@ -430,3 +430,19 @@ $(function() {
     });
 
 });
+
+function contextPath() {
+    var path = window.location.pathname;
+    var secondSlash = path.indexOf("/", 1);
+
+    if (secondSlash === -1) {
+        return "";
+    }
+
+    var firstSegment = path.substring(1, secondSlash);
+    if (["views", "member", "admin", "appointment", "board", "hospital"].indexOf(firstSegment) >= 0) {
+        return "";
+    }
+
+    return "/" + firstSegment;
+}

@@ -115,7 +115,7 @@ function buildDoctorHtml(data) {
               + "<img class='doctorThumnail' src='" + doctor.thumbnailUrl + "'>"
               + "<div class='doctorInfoDiv'>"
               + "<h4 class='doctorName'>" + doctor.name
-              + "<a href='#void'><i class='bi bi-search blueSearchIcon'></i></a></h4>"
+              + "<a href='../views/user/doctor/doctorInfo.jsp?dln=" + doctor.doctorLicenseNo + "'><i class='bi bi-search blueSearchIcon'></i></a></h4>"
               + "<p class='detail'>"
               + (data.deptName ? "<strong class='deptName'>" + data.deptName + "</strong><br>" : "")
               + "세부전공: <span class='specialty'>" + doctor.specialty + "</span>"
