@@ -127,7 +127,7 @@
 
   <servlet>
     <servlet-name>adminLoginPage</servlet-name>
-    <jsp-file>/views/admin/auth/login.jsp</jsp-file>
+    <jsp-file>/views/admin/auth/adminLogin.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>adminLoginPage</servlet-name>
