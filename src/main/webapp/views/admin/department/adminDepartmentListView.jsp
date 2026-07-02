@@ -73,7 +73,7 @@
         	window.open("modal-addDept.jsp","dept_modal","width=474,height=374,top="+window.screenY*5+",left="+window.screenX*2);
         }//modifyModal
     </script>
-    <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css' />">
+    <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css?v=${initParam.assetVersion}' />">
 </head>
 <body>
 
@@ -181,6 +181,6 @@
     </main>
 </div>
 
-<script src="<c:url value='/resources/js/admin-layout.js' />"></script>
+<script src="<c:url value='/resources/js/admin-layout.js?v=${initParam.assetVersion}' />"></script>
 </body>
 </html>

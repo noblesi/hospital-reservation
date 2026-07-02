@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>아이디/비밀번호 찾기</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/find-account.css' />">
 
 </head>
@@ -212,7 +212,7 @@
 
     <button type="button" class="layerCloseBtn">×</button>
 </section>
-<script src="<c:url value='/resources/js/user-layout.js' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js?v=${initParam.assetVersion}' />"></script>
 <jsp:include page="/views/common/userFooter.jsp" />
 
 <!-- jQuery CDN: find-account.js보다 먼저 로드해야 한다. -->

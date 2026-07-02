@@ -11,6 +11,11 @@
     <param-value></param-value>
   </context-param>
 
+  <context-param>
+    <param-name>assetVersion</param-name>
+    <param-value>20260701</param-value>
+  </context-param>
+
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
@@ -408,6 +413,15 @@
   <servlet-mapping>
     <servlet-name>adminMemberListServlet</servlet-name>
     <url-pattern>/admin/member/list.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminMemberDetailServlet</servlet-name>
+    <servlet-class>com.hospital.admin.member.AdminMemberDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminMemberDetailServlet</servlet-name>
+    <url-pattern>/admin/member/detail</url-pattern>
   </servlet-mapping>
 
   <servlet>

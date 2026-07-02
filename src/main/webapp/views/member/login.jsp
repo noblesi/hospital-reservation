@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>로그인</title>
 
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 
 <style type="text/css">
 html, body{
@@ -247,7 +247,7 @@ body{
 
 <jsp:include page="/views/common/userFooter.jsp" />
 
-<script src="<c:url value='/resources/js/user-layout.js' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js?v=${initParam.assetVersion}' />"></script>
 
 </body>
 </html>

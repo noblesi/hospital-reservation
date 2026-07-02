@@ -116,7 +116,7 @@ function selfClose(){
 }// selfClose
 
 </script>
-    <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css' />">
+    <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css?v=${initParam.assetVersion}' />">
 
 </head>
 <body>
@@ -186,6 +186,6 @@ function selfClose(){
             </form>
         </section>
 	</div>
-<script src="<c:url value='/resources/js/admin-layout.js' />"></script>
+<script src="<c:url value='/resources/js/admin-layout.js?v=${initParam.assetVersion}' />"></script>
 </body>
 </html>

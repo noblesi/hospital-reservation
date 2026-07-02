@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 <title>한국중앙병원</title>
 <link rel="stylesheet" href="<c:url value='/resources/css/sideBar.css' />">
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/mypage.css' />">
 </head>
 <body>
@@ -109,7 +109,7 @@
 </div>
 
 <jsp:include page="/views/common/userFooter.jsp" />
-<script src="<c:url value='/resources/js/user-layout.js' />"></script>
+<script src="<c:url value='/resources/js/user-layout.js?v=${initParam.assetVersion}' />"></script>
 <script src="<c:url value='/resources/js/mypage.js' />"></script>
 </body>
 </html>

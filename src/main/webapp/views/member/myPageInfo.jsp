@@ -14,7 +14,7 @@
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/sideBar.css' />">
 <link rel="stylesheet"
-	href="<c:url value='/resources/css/user-layout.css' />">
+	href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/mypage.css' />">
 <script
@@ -221,7 +221,7 @@
 
 	<jsp:include page="/views/common/userFooter.jsp" />
 	<script
-		src="<c:url value='/resources/js/user-layout.js' />"></script>
+		src="<c:url value='/resources/js/user-layout.js?v=${initParam.assetVersion}' />"></script>
 	<script src="<c:url value='/resources/js/mypage.js' />"></script>
 </body>
 </html>

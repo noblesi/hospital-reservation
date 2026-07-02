@@ -31,7 +31,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><c:out value="${statusCode}" /> 오류 | KMCH 한국중앙병원</title>
-    <link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
+    <link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 </head>
 <body>
     <main class="error-page" role="main">

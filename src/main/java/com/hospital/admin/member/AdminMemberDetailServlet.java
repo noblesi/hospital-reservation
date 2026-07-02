@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.hospital.admin.memo.AdminMemoService;
 import com.hospital.common.MemberDTO;
 
-@WebServlet("/admin/member/detail")
 public class AdminMemberDetailServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger(AdminMemberDetailServlet.class.getName());
