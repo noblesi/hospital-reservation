@@ -58,13 +58,14 @@ pageContext.setAttribute("udDTO", udDTO);
 	<c:import url="/views/common/userBreadcrumb.jsp" />
 
 	<div id="mainWrap">
-		<div id="content" style="background-image: url('${ udDTO.thumbnailUrl }');">
+		<div id="content" style="background-color: #f2f5fa">
+			<div class="subWrap">			
 			<div class="contentTop">
 				<h2 class="name"><c:out value="${ udDTO.name }"/></h2>
 				<strong class="deptName"><c:out value="${ udDTO.deptName }"/></strong>
 			</div>
 			<div class="contentMain">
-				<strong class="position">${ udDTO.position }</strong><br> <span class="major">${ udDTO.specialty }</span>
+				<strong class="position"><c:out value="${ udDTO.position }"/></strong><br> <span class="major">세부 전공 : <c:out value="${ udDTO.specialty }"/></span>
 				<div class="timeTableDiv">
 					<strong class="tableTitle">진료 시간표</strong>
 					<table class="timeTable">
@@ -122,6 +123,8 @@ pageContext.setAttribute("udDTO", udDTO);
 					</table>
 				</div>
 			</div>
+			</div>
+			<img class="doctorImg" alt="의료진 사진" src='<c:url value="/resources/images/doctors/${ udDTO.thumbnailUrl }" />'>
 		</div>
 		
 		<!-- 의료진 소개글 시작 -->

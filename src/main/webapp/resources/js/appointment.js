@@ -1,14 +1,15 @@
+var pageLength = $(".slTab").length;
+var curPage = 0;
+
+var deptName;
+var dln;
+var specialty;
+var appointmentDate;
+var appointmentTime;
+
 $(function() {
-    var pageLength = $(".slTab").length;
-    var curPage = 0;
     
-    var deptName;
-    var dln;
-    var specialty;
-    var appointmentDate;
-    var appointmentTime;
-    
-    /* [이벤트 바인딩] */
+    /* 이벤트 바인딩 */
     $(".btnNext").click(function() {
         if (curPage < pageLength) curPage = moveToNextPage(curPage);
     });
@@ -51,7 +52,7 @@ function getAppointmentProcessUrl() {
     return getAppointmentConfig().processUrl || "process.do";
 }
 
-/* [UI 및 포커스 제어 함수] */
+/* UI 및 포커스 제어 함수 */
 function removeFocusBorder() {
     $(".deptWrap").removeClass("focusBorder");
     $(".doctorListDiv").removeClass("focusBorder");
@@ -65,7 +66,7 @@ function closeModal() {
     $(".lastConfirmDiv").removeClass("show");
 }
 
-/* [페이지 슬라이더 관련 함수] */
+/* 페이지 슬라이더 관련 함수 */
 function moveToNextPage(curPage) {
     curPage++;
     var amount = -700 / curPage;
@@ -80,7 +81,7 @@ function moveToPrevPage(curPage) {
     return curPage;
 }
 
-/* [HTML 생성 함수] */
+/* HTML 생성 함수 */
 
 // 진료과 목록 HTML 생성
 function buildDepartmentHtml(data) {
@@ -112,7 +113,7 @@ function buildDoctorHtml(data) {
         if (i % 2 === 0) html += "<div class='col'>";
 
         html += "<li class='doctorLi'>"
-              + "<img class='doctorThumnail' src='" + doctor.thumbnailUrl + "'>"
+              + "<img class='doctorThumnail' src='../resources/images/doctors/" + doctor.thumbnailUrl + "'>"
               + "<div class='doctorInfoDiv'>"
               + "<h4 class='doctorName'>" + doctor.name
               + "<a href='../views/user/doctor/doctorInfo.jsp?dln=" + doctor.doctorLicenseNo + "'><i class='bi bi-search blueSearchIcon'></i></a></h4>"
@@ -187,7 +188,7 @@ function buildTimeTableHtml(data) {
     return html;
 }
 
-/* [Ajax 렌더링 함수] */
+/* Ajax 렌더링 함수 */
 function renderCalendar(year, month) {
     $.ajax({
         url: getAppointmentAjaxUrl(),
@@ -197,7 +198,7 @@ function renderCalendar(year, month) {
         success: function(data) {
             $(".scheduleCal").html(buildCalendarHtml(data));
         },
-        error: function() { alert("달력 로딩 실패"); }
+        error: function() { console.log("달력 로딩 실패"); }
     });
 }
 
@@ -210,7 +211,7 @@ function renderTimeTable(selectedDate) {
         success: function(data) {
             $(".timeTableDiv").html(buildTimeTableHtml(data));
         },
-        error: function() { alert("시간표 로딩 실패"); }
+        error: function() { coonsole.log("시간표 로딩 실패"); }
     });
 }
 
@@ -228,7 +229,7 @@ function handleDeptSort() {
             curPage = 0;
             $(".sliderTrack").css("left", "0px");
         },
-        error: function() { alert("통신 실패!"); }
+        error: function() { console.log("통신 실패!"); }
     });
 }
 
@@ -248,6 +249,10 @@ function handleDeptSelect() {
     var deptNo = $(this).val();
     deptName = $("label[for='" + deptNo + "']").text();
     $(".rsInfoDept").text(deptName);
+	
+	dln = "";
+	appointmentDate = "";
+	appointmentTime = "";
 
     $.ajax({
         url: getAppointmentAjaxUrl(),
@@ -257,7 +262,7 @@ function handleDeptSelect() {
         success: function(data) {
             $(".doctorListMain").html(buildDoctorHtml(data));
         },
-        error: function() { alert("의사 목록 로딩 실패"); }
+        error: function() { console.log("의사 목록 로딩 실패"); }
     });
 }
 
@@ -275,7 +280,7 @@ function handleDoctorSearch() {
         success: function(data) {
             $(".doctorListMain").html(buildDoctorHtml(data));
         },
-        error: function() { alert("의사 검색 실패"); }
+        error: function() { console.log("의사 검색 실패"); }
     });
 }
 
@@ -293,6 +298,9 @@ function handleDoctorSelect() {
     $(this).closest(".doctorLi").find(".doctorThumnail").attr("style", "border: 2px solid #2763ba");
 
     dln = $(".selectedBtn").val();
+	appointmentDate = "";
+	appointmentTime = "";
+	
     $("#apptDln").val(dln);
     specialty = $(this).closest(".doctorLi").find(".specialty").text();
 
@@ -324,6 +332,8 @@ function handleDateSelect() {
     $(".timeTableDiv").removeAttr("style");
 
     appointmentDate = $(this).data("date");
+	appointmentTime = "";
+	
     $("#apptDate").val(appointmentDate);
 
     renderTimeTable(appointmentDate);
@@ -341,9 +351,9 @@ function handleTimeSelect() {
 }
 
 function handleAppointSubmit() {
-    if (dln == null)             { alert("의료진을 선택해 주세요");   return; }
-    if (appointmentDate == null) { alert("예약 날짜를 선택해 주세요"); return; }
-    if (appointmentTime == null) { alert("예약 시간을 선택해 주세요"); return; }
+    if (dln == null || dln == "")             { alert("의료진을 선택해 주세요");   return; }
+    if (appointmentDate == null || appointmentDate == "") { alert("예약 날짜를 선택해 주세요"); return; }
+    if (appointmentTime == null || appointmentTime == "") { alert("예약 시간을 선택해 주세요"); return; }
 
     $(".modalDept").text(deptName);
     $(".madalDoctorName").text($(".rsInfoDoctor").text());
