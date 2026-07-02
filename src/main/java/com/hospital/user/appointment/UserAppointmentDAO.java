@@ -309,7 +309,7 @@ public class UserAppointmentDAO {
 			querySb //
 					.append("	select 	DOCTOR_LICENSE_NO, APPOINTMENT_DATE, APPOINTMENT_TIME	")
 					.append("	from 	appointment	") //
-					.append("	where DOCTOR_LICENSE_NO = ? and APPOINTMENT_DATE = ?	")
+					.append("	where DOCTOR_LICENSE_NO = ?  	and APPOINTMENT_DATE = ?	")
 					.append("	and NVL(TRIM(status), ' ') <> '예약취소'	");
 
 			pstmt = con.prepareStatement(querySb.toString());

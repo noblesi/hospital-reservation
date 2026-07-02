@@ -194,7 +194,7 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
     // JSON 문자열 이스케이프 (HTML과 별도)
     private String escapeJson(String value) {
         if (value == null) return "";
-        return value
+        return value //
             .replace("\\", "\\\\") //
             .replace("\"", "\\\"") //
             .replace("\n", "\\n") //

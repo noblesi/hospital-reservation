@@ -12,11 +12,13 @@ import java.util.logging.Logger;
 import com.hospital.common.dto.DepartmentDTO;
 import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
+import com.hospital.common.util.GetKey;
 import com.hospital.user.appointment.dto.UserAppointmentConfirmDTO;
 import com.hospital.user.appointment.dto.UserAppointmentOptionDTO;
 import com.hospital.user.appointment.dto.UserAppointmentRequestDTO;
 import com.hospital.user.appointment.dto.UserAppointmentShowDTO;
 
+import kr.co.sist.chipher.DataDecryption;
 import lombok.NoArgsConstructor;
 
 /**
@@ -267,8 +269,17 @@ public class UserAppointmentService {
 
 		try {
 			uacDTO = uaDAO.selectAppointmentConfirm(appointmentNo);
+			
+			DataDecryption dd = new DataDecryption(GetKey.getKey());
+			
+			uacDTO.setPhoneNumber(dd.decrypt(uacDTO.getPhoneNumber()));
+			uacDTO.setEmail(dd.decrypt(uacDTO.getEmail()));
+			
+			return uacDTO;
 		} catch (SQLException e) {
 			LOGGER.log(Level.SEVERE, "예약 확인 조회 실패: " + appointmentNo, e);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return uacDTO;
@@ -281,9 +292,18 @@ public class UserAppointmentService {
 		}
 
 		try {
-			return uaDAO.selectAppointmentConfirm(requestDTO);
+			UserAppointmentConfirmDTO uacDTO = uaDAO.selectAppointmentConfirm(requestDTO);
+			
+			DataDecryption dd = new DataDecryption(GetKey.getKey());
+			
+			uacDTO.setPhoneNumber(dd.decrypt(uacDTO.getPhoneNumber()));
+			uacDTO.setEmail(dd.decrypt(uacDTO.getEmail()));
+			
+			return uacDTO;
 		} catch (SQLException e) {
 			LOGGER.log(Level.SEVERE, "예약 요청 정보 확인 조회 실패", e);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return null;
@@ -316,6 +336,8 @@ public class UserAppointmentService {
 	}
 
 	/**
+	 * 환자의 예약 목록 조회
+	 * 
 	 * @param patientNo
 	 * @return
 	 */
