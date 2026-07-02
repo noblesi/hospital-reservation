@@ -508,6 +508,317 @@ ul {
 	color: #FFFFFF;
 }
 
+/* Presentation polish: keep existing behavior and selectors, improve visual finish. */
+#mainWrap {
+	background: #f4f7fb;
+}
+
+#container {
+	padding-bottom: 80px;
+}
+
+.conHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: auto;
+	padding: 58px 0 36px;
+	margin-bottom: 0;
+}
+
+.title,
+.telDiv {
+	float: none;
+}
+
+.title {
+	color: #071b3a;
+	font-size: 36px;
+	letter-spacing: 0;
+}
+
+.telDiv {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	min-height: 46px;
+	margin-top: 0;
+	padding: 0 18px;
+	border: 1px solid #dbe7f6;
+	border-radius: 999px;
+	background: #fff;
+	box-shadow: 0 8px 20px rgba(39, 99, 186, 0.08);
+}
+
+.telIcon {
+	width: 28px;
+	height: 28px;
+}
+
+.tel {
+	font-size: 18px;
+}
+
+.deptWrap,
+.rsInfoWrap,
+.doctorListDiv,
+.scheduleCalDiv {
+	border: 1px solid #dfe8f4;
+	border-radius: 8px;
+	box-shadow: 0 10px 28px rgba(17, 42, 78, 0.07);
+}
+
+.focusBorder {
+	border: 2px solid #2763ba;
+	box-shadow: 0 12px 30px rgba(39, 99, 186, 0.14);
+}
+
+.searchBar {
+	height: 76px;
+	border-bottom: 1px solid #edf1f6;
+}
+
+.form-check-input {
+	accent-color: #2763ba;
+}
+
+.form-check-label {
+	color: #34445f;
+	font-size: 15px;
+	font-weight: 700;
+}
+
+#dNameInput {
+	width: 230px;
+	border: 1px solid #ccd8e8;
+	border-radius: 4px 0 0 4px;
+}
+
+#dNameInput:focus {
+	border-color: #2763ba;
+	box-shadow: 0 0 0 3px rgba(39, 99, 186, 0.12);
+}
+
+#searchBtn {
+	border-radius: 0 4px 4px 0;
+	background: #2763ba;
+}
+
+.deptListDiv,
+.doctorListMain {
+	border-top-color: #2763ba;
+	border-bottom-color: #dfe8f4;
+}
+
+.detpLabel {
+	display: inline-flex;
+	align-items: center;
+	min-height: 34px;
+	padding: 0 10px;
+	border-radius: 999px;
+	color: #34445f;
+}
+
+.detpLabel:hover {
+	background: #eef5ff;
+	color: #2763ba;
+}
+
+.selectDept {
+	background: #2763ba;
+	color: #fff;
+	text-decoration: none;
+}
+
+.rsInfoWrap {
+	background: linear-gradient(160deg, #1357a7 0%, #2763ba 58%, #1c8bbf 100%);
+}
+
+.rsInfoTitle {
+	padding-top: 32px;
+	padding-bottom: 22px;
+	font-size: 21px;
+}
+
+.rsInfoElm {
+	min-height: 36px;
+	padding: 5px 0;
+	border-top: 1px solid rgba(255, 255, 255, 0.18);
+	font-size: 16px;
+	line-height: 1.55;
+}
+
+.doctorListDiv {
+	padding: 28px;
+	background: #fff;
+}
+
+.doctorListTitle,
+.scheduleCalTitle {
+	color: #071b3a;
+}
+
+.doctorListTitle {
+	margin-bottom: 22px;
+	font-size: 26px;
+}
+
+.doctorUl {
+	padding-right: 8px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.col {
+	border-bottom-color: #e6edf6;
+}
+
+.doctorLi {
+	padding: 22px 10px;
+}
+
+.doctorThumnail {
+	border: 1px solid #dfe8f4;
+	border-radius: 6px;
+	object-fit: cover;
+	background: #f8fafc;
+}
+
+.doctorName {
+	color: #14213d;
+	font-weight: 800;
+}
+
+.deptName {
+	color: #2763ba;
+	font-weight: 700;
+}
+
+.selectDoctorBtn {
+	border: 1px solid #b9c8da;
+	border-radius: 4px;
+	color: #24364f;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.selectDoctorBtn:hover {
+	border-color: #2763ba;
+	color: #2763ba;
+}
+
+.selectedBtn {
+	background-color: #2763ba;
+	color: #fff;
+}
+
+.noResult,
+.result {
+	color: #6e7f98;
+	font-size: 18px;
+}
+
+.scheduleCalDiv {
+	background: #fff;
+	overflow: hidden;
+}
+
+.scheduleCalTitle {
+	padding: 26px 26px 18px;
+	border-bottom: 1px solid #edf1f6;
+	font-size: 21px;
+}
+
+.prevMonthBtn,
+.nextMonthBtn {
+	color: #2763ba;
+	cursor: pointer;
+}
+
+.calTab {
+	color: #34445f;
+}
+
+.available,
+.available span {
+	cursor: pointer;
+}
+
+.available:hover span {
+	box-shadow: inset 0 0 0 2px #2763ba;
+}
+
+.allDay,
+.selectedDay,
+.selectedTime {
+	background-color: #2763ba;
+}
+
+.am {
+	background-color: #d7eef9;
+}
+
+.pm {
+	background-color: #e6e1f5;
+}
+
+.timeTableLi {
+	border-radius: 4px;
+	background: #f1f5fa;
+	font-size: 15px;
+	line-height: 30px;
+}
+
+#appointBtn,
+.confirmBtn,
+.lastConfrimBtn {
+	border-radius: 4px;
+	background: #2763ba;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+#appointBtn:hover,
+.confirmBtn:hover,
+.lastConfrimBtn:hover {
+	background: #1f529b;
+}
+
+.modalContent,
+.lastConfirmDiv {
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.modalHeader,
+.lastConfirmHeader,
+.modalXBtn {
+	background-color: #2763ba;
+}
+
+.specialtyDiv {
+	border: 1px solid #b9c8da;
+	border-radius: 8px;
+}
+
+.specialtyTop {
+	border-bottom-color: #dfe8f4;
+	background: #f7fbff;
+}
+
+#requireTa {
+	border: 1px solid #ccd8e8;
+	border-radius: 4px;
+	line-height: 1.6;
+}
+
+.lastConfirmInfo {
+	border-color: #dfe8f4;
+	border-radius: 8px;
+	background: #f8fbff;
+}
+
 /* 요구사항 입력 및 입력 정보 확인 모달창 */
 .modalOverlay {
 	display: none;

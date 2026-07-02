@@ -19,7 +19,7 @@
 			</li>
 			<li class="sbmLi">
 				<a href="${pageContext.request.contextPath}/appointment/reserve.do">
-					<span class="sbmTitle">진료예약</span>
+					<span class="sbmTitle">진료 예약</span>
 					<i class="bi bi-chevron-right crIcon"></i>
 				</a>
 			</li>

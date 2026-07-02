@@ -8,7 +8,7 @@ body {
 	margin: 0;
 	font-family: "Noto Sans KR", Arial, sans-serif;
 	color: #222;
-	background-color: #f8f8fc;
+	background-color: #f4f7fb;
 }
 
 a {
@@ -18,8 +18,9 @@ a {
 
 .admin-header {
 	height: 70px;
-	background-color: #f1f0ff;
-	border-bottom: 1px solid #e1e1ef;
+	background-color: #fff;
+	border-bottom: 1px solid #dfe8f4;
+	box-shadow: 0 4px 16px rgba(17, 42, 78, 0.04);
 }
 
 .admin-header-inner {
@@ -32,10 +33,12 @@ a {
 
 .go-user-page {
 	padding: 8px 16px;
-	border: 1px solid #d8d8e8;
+	border: 1px solid #c7d6e8;
 	background-color: #fff;
 	border-radius: 4px;
 	font-size: 14px;
+	color: #2763ba;
+	font-weight: 700;
 }
 
 .admin-util {
@@ -52,10 +55,11 @@ a {
 
 .logout-btn {
 	padding: 8px 14px;
-	background-color: #4d5dfb;
+	background-color: #2763ba;
 	color: #fff;
 	border-radius: 4px;
 	font-size: 14px;
+	font-weight: 700;
 }
 
 .admin-layout {
@@ -68,7 +72,7 @@ a {
 	width: 220px;
 	min-width: 220px;
 	background-color: #fff;
-	border-right: 1px solid #e5e5ef;
+	border-right: 1px solid #dfe8f4;
 	padding: 30px 0;
 }
 
@@ -80,16 +84,19 @@ a {
 
 .admin-sidebar a {
 	display: block;
-	padding: 15px 28px;
-	color: #555;
+	padding: 14px 24px;
+	color: #526176;
 	font-size: 15px;
+	font-weight: 700;
 	white-space: nowrap;
+	border-left: 4px solid transparent;
 }
 
 .admin-sidebar li.active a,
 .admin-sidebar a:hover {
-	color: #4d5dfb;
-	background-color: #f3f4ff;
+	color: #2763ba;
+	background-color: #eef5ff;
+	border-left-color: #2763ba;
 	font-weight: 700;
 }
 
@@ -106,6 +113,7 @@ a {
 .admin-page-title h2 {
 	margin: 0 0 8px;
 	font-size: 28px;
+	color: #071b3a;
 }
 
 .admin-page-title p {
@@ -116,9 +124,10 @@ a {
 .admin-card {
 	padding: 28px;
 	background-color: #fff;
-	border: 1px solid #e5e5ef;
+	border: 1px solid #dfe8f4;
 	border-radius: 8px;
 	overflow-x: auto;
+	box-shadow: 0 10px 28px rgba(17, 42, 78, 0.06);
 }
 
 .admin-search-area {
@@ -128,7 +137,8 @@ a {
 	gap: 10px;
 	padding: 20px;
 	margin-bottom: 24px;
-	background-color: #f4f4fb;
+	background-color: #f7fbff;
+	border: 1px solid #dfe8f4;
 	border-radius: 6px;
 }
 
@@ -146,8 +156,9 @@ a {
 	flex: 0 0 auto;
 	height: 38px;
 	padding: 0 10px;
-	border: 1px solid #ccc;
+	border: 1px solid #c7d6e8;
 	border-radius: 4px;
+	background-color: #fff;
 }
 
 .admin-search-area input[type="text"],
@@ -163,7 +174,7 @@ a {
 	padding: 0 16px;
 	border: 0;
 	border-radius: 4px;
-	background-color: #4d5dfb;
+	background-color: #2763ba;
 	color: #fff;
 	cursor: pointer;
 	white-space: nowrap;
@@ -178,13 +189,14 @@ a {
 .admin-table th,
 .admin-table td {
 	padding: 13px;
-	border-bottom: 1px solid #e8e8ef;
+	border-bottom: 1px solid #e4ebf5;
 	text-align: center;
 	font-size: 14px;
 }
 
 .admin-table th {
-	background-color: #f7f7fb;
+	background-color: #f4f8fd;
+	color: #26364c;
 	font-weight: 700;
 	white-space: nowrap;
 }
@@ -288,8 +300,8 @@ a {
 }
 
 .pagination-page.active {
-    border-color: #4d5dfb;
-    background-color: #4d5dfb;
+    border-color: #2763ba;
+    background-color: #2763ba;
     color: #fff;
     font-weight: 700;
 }
@@ -309,9 +321,10 @@ a {
 .dashboard-summary-card {
     min-height: 132px;
     padding: 22px;
-    border: 1px solid #e5e5ef;
+    border: 1px solid #dfe8f4;
     border-radius: 8px;
     background-color: #fff;
+    box-shadow: 0 10px 28px rgba(17, 42, 78, 0.06);
 }
 
 .dashboard-summary-card strong {
@@ -327,6 +340,7 @@ a {
     font-size: 30px;
     font-weight: 700;
     line-height: 1.25;
+    color: #2763ba;
 }
 
 .dashboard-summary-card em {
@@ -373,7 +387,7 @@ a {
     height: 38px;
     padding: 0 14px;
     border-radius: 4px;
-    background-color: #263238;
+    background-color: #26364c;
     color: #fff;
     font-size: 14px;
     white-space: nowrap;
@@ -399,10 +413,10 @@ a {
     justify-content: center;
     min-width: 54px;
     height: 30px;
-    border: 1px solid #d8d8e8;
+    border: 1px solid #c7d6e8;
     border-radius: 4px;
     background-color: #fff;
-    color: #315dca;
+    color: #2763ba;
     font-size: 13px;
     cursor: pointer;
     white-space: nowrap;
@@ -468,7 +482,7 @@ a {
     height: 40px;
     border: 0;
     border-radius: 4px;
-    background-color: #4d5dfb;
+    background-color: #2763ba;
     color: #fff;
     font-weight: 700;
     cursor: pointer;
@@ -512,7 +526,7 @@ a {
 .monthly-chart-bar {
     width: 100%;
     border-radius: 4px 4px 0 0;
-    background-color: #4d5dfb;
+    background-color: #2763ba;
 }
 
 .monthly-chart-item strong {

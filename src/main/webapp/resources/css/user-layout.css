@@ -939,6 +939,93 @@ body {
     cursor: pointer;
 }
 
+/* Presentation polish */
+.user-header {
+    box-shadow: 0 4px 16px rgba(17, 42, 78, 0.04);
+}
+
+.logo a {
+    color: #005bac;
+    font-weight: 800;
+}
+
+.user-util a {
+    color: #526176;
+    font-weight: 700;
+}
+
+.user-util a:hover,
+.user-util a:focus {
+    color: #005bac;
+}
+
+.user-gnb li.active > a,
+.user-gnb a:hover {
+    color: #005bac;
+}
+
+.user-gnb > ul > li > a {
+    position: relative;
+}
+
+.user-gnb li.active > a::after,
+.user-gnb > ul > li > a:hover::after {
+    content: "";
+    position: absolute;
+    left: 22%;
+    right: 22%;
+    bottom: 0;
+    height: 3px;
+    border-radius: 999px 999px 0 0;
+    background: #005bac;
+}
+
+.user-gnb-submenu {
+    border-radius: 0 0 8px 8px;
+}
+
+.main-visual {
+    background: linear-gradient(120deg, rgba(238, 246, 255, 0.96) 0%, rgba(247, 251, 255, 0.92) 58%, rgba(232, 246, 241, 0.92) 100%);
+}
+
+.main-visual-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.main-visual p,
+.main-visual h2 {
+    letter-spacing: 0;
+}
+
+.main-visual h2 {
+    color: #071b3a;
+}
+
+.main-primary-link {
+    border-radius: 4px;
+    box-shadow: 0 10px 22px rgba(0, 91, 172, 0.18);
+}
+
+.main-board-panel {
+    border-color: #dfe8f4;
+    border-radius: 8px;
+    box-shadow: 0 10px 28px rgba(17, 42, 78, 0.06);
+}
+
+.main-board-title {
+    border-bottom-color: #e4ebf5;
+}
+
+.main-board-title h3 {
+    color: #071b3a;
+}
+
+.main-board-list li:hover {
+    background: #f7fbff;
+}
+
 @media (max-width: 1200px) {
     :root {
         --user-page-width: 88vw;
