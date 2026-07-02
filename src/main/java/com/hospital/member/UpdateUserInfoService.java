@@ -2,6 +2,8 @@ package com.hospital.member;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.hospital.common.MemberDTO;
 import com.hospital.common.MinorMemberDTO;
@@ -15,6 +17,7 @@ import kr.co.sist.chipher.DataEncryption;
  * 마이페이지 회원정보 수정 관련 비즈니스 로직 처리
  */
 public class UpdateUserInfoService {
+	private static final Logger LOGGER = Logger.getLogger(UpdateUserInfoService.class.getName());
 
 	private UpdateUserInfoDAO uDAO;
 
@@ -47,9 +50,9 @@ public class UpdateUserInfoService {
 			flag = dbPassword != null && dbPassword.equals(hashedPassword);
 
 		} catch(SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원 정보 수정 처리 실패", se);
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원 정보 수정 처리 실패", e);
 		}//end catch 
 
 		return flag;
@@ -82,9 +85,9 @@ public class UpdateUserInfoService {
 			}//end if
 
 		} catch(SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원 정보 수정 처리 실패", se);
 		} catch(Exception e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원 정보 수정 처리 실패", e);
 		}//end catch
 
 		return mDTO;
@@ -104,7 +107,7 @@ public class UpdateUserInfoService {
 			minorDTO = uDAO.selectMinorUserInfo(patientNo);
 
 		} catch(SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원 정보 수정 처리 실패", se);
 		}//end catch
 
 		return minorDTO;
@@ -137,9 +140,9 @@ public class UpdateUserInfoService {
 			flag = cnt == 1;
 
 		} catch(SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원 정보 수정 처리 실패", se);
 		} catch(Exception e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원 정보 수정 처리 실패", e);
 		}//end catch
 
 		return flag;
@@ -161,7 +164,7 @@ public class UpdateUserInfoService {
 			flag = cnt == 1;
 
 		} catch(SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원 정보 수정 처리 실패", se);
 		}//end catch
 
 		return flag;
@@ -183,7 +186,7 @@ public class UpdateUserInfoService {
 			flag = cnt == 1;
 
 		} catch(SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원 정보 수정 처리 실패", se);
 		}//end catch
 
 		return flag;

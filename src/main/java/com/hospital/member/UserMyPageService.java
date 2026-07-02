@@ -3,6 +3,8 @@ package com.hospital.member;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.hospital.common.MemberDTO;
 import com.hospital.member.dto.UserAppointmentDTO;
@@ -12,7 +14,8 @@ import com.hospital.member.dto.UserMedicalRecordDTO;
  * 마이페이지 관련 비즈니스 로직 처리
  */
 public class UserMyPageService {
-	
+	private static final Logger LOGGER = Logger.getLogger(UserMyPageService.class.getName());
+
 	/** DAO 객체 */
 	private UserMyPageDAO umpDAO;
 	
@@ -37,7 +40,7 @@ public class UserMyPageService {
 			mDTO = umpDAO.selectMember(loginId);
 			
 		} catch(SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원 정보 조회 실패: " + loginId, se);
 		}//end catch
 		
 		return mDTO;
@@ -57,7 +60,7 @@ public class UserMyPageService {
 			list = umpDAO.selectAppointmentList(patientNo);
 			
 		} catch(SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "예약 내역 조회 실패: " + patientNo, se);
 		}//end catch
 		
 		return list;
@@ -78,7 +81,7 @@ public class UserMyPageService {
 			list = umpDAO.selectManageAppointmentList(patientNo);
 			
 		} catch(SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "예약 관리 목록 조회 실패: " + patientNo, se);
 		}//end catch
 		
 		return list;
@@ -98,7 +101,7 @@ public class UserMyPageService {
 			list = umpDAO.selectMedicalRecordList(patientNo);
 			
 		} catch(SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "진료 기록 조회 실패: " + patientNo, se);
 		}//end catch
 		
 		return list;
@@ -123,7 +126,7 @@ public class UserMyPageService {
 			flag = cnt == 1;
 			
 		} catch(SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "마이페이지 예약 취소 실패: " + appointmentNo, se);
 		}//end catch
 		
 		return flag;

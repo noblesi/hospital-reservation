@@ -10,9 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 // 관리자 회원 관리 DAO
 public class AdminMemberDAO {
+    private static final Logger LOGGER = Logger.getLogger(AdminMemberDAO.class.getName());
 
     // 회원 목록 총 건수 조회
     public int selectMemberCount(AdminMemberSearchDTO searchDTO) {
@@ -77,7 +80,7 @@ public class AdminMemberDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "관리자 회원 목록 총 건수 조회 실패", e);
         }
 
         return 0;
@@ -181,7 +184,7 @@ public class AdminMemberDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "관리자 회원 목록 조회 실패", e);
         }
 
         return memberList;
@@ -215,7 +218,7 @@ public class AdminMemberDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "관리자 회원 상세 조회 실패: " + patientNo, e);
         }
 
         return null;

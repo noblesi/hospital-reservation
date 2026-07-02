@@ -36,6 +36,21 @@ public class AdminDepartmentListServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}//doGet
 
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+
+		String deptNo = request.getParameter("deptNo");
+		String isActiveYn = request.getParameter("rowIsActiveYn");
+		boolean success = adminDepartmentService.setDepartmentActive(deptNo, isActiveYn);
+
+		request.getSession().setAttribute(success ? "message" : "errorMessage",
+				success ? "진료과 사용 여부가 변경되었습니다." : "진료과 사용 여부 변경에 실패했습니다.");
+
+		response.sendRedirect(request.getContextPath() + "/admin/department/list.do?"
+				+ buildRedirectQueryString(createSearchDTO(request)));
+	}//doPost
+
 	private AdminDepartmentSearchDTO createSearchDTO(HttpServletRequest request) {
 		AdminDepartmentSearchDTO searchDTO = new AdminDepartmentSearchDTO();
 		searchDTO.setField(request.getParameter("field"));
@@ -55,6 +70,15 @@ public class AdminDepartmentListServlet extends HttpServlet {
 		appendQueryParam(queryString, "isActiveYn", searchDTO.getIsActiveYn());
 		return queryString.toString();
 	}//buildPaginationQueryString
+
+	private String buildRedirectQueryString(AdminDepartmentSearchDTO searchDTO) {
+		StringBuilder queryString = new StringBuilder();
+		appendQueryParam(queryString, "currentPage", String.valueOf(searchDTO.getCurrentPage()));
+		appendQueryParam(queryString, "field", searchDTO.getField());
+		appendQueryParam(queryString, "keyword", searchDTO.getKeyword());
+		appendQueryParam(queryString, "isActiveYn", searchDTO.getIsActiveYn());
+		return queryString.length() > 0 ? queryString.substring(1) : "currentPage=1";
+	}//buildRedirectQueryString
 
 	/**
 	 * 값이 있는 검색조건만 URL encoding해서 query string에 추가한다.

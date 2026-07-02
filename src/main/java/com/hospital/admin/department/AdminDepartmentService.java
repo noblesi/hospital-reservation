@@ -95,10 +95,23 @@ public class AdminDepartmentService {
 
 		LOGGER.fine("changed department active flag: " + isActiveYnTemp);
 		successYN = (adminDepartmentDAO.updateDepartmentActive(deptNoTemp, isActiveYnTemp)==1);
-		
+
 		return successYN;
 	}// changeDepartmentActive
-	
+
+	public boolean setDepartmentActive(String deptNo, String isActiveYn) {
+		if(deptNo == null || deptNo.isBlank()) {
+			return false;
+		}// end if
+
+		if(!"Y".equals(isActiveYn) && !"N".equals(isActiveYn)) {
+			LOGGER.warning("지원하지 않는 진료과 사용 여부 값: " + isActiveYn);
+			return false;
+		}// end if
+
+		return adminDepartmentDAO.updateDepartmentActive(deptNo, isActiveYn) == 1;
+	}// setDepartmentActive
+
 	public boolean checkDepartmentName(String deptName) {
 		String deptNameTemp = deptName;
 		boolean checkName = false;

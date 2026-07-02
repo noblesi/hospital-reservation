@@ -10,9 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 // 관리자 예약 관리 DAO
 public class AdminAppointmentDAO {
+    private static final Logger LOGGER = Logger.getLogger(AdminAppointmentDAO.class.getName());
 
     // 예약 목록 총 건수 조회
     public int selectAppointmentCount(AdminAppointmentSearchDTO searchDTO) {
@@ -69,7 +72,7 @@ public class AdminAppointmentDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "관리자 예약 목록 총 건수 조회 실패", e);
         }
 
         return 0;
@@ -158,7 +161,7 @@ public class AdminAppointmentDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "관리자 예약 목록 조회 실패", e);
         }
 
         return appointmentList;
@@ -192,7 +195,7 @@ public class AdminAppointmentDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "관리자 예약 상세 조회 실패: " + appointmentNo, e);
         }
 
         return null;
@@ -214,7 +217,7 @@ public class AdminAppointmentDAO {
             return pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "관리자 예약 상태 변경 실패: " + appointmentNo, e);
         }
 
         return 0;
