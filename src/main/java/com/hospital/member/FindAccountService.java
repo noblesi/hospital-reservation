@@ -2,6 +2,8 @@ package com.hospital.member;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.hospital.common.util.GetKey;
 import com.hospital.member.dto.FindAccountDTO;
@@ -12,6 +14,7 @@ import kr.co.sist.chipher.DataEncryption;
  * 아이디 찾기 , 비밀번호 찾기 관련 서비스 처리 로직 
  */
 public class FindAccountService {
+	private static final Logger LOGGER = Logger.getLogger(FindAccountService.class.getName());
 
     private FindAccountDAO findAccountDAO;
 
@@ -59,9 +62,9 @@ public class FindAccountService {
         	
             loginId = findAccountDAO.selectId(faDTO);
         } catch (SQLException se) {
-            se.printStackTrace();
+            LOGGER.log(Level.SEVERE, "계정 찾기 처리 실패", se);
         } catch (Exception e) {
-        	e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "계정 찾기 처리 실패", e);
         }//end catch 
 
         return loginId;
@@ -87,9 +90,9 @@ public class FindAccountService {
 			encryptionEmailOrPhone(faDTO);
             flag = findAccountDAO.checkPassword(faDTO);
         } catch (SQLException se) {
-            se.printStackTrace();
+            LOGGER.log(Level.SEVERE, "계정 찾기 처리 실패", se);
         } catch (Exception e) {
-        	e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "계정 찾기 처리 실패", e);
         }//end catch 
         return flag;
     }//findPassword
@@ -116,9 +119,9 @@ public class FindAccountService {
         	
             flag = findAccountDAO.resetPassword(loginId, hashedPassword) == 1;
         } catch (SQLException se) {
-            se.printStackTrace();
+            LOGGER.log(Level.SEVERE, "계정 찾기 처리 실패", se);
         } catch (NoSuchAlgorithmException e) {
-        	e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "계정 찾기 처리 실패", e);
         }//end catch 
 
         return flag;
