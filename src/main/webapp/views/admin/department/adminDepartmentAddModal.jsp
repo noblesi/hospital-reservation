@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="adminMenu" value="reservation" scope="request" />
+<c:set var="adminMenu" value="department" scope="request" />
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -141,14 +141,6 @@ function selfClose(){
 			<c:if test="${ not modifyFlag }">
 				<input type="hidden" id="deptNo" name="deptNo" value=""/>
 			</c:if>
-			<c:choose>
-				<c:when test="${ not empty isActiveYn  }">
-					<input type="hidden" id="isActiveYn" name="isActiveYn" value="<c:out value='${isActiveYn}' />"/>
-				</c:when>
-				<c:otherwise>
-					<input type="hidden" id="isActiveYn" name="isActiveYn" value="N"/>
-				</c:otherwise>
-			</c:choose>
 		</td>
 	</tr>
 	<tr>
@@ -166,6 +158,17 @@ function selfClose(){
 		</td>
 		<td>
 			<textarea id="description" name="description" cols="32" rows="2"><c:out value="${department.description}" /></textarea>
+		</td>
+	</tr>
+	<tr>
+			<td>
+			<label for="isActiveYn">사용 여부 : </label>
+		</td>
+		<td>
+			<select id="isActiveYn" name="isActiveYn">
+				<option value="Y" ${empty department.isActiveYn or department.isActiveYn eq 'Y' ? 'selected' : ''}>사용</option>
+				<option value="N" ${department.isActiveYn eq 'N' ? 'selected' : ''}>미사용</option>
+			</select>
 		</td>
 	</tr>
 

@@ -2,6 +2,8 @@ package com.hospital.member;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.hospital.common.MemberDTO;
 
@@ -12,7 +14,8 @@ import kr.co.sist.chipher.DataEncryption;
  * 로그인 관련 비즈니스 로직 처리 
  */
 public class LoginService {
- 
+	private static final Logger LOGGER = Logger.getLogger(LoginService.class.getName());
+
     private LoginDAO loginDAO;
 
     public LoginService() {
@@ -47,12 +50,12 @@ public class LoginService {
             }// end if
 
         } catch (SQLException se) {
-            se.printStackTrace();
+            LOGGER.log(Level.SEVERE, "회원 로그인 DB 조회 실패: " + loginId, se);
             return null;
         } catch (NoSuchAlgorithmException e) {
-        	e.printStackTrace();
-        	return null;
-        }//end catch 
+            LOGGER.log(Level.SEVERE, "회원 로그인 비밀번호 해시 처리 실패", e);
+            return null;
+        }//end catch
 
         return mDTO;
     }// login

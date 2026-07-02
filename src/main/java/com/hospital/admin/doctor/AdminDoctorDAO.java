@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,7 @@ import com.hospital.common.util.DBConnection;
 import kr.co.sist.chipher.DataDecryption;
 
 public class AdminDoctorDAO {
+	private static final Logger LOGGER = Logger.getLogger(AdminDoctorDAO.class.getName());
 	private static AdminDoctorDAO adminDoctorDAO; 
 	
 	private AdminDoctorDAO() {
@@ -54,7 +57,7 @@ public class AdminDoctorDAO {
 			}// end if
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -104,7 +107,7 @@ public class AdminDoctorDAO {
 			}// end while
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -195,7 +198,7 @@ public class AdminDoctorDAO {
 			}// end while
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -246,7 +249,7 @@ public class AdminDoctorDAO {
 			}// end if
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -339,7 +342,7 @@ public class AdminDoctorDAO {
 			insertCnt = pstmt.executeUpdate();
 		
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -379,7 +382,7 @@ public class AdminDoctorDAO {
 			updateCnt = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(pstmt,conn);
 		}// end try catch
@@ -412,7 +415,7 @@ public class AdminDoctorDAO {
 			updateCnt = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(pstmt,conn);
 		}// end try catch
@@ -443,7 +446,7 @@ public class AdminDoctorDAO {
 			}// end if
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -487,7 +490,7 @@ public class AdminDoctorDAO {
 			
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -517,7 +520,7 @@ public class AdminDoctorDAO {
 		        deleteCnt = pstmt.executeUpdate();
 
 		    } catch (SQLException e) {
-		        e.printStackTrace();
+		        LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		    } finally {
 		        DBConnection.close(pstmt, conn);
 		    }
@@ -559,7 +562,7 @@ public class AdminDoctorDAO {
 		        successCnt = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(pstmt,conn);
 		}// end try catch
@@ -594,7 +597,7 @@ public class AdminDoctorDAO {
 			insertCnt = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -633,7 +636,7 @@ public class AdminDoctorDAO {
 			}// end while
 			
 		}  catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -669,7 +672,7 @@ public class AdminDoctorDAO {
 		    deleteCnt = pstmt.executeUpdate();
 		
 		} catch (SQLException e) {
-		    e.printStackTrace();
+		    LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 		    DBConnection.close(pstmt, conn);
 		}
@@ -702,7 +705,7 @@ public class AdminDoctorDAO {
 			insertCnt = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -736,7 +739,7 @@ public class AdminDoctorDAO {
 			chkSelect = rs.next();
 			
 		}  catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -771,7 +774,7 @@ public class AdminDoctorDAO {
 			successCnt = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -804,7 +807,7 @@ public class AdminDoctorDAO {
 			deleteCnt = pstmt.executeUpdate();
 			
 		}  catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -843,7 +846,7 @@ public class AdminDoctorDAO {
 			}// end while
 			
 		}  catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -879,7 +882,7 @@ public class AdminDoctorDAO {
 			successCnt = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -911,7 +914,7 @@ public class AdminDoctorDAO {
 			insertCnt = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -945,7 +948,7 @@ public class AdminDoctorDAO {
 			}// end while
 			
 		}  catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -979,7 +982,7 @@ public class AdminDoctorDAO {
 			}// end while
 			
 		}  catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
@@ -1015,7 +1018,7 @@ public class AdminDoctorDAO {
 			}// end while
 			
 		}  catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "관리자 의료진 DAO 처리 실패", e);
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch

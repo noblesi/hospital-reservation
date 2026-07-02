@@ -8,10 +8,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import kr.co.sist.chipher.DataDecryption;
 
 public class GetKey {
+	private static final Logger LOGGER = Logger.getLogger(GetKey.class.getName());
 
 	public static String getKey() {
 		String key = "";
@@ -46,9 +49,9 @@ public class GetKey {
 			key = decrypt(enKey);
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "암호화 키 조회 실패", e);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "암호화 키 조회 실패", e);
 		} finally {
 			DBConnection.close(rs, pstmt, con);
 		}

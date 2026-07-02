@@ -2,6 +2,8 @@ package com.hospital.member;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.hospital.common.MemberDTO;
 import com.hospital.common.MinorMemberDTO;
@@ -13,6 +15,7 @@ import kr.co.sist.chipher.DataEncryption;
  * 회원가입 관련 비즈니스 로직 처리 
  */
 public class MemberRegisterService {
+	private static final Logger LOGGER = Logger.getLogger(MemberRegisterService.class.getName());
 	
     private MemberRegisterDAO mrDAO;
     
@@ -30,7 +33,7 @@ public class MemberRegisterService {
 		try {
 			return mrDAO.selectLoginIdCount(loginId) > 0;
 		} catch (SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원가입 처리 실패", se);
 			
 			//예외 발생시 중복으로 처리
 			return true;
@@ -82,11 +85,11 @@ public class MemberRegisterService {
 			}// end if
 			return true;
 		} catch (SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원가입 처리 실패", se);
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원가입 처리 실패", e);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원가입 처리 실패", e);
 		}
 		return false;
 	}//registerMember
@@ -103,7 +106,7 @@ public class MemberRegisterService {
 		try {
 			mDTO = mrDAO.selectRegisterResult(loginId);
 		} catch (SQLException se) {
-			se.printStackTrace();
+			LOGGER.log(Level.SEVERE, "회원가입 처리 실패", se);
 		}//end catch
 		return mDTO;
 	}//searchRegiSter

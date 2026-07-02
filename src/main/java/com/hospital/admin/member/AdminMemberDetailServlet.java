@@ -45,7 +45,7 @@ public class AdminMemberDetailServlet extends HttpServlet {
             request.setAttribute("adminMenu", "member");
             request.setAttribute("member", member);
             request.setAttribute("memoList", adminMemoService.getMemoList(member.getPatientNo()));
-            request.getRequestDispatcher("/views/admin/member/memberDetail.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/admin/member/adminMemberDetail.jsp").forward(request, response);
         } catch (SQLException e) {
             throw new ServletException("회원 메모 목록을 조회하지 못했습니다.", e);
         }
