@@ -19,7 +19,7 @@
 <jsp:include page="/views/common/userHeader.jsp" />
 <jsp:include page="/views/common/userBreadcrumb.jsp" />
 
-<main id="content" class="memJoinContent">
+<main id="content" class="memJoinContent joinAgreeAccordion">
 
     <div class="contHeadingWrap">
         <h2>만 <span class="title">14세 이상</span> 회원가입</h2>
@@ -160,7 +160,7 @@
 
             <div class="boxTypeGray checkAllBox">
                 <input type="checkbox" id="checkboxAll" title="이용약관, 개인정보 민감정보 수집,처리 방침 모두 동의">
-                <label for="checkboxAll">이용약관, 개인정보, 민감정보 수집 <b>모두</b> 동의합니다.</label>
+                <label for="checkboxAll">이용약관, 개인정보, 민감정보 수집 모두 동의합니다.</label>
             </div>
         </fieldset>
     </form>
