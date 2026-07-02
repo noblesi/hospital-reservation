@@ -19,7 +19,7 @@
 <jsp:include page="/views/common/userHeader.jsp" />
 <jsp:include page="/views/common/userBreadcrumb.jsp" />
 
-<main id="content" class="memJoinContent">
+<main id="content" class="memJoinContent joinAgreeAccordion">
 
     <div class="contHeadingWrap">
         <h2>만 <span class="title child">14세 미만</span> 회원가입</h2>

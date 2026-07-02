@@ -75,6 +75,43 @@ $(function() {
         $("#checkbox04").prop("checked", checked); // 법정대리인 동의
     });
 
+    /*
+     * 일반회원 약관동의 아코디언
+     * - joinAgreeAccordion 클래스가 있는 일반회원 약관동의 화면에서만 동작한다.
+     * - 각 약관 우측에 "약관 보기" 버튼을 추가하고, 클릭 시 약관 본문을 펼치거나 접는다.
+     */
+    if($(".joinAgreeAccordion").length > 0){
+        $(".joinAgreeAccordion .persInforWrap").each(function() {
+            if($(this).find(".agreeToggle").length === 0){
+                $(this).children(".contTextWrap").append(
+                    "<button type='button' class='agreeToggle'>약관 보기</button>"
+                );
+            }
+        });
+
+        $(".joinAgreeAccordion").on("click", ".agreeToggle", function() {
+            var item = $(this).closest(".persInforWrap");
+            var scrollBox = item.children(".scrollBox");
+
+            if(item.hasClass("open")){
+                scrollBox.stop(true, true).slideUp(180, function() {
+                    item.removeClass("open");
+                });
+                return;
+            }
+
+            item.addClass("open");
+            scrollBox.stop(true, true).hide().slideDown(180);
+        });
+
+        $(".joinAgreeAccordion").on("change", ".persInforWrap input[type='checkbox']", function() {
+            var totalCount = $(".joinAgreeAccordion .persInforWrap input[type='checkbox']").length;
+            var checkedCount = $(".joinAgreeAccordion .persInforWrap input[type='checkbox']:checked").length;
+
+            $("#checkboxAll").prop("checked", totalCount === checkedCount);
+        });
+    }
+
     // STEP02 이전 단계
     $("#gBeforeBtn").on("click", function() {
         location.href = "joinType.jsp";
