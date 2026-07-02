@@ -176,12 +176,7 @@ public class MemberJoinProcessServlet extends HttpServlet {
         minorDTO.setRelationship(request.getParameter("relationshipType"));
         minorDTO.setMinorName(request.getParameter("childName"));
         minorDTO.setMinorBirthDate(Date.valueOf(childBirth));
-
-        /*
-         * 미성년자 성별 컬럼을 사용할 경우 필요하다.
-         * 현재 MinorMemberDTO에 minorGenderFM 필드가 있어야 컴파일된다.
-         */
-        // minorDTO.setMinorGenderFM(request.getParameter("childGender"));
+        minorDTO.setMinorGenderFm(request.getParameter("childGender"));
 
         return minorDTO;
     }//createMinorDTO
