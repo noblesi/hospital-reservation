@@ -58,7 +58,7 @@
 			<c:if test="${ not empty uasDTOList }">
 				<c:forEach var="uasDTO" items="${ uasDTOList }" varStatus="i">
 				<li class="apptListLi">
-					<img class="docImg" src="${ thumbnailUrl }">
+					<img class="docImg" src='<c:url value="../resources/images/doctors/${ uasDTO.thumbnailUrl }"/>'>
 					<p class="docInfoText">
 						<span class="deptName"><c:out value="${ uasDTO.deptName }"/></span>
 						<span class="docName"><c:out value="${ uasDTO.doctorName }"/></span>
