@@ -7,6 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>진료과 관리</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css?v=${initParam.assetVersion}">
+    <script>
+        function openDepartmentForm(url) {
+            window.open(url, "dept_modal", "width=520,height=500");
+            return false;
+        }
+    </script>
 </head>
 <body>
     <%@ include file="/views/common/adminHeader.jsp" %>
@@ -43,6 +49,10 @@
                         </select>
                     </label>
                     <button type="submit">검색</button>
+                    <c:url var="departmentCreateUrl" value="/admin/department/form.do">
+                        <c:param name="modify" value="N" />
+                    </c:url>
+                    <a href="${departmentCreateUrl}" class="admin-action-link" onclick="return openDepartmentForm(this.href);">등록</a>
                 </form>
 
                 <table class="admin-table">
@@ -53,26 +63,46 @@
                             <th>설명</th>
                             <th>위치</th>
                             <th>사용 여부</th>
+                            <th>관리</th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach var="department" items="${departmentList}">
+                            <c:url var="departmentModifyUrl" value="/admin/department/form.do">
+                                <c:param name="modify" value="Y" />
+                                <c:param name="deptNo" value="${department.deptNo}" />
+                            </c:url>
                             <tr>
                                 <td><c:out value="${department.deptNo}" /></td>
-                                <td class="text-left"><c:out value="${department.deptName}" /></td>
+                                <td class="text-left">
+                                    <a href="${departmentModifyUrl}" onclick="return openDepartmentForm(this.href);">
+                                        <c:out value="${department.deptName}" />
+                                    </a>
+                                </td>
                                 <td class="text-left"><c:out value="${department.description}" /></td>
                                 <td><c:out value="${department.deptLoc}" /></td>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${department.isActiveYn eq 'Y'}">사용</c:when>
-                                        <c:otherwise>미사용</c:otherwise>
-                                    </c:choose>
+                                <td class="admin-table-actions">
+                                    <form action="<c:url value='/admin/department/list.do' />" method="post">
+                                        <input type="hidden" name="deptNo" value="${department.deptNo}">
+                                        <input type="hidden" name="field" value="${searchDTO.field}">
+                                        <input type="hidden" name="keyword" value="${searchDTO.keyword}">
+                                        <input type="hidden" name="isActiveYn" value="${searchDTO.isActiveYn}">
+                                        <input type="hidden" name="currentPage" value="${searchDTO.currentPage}">
+                                        <select name="rowIsActiveYn" aria-label="진료과 사용 여부">
+                                            <option value="Y" ${department.isActiveYn eq 'Y' ? 'selected' : ''}>사용</option>
+                                            <option value="N" ${department.isActiveYn eq 'N' ? 'selected' : ''}>미사용</option>
+                                        </select>
+                                        <button type="submit">변경</button>
+                                    </form>
+                                </td>
+                                <td class="admin-table-actions">
+                                    <a href="${departmentModifyUrl}" onclick="return openDepartmentForm(this.href);">수정</a>
                                 </td>
                             </tr>
                         </c:forEach>
                         <c:if test="${empty departmentList}">
                             <tr>
-                                <td colspan="5" class="empty-cell">등록된 진료과가 없습니다.</td>
+                                <td colspan="6" class="empty-cell">등록된 진료과가 없습니다.</td>
                             </tr>
                         </c:if>
                     </tbody>
