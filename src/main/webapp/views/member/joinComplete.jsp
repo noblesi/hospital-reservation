@@ -67,7 +67,7 @@
                 메인으로 이동
             </a>
 
-            <a href="<c:url value='/member/login.do' />" class="btnType03">
+            <a href="<c:url value='/views/member/login.jsp' />" class="btnType03">
                 로그인
             </a>
         </div>
