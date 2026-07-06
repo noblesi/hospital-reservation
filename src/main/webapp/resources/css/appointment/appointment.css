@@ -485,6 +485,7 @@ ul {
 	margin-right: 10px;
 	text-align: center;
 	cursor: pointer;
+	background: #f1f5fa;
 }
 
 .selectedTime {
@@ -712,6 +713,11 @@ ul {
 	color: #fff;
 }
 
+.selectedBtn:hover {
+	color: #FFF;
+	border-color: #FFF;
+}
+
 .noResult,
 .result {
 	color: #6e7f98;
@@ -748,7 +754,10 @@ ul {
 	box-shadow: inset 0 0 0 2px #2763ba;
 }
 
-.allDay,
+.allDay {
+	background-color: #ffe1e9;
+}
+
 .selectedDay,
 .selectedTime {
 	background-color: #2763ba;
@@ -764,7 +773,6 @@ ul {
 
 .timeTableLi {
 	border-radius: 4px;
-	background: #f1f5fa;
 	font-size: 15px;
 	line-height: 30px;
 }

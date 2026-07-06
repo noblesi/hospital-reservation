@@ -1,5 +1,5 @@
-var pageLength = $(".slTab").length;
-var curPage = 0;
+var maxPageLength = 0;
+var curPage = 1;
 
 var deptName;
 var dln;
@@ -8,17 +8,18 @@ var appointmentDate;
 var appointmentTime;
 
 $(function() {
-    
+	
     /* 이벤트 바인딩 */
     $(".btnNext").click(function() {
-        if (curPage < pageLength) curPage = moveToNextPage(curPage);
+        if (curPage < maxPageLength) curPage = moveToNextPage(curPage);
     });
     $(".btnPrev").click(function() {
-        if (curPage > 0) curPage = moveToPrevPage(curPage);
+        if (curPage > 1) curPage = moveToPrevPage(curPage);
     });
 
     $("input[name='sortType']").on("change", handleDeptSort);
     $("input[name='sortType']:checked").trigger("change");
+	
     $(".deptWrap").on("click", ".deptRadio", handleDeptSelect);
         
     $("#searchBtn").on("click", handleDoctorSearch);
@@ -69,6 +70,7 @@ function closeModal() {
 /* 페이지 슬라이더 관련 함수 */
 function moveToNextPage(curPage) {
     curPage++;
+	
     var amount = -700 / curPage;
     $(".sliderTrack").animate({ left: amount + "px" }, 400);
     return curPage;
@@ -76,6 +78,7 @@ function moveToNextPage(curPage) {
 
 function moveToPrevPage(curPage) {
     curPage--;
+	
     var amount = (curPage == 0) ? 0 : 700 / curPage;
     $(".sliderTrack").animate({ left: amount + "px" }, 400);
     return curPage;
@@ -231,6 +234,7 @@ function renderTimeTable(selectedDate) {
 /* 이벤트 핸들러 함수 */
 function handleDeptSort() {
     var selectedSort = $(this).val();
+	
     $.ajax({
         url: getAppointmentAjaxUrl(),
         type: "GET",
@@ -238,12 +242,13 @@ function handleDeptSort() {
         data: { action: "sort", sort: selectedSort },
         success: function(data) {
             $(".sliderTrack").html(buildDepartmentHtml(data));
-            pageLength = $(".slTab").length;
-            curPage = 0;
+            maxPageLength = $(".slTab").length;
             $(".sliderTrack").css("left", "0px");
         },
         error: function() { console.log("통신 실패!"); }
     });
+	
+	
 }
 
 function handleDeptSelect() {
