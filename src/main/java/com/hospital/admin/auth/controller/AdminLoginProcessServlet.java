@@ -24,7 +24,7 @@ public class AdminLoginProcessServlet extends HttpServlet {
 
 		if (isBlank(adminId) || isBlank(password)) {
 			request.getSession().setAttribute("adminLoginMessage", "아이디 또는 비밀번호를 입력해주세요.");
-			response.sendRedirect(request.getContextPath() + "/admin/login.do");
+			response.sendRedirect(request.getContextPath() + "/views/admin/auth/adminLogin.jsp");
 			return;
 		}
 
@@ -37,12 +37,12 @@ public class AdminLoginProcessServlet extends HttpServlet {
 		}
 
 		request.getSession().setAttribute("adminLoginMessage", "관리자 계정 정보를 확인해주세요.");
-		response.sendRedirect(request.getContextPath() + "/admin/login.do");
+		response.sendRedirect(request.getContextPath() + "/views/admin/auth/adminLogin.jsp");
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect(request.getContextPath() + "/admin/login.do");
+		response.sendRedirect(request.getContextPath() + "/views/admin/auth/adminLogin.jsp");
 	}
 
 	private boolean isBlank(String value) {

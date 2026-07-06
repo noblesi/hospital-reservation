@@ -24,7 +24,7 @@ public class MemberMyPageServlet extends HttpServlet {
 		MemberDTO loginUser = (MemberDTO) request.getSession().getAttribute("loginUser");
 
 		if (loginUser == null) {
-			response.sendRedirect(request.getContextPath() + "/member/login.do");
+			response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
 			return;
 		}// end if
 

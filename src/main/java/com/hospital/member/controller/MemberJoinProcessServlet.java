@@ -100,7 +100,7 @@ public class MemberJoinProcessServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect(request.getContextPath() + "/member/join.do");
+        response.sendRedirect(request.getContextPath() + "/views/member/joinType.jsp");
     }//doGet
 
     /**

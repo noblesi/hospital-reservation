@@ -20,7 +20,7 @@ public class UserAppointmentListServlet extends HttpServlet {
 		
 		String patientNo = UserAppointmentSessionUtil.getLoginPatientNo(request);
 		if (UserAppointmentSessionUtil.isBlank(patientNo)) {
-			response.sendRedirect(request.getContextPath() + "/member/login.do");
+			response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
 			return;
 		}
 

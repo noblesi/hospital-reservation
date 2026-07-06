@@ -21,7 +21,7 @@ public class MemberJoinCompleteServlet extends HttpServlet {
 		String registerLoginId = (String) request.getSession().getAttribute("registerLoginId");
 
 		if (registerLoginId == null || registerLoginId.trim().isEmpty()) {
-			response.sendRedirect(request.getContextPath() + "/member/join.do");
+			response.sendRedirect(request.getContextPath() + "/views/member/joinType.jsp");
 			return;
 		}
 

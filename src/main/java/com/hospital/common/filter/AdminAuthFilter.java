@@ -39,7 +39,7 @@ public class AdminAuthFilter implements Filter {
 
 		HttpSession session = httpRequest.getSession();
 		session.setAttribute("adminLoginMessage", "관리자 로그인 후 이용해 주세요.");
-		httpResponse.sendRedirect(httpRequest.getContextPath() + "/admin/login.do");
+		httpResponse.sendRedirect(httpRequest.getContextPath() + "/views/admin/auth/adminLogin.jsp");
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class AdminAuthFilter implements Filter {
 
 	private boolean isPublicAdminRequest(HttpServletRequest request) {
 		String path = request.getRequestURI().substring(request.getContextPath().length());
-		return "/admin/login.do".equals(path)
+		return "/views/admin/auth/adminLogin.jsp".equals(path)
 				|| "/admin/login/process.do".equals(path)
 				|| "/admin/logout.do".equals(path);
 	}

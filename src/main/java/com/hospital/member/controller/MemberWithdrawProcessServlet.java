@@ -44,7 +44,7 @@ public class MemberWithdrawProcessServlet extends HttpServlet {
 		if(withdrawn) {
 			request.getSession().invalidate();
 			request.getSession(true).setAttribute("loginMessage", "회원 탈퇴가 완료되었습니다.");
-			response.sendRedirect(request.getContextPath() + "/member/login.do");
+			response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
 			return;
 		}//end if
 

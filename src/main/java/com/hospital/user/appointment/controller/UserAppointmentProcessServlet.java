@@ -25,7 +25,7 @@ public class UserAppointmentProcessServlet extends HttpServlet {
         
         // 사용자가 로그인 하지 않았으면 로그인 페이지로 이동시킨다.
         if (UserAppointmentSessionUtil.isBlank(patientNo)) {
-            response.sendRedirect(request.getContextPath() + "/member/login.do");
+            response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
             return;
         }
         
