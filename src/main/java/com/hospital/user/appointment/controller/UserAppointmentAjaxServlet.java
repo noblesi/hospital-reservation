@@ -17,6 +17,7 @@ import com.hospital.common.dto.DepartmentDTO;
 import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
 import com.hospital.user.appointment.UserAppointmentService;
+import com.hospital.user.appointment.dto.UserAppointmentOptionDTO;
 
 public class UserAppointmentAjaxServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -84,8 +85,8 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
      */
     private void renderDoctorSearch(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String keyword = request.getParameter("keyword");
-        List<DoctorDTO> doctorList = userAppointmentService.searchDoctorListByKeyword(keyword);
-        renderDoctorJson(response, doctorList, null);
+        List<UserAppointmentOptionDTO> doctorList = userAppointmentService.searchDoctorListByKeyword(keyword);
+        renderDoctorJson(response, doctorList);
     }
 
     /**
@@ -132,6 +133,28 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
                 .append("}");
         }
         json.append("]}");
+        response.getWriter().print(json);
+    }
+    
+    private void renderDoctorJson(HttpServletResponse response, List<UserAppointmentOptionDTO> uaoDTOList)
+            throws IOException {
+        StringBuilder json = new StringBuilder();
+        json.append("{\"doctors\":[");
+
+        for (int i = 0; i < uaoDTOList.size(); i++) {
+            UserAppointmentOptionDTO doctor = uaoDTOList.get(i);
+            if (i > 0) json.append(",");
+            json.append("{")
+                .append("\"doctorLicenseNo\":").append(doctor.getDoctorLicenseNo()).append(",")
+                .append("\"name\":\"").append(escapeJson(doctor.getDoctorName())).append("\",")
+                .append("\"thumbnailUrl\":\"").append(escapeJson(doctor.getThumbnailUrl())).append("\",")
+                .append("\"specialty\":\"").append(escapeJson(doctor.getSpecialty())).append("\",")
+                .append("\"deptName\":\"").append(escapeJson(doctor.getDeptName())).append("\"")
+                .append("}");
+        }
+
+        json.append("]}");
+
         response.getWriter().print(json);
     }
 

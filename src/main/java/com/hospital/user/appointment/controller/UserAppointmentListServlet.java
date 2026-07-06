@@ -24,7 +24,7 @@ public class UserAppointmentListServlet extends HttpServlet {
 			return;
 		}
 
-		request.setAttribute("activeMenu", "hospital");
+		request.setAttribute("activeMenu", "guide");
 		request.setAttribute("depth1", "진료안내");
 		request.setAttribute("depth2", "예약확인");
 		request.setAttribute("uasDTOList", userAppointmentService.searchAppointmentDetail(patientNo));
