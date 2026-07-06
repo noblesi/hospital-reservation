@@ -36,14 +36,14 @@ public class AdminAppointmentStatusServlet extends HttpServlet {
 
 	private String resolveStatus(String action, String status) {
 		if("approve".equals(action)) {
-			return "승인 완료";
+			return "예약완료";
 		}// end if
 
 		if("cancel".equals(action)) {
 			return "예약취소";
 		}// end if
 
-		if("승인 대기".equals(status) || "승인 완료".equals(status) || "예약취소".equals(status)) {
+		if("예약대기".equals(status) || "예약완료".equals(status) || "예약취소".equals(status)) {
 			return status;
 		}// end if
 

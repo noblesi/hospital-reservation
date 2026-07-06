@@ -16,6 +16,10 @@
     <param-value>20260701</param-value>
   </context-param>
 
+  <listener>
+    <listener-class>com.hospital.admin.appointment.listener.AppointmentStatusSchedulerListener</listener-class>
+  </listener>
+
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>

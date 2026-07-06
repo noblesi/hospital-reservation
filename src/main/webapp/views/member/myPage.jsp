@@ -11,7 +11,7 @@
 <title>마이페이지</title>
 <link rel="stylesheet" href="<c:url value='/resources/css/sideBar.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
-<link rel="stylesheet" href="<c:url value='/resources/css/mypage.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/mypage.css?v=${initParam.assetVersion}' />">
 </head>
 
 <body>
@@ -95,7 +95,7 @@
                             <c:when test="${app.status eq '예약취소'}">
                                 <c:set var="appointmentStatusClass" value="gray" />
                             </c:when>
-                            <c:when test="${app.status eq '승인완료'}">
+                            <c:when test="${app.status eq '예약완료' or app.status eq '진료완료'}">
                                 <c:set var="appointmentStatusClass" value="green" />
                             </c:when>
                         </c:choose>
@@ -162,9 +162,10 @@
 
         <div class="reservationModalTabs" role="tablist" aria-label="예약 상태">
             <button type="button" class="reservationTab active" data-status-filter="all">전체</button>
-            <button type="button" class="reservationTab" data-status-filter="승인완료">승인완료</button>
+            <button type="button" class="reservationTab" data-status-filter="예약대기">예약대기</button>
+            <button type="button" class="reservationTab" data-status-filter="예약완료">예약완료</button>
             <button type="button" class="reservationTab" data-status-filter="예약취소">예약취소</button>
-            <button type="button" class="reservationTab" data-status-filter="승인대기">승인대기</button>
+            <button type="button" class="reservationTab" data-status-filter="진료완료">진료완료</button>
         </div>
 
         <div class="reservationModalBody">
@@ -190,7 +191,7 @@
                                     <c:when test="${app.status eq '예약취소'}">
                                         <c:set var="modalAppointmentStatusClass" value="gray" />
                                     </c:when>
-                                    <c:when test="${app.status eq '승인완료'}">
+                                    <c:when test="${app.status eq '예약완료' or app.status eq '진료완료'}">
                                         <c:set var="modalAppointmentStatusClass" value="green" />
                                     </c:when>
                                 </c:choose>

@@ -37,8 +37,8 @@
                         상태
                         <select name="status">
                             <option value="" ${empty searchDTO.status ? 'selected' : ''}>전체</option>
-                            <option value="승인 대기" ${searchDTO.status eq '승인 대기' ? 'selected' : ''}>승인 대기</option>
-                            <option value="승인 완료" ${searchDTO.status eq '승인 완료' ? 'selected' : ''}>승인 완료</option>
+                            <option value="예약대기" ${searchDTO.status eq '예약대기' ? 'selected' : ''}>예약대기</option>
+                            <option value="예약완료" ${searchDTO.status eq '예약완료' ? 'selected' : ''}>예약완료</option>
                             <option value="예약취소" ${searchDTO.status eq '예약취소' ? 'selected' : ''}>예약취소</option>
                         </select>
                     </label>
@@ -80,8 +80,8 @@
                                     <form action="<c:url value='/admin/reservation/status.do' />" method="post">
                                         <input type="hidden" name="appointmentNo" value="${appointment.appointmentNo}">
                                         <select name="status">
-                                            <option value="승인 대기" ${appointment.status eq '승인 대기' ? 'selected' : ''}>승인 대기</option>
-                                            <option value="승인 완료" ${appointment.status eq '승인 완료' ? 'selected' : ''}>승인 완료</option>
+                                            <option value="예약대기" ${appointment.status eq '예약대기' ? 'selected' : ''}>예약대기</option>
+                                            <option value="예약완료" ${appointment.status eq '예약완료' ? 'selected' : ''}>예약완료</option>
                                             <option value="예약취소" ${appointment.status eq '예약취소' ? 'selected' : ''}>예약취소</option>
                                         </select>
                                         <button type="submit">변경</button>

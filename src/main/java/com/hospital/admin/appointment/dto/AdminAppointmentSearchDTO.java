@@ -21,7 +21,7 @@ public class AdminAppointmentSearchDTO {
     // 검색 키워드
     private String searchKeyword;
 
-    // 예약 상태 (예: 승인 대기, 승인 완료, 예약취소)
+    // 예약 상태 (예: 예약대기, 예약완료, 예약취소)
     private String status;
 
     // 조회 시작일

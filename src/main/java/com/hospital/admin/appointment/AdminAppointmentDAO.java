@@ -28,6 +28,7 @@ public class AdminAppointmentDAO {
         sql.append("SELECT COUNT(*) ");
         sql.append("FROM appointment ");
         sql.append("WHERE 1 = 1 ");
+        sql.append("AND NVL(TRIM(status), ' ') <> '진료완료' ");
 
         List<Object> params = new ArrayList<>();
 
@@ -96,6 +97,7 @@ public class AdminAppointmentDAO {
         sql.append("               appointment_date, appointment_time, status, created_at ");
         sql.append("        FROM appointment ");
         sql.append("        WHERE 1 = 1 ");
+        sql.append("        AND NVL(TRIM(status), ' ') <> '진료완료' ");
 
         List<Object> params = new ArrayList<>();
 
@@ -218,6 +220,23 @@ public class AdminAppointmentDAO {
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "관리자 예약 상태 변경 실패: " + appointmentNo, e);
+        }
+
+        return 0;
+    }
+
+    // 예약일이 지난 예약완료 건을 진료완료로 변경
+    public int updateExpiredCompletedAppointments() {
+        String sql = "UPDATE appointment "
+                   + "SET status = '진료완료' "
+                   + "WHERE TRIM(NVL(status, ' ')) = '예약완료' "
+                   + "AND appointment_date < TRUNC(SYSDATE) ";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "지난 예약완료 건 진료완료 변경 실패", e);
         }
 
         return 0;
