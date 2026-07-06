@@ -65,7 +65,7 @@ public class AdminAppointmentService {
 
     // 예약 승인 처리
     public boolean approveAppointment(String appointmentNo) {
-        return adminAppointmentDAO.updateAppointmentStatus(appointmentNo, "승인 완료") > 0;
+        return adminAppointmentDAO.updateAppointmentStatus(appointmentNo, "예약완료") > 0;
     }
 
     // 예약 취소 처리
@@ -90,6 +90,11 @@ public class AdminAppointmentService {
         }
 
         return adminAppointmentDAO.updateAppointmentStatus(appointmentNo, status) > 0;
+    }
+
+    // 예약일이 지난 예약완료 건을 실제 DB 상태값으로 진료완료 처리
+    public int completeExpiredAppointments() {
+        return adminAppointmentDAO.updateExpiredCompletedAppointments();
     }
 
     // 페이징 계산
@@ -124,8 +129,8 @@ public class AdminAppointmentService {
     }
 
     private boolean isSupportedStatus(String status) {
-        return "승인 대기".equals(status)
-                || "승인 완료".equals(status)
+        return "예약대기".equals(status)
+                || "예약완료".equals(status)
                 || "예약취소".equals(status);
     }
 

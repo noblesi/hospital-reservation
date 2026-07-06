@@ -17,7 +17,7 @@
 
 <!-- 외부 CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/user-layout.css?v=${initParam.assetVersion}">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment/appointment.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment/appointment.css?v=${initParam.assetVersion}">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/appointment/appointmentSuccess.css">
 
 <!-- jQuery CDN -->

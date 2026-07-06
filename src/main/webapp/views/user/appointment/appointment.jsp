@@ -14,7 +14,7 @@
 
 	<!-- 외부 CSS -->
 	<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
-	<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointment.css' />">
+	<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointment.css?v=${initParam.assetVersion}' />">
 	<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointmentSidebar.css' />">
 
 	<!-- jQuery CDN -->

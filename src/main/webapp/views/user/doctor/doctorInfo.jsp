@@ -26,8 +26,8 @@ pageContext.setAttribute("udDTO", udDTO);
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
 <!-- 외부 CSS -->
-<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css' />">
-<link rel="stylesheet" href="<c:url value='/resources/css/doctor/doctorInfo.css' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
+<link rel="stylesheet" href="<c:url value='/resources/css/doctor/doctorInfo.css?v=${initParam.assetVersion}' />">
 
 <!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -57,79 +57,75 @@ pageContext.setAttribute("udDTO", udDTO);
 	<c:import url="/views/common/userHeader.jsp" />
 	<c:import url="/views/common/userBreadcrumb.jsp" />
 
-	<div id="mainWrap">
-		<div id="content" style="background-color: #f2f5fa">
-			<div class="subWrap">			
-			<div class="contentTop">
-				<h2 class="name"><c:out value="${ udDTO.name }"/></h2>
-				<strong class="deptName"><c:out value="${ udDTO.deptName }"/></strong>
-			</div>
-			<div class="contentMain">
-				<strong class="position"><c:out value="${ udDTO.position }"/></strong><br> <span class="major">세부 전공 : <c:out value="${ udDTO.specialty }"/></span>
-				<div class="timeTableDiv">
-					<strong class="tableTitle">진료 시간표</strong>
-					<table class="timeTable">
-						<thead>
-							<tr>
-								<th class="typeTd">시간</th>
-								<th>월</th>
-								<th>화</th>
-								<th>수</th>
-								<th>목</th>
-								<th>금</th>
-								<th>토</th>
-								<th>일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="typeTd ampm">오전</td>
-								
-								<c:forEach var="i" begin="1" end="7" step="1">
-									<c:set var="flag" value="false"/>
-									
-									<c:forEach items="${ udDTO.dsList }" var="dsDTO">
-										<c:if test="${ dsDTO.dayOfWeek eq i and dsDTO.status ne '오후'}">
-											<c:set var="flag" value="true"/>
-										</c:if>
-									</c:forEach>
-									
-									<c:choose>
-										<c:when test="${ flag }"><td><span class="treatTime"></span></td></c:when>
-										<c:otherwise><td></td></c:otherwise>
-									</c:choose>
-								</c:forEach>
-								
-							</tr>
-							<tr>
-								<td class="typeTd ampm">오후</td>
-							
-								<c:forEach var="i" begin="1" end="7" step="1">
-									<c:set var="flag" value="false"/>
-									
-									<c:forEach items="${ udDTO.dsList }" var="dsDTO">
-										<c:if test="${ dsDTO.dayOfWeek eq i and dsDTO.status ne '오전'}">
-											<c:set var="flag" value="true"/>
-										</c:if>
-									</c:forEach>
-									
-									<c:choose>
-										<c:when test="${ flag }"><td><span class="treatTime"></span></td></c:when>
-										<c:otherwise><td></td></c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</tr>
-						</tbody>
-					</table>
+	<main id="mainWrap">
+		<section id="content">
+			<div class="subWrap">
+				<div class="contentTop">
+					<h2 class="name"><c:out value="${ udDTO.name }"/></h2>
+					<strong class="deptName"><c:out value="${ udDTO.deptName }"/></strong>
+				</div>
+				<div class="contentMain">
+					<strong class="position"><c:out value="${ udDTO.position }"/></strong>
+					<span class="major">세부 전공 : <c:out value="${ udDTO.specialty }"/></span>
+					<div class="timeTableDiv">
+						<strong class="tableTitle">진료 시간표</strong>
+						<div class="timeTableScroll">
+							<table class="timeTable">
+								<thead>
+									<tr>
+										<th class="typeTd">시간</th>
+										<th>월</th>
+										<th>화</th>
+										<th>수</th>
+										<th>목</th>
+										<th>금</th>
+										<th>토</th>
+										<th>일</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="typeTd ampm">오전</td>
+										<c:forEach var="i" begin="1" end="7" step="1">
+											<c:set var="flag" value="false"/>
+											<c:forEach items="${ udDTO.dsList }" var="dsDTO">
+												<c:if test="${ dsDTO.dayOfWeek eq i and dsDTO.status ne '오후'}">
+													<c:set var="flag" value="true"/>
+												</c:if>
+											</c:forEach>
+											<c:choose>
+												<c:when test="${ flag }"><td><span class="treatTime"></span></td></c:when>
+												<c:otherwise><td></td></c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</tr>
+									<tr>
+										<td class="typeTd ampm">오후</td>
+										<c:forEach var="i" begin="1" end="7" step="1">
+											<c:set var="flag" value="false"/>
+											<c:forEach items="${ udDTO.dsList }" var="dsDTO">
+												<c:if test="${ dsDTO.dayOfWeek eq i and dsDTO.status ne '오전'}">
+													<c:set var="flag" value="true"/>
+												</c:if>
+											</c:forEach>
+											<c:choose>
+												<c:when test="${ flag }"><td><span class="treatTime"></span></td></c:when>
+												<c:otherwise><td></td></c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
-			</div>
 			<img class="doctorImg" alt="의료진 사진" src='<c:url value="/resources/images/doctors/${ udDTO.thumbnailUrl }" />'>
-		</div>
-		
+		</section>
+
 		<!-- 의료진 소개글 시작 -->
-		<div id="content2">
-			<div style="display: inline-block;">
+		<section id="content2">
+			<div class="doctorTabButtons">
 				<button class="introBtn checked">의료진 소개</button>
 				<button class="careerBtn">학력/경력</button>
 			</div>
@@ -161,12 +157,11 @@ pageContext.setAttribute("udDTO", udDTO);
 					</c:forEach>
 				</ul>
 			</div>
-		</div>
-		
-	</div>
+		</section>
+	</main>
 
 	<c:import url="/views/common/userFooter.jsp" />
-	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=20260623-menu-hover-guard"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/user-layout.js?v=${initParam.assetVersion}"></script>
 </body>
 
 </html>

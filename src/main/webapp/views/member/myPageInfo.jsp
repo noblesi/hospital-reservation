@@ -16,7 +16,7 @@
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 <link rel="stylesheet"
-	href="<c:url value='/resources/css/mypage.css' />">
+	href="<c:url value='/resources/css/mypage.css?v=${initParam.assetVersion}' />">
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>

@@ -516,9 +516,14 @@ ul {
 
 #container {
 	padding-bottom: 80px;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 280px;
+	gap: 20px;
+	align-items: start;
 }
 
 .conHeader {
+	grid-column: 1 / -1;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -561,6 +566,26 @@ ul {
 }
 
 .deptWrap,
+.doctorListDiv,
+.rsInfoWrap,
+.scheduleDiv {
+	float: none;
+	width: 100%;
+	margin-left: 0;
+}
+
+.deptWrap,
+.rsInfoWrap {
+	height: auto;
+	min-height: 310px;
+}
+
+.doctorListDiv,
+.scheduleDiv {
+	margin-top: 0;
+}
+
+.deptWrap,
 .rsInfoWrap,
 .doctorListDiv,
 .scheduleCalDiv {
@@ -575,8 +600,26 @@ ul {
 }
 
 .searchBar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 18px;
 	height: 76px;
+	padding: 0 28px;
 	border-bottom: 1px solid #edf1f6;
+}
+
+.sortRadioDiv,
+.dNameInputDiv,
+#searchBtn,
+#dNameInput {
+	float: none;
+	margin: 0;
+}
+
+.dNameInputDiv {
+	display: flex;
+	min-width: 0;
 }
 
 .form-check-input {
@@ -609,6 +652,32 @@ ul {
 .doctorListMain {
 	border-top-color: #2763ba;
 	border-bottom-color: #dfe8f4;
+}
+
+.deptListDiv {
+	width: calc(100% - 56px);
+	display: grid;
+	grid-template-columns: 28px minmax(0, 1fr) 28px;
+	align-items: center;
+}
+
+.btnPrev,
+.btnNext,
+.sliderWindow {
+	float: none;
+}
+
+.btnPrev,
+.btnNext {
+	margin-top: 0;
+}
+
+.sliderWindow {
+	width: 100%;
+}
+
+.sliderPage {
+	padding-left: 36px;
 }
 
 .detpLabel {
@@ -652,6 +721,7 @@ ul {
 .doctorListDiv {
 	padding: 28px;
 	background: #fff;
+	margin-bottom: 0;
 }
 
 .doctorListTitle,
@@ -675,6 +745,8 @@ ul {
 }
 
 .doctorLi {
+	width: 50%;
+	min-width: 300px;
 	padding: 22px 10px;
 }
 
@@ -1083,6 +1155,7 @@ ul {
 @media (max-width: 1200px) {
 	#container {
 		width: var(--user-page-width);
+		display: block;
 	}
 
 	.deptWrap,
@@ -1141,6 +1214,10 @@ ul {
 	.sliderWindow,
 	.sliderPage {
 		width: calc(100% - 40px);
+	}
+
+	.sliderWindow {
+		width: 100%;
 	}
 
 	.deptListDiv {
