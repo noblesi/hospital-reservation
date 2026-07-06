@@ -39,6 +39,12 @@ public class UserAppointmentDAO {
 		return userAppointmentDAO;
 	}
 
+	/**
+	 * 진료과 목록 정보 조회
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<DepartmentDTO> selectDepartmentList() throws SQLException {
 		List<DepartmentDTO> deptList = new ArrayList<>();
 
@@ -49,7 +55,7 @@ public class UserAppointmentDAO {
 		try {
 			con = DBConnection.getConnection();
 
-			String query = "select dept_no, dept_name, description, is_active_yn, dept_loc from department";
+			String query = "	select dept_no, dept_name, description, is_active_yn, dept_loc from department where is_active_yn = 'Y'	";
 			pstmt = con.prepareStatement(query);
 
 			rs = pstmt.executeQuery();
