@@ -61,7 +61,6 @@ public class AdminAuthFilter implements Filter {
 	private boolean isPublicAdminRequest(HttpServletRequest request) {
 		String path = request.getRequestURI().substring(request.getContextPath().length());
 		return "/views/admin/auth/adminLogin.jsp".equals(path)
-				|| "/admin/login.do".equals(path)
 				|| "/admin/login/process.do".equals(path)
 				|| "/admin/logout.do".equals(path);
 	}
