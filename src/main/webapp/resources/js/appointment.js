@@ -86,6 +86,8 @@ function moveToPrevPage(curPage) {
 // 진료과 목록 HTML 생성
 function buildDepartmentHtml(data) {
     var html = "";
+	
+	// 필요 데이터 : deptNo, deptName
     $.each(data, function(i, dept) {
         if (i % 9 === 0) html += "<div class='sliderPage'><table class='slTab'>";
         if (i % 3 === 0) html += "<tr class='slRow'>";
@@ -109,6 +111,8 @@ function buildDoctorHtml(data) {
     }
 
     var html = "<ul class='doctorUl'>";
+	
+	// 필요 데이터 : thumbnailUrl, name, doctorLicenseNo, deptName, specialty, doctorLicenseNo
     $.each(data.doctors, function(i, doctor) {
         if (i % 2 === 0) html += "<div class='col'>";
 
@@ -127,12 +131,16 @@ function buildDoctorHtml(data) {
 
         if (i % 2 === 1 || i === data.doctors.length - 1) html += "</div>";
     });
+	
     html += "</ul>";
+	
     return html;
 }
 
 // 달력 HTML 생성
 function buildCalendarHtml(data) {
+	// 필요 데이터 : year, month, blankCount, days(날짜 배열) 
+	
     var prevYear  = data.month === 1  ? data.year - 1 : data.year;
     var prevMonth = data.month === 1  ? 12 : data.month - 1;
     var nextYear  = data.month === 12 ? data.year + 1 : data.year;
@@ -152,6 +160,7 @@ function buildCalendarHtml(data) {
              + "<th style='color:#02348b'>토</th>"
              + "</tr></thead><tbody><tr>";
 
+	// 공백 채우기
     for (var i = 0; i < data.blankCount; i++) {
         html += "<td><span></span></td>";
     }
@@ -175,16 +184,20 @@ function buildCalendarHtml(data) {
 
 // 시간표 HTML 생성
 function buildTimeTableHtml(data) {
+	// 필요한 데이터 : times(배열)
     if (data.times.length === 0) {
         return "<p style='text-align:center; font-size:18px;'>"
              + "해당 일자의 예약이<br>모두 완료되었습니다.<br>다른 날짜를 선택해주세요.</p>";
     }
 
     var html = "<ul class='timeTableUl'>";
+	
     $.each(data.times, function(i, time) {
         html += "<li class='timeTableLi'>" + time + "</li>";
     });
+	
     html += "</ul>";
+	
     return html;
 }
 
@@ -215,7 +228,7 @@ function renderTimeTable(selectedDate) {
     });
 }
 
-/* [이벤트 핸들러 함수] */
+/* 이벤트 핸들러 함수 */
 function handleDeptSort() {
     var selectedSort = $(this).val();
     $.ajax({
