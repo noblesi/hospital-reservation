@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin-layout.css?v=${initParam.assetVersion}">
     <script>
         function openDepartmentForm(url) {
-            window.open(url, "dept_modal", "width=520,height=500");
+            window.open(url, "dept_modal", "width=560,height=620");
             return false;
         }
     </script>
