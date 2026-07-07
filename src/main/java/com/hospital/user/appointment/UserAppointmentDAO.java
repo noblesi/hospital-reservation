@@ -395,8 +395,8 @@ public class UserAppointmentDAO {
 
 			StringBuilder querySb = new StringBuilder();
 			querySb //
-					.append("	insert into appointment(PATIENT_NO, DOCTOR_LICENSE_NO, APPOINTMENT_DATE, APPOINTMENT_TIME, REQUIREMENT, STATUS)	")
-					.append("	values(?, ?, ?, ?, ?, ?)	");
+					.append("	insert into appointment(PATIENT_NO, DOCTOR_LICENSE_NO, APPOINTMENT_DATE, APPOINTMENT_TIME, REQUIREMENT, STATUS, active_slot_key)	")
+					.append("	values(?, ?, ?, ?, ?, ?, ?)	");
 
 			pstmt = con.prepareStatement(querySb.toString());
 
@@ -406,6 +406,7 @@ public class UserAppointmentDAO {
 			pstmt.setString(4, requestDTO.getAppointmentTime());
 			pstmt.setString(5, requestDTO.getRequirement());
 			pstmt.setString(6, requestDTO.getStatus());
+			pstmt.setString(7, requestDTO.getDoctorLicenseNo() + requestDTO.getAppointmentDate().toString() + requestDTO.getAppointmentTime());
 
 			if (selectAppointmentConflict(requestDTO) == 0) {
 				cnt = pstmt.executeUpdate();
@@ -595,7 +596,8 @@ public class UserAppointmentDAO {
 
 			StringBuilder querySb = new StringBuilder();
 			querySb //
-					.append("	update 	APPOINTMENT	").append("	set		status = '예약취소', canceled_at = sysdate	")
+					.append("	update 	APPOINTMENT	") //
+					.append("	set		status = '예약취소', canceled_at = sysdate, active_slot_key = null	")
 					.append("	where 	appointment_no = ? and patient_no = ?	");
 
 			pstmt = con.prepareStatement(querySb.toString());

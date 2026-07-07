@@ -69,6 +69,7 @@ function closeModal() {
     $(".modalOverlay").removeClass("show");
     $(".modalContent").removeClass("show");
     $(".lastConfirmDiv").removeClass("show");
+	$("#requireTa").val("");
 }
 
 /* 페이지 슬라이더 관련 함수 */
