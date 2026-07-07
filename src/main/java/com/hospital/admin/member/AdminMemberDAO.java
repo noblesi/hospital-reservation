@@ -190,6 +190,60 @@ public class AdminMemberDAO {
         return memberList;
     }
 
+    // 복호화 검색용 회원 후보 목록 조회
+    // - 암호화된 email 컬럼에는 DB LIKE 검색을 적용할 수 없으므로 상태 조건만 DB에서 처리한다.
+    public List<MemberDTO> selectMemberListForDecryptedSearch(AdminMemberSearchDTO searchDTO) {
+
+        List<MemberDTO> memberList = new ArrayList<>();
+
+        if (searchDTO == null) {
+            searchDTO = new AdminMemberSearchDTO();
+        }
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT patient_no, login_id, name, ");
+        sql.append("       email, phone_number, is_withdrawn_yn, registered_at ");
+        sql.append("FROM member ");
+        sql.append("WHERE 1 = 1 ");
+
+        List<Object> params = new ArrayList<>();
+
+        if (searchDTO.getStatus() != null
+                && !searchDTO.getStatus().trim().isEmpty()) {
+            sql.append(" AND is_withdrawn_yn = ? ");
+            params.add(searchDTO.getStatus().trim());
+        }
+
+        sql.append("ORDER BY registered_at DESC, patient_no DESC ");
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+
+            for (int i = 0; i < params.size(); i++) {
+                pstmt.setObject(i + 1, params.get(i));
+            }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    MemberDTO dto = new MemberDTO();
+                    dto.setPatientNo(rs.getString("patient_no"));
+                    dto.setLoginId(rs.getString("login_id"));
+                    dto.setName(rs.getString("name"));
+                    dto.setEmail(rs.getString("email"));
+                    dto.setPhoneNumber(rs.getString("phone_number"));
+                    dto.setIsWithdrawnYn(rs.getString("is_withdrawn_yn"));
+                    dto.setRegisteredAt(rs.getDate("registered_at"));
+                    memberList.add(dto);
+                }
+            }
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "관리자 회원 복호화 검색 후보 목록 조회 실패", e);
+        }
+
+        return memberList;
+    }
+
     // 회원 상세 조회
     public MemberDTO selectMemberDetail(String patientNo) {
 
