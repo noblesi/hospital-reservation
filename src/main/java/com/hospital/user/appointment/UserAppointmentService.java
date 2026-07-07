@@ -69,7 +69,7 @@ public class UserAppointmentService {
 	/**
 	 * 의료진명 또는 세부전공 keyword로 의료진을 검색한다.
 	 */
-	public List<DoctorDTO> searchDoctorListByKeyword(String keyword) {
+	public List<UserAppointmentOptionDTO> searchDoctorListByKeyword(String keyword) {
 		if (keyword == null || keyword.isBlank()) {
 			return Collections.emptyList();
 		}

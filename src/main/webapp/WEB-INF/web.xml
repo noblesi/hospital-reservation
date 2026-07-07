@@ -317,6 +317,16 @@
     <url-pattern>/appointment/success.do</url-pattern>
     <url-pattern>/appointment/appointmentSuccess.jsp</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>doctorInfoServlet</servlet-name>
+    <servlet-class>com.hospital.user.doctor.controller.UserDoctorInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>doctorInfoServlet</servlet-name>
+    <url-pattern>/doctor/doctorInfo.do</url-pattern>
+    <url-pattern>/doctor/doctorInfo.jsp</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>adminDashboardServlet</servlet-name>

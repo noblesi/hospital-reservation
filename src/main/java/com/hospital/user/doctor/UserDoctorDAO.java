@@ -41,12 +41,14 @@ public class UserDoctorDAO {
 			querySb //
 					.append("	select	DOCTOR_LICENSE_NO, NAME, dept_name, INTRO_TITLE, INTRO_CONTENT, THUMBNAIL_URL, DETAIL_IMAGE_URL, SPECIALTY, POSITION_NAME ")
 					.append("	from	doctor d, doctor_position dp, department de ") //
-					.append("	where 	doctor_license_no = ? and d.position_code = dp.position_code and d.dept_no = de.dept_no ");
+					.append("	where 	d.position_code = dp.position_code and d.dept_no = de.dept_no and doctor_license_no = ? ");
 
 			pstmt = con.prepareStatement(querySb.toString());
+			
 			pstmt.setInt(1, doctorLicenseNo);
+			
 			rs = pstmt.executeQuery();
-
+			
 			if (rs.next()) {
 				udDTO = new UserDoctorDTO();
 
@@ -59,14 +61,16 @@ public class UserDoctorDAO {
 				udDTO.setDetailImageUrl(rs.getString("DETAIL_IMAGE_URL"));
 				udDTO.setSpecialty(rs.getString("SPECIALTY"));
 				udDTO.setPosition(rs.getString("POSITION_NAME"));
+				
 				udDTO.setDsList(selectDoctorSchedule(doctorLicenseNo, con));
 				udDTO.setDeList(selectDoctorEducation(doctorLicenseNo, con));
 				udDTO.setDcList(selectDoctorCareer(doctorLicenseNo, con));
+				
 			}
 		} finally {
 			DBConnection.close(rs, pstmt, con);
 		}
-
+		
 		return udDTO;
 	}
 

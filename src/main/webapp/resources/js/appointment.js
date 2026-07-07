@@ -53,6 +53,10 @@ function getAppointmentProcessUrl() {
     return getAppointmentConfig().processUrl || "process.do";
 }
 
+function getContextPath() {
+    return getAppointmentConfig().contextPath;
+}
+
 /* UI 및 포커스 제어 함수 */
 function removeFocusBorder() {
     $(".deptWrap").removeClass("focusBorder");
@@ -65,6 +69,7 @@ function closeModal() {
     $(".modalOverlay").removeClass("show");
     $(".modalContent").removeClass("show");
     $(".lastConfirmDiv").removeClass("show");
+	$("#requireTa").val("");
 }
 
 /* 페이지 슬라이더 관련 함수 */
@@ -98,7 +103,7 @@ function buildDepartmentHtml(data) {
         html += "<td class='slCol'>"
               + "<input class='deptRadio' style='display:none;' type='radio' name='dept'"
               + " value='" + dept.deptNo + "' id='" + dept.deptNo + "'>"
-              + "<label for='" + dept.deptNo + "'>" + dept.deptName + "</label>"
+              + "<label for='" + dept.deptNo + "' class='detpLabel'>" + dept.deptName + "</label>"
               + "</td>";
 
         if (i % 3 === 2 || i === data.length - 1) html += "</tr>";
@@ -123,9 +128,9 @@ function buildDoctorHtml(data) {
               + "<img class='doctorThumnail' src='../resources/images/doctors/" + doctor.thumbnailUrl + "'>"
               + "<div class='doctorInfoDiv'>"
               + "<h4 class='doctorName'>" + doctor.name
-              + "<a href='../views/user/doctor/doctorInfo.jsp?dln=" + doctor.doctorLicenseNo + "'><i class='bi bi-search blueSearchIcon'></i></a></h4>"
+              + "<a href='" + getContextPath() +"/doctor/doctorInfo.do?dln=" + doctor.doctorLicenseNo + "'><i class='bi bi-search blueSearchIcon'></i></a></h4>"
               + "<p class='detail'>"
-              + (data.deptName ? "<strong class='deptName'>" + data.deptName + "</strong><br>" : "")
+              + (data.deptName ? "<strong class='deptName'>" + data.deptName + "</strong><br>" : "<strong class='deptName'>" + doctor.deptName + "</strong><br>")
               + "세부전공: <span class='specialty'>" + doctor.specialty + "</span>"
               + "</p></div>"
               + "<button class='selectDoctorBtn' value='" + doctor.doctorLicenseNo + "'>"
@@ -326,6 +331,9 @@ function handleDoctorSelect() {
 
     var doctorName = $(this).closest(".doctorLi").find(".doctorName").text().trim();
     $(".rsInfoDoctor").text(doctorName);
+	
+	deptName = $(this).closest(".doctorLi").find(".deptName").text();
+	$(".rsInfoDept").text(deptName);
 }
 
 function changeToNextMonth() {

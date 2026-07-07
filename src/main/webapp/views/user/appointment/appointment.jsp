@@ -25,7 +25,8 @@
 	<script>
 		window.hospitalAppointmentConfig = {
 			ajaxUrl: "${appointmentAjaxUrl}",
-			processUrl: "${appointmentProcessUrl}"
+			processUrl: "${appointmentProcessUrl}",
+			contextPath: "${pageContext.request.contextPath}"
 		};
 	</script>
 	

@@ -3,6 +3,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/views/common/taglib.jsp"%>
 <%
+request.setAttribute("activeMenu", "treatment");
+request.setAttribute("depth2", "의료진 안내");
+
 int dln = Integer.parseInt(request.getParameter("dln"));
 
 UserDoctorService uds = new UserDoctorService();
