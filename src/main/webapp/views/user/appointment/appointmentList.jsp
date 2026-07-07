@@ -66,7 +66,7 @@
 					<table class="apptInfoTable">
 						<tr>
 							<th>인터넷예약</th>
-							<td>신청일 : <span><c:out value="${ uasDTO.createdAt }"/></span></td>
+							<td>신청일 : <span><fmt:formatDate value="${ uasDTO.createdAt }" pattern="yyyy-MM-dd HH:mm" /></span></td>
 						</tr>
 						<tr>
 							<th>진료 일정</th>
