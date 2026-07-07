@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class AdminMemoDTO {
     private int memoNo;
     private String adminId;
+    private String adminName;
     private String patientNo;
     private String content;
     private Timestamp createdAt;
@@ -23,6 +24,14 @@ public class AdminMemoDTO {
 
     public void setAdminId(String adminId) {
         this.adminId = adminId;
+    }
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
 
     public String getPatientNo() {

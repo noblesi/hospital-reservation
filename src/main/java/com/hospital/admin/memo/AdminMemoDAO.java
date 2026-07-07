@@ -13,10 +13,12 @@ import java.util.List;
 public class AdminMemoDAO {
 
     public List<AdminMemoDTO> selectMemoList(String patientNo) throws SQLException {
-        String sql = "SELECT memo_no, admin_id, patient_no, content, created_at "
-                + "FROM admin_memo "
-                + "WHERE patient_no = ? "
-                + "ORDER BY created_at DESC, memo_no DESC";
+        String sql = "SELECT AM.memo_no, AM.admin_id, NVL(A.name, AM.admin_id) admin_name, "
+                + "AM.patient_no, AM.content, AM.created_at "
+                + "FROM admin_memo AM "
+                + "LEFT JOIN admin A ON AM.admin_id = A.admin_id "
+                + "WHERE AM.patient_no = ? "
+                + "ORDER BY AM.created_at DESC, AM.memo_no DESC";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -61,6 +63,7 @@ public class AdminMemoDAO {
         AdminMemoDTO memo = new AdminMemoDTO();
         memo.setMemoNo(rs.getInt("memo_no"));
         memo.setAdminId(rs.getString("admin_id"));
+        memo.setAdminName(rs.getString("admin_name"));
         memo.setPatientNo(rs.getString("patient_no"));
         memo.setContent(rs.getString("content"));
         memo.setCreatedAt(rs.getTimestamp("created_at"));
