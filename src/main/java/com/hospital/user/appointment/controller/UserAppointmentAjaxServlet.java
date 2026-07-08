@@ -232,13 +232,14 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
     private void renderTimeTable(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer doctorLicenseNo = parseInt(request.getParameter("dln"));
         String date = request.getParameter("date");
+        String appointmentNo = request.getParameter("appointmentNo");
 
         if (doctorLicenseNo == null || UserAppointmentSessionUtil.isBlank(date)) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
-        List<String> availableTimes = userAppointmentService.searchAvailableTime(doctorLicenseNo, Date.valueOf(date));
+        List<String> availableTimes = userAppointmentService.searchAvailableTime(doctorLicenseNo, Date.valueOf(date), appointmentNo);
 
         StringBuilder json = new StringBuilder("{\"times\":[");
         for (int i = 0; i < availableTimes.size(); i++) {

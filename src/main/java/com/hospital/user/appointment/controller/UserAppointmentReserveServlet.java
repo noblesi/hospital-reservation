@@ -8,8 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.hospital.user.appointment.UserAppointmentService;
+import com.hospital.user.appointment.dto.UserAppointmentConfirmDTO;
+
 public class UserAppointmentReserveServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final UserAppointmentService userAppointmentService = new UserAppointmentService();
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -24,6 +28,20 @@ public class UserAppointmentReserveServlet extends HttpServlet {
 		if (UserAppointmentSessionUtil.isBlank(patientNo)) {
 			response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
 			return;
+		}
+
+		String appointmentNo = request.getParameter("appointmentNo");
+		if (!UserAppointmentSessionUtil.isBlank(appointmentNo)) {
+			UserAppointmentConfirmDTO changeAppointment =
+					userAppointmentService.searchChangeableAppointment(appointmentNo, patientNo);
+
+			if (changeAppointment == null) {
+				request.getSession().setAttribute("errorMessage", "변경 가능한 예약을 찾을 수 없습니다.");
+				response.sendRedirect(request.getContextPath() + "/appointment/list.do");
+				return;
+			}
+
+			request.setAttribute("changeAppointment", changeAppointment);
 		}
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/appointment/appointment.jsp");

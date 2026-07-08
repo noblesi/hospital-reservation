@@ -135,7 +135,6 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		doctor.setIntroTitle(defaultValue(request.getParameter("introTitle"), ""));
 		doctor.setIntroContent(defaultValue(request.getParameter("introContent"), ""));
 		doctor.setThumbnailUrl(saveDoctorImage(request, "thumbnailUrl", "currentThumbnailUrl", doctorLicenseNo, "thumb"));
-		doctor.setDetailImageUrl(saveDoctorImage(request, "detailImageUrl", "currentDetailImageUrl", doctorLicenseNo, "detail"));
 		doctor.setSpecialty(defaultValue(request.getParameter("specialty"), ""));
 		doctor.setStatusCode(defaultValue(request.getParameter("statusCode"), "CLS"));
 		return doctor;
