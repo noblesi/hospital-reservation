@@ -1,14 +1,24 @@
 package com.hospital.admin.doctor.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import com.hospital.admin.doctor.AdminDoctorService;
 import com.hospital.admin.doctor.dto.AdminDoctorFormDTO;
@@ -18,8 +28,15 @@ import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorEducationDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
 
+@MultipartConfig(
+		fileSizeThreshold = 1024 * 1024,
+		maxFileSize = 5 * 1024 * 1024,
+		maxRequestSize = 20 * 1024 * 1024
+)
 public class AdminDoctorFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String DOCTOR_IMAGE_DIR = "/resources/images/doctors";
+	private static final DateTimeFormatter FILE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
 
 	private final AdminDoctorService adminDoctorService = new AdminDoctorService();
 
@@ -57,7 +74,19 @@ public class AdminDoctorFormServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		DoctorDTO doctor = createDoctorDTO(request);
+		DoctorDTO doctor = null;
+		try {
+			doctor = createDoctorDTO(request);
+		} catch (IllegalArgumentException e) {
+			request.getSession().setAttribute("errorMessage", e.getMessage());
+			response.sendRedirect(request.getContextPath() + "/admin/doctor/list.do");
+			return;
+		} catch (IllegalStateException e) {
+			request.getSession().setAttribute("errorMessage", "이미지 파일은 5MB 이하로 업로드해주세요.");
+			response.sendRedirect(request.getContextPath() + "/admin/doctor/list.do");
+			return;
+		}
+
 		if (doctor == null) {
 			request.getSession().setAttribute("errorMessage", "의료진 저장 요청이 올바르지 않습니다.");
 			response.sendRedirect(request.getContextPath() + "/admin/doctor/list.do");
@@ -91,7 +120,7 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		return Integer.valueOf(value);
 	}
 
-	private DoctorDTO createDoctorDTO(HttpServletRequest request) {
+	private DoctorDTO createDoctorDTO(HttpServletRequest request) throws IOException, ServletException {
 		Integer doctorLicenseNo = parseInt(firstValue(request, "doctorLicenseNo", "licenseNo"));
 		if (doctorLicenseNo == null) {
 			return null;
@@ -105,11 +134,66 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		doctor.setPositionCode(firstValue(request, "positionCode", "position"));
 		doctor.setIntroTitle(defaultValue(request.getParameter("introTitle"), ""));
 		doctor.setIntroContent(defaultValue(request.getParameter("introContent"), ""));
-		doctor.setThumbnailUrl(defaultValue(request.getParameter("thumbnailUrl"), ""));
-		doctor.setDetailImageUrl(defaultValue(request.getParameter("detailImageUrl"), ""));
+		doctor.setThumbnailUrl(saveDoctorImage(request, "thumbnailUrl", "currentThumbnailUrl", doctorLicenseNo, "thumb"));
+		doctor.setDetailImageUrl(saveDoctorImage(request, "detailImageUrl", "currentDetailImageUrl", doctorLicenseNo, "detail"));
 		doctor.setSpecialty(defaultValue(request.getParameter("specialty"), ""));
 		doctor.setStatusCode(defaultValue(request.getParameter("statusCode"), "CLS"));
 		return doctor;
+	}
+
+	private String saveDoctorImage(HttpServletRequest request, String partName, String currentFileParam, int doctorLicenseNo, String imageType)
+			throws IOException, ServletException {
+		String currentFileName = defaultValue(request.getParameter(currentFileParam), "");
+		Part imagePart = request.getPart(partName);
+		if (imagePart == null || imagePart.getSize() == 0) {
+			return currentFileName;
+		}
+
+		String originalFileName = Paths.get(defaultValue(imagePart.getSubmittedFileName(), "")).getFileName().toString();
+		String extension = getImageExtension(originalFileName);
+		if (extension == null || !isImageContentType(imagePart.getContentType())) {
+			throw new IllegalArgumentException("이미지 파일만 업로드할 수 있습니다.");
+		}
+
+		String realUploadPath = getServletContext().getRealPath(DOCTOR_IMAGE_DIR);
+		if (realUploadPath == null) {
+			throw new IOException("의료진 이미지 저장 경로를 찾을 수 없습니다.");
+		}
+
+		Path uploadDir = Paths.get(realUploadPath);
+		Files.createDirectories(uploadDir);
+
+		String savedFileName = "doctor_" + doctorLicenseNo + "_" + imageType + "_"
+				+ LocalDateTime.now().format(FILE_TIME_FORMAT) + extension;
+		Path targetPath = uploadDir.resolve(savedFileName).normalize();
+		if (!targetPath.startsWith(uploadDir)) {
+			throw new IOException("의료진 이미지 저장 경로가 올바르지 않습니다.");
+		}
+
+		try (InputStream inputStream = imagePart.getInputStream()) {
+			Files.copy(inputStream, targetPath, StandardCopyOption.REPLACE_EXISTING);
+		}
+
+		return savedFileName;
+	}
+
+	private String getImageExtension(String fileName) {
+		int dotIndex = fileName.lastIndexOf('.');
+		if (dotIndex < 0 || dotIndex == fileName.length() - 1) {
+			return null;
+		}
+
+		String extension = fileName.substring(dotIndex).toLowerCase(Locale.ROOT);
+		if (".jpg".equals(extension) || ".jpeg".equals(extension) || ".png".equals(extension)
+				|| ".gif".equals(extension) || ".webp".equals(extension)) {
+			return extension;
+		}
+
+		return null;
+	}
+
+	private boolean isImageContentType(String contentType) {
+		return contentType != null && contentType.toLowerCase(Locale.ROOT).startsWith("image/");
 	}
 
 	private List<DoctorEducationDTO> createEducationList(HttpServletRequest request, int doctorLicenseNo) {

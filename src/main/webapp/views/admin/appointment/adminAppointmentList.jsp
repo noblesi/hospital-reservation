@@ -75,7 +75,7 @@
                                 <td><c:out value="${appointment.appointmentDate}" /></td>
                                 <td><c:out value="${appointment.appointmentTime}" /></td>
                                 <td><c:out value="${appointment.status}" /></td>
-                                <td><c:out value="${appointment.createDate}" /></td>
+                                <td><fmt:formatDate value="${appointment.createDate}" pattern="yyyy-MM-dd HH:mm" /></td>
                                 <td class="admin-table-actions">
                                     <form action="<c:url value='/admin/reservation/status.do' />" method="post">
                                         <input type="hidden" name="appointmentNo" value="${appointment.appointmentNo}">

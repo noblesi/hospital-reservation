@@ -523,7 +523,14 @@
 		$('#detailImageUrl').change(function() {
 			previewImage(this, 'detailPreview');
 		});
-		
+
+		<c:if test="${not empty doctor.thumbnailUrl}">
+			setPreviewImage('thumbPreview', '<c:url value="/resources/images/doctors/${doctor.thumbnailUrl}" />');
+		</c:if>
+		<c:if test="${not empty doctor.detailImageUrl}">
+			setPreviewImage('detailPreview', '<c:url value="/resources/images/doctors/${doctor.detailImageUrl}" />');
+		</c:if>
+
 		//파라미터값이 존재하는지 여부
 		$.hasParams = function() {
 		    return window.location.search.length > 1;
@@ -791,13 +798,17 @@
 
 		const reader = new FileReader();
 		reader.onload = function(e) {
-			const $target = $('#' + targetId);
-			$target.css('background-image', 'url(' + e.target.result + ')');
-			$target.find('.doctor-photo-text').hide();
+			setPreviewImage(targetId, e.target.result);
 		};
 		reader.readAsDataURL(file);
 	}
-	
+
+	function setPreviewImage(targetId, imageUrl) {
+		const $target = $('#' + targetId);
+		$target.css('background-image', 'url(' + imageUrl + ')');
+		$target.find('.doctor-photo-text').hide();
+	}
+
 </script>
 
 <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css?v=${initParam.assetVersion}' />">
@@ -814,7 +825,7 @@
 			</div>
 
 			<section class="admin-card">
-				<form class="admin-search-area" action="<c:url value='/admin/doctor/form.do' />" method="post" name="doctorDetailFrm" id="doctorDetailFrm" onsubmit="return false;">
+				<form class="admin-search-area" action="<c:url value='/admin/doctor/form.do' />" method="post" enctype="multipart/form-data" name="doctorDetailFrm" id="doctorDetailFrm" onsubmit="return false;">
 					<div class="admin-view-area">
 						<div class="doctor-register-form">
 							<div class="doctor-layout">
@@ -888,6 +899,7 @@
 											</div>
 											<button type="button" class="doctor-btn doctor-btn-primary" id="thumbUploadBtn">썸네일 사진 등록</button>
 											<input type="file" id="thumbnailUrl" name="thumbnailUrl" accept="image/*" hidden />
+											<input type="hidden" name="currentThumbnailUrl" value="${doctor.thumbnailUrl}" />
 										</div>
 
 										<div class="doctor-photo-item">
@@ -896,6 +908,7 @@
 											</div>
 											<button type="button" class="doctor-btn doctor-btn-primary" id="detailUploadBtn">상세 사진 등록</button>
 											<input type="file" id="detailImageUrl" name="detailImageUrl" accept="image/*" hidden />
+											<input type="hidden" name="currentDetailImageUrl" value="${doctor.detailImageUrl}" />
 										</div>
 									</div>
 								</div>

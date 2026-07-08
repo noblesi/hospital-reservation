@@ -57,29 +57,29 @@
 
 			<c:if test="${ not empty uasDTOList }">
 				<c:forEach var="uasDTO" items="${ uasDTOList }" varStatus="i">
-					<li class="apptListLi">
-						<img class="docImg" src='<c:url value="../resources/images/doctors/${ uasDTO.thumbnailUrl }"/>'>
-						<p class="docInfoText">
-							<span class="deptName"><c:out value="${ uasDTO.deptName }"/></span>
-							<span class="docName"><c:out value="${ uasDTO.doctorName }"/></span>
-						</p>
-						<table class="apptInfoTable">
-							<tr>
-								<th>인터넷예약</th>
-								<td>신청일 : <span><c:out value="${ uasDTO.createdAt }"/></span></td>
-							</tr>
-							<tr>
-								<th>진료 일정</th>
-								<td><c:out value="${ uasDTO.appointmentDate } ${ uasDTO.appointmentTime }"/></td>
-							</tr>
-							<tr>
-								<th>위치</th>
-								<td><c:out value="${ uasDTO.deptLoc }"/></td>
-							</tr>
-						</table>
-						<button class="apptChangeBtn" value="${ uasDTO.appointmentNo }">예약변경</button>
-						<button class="apptCancelBtn" value="${ uasDTO.appointmentNo }">예약취소</button>
-					</li>
+				<li class="apptListLi">
+					<img class="docImg" src='<c:url value="../resources/images/doctors/${ uasDTO.thumbnailUrl }"/>'>
+					<p class="docInfoText">
+						<span class="deptName"><c:out value="${ uasDTO.deptName }"/></span>
+						<span class="docName"><c:out value="${ uasDTO.doctorName }"/></span>
+					</p>
+					<table class="apptInfoTable">
+						<tr>
+							<th>인터넷예약</th>
+							<td>신청일 : <span><fmt:formatDate value="${ uasDTO.createdAt }" pattern="yyyy-MM-dd HH:mm" /></span></td>
+						</tr>
+						<tr>
+							<th>진료 일정</th>
+							<td><c:out value="${ uasDTO.appointmentDate } ${ uasDTO.appointmentTime }"/></td>
+						</tr>
+						<tr>
+							<th>위치</th>
+							<td><c:out value="${ uasDTO.deptLoc }"/></td>
+						</tr>
+					</table>
+					<button class="apptChangeBtn" value="${ uasDTO.appointmentNo }">예약변경</button>
+					<button class="apptCancelBtn" value="${ uasDTO.appointmentNo }">예약취소</button>
+				</li>
 				</c:forEach>
 			</c:if>
 
