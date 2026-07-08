@@ -122,7 +122,7 @@ img{
 									<div class="rowWrap">
 										<div name="departmentListRow[]" class="departmentListRow" >
 											<img name="deptImg[]" class="nomalImg" src="../resources/images/department/${ deptDTO.deptNo }.png"/><br>
-											<img name="deptImg[]" class="hoverImg" src="../resources/images/department/${ deptDTO.deptNo }_hover.png"/><br>
+											<img name="deptImgHover[]" class="hoverImg" src="../resources/images/department/${ deptDTO.deptNo }_hover.png"/><br>
 										</div>
 										<div>
 											<span class="spanCls"><c:out value="${ deptDTO.deptName }"/></span>
