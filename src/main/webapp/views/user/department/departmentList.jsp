@@ -38,23 +38,70 @@
 </head>
 <style>
 #departmentListHead{
-	background-color: #f00;
 	text-align: center;
 	vertical-align: center;
 }
+
 #departmentListContent{
-	background-color: #0f0;
+	margin-top: 40px;
 	text-align: center;
 	vertical-align: center;
 }
+
+td{
+	height: 120px;
+	text-align: center;
+	margin: 10px;
+}
+
+table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+img{
+	position: absolute;
+	left: 43px;
+	top: 0px;
+	margin-top: 20px;
+}
+
+.hoverImg{
+	opacity: 0;
+}
+
+.rowWrap:hover .nomalImg {
+	opacity: 0;
+}
+
+.rowWrap:hover .hoverImg {
+	opacity: 1;
+}
+
+.rowWrap:hover .spanCls {
+	color: #2677BB;
+}
+
+.spanCls{
+	color: #9F9F9F;
+}
+
 .departmentListRow {
-	width: 180px;
-	height: 180px;
-	vertical-align: center;
-	text-align: center;
-	border-radius: 80px;
-	border-color: 1px solid #333;
+	position: relative;
+	width: 140px;
+	height: 80px;
 }
+
+.rowWrap{
+	background-color: #f7fbff;
+	border-radius: 20px;
+	border: 1px solid #9F9F9F;
+}
+
+.rowWrap:hover {
+	border: 1px solid #2677BB;
+}
+
 </style>
 <body>
 	<c:import url="/views/common/userHeader.jsp" />
@@ -65,14 +112,29 @@
 			<h3><span>진료과 목록</span></h3>
 		</div>
 		<div id="departmentListContent">
-			<c:forEach var="deptDTO" items="${ departmentList }">
-				<div name="departmentListRow[]" class="departmentListRow" >
-					<a href="<c:url value='/doctor/doctorList.do?deptNo=${ deptDTO.deptNo }'/>" style="width: 180px; height: 180px;" > 
-					<img src="../resources/images/department/${ deptDTO.deptNo }.png"/><br>
-					<span><c:out value="${ deptDTO.deptName }"/></span>
-					</a>
-				</div>
-			</c:forEach>
+			<table>
+				<c:forEach var="deptDTO" items="${ departmentList }" varStatus="i">
+					<c:if test="${ i.count%5==1 }">
+						<tr>
+					</c:if>
+							<td>
+								<a href="<c:url value='/doctor/doctorList.do?deptNo=${ deptDTO.deptNo }'/>" > 
+									<div class="rowWrap">
+										<div name="departmentListRow[]" class="departmentListRow" >
+											<img name="deptImg[]" class="nomalImg" src="../resources/images/department/${ deptDTO.deptNo }.png"/><br>
+											<img name="deptImg[]" class="hoverImg" src="../resources/images/department/${ deptDTO.deptNo }_hover.png"/><br>
+										</div>
+										<div>
+											<span class="spanCls"><c:out value="${ deptDTO.deptName }"/></span>
+										</div>
+									</div>
+								</a>
+							</td>
+					<c:if test="${ i.count%5==0 }">
+						</tr>
+					</c:if>
+				</c:forEach>
+			</table>
 		</div>
 	</main>
 

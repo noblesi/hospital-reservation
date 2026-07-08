@@ -98,30 +98,30 @@
 		</div>
 		<div id="doctorListContent">
 			<c:forEach var="docDTO" items="${ doctorList }">
-				<div class="doctorListRow" >
-					<table>
-					<tr>
-						<td rowspan="3">
-							<a href="<c:url value='/doctor/doctorInfo.do?dln=${ docDTO.doctorLicenseNo }'/>" class="aDoctorList" >
-								<img name="thumbnail[]" class="thumbnail" src="../resources/images/doctors/${ docDTO.thumbnailUrl }"/>
-							</a>
-						</td>
-						<td>
-							<strong><span style="font-size: 20px;"><c:out value="${ docDTO.name }"/></span></strong><br>
-						</td>
-					</tr>
-					<tr>
-						<td style="height: 40px;">
-							<strong><span><c:out value="전문분야"/></span></strong>
-						</td>
-					</tr>
-					<tr>
-						<td style="text-align: left; vertical-align: top;">
-							<span><c:out value="${ docDTO.specialty }"/></span>
-						</td>
-					</tr>
-					</table>
-				</div>
+				<a href="<c:url value='/doctor/doctorInfo.do?dln=${ docDTO.doctorLicenseNo }'/>" class="aDoctorList" >
+					<div class="doctorListRow" >
+						<table>
+						<tr>
+							<td rowspan="3">
+									<img name="thumbnail[]"  style="margin-right: 15px;" class="thumbnail" src="../resources/images/doctors/${ docDTO.thumbnailUrl }"/>
+							</td>
+							<td>
+								<strong><span style="font-size: 40px;"><c:out value="${ docDTO.name }"/></span></strong><br>
+							</td>
+						</tr>
+						<tr>
+							<td style="height: 40px; color: #9F9F9F">
+								<strong><span><c:out value="전문분야"/></span></strong>
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align: left; vertical-align: top;">
+								<span><c:out value="${ docDTO.specialty }"/></span>
+							</td>
+						</tr>
+						</table>
+					</div>
+				</a>
 			</c:forEach>
 		</div>
 		<div id="deptLoc">
