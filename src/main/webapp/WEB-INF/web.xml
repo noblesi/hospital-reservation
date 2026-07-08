@@ -329,6 +329,26 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>doctorListServlet</servlet-name>
+    <servlet-class>com.hospital.user.doctor.controller.UserDoctorListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>doctorListServlet</servlet-name>
+    <url-pattern>/doctor/doctorList.do</url-pattern>
+    <url-pattern>/doctor/doctorList.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>userDepartmentServlet</servlet-name>
+    <servlet-class>com.hospital.user.department.controller.UserDepartmentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>userDepartmentServlet</servlet-name>
+    <url-pattern>/department/departmentList.do</url-pattern>
+    <url-pattern>/department/departmentList.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>adminDashboardServlet</servlet-name>
     <servlet-class>com.hospital.admin.dashboard.controller.AdminDashboardServlet</servlet-class>
   </servlet>
