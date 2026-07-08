@@ -440,7 +440,7 @@ public class UserAppointmentDAO {
 			StringBuilder querySb = new StringBuilder();
 			querySb //
 					.append("	update 	appointment	")
-					.append("	set 	doctor_license_no = ?, appointment_date = ?, appointment_time = ?, requirement = ?, status = ?	")
+					.append("	set 	doctor_license_no = ?, appointment_date = ?, appointment_time = ?, requirement = ?, status = ?, active_slot_key = ?	")
 					.append("	where 	appointment_no = ?	and patient_no = ?	");
 
 			pstmt = con.prepareStatement(querySb.toString());
@@ -450,8 +450,9 @@ public class UserAppointmentDAO {
 			pstmt.setString(3, requestDTO.getAppointmentTime());
 			pstmt.setString(4, requestDTO.getRequirement());
 			pstmt.setString(5, requestDTO.getStatus());
-			pstmt.setString(6, appointmentNo);
-			pstmt.setString(7, patientNo);
+			pstmt.setString(6, requestDTO.getDoctorLicenseNo() + requestDTO.getAppointmentDate().toString() + requestDTO.getAppointmentTime());
+			pstmt.setString(7, appointmentNo);
+			pstmt.setString(8, patientNo);
 
 			cnt = pstmt.executeUpdate();
 

@@ -57,6 +57,10 @@ function getContextPath() {
     return getAppointmentConfig().contextPath;
 }
 
+function getAppointmentNo() {
+    return getAppointmentConfig().appointmentNo || "";
+}
+
 /* UI 및 포커스 제어 함수 */
 function removeFocusBorder() {
     $(".deptWrap").removeClass("focusBorder");
@@ -420,7 +424,8 @@ function sendRequestAppointment() {
     form.append($("<input>", { type: "hidden", name: "appointmentDate",  value: appointmentDate }));
     form.append($("<input>", { type: "hidden", name: "appointmentTime",  value: $.trim(appointmentTime) }));
     form.append($("<input>", { type: "hidden", name: "requirement",      value: $("#requireTa").val() }));
-
+    form.append($("<input>", { type: "hidden", name: "appointmentNo",    value: getAppointmentNo() }));
+	console.log(getAppointmentNo());
     $("body").append(form);
     form.submit();
 }
