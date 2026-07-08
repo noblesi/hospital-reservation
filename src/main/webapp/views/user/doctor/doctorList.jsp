@@ -7,7 +7,9 @@
 <%@ include file="/views/common/taglib.jsp"%>
 <%
 	List<DoctorDTO> list = (List<DoctorDTO>) request.getAttribute("doctorList");
+	DepartmentDTO department = (DepartmentDTO) request.getAttribute("departmentDTO");
 	pageContext.setAttribute("doctorList", list);
+	pageContext.setAttribute("departmentDTO", department);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -15,7 +17,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>한국중앙병원 | 진료과목록</title>
+<title>한국중앙병원 | 진료과 소개 및 의료진</title>
 
 <!-- Bootstrap CDN -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -38,6 +40,46 @@
 </script>
 </head>
 <style>
+#doctorListHeader{
+	margin-top: 30px;
+}
+
+#deparmentWrap{
+	margin-left: 450px;
+}
+
+#doctorListContent, #doctorListHeader{
+	margin-left: 450px;
+}
+
+.doctorListRow{
+	width: 600px;
+	height: 281px; 
+	border: 2px solid #fdfdff;
+	margin-top: 10px;
+	background-color: #f7fbff;
+	border-radius: 50px;
+}
+
+.doctorListRow:hover{
+	border: 1px solid #aaa;
+}
+
+.thumbnail{
+	width: 197px;
+	height: 275px;
+	border-radius: 50px;
+}
+
+.aDoctorList{
+	width: 200px;
+	height: 400px; 
+}
+
+.loc{
+	margin-top: 30px;
+	margin-left: 200px;
+}
 
 </style>
 <body>
@@ -45,18 +87,46 @@
 	<c:import url="/views/common/userBreadcrumb.jsp" />
 
 	<main id="mainWrap">
+		<div id="deparmentWrap">
+			<div><h3>${ departmentDTO.deptName } 소개</h3></div>
+			<div id="deparmentDescription">
+				<c:out value="${ departmentDTO.description }"/>
+			</div>
+		</div>
 		<div id="doctorListHeader">
-			<h3><span>의사 목록</span></h3>
+			<h3><span>의료진 목록</span></h3>
 		</div>
 		<div id="doctorListContent">
 			<c:forEach var="docDTO" items="${ doctorList }">
-				<div name="doctorListRow[]" class="doctorListRow" >
-					<a href="<c:url value='/doctor/doctorInfo.do?dln=${ docDTO.doctorLicenseNo }'/>" > 
-					<img src="../resources/images/doctors/${ docDTO.thumbnailUrl }"/><br>
-					<span><c:out value="${ docDTO.name }"/></span>
-					</a>
+				<div class="doctorListRow" >
+					<table>
+					<tr>
+						<td rowspan="3">
+							<a href="<c:url value='/doctor/doctorInfo.do?dln=${ docDTO.doctorLicenseNo }'/>" class="aDoctorList" >
+								<img name="thumbnail[]" class="thumbnail" src="../resources/images/doctors/${ docDTO.thumbnailUrl }"/>
+							</a>
+						</td>
+						<td>
+							<strong><span style="font-size: 20px;"><c:out value="${ docDTO.name }"/></span></strong><br>
+						</td>
+					</tr>
+					<tr>
+						<td style="height: 40px;">
+							<strong><span><c:out value="전문분야"/></span></strong>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: left; vertical-align: top;">
+							<span><c:out value="${ docDTO.specialty }"/></span>
+						</td>
+					</tr>
+					</table>
 				</div>
 			</c:forEach>
+		</div>
+		<div id="deptLoc">
+			<div style="text-align: center; font-size: 30px; margin-top: 20px;"><strong>위치 안내</strong></div>
+			<img class="loc" src="../resources/images/department/loc/${ departmentDTO.deptNo }_loc.jpg"/>
 		</div>
 	</main>
 
