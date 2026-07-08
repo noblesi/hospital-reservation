@@ -24,7 +24,7 @@ public class AdminLoginProcessServlet extends HttpServlet {
 
 		if (isBlank(adminId) || isBlank(password)) {
 			request.getSession().setAttribute("adminLoginMessage", "아이디 또는 비밀번호를 입력해주세요.");
-			response.sendRedirect(request.getContextPath() + "/views/admin/auth/adminLogin.jsp");
+			redirect(request, response, "/views/admin/auth/adminLogin.jsp");
 			return;
 		}
 
@@ -32,20 +32,25 @@ public class AdminLoginProcessServlet extends HttpServlet {
 
 		if (loginAdmin != null) {
 			request.getSession().setAttribute("loginAdmin", loginAdmin);
-			response.sendRedirect(request.getContextPath() + "/admin/dashboard.do");
+			request.getSession().removeAttribute("adminLoginMessage");
+			redirect(request, response, "/admin/dashboard.do");
 			return;
 		}
 
 		request.getSession().setAttribute("adminLoginMessage", "관리자 계정 정보를 확인해주세요.");
-		response.sendRedirect(request.getContextPath() + "/views/admin/auth/adminLogin.jsp");
+		redirect(request, response, "/views/admin/auth/adminLogin.jsp");
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect(request.getContextPath() + "/views/admin/auth/adminLogin.jsp");
+		redirect(request, response, "/views/admin/auth/adminLogin.jsp");
 	}
 
 	private boolean isBlank(String value) {
 		return value == null || value.trim().isEmpty();
+	}
+
+	private void redirect(HttpServletRequest request, HttpServletResponse response, String path) throws IOException {
+		response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + path));
 	}
 }

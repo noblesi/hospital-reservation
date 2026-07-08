@@ -16,7 +16,7 @@ public class AdminAppointmentStatusServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String appointmentNo = request.getParameter("appointmentNo");
-		String status = resolveStatus(request.getParameter("action"), request.getParameter("status"));
+		String status = resolveStatus(request.getParameter("status"));
 
 		if(appointmentNo == null || appointmentNo.isBlank() || status == null) {
 			request.getSession().setAttribute("errorMessage", "예약 상태 변경 요청이 올바르지 않습니다.");
@@ -34,16 +34,8 @@ public class AdminAppointmentStatusServlet extends HttpServlet {
 		response.sendRedirect(request.getContextPath() + "/admin/reservation/list.do");
 	}//doPost
 
-	private String resolveStatus(String action, String status) {
-		if("approve".equals(action)) {
-			return "예약완료";
-		}// end if
-
-		if("cancel".equals(action)) {
-			return "예약취소";
-		}// end if
-
-		if("예약대기".equals(status) || "예약완료".equals(status) || "예약취소".equals(status)) {
+	private String resolveStatus(String status) {
+		if("예약대기".equals(status) || "예약완료".equals(status)) {
 			return status;
 		}// end if
 
