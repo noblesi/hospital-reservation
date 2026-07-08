@@ -45,7 +45,11 @@ public class UserAppointmentService {
 
 		return Collections.emptyList();
 	}
-
+	
+	public DepartmentDTO searchDepartment(String deptNo) throws SQLException {
+		return uaDAO.selectDepartment(deptNo);
+	}
+	
 	/**
 	 * 진료과에 속한 의료진들을 찾는 일.
 	 * 

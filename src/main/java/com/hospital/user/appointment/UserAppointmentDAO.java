@@ -38,6 +38,38 @@ public class UserAppointmentDAO {
 
 		return userAppointmentDAO;
 	}
+	
+	public DepartmentDTO selectDepartment(String deptNo) throws SQLException {
+		DepartmentDTO deptDTO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = DBConnection.getConnection();
+
+			String query = "	select dept_no, dept_name, description, is_active_yn, dept_loc from department where dept_no = ?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, deptNo);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				deptDTO = new DepartmentDTO();
+
+				deptDTO.setDeptNo(rs.getString("dept_no"));
+				deptDTO.setDeptName(rs.getString("dept_name"));
+				deptDTO.setDescription(rs.getString("description"));
+				deptDTO.setIsActiveYn(rs.getString("is_active_yn"));
+				deptDTO.setDeptLoc(rs.getString("dept_loc"));
+			}
+
+		} finally {
+			DBConnection.close(rs, pstmt, con);
+		}
+
+		return deptDTO;
+	}
 
 	/**
 	 * 진료과 목록 정보 조회
