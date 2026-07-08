@@ -229,6 +229,11 @@
 	z-index: 0;
 }
 
+.doctor-photo-preview.has-image::before,
+.doctor-photo-preview.has-image::after {
+	display: none;
+}
+
 .doctor-photo-text {
 	position: absolute;
 	inset: 0;
@@ -806,6 +811,7 @@
 	function setPreviewImage(targetId, imageUrl) {
 		const $target = $('#' + targetId);
 		$target.css('background-image', 'url(' + imageUrl + ')');
+		$target.addClass('has-image');
 		$target.find('.doctor-photo-text').hide();
 	}
 
