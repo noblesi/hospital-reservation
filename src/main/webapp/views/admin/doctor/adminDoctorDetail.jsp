@@ -883,8 +883,6 @@
 											</select>
 											<div></div>
 										</div>
-
-
 										<div class="doctor-field-row">
 											<label class="doctor-label" for="specialty">전문분야</label> 
 											<input 	type="text" class="doctor-input" id="specialty" name="specialty" value="${doctor.specialty}" />
@@ -906,15 +904,6 @@
 											<button type="button" class="doctor-btn doctor-btn-primary" id="thumbUploadBtn">썸네일 사진 등록</button>
 											<input type="file" id="thumbnailUrl" name="thumbnailUrl" accept="image/*" hidden />
 											<input type="hidden" name="currentThumbnailUrl" value="${doctor.thumbnailUrl}" />
-										</div>
-
-										<div class="doctor-photo-item">
-											<div class="doctor-photo-preview" id="detailPreview">
-												<div class="doctor-photo-text">상세 사진</div>
-											</div>
-											<button type="button" class="doctor-btn doctor-btn-primary" id="detailUploadBtn">상세 사진 등록</button>
-											<input type="file" id="detailImageUrl" name="detailImageUrl" accept="image/*" hidden />
-											<input type="hidden" name="currentDetailImageUrl" value="${doctor.detailImageUrl}" />
 										</div>
 									</div>
 								</div>

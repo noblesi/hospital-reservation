@@ -9,8 +9,10 @@ import com.hospital.common.dto.DoctorCareerDTO;
 import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorEducationDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
+import com.hospital.common.util.GetKey;
 
 import kr.co.sist.chipher.DataDecryption;
+import kr.co.sist.chipher.DataEncryption;
 
 
 
@@ -55,15 +57,18 @@ public class AdminDoctorService {
 		
 		DoctorDTO doctorDTO = adminDoctorDAO.selectDoctorDetail(doctorLicenseNoTemp);
 		
-		DataDecryption dd = new DataDecryption(null);
+		DataDecryption dd = new DataDecryption(GetKey.getKey());
 		
 		try {
-			doctorDTO.setName(dd.decrypt(doctorDTO.getName()));
+			//doctorDTO.setName(dd.decrypt(doctorDTO.getName()));
+			doctorDTO.setPhoneNum(dd.decrypt(doctorDTO.getPhoneNum()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		adminDoctorFormDTO.setDoctorDTO(adminDoctorDAO.selectDoctorDetail(doctorLicenseNoTemp));
+		//adminDoctorFormDTO.setDoctorDTO(adminDoctorDAO.selectDoctorDetail(doctorLicenseNoTemp));
+		adminDoctorFormDTO.setDoctorDTO(doctorDTO);
+		
 		adminDoctorFormDTO.setCareerList(adminDoctorDAO.selectDoctorCareerList(doctorLicenseNoTemp));
 		adminDoctorFormDTO.setDepartmentList(adminDepartmentDAO.selectDepartmentList());
 		adminDoctorFormDTO.setEducationList(adminDoctorDAO.selectDoctorEducationList(doctorLicenseNoTemp));
@@ -81,6 +86,16 @@ public class AdminDoctorService {
 		boolean successFlag = false;
 		int successCnt = 0 ;
 		AdminDoctorFormDTO adminDoctorFormDTO = formDTO;
+		
+		DataEncryption de = new DataEncryption(GetKey.getKey());
+		
+		DoctorDTO doctorDTO = adminDoctorFormDTO.getDoctorDTO();
+		try {
+			doctorDTO.setPhoneNum(de.encrypt(doctorDTO.getPhoneNum()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		adminDoctorFormDTO.setDoctorDTO(doctorDTO);
 		successCnt = adminDoctorDAO.insertDoctor(adminDoctorFormDTO);
 		if(successCnt > 0) {
 			successFlag = true;
@@ -93,6 +108,18 @@ public class AdminDoctorService {
 		boolean successFlag = false;
 		int successCnt = 0 ;
 		AdminDoctorFormDTO adminDoctorFormDTO = formDTO;
+		
+		DataEncryption de = new DataEncryption(GetKey.getKey());
+		DoctorDTO doctorDTO = adminDoctorFormDTO.getDoctorDTO();
+		
+		try {
+			doctorDTO.setPhoneNum(de.encrypt(doctorDTO.getPhoneNum()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		adminDoctorFormDTO.setDoctorDTO(doctorDTO);
+		
+		
 		successCnt = adminDoctorDAO.updateDoctor(adminDoctorFormDTO.getDoctorDTO());
 		int doctorLicenseNo = adminDoctorFormDTO.getDoctorDTO().getDoctorLicenseNo();
 		List<DoctorCareerDTO> originCareerList = adminDoctorDAO.selectDoctorCareerList(doctorLicenseNo);
