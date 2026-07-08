@@ -26,6 +26,7 @@
 		window.hospitalAppointmentConfig = {
 			ajaxUrl: "${appointmentAjaxUrl}",
 			processUrl: "${appointmentProcessUrl}",
+			appointmentNo: "${param.appointmentNo}",
 			contextPath: "${pageContext.request.contextPath}"
 		};
 	</script>
@@ -151,7 +152,7 @@
 
 		<div class="lastConfirmDiv">
 			<div class="lastConfirmHeader">
-				<h2 class="lastConfirmHeaderTitle"><span class="userName">회원</span>님 진료 예약하시겠습니까?</h2>
+				<h2 class="lastConfirmHeaderTitle"><span class="userName"><c:out value="${ loginUser.name }"/> 회원</span>님 진료 예약하시겠습니까?</h2>
 				<button class="modalXBtn">
 					<i class="bi bi-x-lg xIcon"></i>
 				</button>
