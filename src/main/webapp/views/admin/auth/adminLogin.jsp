@@ -180,7 +180,7 @@ body{
 				<c:remove var="adminLoginMessage" scope="session" />
 			</c:if>
 
-			<form class="admin-login-form" action="<c:url value='/admin/login/process.do' />" method="post">
+			<form class="admin-login-form" action="${pageContext.request.contextPath}/admin/login/process.do" method="post">
 				<label for="adminId">아이디</label>
 				<input type="text" id="adminId" name="adminId" autocomplete="username" autofocus>
 

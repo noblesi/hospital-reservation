@@ -58,26 +58,6 @@ public class AdminAppointmentService {
         return PaginationUtil.create(searchDTO.getCurrentPage(), totalCount, searchDTO.getPageScale());
     }
 
-    // 예약 승인 처리
-    public boolean approveAppointment(int appointmentNo) {
-        return approveAppointment(String.valueOf(appointmentNo));
-    }
-
-    // 예약 승인 처리
-    public boolean approveAppointment(String appointmentNo) {
-        return adminAppointmentDAO.updateAppointmentStatus(appointmentNo, "예약완료") > 0;
-    }
-
-    // 예약 취소 처리
-    public boolean cancelAppointment(int appointmentNo) {
-        return cancelAppointment(String.valueOf(appointmentNo));
-    }
-
-    // 예약 취소 처리
-    public boolean cancelAppointment(String appointmentNo) {
-        return adminAppointmentDAO.updateAppointmentStatus(appointmentNo, "예약취소") > 0;
-    }
-
     // 예약 상태 변경 처리
     public boolean changeAppointmentStatus(int appointmentNo, String status) {
         return changeAppointmentStatus(String.valueOf(appointmentNo), status);
@@ -130,8 +110,7 @@ public class AdminAppointmentService {
 
     private boolean isSupportedStatus(String status) {
         return "예약대기".equals(status)
-                || "예약완료".equals(status)
-                || "예약취소".equals(status);
+                || "예약완료".equals(status);
     }
 
     public static class AdminAppointmentPage {

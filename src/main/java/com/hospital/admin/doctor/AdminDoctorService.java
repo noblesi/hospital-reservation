@@ -76,8 +76,7 @@ public class AdminDoctorService {
 		adminDoctorFormDTO.setPositionList(adminDoctorDAO.selectDoctorPostionAllList());
 		adminDoctorFormDTO.setStatusList(adminDoctorDAO.selectDoctorStatusAllList());
 		adminDoctorFormDTO.setProfileImageFileName(adminDoctorDAO.selectDoctorDetail(doctorLicenseNoTemp).getThumbnailUrl());
-		adminDoctorFormDTO.setDetailImageFileName(adminDoctorDAO.selectDoctorDetail(doctorLicenseNoTemp).getDetailImageUrl());
-		
+
 		return adminDoctorFormDTO;
 	}
 	

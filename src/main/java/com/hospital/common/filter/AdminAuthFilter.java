@@ -39,7 +39,7 @@ public class AdminAuthFilter implements Filter {
 
 		HttpSession session = httpRequest.getSession();
 		session.setAttribute("adminLoginMessage", "관리자 로그인 후 이용해 주세요.");
-		httpResponse.sendRedirect(httpRequest.getContextPath() + "/views/admin/auth/adminLogin.jsp");
+		redirect(httpRequest, httpResponse, "/views/admin/auth/adminLogin.jsp");
 	}
 
 	@Override
@@ -67,5 +67,9 @@ public class AdminAuthFilter implements Filter {
 
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+	}
+
+	private void redirect(HttpServletRequest request, HttpServletResponse response, String path) throws IOException {
+		response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + path));
 	}
 }

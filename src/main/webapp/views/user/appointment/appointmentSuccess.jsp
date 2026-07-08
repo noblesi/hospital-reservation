@@ -34,7 +34,10 @@
 		
 		/* 예약 취소 */
 		$(".cancelAppointBtn").on("click", function() {
-			location.href = "${pageContext.request.contextPath}/appointment/cancel.do?appointmentNo=${uacDTO.appointmentNo}";
+			if(confirm("예약을 취소하시겠습니까?")) {
+				location.href = "${pageContext.request.contextPath}/appointment/cancel.do?appointmentNo=${uacDTO.appointmentNo}";
+				return;
+			}
 		});
 	});
 </script>
