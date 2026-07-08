@@ -47,18 +47,10 @@
             <nav class="user-gnb" aria-label="사용자 주요 메뉴">
                 <ul>
                     <li class="${activeMenu eq 'treatment' ? 'active' : ''}">
-                        <a href="<c:url value='/appointment/reserve.do' />">진료안내</a>
-                        <div class="user-gnb-submenu">
-                            <a href="<c:url value='/appointment/reserve.do' />">진료과 안내</a>
-                            <a href="<c:url value='/appointment/reserve.do' />">의료진 소개</a>
-                        </div>
+                        <a href="<c:url value='/appointment/reserve.do' />">의료진소개</a>
                     </li>
                     <li class="${activeMenu eq 'guide' ? 'active' : ''}">
-                        <a href="<c:url value='/appointment/reserve.do' />">이용안내</a>
-                        <div class="user-gnb-submenu">
-                            <a href="<c:url value='/appointment/reserve.do' />">진료 예약</a>
-                            <a href="<c:url value='/member/mypage.do' />">예약 내역</a>
-                        </div>
+                        <a href="<c:url value='/appointment/reserve.do' />">진료 예약</a>
                     </li>
                     <li class="${activeMenu eq 'hospital' ? 'active' : ''}">
                         <a href="<c:url value='/views/user/hospital/intro.jsp' />">병원소개</a>
@@ -79,12 +71,10 @@
 
                 <div class="user-all-menu-grid">
                     <section>
-                        <a href="<c:url value='/appointment/reserve.do' />">진료과 안내</a>
-                        <a href="<c:url value='/appointment/reserve.do' />">의료진 소개</a>
+                        <a href="<c:url value='/appointment/reserve.do' />">의료진소개</a>
                     </section>
                     <section>
                         <a href="<c:url value='/appointment/reserve.do' />">진료 예약</a>
-                        <a href="<c:url value='/member/mypage.do' />">예약 내역</a>
                     </section>
                     <section>
                         <a href="<c:url value='/views/user/hospital/intro.jsp' />">병원 소개</a>
