@@ -103,7 +103,7 @@
 					<tr>
 						<td rowspan="3">
 							<a href="<c:url value='/doctor/doctorInfo.do?dln=${ docDTO.doctorLicenseNo }'/>" class="aDoctorList" >
-								<img name="thumbnail[]" class="thumbnail" src="../resources/images/doctors/${ docDTO.thumbnailUrl }"/>
+								<img name="thumbnail[]" class="thumbnail" src="<c:url value='/resources/images/doctors/${ docDTO.thumbnailUrl }' />"/>
 							</a>
 						</td>
 						<td>
@@ -126,7 +126,7 @@
 		</div>
 		<div id="deptLoc">
 			<div style="text-align: center; font-size: 30px; margin-top: 20px;"><strong>위치 안내</strong></div>
-			<img class="loc" src="../resources/images/department/loc/${ departmentDTO.deptNo }_loc.jpg"/>
+			<img class="loc" src="<c:url value='/resources/images/department/loc/${ departmentDTO.deptNo }_loc.jpg' />"/>
 		</div>
 	</main>
 

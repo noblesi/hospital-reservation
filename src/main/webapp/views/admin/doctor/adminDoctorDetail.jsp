@@ -516,24 +516,12 @@
 			$('#thumbnailUrl').trigger('click');
 		});
 
-		$('#detailUploadBtn').click(function() {
-			$('#detailImageUrl').trigger('click');
-		});
-		
-
 		$('#thumbnailUrl').change(function() {
 			previewImage(this, 'thumbPreview');
 		});
 
-		$('#detailImageUrl').change(function() {
-			previewImage(this, 'detailPreview');
-		});
-
 		<c:if test="${not empty doctor.thumbnailUrl}">
 			setPreviewImage('thumbPreview', '<c:url value="/resources/images/doctors/${doctor.thumbnailUrl}" />');
-		</c:if>
-		<c:if test="${not empty doctor.detailImageUrl}">
-			setPreviewImage('detailPreview', '<c:url value="/resources/images/doctors/${doctor.detailImageUrl}" />');
 		</c:if>
 
 		//파라미터값이 존재하는지 여부
