@@ -26,8 +26,14 @@
 		window.hospitalAppointmentConfig = {
 			ajaxUrl: "${appointmentAjaxUrl}",
 			processUrl: "${appointmentProcessUrl}",
-			appointmentNo: "${param.appointmentNo}",
-			contextPath: "${pageContext.request.contextPath}"
+			appointmentNo: "${changeAppointment.appointmentNo}",
+			contextPath: "${pageContext.request.contextPath}",
+			changeAppointment: {
+				deptNo: "${changeAppointment.deptNo}",
+				doctorLicenseNo: "${changeAppointment.doctorLicenseNo}",
+				appointmentDate: "${changeAppointment.appointmentDate}",
+				appointmentTime: "${changeAppointment.appointmentTime}"
+			}
 		};
 	</script>
 	
@@ -42,12 +48,29 @@
 	<div id="mainWrap">
 		<div id="container">
 			<div class="conHeader">
-				<h2 class="title">인터넷 진료 예약</h2>
+				<h2 class="title">
+					<c:choose>
+						<c:when test="${not empty changeAppointment}">인터넷 진료 예약 변경</c:when>
+						<c:otherwise>인터넷 진료 예약</c:otherwise>
+					</c:choose>
+				</h2>
 				<div class="telDiv">
 					<img alt="" src="<c:url value='/resources/images/appointment/tel_icon.png' />" class="telIcon">
 					<strong class="tel">예약센터 1588-0000</strong>
 				</div>
 			</div>
+
+			<c:if test="${not empty changeAppointment}">
+				<div class="rsInfoWrap">
+					<h4 class="rsInfoTitle">현재 예약 정보</h4>
+					<p class="rsInfoElm">진료과 : <span><c:out value="${changeAppointment.deptName}" /></span></p>
+					<p class="rsInfoElm">의료진 : <span><c:out value="${changeAppointment.doctorName}" /></span></p>
+					<p class="rsInfoElm">진료일시 : <span><c:out value="${changeAppointment.appointmentDate} ${changeAppointment.appointmentTime}" /></span></p>
+					<p class="rsInfoElm">요청사항 : <span><c:out value="${changeAppointment.requirement}" /></span></p>
+					<p class="rsInfoElm">새 진료과, 의료진, 날짜와 시간을 선택하면 기존 예약이 변경됩니다.</p>
+				</div>
+				<textarea id="changeRequirementSeed" hidden><c:out value="${changeAppointment.requirement}" /></textarea>
+			</c:if>
 
 			<div class="deptWrap focusBorder">
 				<div class="searchBar">

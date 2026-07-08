@@ -12,7 +12,7 @@
 	<div class="sideBarMain">
 		<ul class="sbmUl">
 			<li class="sbmLi">
-				<a href="${pageContext.request.contextPath}/department/department.do">
+				<a href="${pageContext.request.contextPath}/department/departmentList.do">
 					<span class="sbmTitle">진료과</span>
 					<i class="bi bi-chevron-right crIcon"></i>
 				</a>

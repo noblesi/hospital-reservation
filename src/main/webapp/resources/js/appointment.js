@@ -6,6 +6,10 @@ var dln;
 var specialty;
 var appointmentDate;
 var appointmentTime;
+var changeDeptRestored = false;
+var changeDoctorRestored = false;
+var changeDateRestored = false;
+var changeTimeRestored = false;
 
 $(function() {
 	
@@ -59,6 +63,18 @@ function getContextPath() {
 
 function getAppointmentNo() {
     return getAppointmentConfig().appointmentNo || "";
+}
+
+function isChangeMode() {
+    return getAppointmentNo() !== "";
+}
+
+function getChangeAppointment() {
+    return getAppointmentConfig().changeAppointment || {};
+}
+
+function getChangeRequirement() {
+    return $("#changeRequirementSeed").val() || "";
 }
 
 /* UI 및 포커스 제어 함수 */
@@ -222,6 +238,7 @@ function renderCalendar(year, month) {
         data: { action: "schedule", dln: dln, year: year, month: month },
         success: function(data) {
             $(".scheduleCal").html(buildCalendarHtml(data));
+            restoreChangeDate();
         },
         error: function() { console.log("달력 로딩 실패"); }
     });
@@ -232,9 +249,10 @@ function renderTimeTable(selectedDate) {
         url: getAppointmentAjaxUrl(),
         type: "GET",
         dataType: "json",
-        data: { action: "timeTable", date: selectedDate, dln: dln },
+        data: { action: "timeTable", date: selectedDate, dln: dln, appointmentNo: getAppointmentNo() },
         success: function(data) {
             $(".timeTableDiv").html(buildTimeTableHtml(data));
+            restoreChangeTime(selectedDate);
         },
         error: function() { coonsole.log("시간표 로딩 실패"); }
     });
@@ -253,6 +271,7 @@ function handleDeptSort() {
             $(".sliderTrack").html(buildDepartmentHtml(data));
             maxPageLength = $(".slTab").length;
             $(".sliderTrack").css("left", "0px");
+            restoreChangeDepartment();
         },
         error: function() { console.log("통신 실패!"); }
     });
@@ -288,6 +307,7 @@ function handleDeptSelect() {
         data: { action: "doctorList", deptNo: deptNo, deptName: deptName },
         success: function(data) {
             $(".doctorListMain").html(buildDoctorHtml(data));
+            restoreChangeDoctor();
         },
         error: function() { console.log("의사 목록 로딩 실패"); }
     });
@@ -311,6 +331,82 @@ function handleDoctorSearch() {
     });
 }
 
+function restoreChangeDepartment() {
+    if (!isChangeMode() || changeDeptRestored) {
+        return;
+    }
+
+    var change = getChangeAppointment();
+    if (!change.deptNo) {
+        return;
+    }
+
+    var $deptRadio = $(".deptRadio[value='" + change.deptNo + "']");
+    if ($deptRadio.length === 0) {
+        return;
+    }
+
+    changeDeptRestored = true;
+    $deptRadio.prop("checked", true).trigger("click");
+}
+
+function restoreChangeDoctor() {
+    if (!isChangeMode() || !changeDeptRestored || changeDoctorRestored) {
+        return;
+    }
+
+    var change = getChangeAppointment();
+    if (!change.doctorLicenseNo) {
+        return;
+    }
+
+    var $doctorBtn = $(".selectDoctorBtn[value='" + change.doctorLicenseNo + "']");
+    if ($doctorBtn.length === 0) {
+        return;
+    }
+
+    changeDoctorRestored = true;
+    $doctorBtn.trigger("click");
+}
+
+function restoreChangeDate() {
+    if (!isChangeMode() || !changeDoctorRestored || changeDateRestored) {
+        return;
+    }
+
+    var change = getChangeAppointment();
+    if (!change.appointmentDate) {
+        return;
+    }
+
+    var $date = $(".available[data-date='" + change.appointmentDate + "']");
+    if ($date.length === 0) {
+        return;
+    }
+
+    changeDateRestored = true;
+    $date.trigger("click");
+}
+
+function restoreChangeTime(selectedDate) {
+    if (!isChangeMode() || !changeDateRestored || changeTimeRestored) {
+        return;
+    }
+
+    var change = getChangeAppointment();
+    if (selectedDate !== change.appointmentDate || !change.appointmentTime) {
+        return;
+    }
+
+    $(".timeTableLi").each(function() {
+        if ($.trim($(this).text()) === $.trim(change.appointmentTime)) {
+            changeTimeRestored = true;
+            $(this).trigger("click");
+            return false;
+        }
+    });
+}
+
 function handleDoctorSelect() {
     $(".selectDoctorBtn").removeClass("selectedBtn");
     $(".doctorThumnail").removeAttr("style");
@@ -331,7 +427,13 @@ function handleDoctorSelect() {
     $("#apptDln").val(dln);
     specialty = $(this).closest(".doctorLi").find(".specialty").text();
 
-    renderCalendar();
+    var change = getChangeAppointment();
+    if (isChangeMode() && !changeDateRestored && change.appointmentDate) {
+        var dateParts = change.appointmentDate.split("-");
+        renderCalendar(Number(dateParts[0]), Number(dateParts[1]));
+    } else {
+        renderCalendar();
+    }
 
     var doctorName = $(this).closest(".doctorLi").find(".doctorName").text().trim();
     $(".rsInfoDoctor").text(doctorName);
@@ -384,6 +486,10 @@ function handleAppointSubmit() {
     if (dln == null || dln == "")             { alert("의료진을 선택해 주세요");   return; }
     if (appointmentDate == null || appointmentDate == "") { alert("예약 날짜를 선택해 주세요"); return; }
     if (appointmentTime == null || appointmentTime == "") { alert("예약 시간을 선택해 주세요"); return; }
+
+    if (isChangeMode() && $("#requireTa").val().trim() == "") {
+        $("#requireTa").val(getChangeRequirement());
+    }
 
     $(".modalDept").text(deptName);
     $(".madalDoctorName").text($(".rsInfoDoctor").text());
