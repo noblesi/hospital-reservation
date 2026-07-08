@@ -11,7 +11,7 @@
 					</div>
 
 					<div class="footer-badges" aria-label="병원 이용 안내">
-						<span>진료예약 안내</span>
+						<span>진료 예약 안내</span>
 						<span>고객센터</span>
 						<span>개인정보 처리방침</span>
 					</div>

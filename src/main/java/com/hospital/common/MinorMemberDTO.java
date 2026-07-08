@@ -17,12 +17,10 @@ import lombok.ToString;
 @Getter
 @ToString
 public class MinorMemberDTO {
-	/** 보호자 회원과 연결되는 환자번호 */
+	
 	private String patientNo;
-	/** 보호자와 미성년자의 관계 */
 	private String relationship;
-	/** 미성년자 이름 */
 	private String minorName;
-	/** 미성년자 생년월일 */
 	private Date minorBirthDate;
+	private String minorGenderFm;
 }//MinorMemberDTO

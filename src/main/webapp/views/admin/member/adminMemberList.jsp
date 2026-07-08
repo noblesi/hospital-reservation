@@ -63,7 +63,7 @@
                             <tr>
                                 <td><c:out value="${member.patientNo}" /></td>
                                 <td><c:out value="${member.loginId}" /></td>
-                                <td class="text-left">
+                                <td>
                                     <c:url var="memberDetailUrl" value="/admin/member/detail">
                                         <c:param name="patientNo" value="${member.patientNo}" />
                                     </c:url>

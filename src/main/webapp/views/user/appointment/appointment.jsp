@@ -5,16 +5,16 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>한국중앙병원 | 진료예약</title>
+	<title>한국중앙병원 | 진료 예약</title>
 
-	<!-- Bootsctrap CDN -->
+	<!-- Bootstrap CDN -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
 	<!-- 외부 CSS -->
 	<link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
-	<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointment.css' />">
+	<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointment.css?v=${initParam.assetVersion}' />">
 	<link rel="stylesheet" href="<c:url value='/resources/css/appointment/appointmentSidebar.css' />">
 
 	<!-- jQuery CDN -->
@@ -25,7 +25,8 @@
 	<script>
 		window.hospitalAppointmentConfig = {
 			ajaxUrl: "${appointmentAjaxUrl}",
-			processUrl: "${appointmentProcessUrl}"
+			processUrl: "${appointmentProcessUrl}",
+			contextPath: "${pageContext.request.contextPath}"
 		};
 	</script>
 	
@@ -35,13 +36,12 @@
 <body>
 	<jsp:include page="/views/common/userHeader.jsp" />
 	<jsp:include page="/views/common/userBreadcrumb.jsp" />
-	<jsp:include page="/views/common/message.jsp" />
 	<jsp:include page="/views/user/appointment/appointmentSidebar.jsp" />
 
 	<div id="mainWrap">
 		<div id="container">
 			<div class="conHeader">
-				<h2 class="title">인터넷 진료예약</h2>
+				<h2 class="title">인터넷 진료 예약</h2>
 				<div class="telDiv">
 					<img alt="" src="<c:url value='/resources/images/appointment/tel_icon.png' />" class="telIcon">
 					<strong class="tel">예약센터 1588-0000</strong>
@@ -59,7 +59,7 @@
 						</form>
 					</div>
 					<div class="dNameInputDiv">
-						<input type="text" placeholder="질병명 또는 의료진명" id="dNameInput">
+						<input type="text" placeholder="질병명 또는 의료진명" id="dNameInput" maxlength="30">
 						<button id="searchBtn">
 							<i class="bi bi-search searchIcon"></i>
 						</button>
@@ -80,7 +80,7 @@
 			</div>
 
 			<div class="rsInfoWrap">
-				<h4 class="rsInfoTitle">예약하실 정보확인</h4>
+				<h4 class="rsInfoTitle">예약 정보 확인</h4>
 				<p class="rsInfoElm">환자명 : <span class="rsInfoName"><c:out value="${ loginUser.name }"/></span></p>
 				<p class="rsInfoElm">진료과 : <span class="rsInfoDept"></span></p>
 				<p class="rsInfoElm">의료진 : <span class="rsInfoDoctor"></span></p>
@@ -98,14 +98,14 @@
 
 			<div class="scheduleDiv">
 				<div class="scheduleCalDiv">
-					<h2 class="scheduleCalTitle">진료일정</h2>
+					<h2 class="scheduleCalTitle">진료 일정</h2>
 					<p class="result">
-						의료진을 선택하시면<br> 진료일정을 확인 하실 수<br> 있습니다.
+						의료진을 선택하시면<br> 진료 일정을 확인하실 수<br> 있습니다.
 					</p>
 					<div class="scheduleCal"></div>
 					<div class="timeTableDiv"></div>
 				</div>
-				<button id="appointBtn">예약확정하기</button>
+				<button id="appointBtn">예약 확정하기</button>
 			</div>
 		</div>
 	</div>
@@ -124,7 +124,7 @@
 						<i class="bi bi-exclamation-circle exclamationIcon specialtyBlue"></i>
 						<h1 class="specialtyTitle"><span class="specialtyBlue">세부전공</span>을 <span class="specialtyBlue">확인</span> 해 주십시오.</h1>
 						<p class="specialtyNotice">
-							※ 정확히 선택하기 어려운 경우, 예약센터(1588-0000)로 문의후 예약<br>
+							※ 정확히 선택하기 어려운 경우, 예약센터(1588-0000)로 문의 후 예약<br>
 							<span class="warning">※ 진료 분야가 맞지 않게 예약된 경우, 진료를 받을 수 없습니다.</span>
 						</p>
 					</div>
@@ -136,7 +136,7 @@
 					</div>
 					<div class="inputRequireDiv">
 						<p class="inputDescript">아래 아프거나 불편하신 사항을 적어주세요.</p>
-						<textarea id="requireTa" placeholder="아프신 곳을 적어주세요."></textarea>
+						<textarea id="requireTa" placeholder="아프신 곳을 적어주세요." maxlength="500"></textarea>
 					</div>
 					<div class="checkBar">
 						<div class="checkDiv">
@@ -151,7 +151,7 @@
 
 		<div class="lastConfirmDiv">
 			<div class="lastConfirmHeader">
-				<h2 class="lastConfirmHeaderTitle"><span class="userName">회원</span>님 진료예약하시겠습니까?</h2>
+				<h2 class="lastConfirmHeaderTitle"><span class="userName">회원</span>님 진료 예약하시겠습니까?</h2>
 				<button class="modalXBtn">
 					<i class="bi bi-x-lg xIcon"></i>
 				</button>

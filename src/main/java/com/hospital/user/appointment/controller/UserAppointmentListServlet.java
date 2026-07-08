@@ -20,11 +20,11 @@ public class UserAppointmentListServlet extends HttpServlet {
 		
 		String patientNo = UserAppointmentSessionUtil.getLoginPatientNo(request);
 		if (UserAppointmentSessionUtil.isBlank(patientNo)) {
-			response.sendRedirect(request.getContextPath() + "/member/login.do");
+			response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
 			return;
 		}
 
-		request.setAttribute("activeMenu", "hospital");
+		request.setAttribute("activeMenu", "guide");
 		request.setAttribute("depth1", "진료안내");
 		request.setAttribute("depth2", "예약확인");
 		request.setAttribute("uasDTOList", userAppointmentService.searchAppointmentDetail(patientNo));

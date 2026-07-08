@@ -28,22 +28,22 @@
 
             <section class="dashboard-summary-grid" aria-label="예약 요약">
                 <article class="dashboard-summary-card">
-                    <strong>오늘 예약건수</strong>
+                    <strong>오늘 예약 건수</strong>
                     <span>${dashboardSummary.todayAppointmentCount}</span>
                     <em>취소를 제외한 오늘 진료 예약</em>
                 </article>
                 <article class="dashboard-summary-card">
-                    <strong>진행 예약건수</strong>
+                    <strong>진행 예약 건수</strong>
                     <span>${dashboardSummary.pendingAppointmentCount}</span>
-                    <em>진료완료/예약취소 전 예약</em>
+                    <em>진료 완료/예약 취소 전 예약</em>
                 </article>
                 <article class="dashboard-summary-card">
-                    <strong>진료완료건수</strong>
+                    <strong>진료 완료 건수</strong>
                     <span>${dashboardSummary.completedTreatmentCount}</span>
                     <em>완료율 ${dashboardSummary.completionRate}%</em>
                 </article>
                 <article class="dashboard-summary-card">
-                    <strong>예약취소건수</strong>
+                    <strong>예약 취소 건수</strong>
                     <span>${dashboardSummary.cancelledAppointmentCount}</span>
                     <em>전체 예약 중 취소 누적 건수</em>
                 </article>
@@ -52,11 +52,11 @@
             <section class="dashboard-chart-grid" aria-label="예약 현황 그래프">
                 <article class="admin-card dashboard-chart-card">
                     <div class="admin-section-title">
-                        <h3>월별 예약현황</h3>
+                        <h3>월별 예약 현황</h3>
                         <span>올해 기준</span>
                     </div>
 
-                    <div class="monthly-chart" aria-label="월별 예약현황 막대 그래프">
+                    <div class="monthly-chart" aria-label="월별 예약 현황 막대 그래프">
                         <c:forEach var="month" items="${monthlyAppointmentStatus}">
                             <div class="monthly-chart-item">
                                 <div class="monthly-chart-bar-area">
@@ -71,11 +71,11 @@
 
                 <article class="admin-card dashboard-chart-card">
                     <div class="admin-section-title">
-                        <h3>요일별 예약현황</h3>
+                        <h3>요일별 예약 현황</h3>
                         <span>올해 기준</span>
                     </div>
 
-                    <div class="weekday-chart" aria-label="요일별 예약현황 막대 그래프">
+                    <div class="weekday-chart" aria-label="요일별 예약 현황 막대 그래프">
                         <c:forEach var="weekday" items="${weekdayAppointmentStatus}">
                             <div class="weekday-chart-item">
                                 <strong>${weekday.label}</strong>

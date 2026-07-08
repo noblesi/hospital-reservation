@@ -52,7 +52,7 @@ public class MemberResetPasswordProcessServlet extends HttpServlet {
 		if(updated) {
 			request.getSession().removeAttribute("resetLoginId");
 			request.getSession().setAttribute("loginMessage", "비밀번호가 변경되었습니다.");
-			response.sendRedirect(request.getContextPath() + "/member/login.do");
+			response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
 			return;
 		}//end if
 

@@ -21,7 +21,7 @@ public class UserAppointmentSuccessServlet extends HttpServlet {
 		
 		String patientNo = UserAppointmentSessionUtil.getLoginPatientNo(request);
 		if (UserAppointmentSessionUtil.isBlank(patientNo)) {
-			response.sendRedirect(request.getContextPath() + "/member/login.do");
+			response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
 			return;
 		}
 
@@ -33,7 +33,7 @@ public class UserAppointmentSuccessServlet extends HttpServlet {
 			return;
 		}
 
-		request.setAttribute("activeMenu", "hospital");
+		request.setAttribute("activeMenu", "guide");
 		request.setAttribute("depth1", "진료안내");
 		request.setAttribute("depth2", "인터넷 진료예약");
 		request.setAttribute("uacDTO", appointment);

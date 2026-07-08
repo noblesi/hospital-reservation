@@ -1,0 +1,248 @@
+#mainWrap {
+	width: var(--user-page-width);
+	min-height: 760px;
+	margin: 0 auto;
+	padding: 58px 0 90px;
+}
+
+#content {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 360px;
+	gap: 42px;
+	align-items: stretch;
+	padding: 34px;
+	border: 1px solid #dfe8f4;
+	border-radius: 8px;
+	background-color: #f7fbff;
+	box-shadow: 0 10px 28px rgba(17, 42, 78, 0.07);
+}
+
+.hidden {
+	display: none;
+}
+
+.subWrap {
+	min-width: 0;
+}
+
+.contentTop {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding-bottom: 20px;
+	border-bottom: 2px solid #2763ba;
+}
+
+.name {
+	margin: 0;
+	color: #071b3a;
+	font-size: 34px;
+	font-weight: 800;
+	line-height: 1.25;
+}
+
+.deptName {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 38px;
+	padding: 0 18px;
+	border-radius: 999px;
+	background-color: #2763ba;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 800;
+	white-space: nowrap;
+}
+
+.contentMain {
+	padding-top: 26px;
+}
+
+.position {
+	display: block;
+	margin-bottom: 8px;
+	color: #34445f;
+	font-size: 17px;
+	font-weight: 800;
+}
+
+.major {
+	display: block;
+	color: #59677d;
+	font-size: 15px;
+	line-height: 1.6;
+}
+
+.timeTableDiv {
+	margin-top: 30px;
+}
+
+.tableTitle {
+	display: block;
+	margin-bottom: 12px;
+	color: #071b3a;
+	font-size: 20px;
+	font-weight: 800;
+}
+
+.timeTableScroll {
+	overflow-x: auto;
+}
+
+.timeTable {
+	width: 100%;
+	min-width: 620px;
+	border-collapse: collapse;
+	background-color: #fff;
+	text-align: center;
+	font-weight: 500;
+}
+
+.typeTd {
+	width: 120px;
+}
+
+.ampm {
+	background-color: #f1f5fa;
+	color: #34445f;
+	font-weight: 800;
+}
+
+.timeTable td,
+.timeTable th {
+	height: 50px;
+	border: 1px solid #dbe4f0;
+}
+
+.timeTable th {
+	background-color: #26364c;
+	color: #fff;
+	font-weight: 700;
+}
+
+.treatTime {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	background-color: #2763ba;
+}
+
+.doctorImg {
+	width: 100%;
+	height: 100%;
+	min-height: 430px;
+	max-height: 520px;
+	border-radius: 8px;
+	object-fit: cover;
+	background-color: #fff;
+	box-shadow: 0 10px 24px rgba(17, 42, 78, 0.08);
+}
+
+/* 의료진 소개 / 학력,경력 */
+#content2 {
+	margin-top: 34px;
+	border: 1px solid #dfe8f4;
+	border-radius: 8px;
+	background-color: #fff;
+	box-shadow: 0 10px 28px rgba(17, 42, 78, 0.06);
+}
+
+.doctorTabButtons {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	border-bottom: 1px solid #dfe8f4;
+}
+
+.introBtn,
+.careerBtn {
+	height: 48px;
+	border: 0;
+	background-color: #f7f9fc;
+	color: #34445f;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.checked {
+	background-color: #2763ba;
+	color: #fff;
+}
+
+.introDiv,
+.careerDiv {
+	padding: 32px;
+	color: #34445f;
+	line-height: 1.8;
+}
+
+.introTitle {
+	display: inline-flex;
+	align-items: center;
+	margin-bottom: 14px;
+	color: #2763ba;
+	font-size: 18px;
+	font-weight: 800;
+}
+
+.introContent,
+.careerDiv ul {
+	margin: 0 0 24px;
+}
+
+.careerDiv li {
+	margin-bottom: 6px;
+}
+
+.bi-stop-circle-fill {
+	margin-right: 6px;
+}
+
+@media (max-width: 900px) {
+	#mainWrap {
+		padding: 44px 0 76px;
+	}
+
+	#content {
+		grid-template-columns: 1fr;
+		gap: 28px;
+		padding: 28px;
+	}
+
+	.doctorImg {
+		order: -1;
+		min-height: 360px;
+		max-height: 460px;
+	}
+}
+
+@media (max-width: 640px) {
+	#mainWrap {
+		width: 94vw;
+		padding: 36px 0 64px;
+	}
+
+	#content {
+		padding: 20px;
+	}
+
+	.contentTop {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.name {
+		font-size: 28px;
+	}
+
+	.doctorImg {
+		min-height: 300px;
+	}
+
+	.introDiv,
+	.careerDiv {
+		padding: 24px;
+	}
+}

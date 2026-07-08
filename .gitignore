@@ -13,3 +13,8 @@
 Thumbs.db
 *.tmp
 *.bak
+*.toml
+
+# Codex local instructions / config
+AGENTS.md
+config.toml

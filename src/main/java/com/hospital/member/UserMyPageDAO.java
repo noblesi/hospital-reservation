@@ -319,7 +319,8 @@ public class UserMyPageDAO {
 
 			sql.append(" UPDATE appointment ")
 			   .append(" SET status = '예약취소', ")
-			   .append("     canceled_at = SYSDATE ")
+			   .append("     canceled_at = SYSDATE, ")
+			   .append("     active_slot_key = null ")
 			   .append(" WHERE appointment_no = ? ")
 			   .append(" AND patient_no = ? ")
 			   .append(" AND NVL(TRIM(status), ' ') <> '예약취소' ");

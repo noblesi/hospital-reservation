@@ -30,7 +30,7 @@ public class MemberLoginProcessServlet extends HttpServlet {
 
 		if(loginId == null || password == null || "".equals(loginId.trim()) || "".equals(password.trim())) {
 			request.getSession().setAttribute("loginMessage", "아이디 또는 비밀번호를 입력해주세요.");
-			response.sendRedirect(request.getContextPath() + "/member/login.do");
+			response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
 			return;
 		}//end if
 
@@ -43,11 +43,11 @@ public class MemberLoginProcessServlet extends HttpServlet {
 		}//end if
 
 		request.getSession().setAttribute("loginMessage", "아이디 또는 비밀번호를 확인해주세요.");
-		response.sendRedirect(request.getContextPath() + "/member/login.do");
+		response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
 	}//doPost
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect(request.getContextPath() + "/member/login.do");
+		response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
 	}//doGet
 }//class

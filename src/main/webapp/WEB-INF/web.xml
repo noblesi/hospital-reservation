@@ -16,6 +16,10 @@
     <param-value>20260701</param-value>
   </context-param>
 
+  <listener>
+    <listener-class>com.hospital.admin.appointment.listener.AppointmentStatusSchedulerListener</listener-class>
+  </listener>
+
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
@@ -71,24 +75,6 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>hospitalIntroPage</servlet-name>
-    <jsp-file>/views/user/hospital/intro.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>hospitalIntroPage</servlet-name>
-    <url-pattern>/hospital/intro.do</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>hospitalLocationPage</servlet-name>
-    <jsp-file>/views/user/hospital/location.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>hospitalLocationPage</servlet-name>
-    <url-pattern>/hospital/location.do</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
     <servlet-name>boardListServlet</servlet-name>
     <servlet-class>com.hospital.user.board.controller.BoardListServlet</servlet-class>
   </servlet>
@@ -108,30 +94,12 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>memberLoginPage</servlet-name>
-    <jsp-file>/views/member/login.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>memberLoginPage</servlet-name>
-    <url-pattern>/member/login.do</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
     <servlet-name>memberLoginProcessServlet</servlet-name>
     <servlet-class>com.hospital.member.controller.MemberLoginProcessServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>memberLoginProcessServlet</servlet-name>
     <url-pattern>/member/login/process.do</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>adminLoginPage</servlet-name>
-    <jsp-file>/views/admin/auth/adminLogin.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>adminLoginPage</servlet-name>
-    <url-pattern>/admin/login.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -168,15 +136,6 @@
   <servlet-mapping>
     <servlet-name>memberResetPasswordProcessServlet</servlet-name>
     <url-pattern>/member/reset-password/process.do</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>memberJoinPage</servlet-name>
-    <jsp-file>/views/member/joinType.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>memberJoinPage</servlet-name>
-    <url-pattern>/member/join.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -357,6 +316,16 @@
     <servlet-name>appointmentSuccessServlet</servlet-name>
     <url-pattern>/appointment/success.do</url-pattern>
     <url-pattern>/appointment/appointmentSuccess.jsp</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>doctorInfoServlet</servlet-name>
+    <servlet-class>com.hospital.user.doctor.controller.UserDoctorInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>doctorInfoServlet</servlet-name>
+    <url-pattern>/doctor/doctorInfo.do</url-pattern>
+    <url-pattern>/doctor/doctorInfo.jsp</url-pattern>
   </servlet-mapping>
 
   <servlet>

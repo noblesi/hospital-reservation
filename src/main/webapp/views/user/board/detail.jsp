@@ -28,7 +28,7 @@
                 <h3><c:out value="${boardPost.title}" /></h3>
                 <div class="board-detail-meta">
                     <span>작성자 <c:out value="${boardPost.writerName}" /></span>
-                    <span>등록일 <c:out value="${boardPost.createdAt}" /></span>
+                    <span>등록일 <fmt:formatDate value="${boardPost.createdAt}" pattern="yyyy-MM-dd HH:mm" /></span>
                     <span>조회 <c:out value="${boardPost.viewCount}" /></span>
                 </div>
             </header>

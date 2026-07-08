@@ -17,6 +17,7 @@ import com.hospital.common.dto.DepartmentDTO;
 import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
 import com.hospital.user.appointment.UserAppointmentService;
+import com.hospital.user.appointment.dto.UserAppointmentOptionDTO;
 
 public class UserAppointmentAjaxServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -45,7 +46,13 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
         }
     }
 
-    // sort - 진료과 목록
+    /**
+     * 진료과 목록에 필요한 데이터를 json으로 출력
+     * 
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     private void renderDepartmentList(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<DepartmentDTO> departmentList = new ArrayList<>(userAppointmentService.searchDepartmentList());
 
@@ -65,19 +72,33 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
                 .append("}");
         }
         json.append("]");
+        
         response.getWriter().print(json);
     }
 
-    // searchDoctor - 의사 검색
+    /**
+     * 의료진 검색에 필요한 데이터를 json 으로 출력
+     * 
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     private void renderDoctorSearch(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String keyword = request.getParameter("keyword");
-        List<DoctorDTO> doctorList = userAppointmentService.searchDoctorListByKeyword(keyword);
-        renderDoctorJson(response, doctorList, null);
+        List<UserAppointmentOptionDTO> doctorList = userAppointmentService.searchDoctorListByKeyword(keyword);
+        renderDoctorJson(response, doctorList);
     }
 
-    // doctorList - 진료과별 의사 목록
+    /**
+     * 진료과별 의료진 목록에 필요한 데이터를 json 으로 전송
+     * 
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     private void renderDoctorList(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String deptNo = request.getParameter("deptNo");
+        
         if (UserAppointmentSessionUtil.isBlank(deptNo)) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
@@ -87,6 +108,14 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
         renderDoctorJson(response, doctorList, request.getParameter("deptName"));
     }
 
+    /**
+     * 키워드 검색과 진료과별 검색에 중복되는 코드 분리
+     * 
+     * @param response
+     * @param doctorList
+     * @param deptName
+     * @throws IOException
+     */
     private void renderDoctorJson(HttpServletResponse response, List<DoctorDTO> doctorList, String deptName)
             throws IOException {
         StringBuilder json = new StringBuilder("{");
@@ -106,8 +135,36 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
         json.append("]}");
         response.getWriter().print(json);
     }
+    
+    private void renderDoctorJson(HttpServletResponse response, List<UserAppointmentOptionDTO> uaoDTOList)
+            throws IOException {
+        StringBuilder json = new StringBuilder();
+        json.append("{\"doctors\":[");
 
-    // schedule - 달력
+        for (int i = 0; i < uaoDTOList.size(); i++) {
+            UserAppointmentOptionDTO doctor = uaoDTOList.get(i);
+            if (i > 0) json.append(",");
+            json.append("{")
+                .append("\"doctorLicenseNo\":").append(doctor.getDoctorLicenseNo()).append(",")
+                .append("\"name\":\"").append(escapeJson(doctor.getDoctorName())).append("\",")
+                .append("\"thumbnailUrl\":\"").append(escapeJson(doctor.getThumbnailUrl())).append("\",")
+                .append("\"specialty\":\"").append(escapeJson(doctor.getSpecialty())).append("\",")
+                .append("\"deptName\":\"").append(escapeJson(doctor.getDeptName())).append("\"")
+                .append("}");
+        }
+
+        json.append("]}");
+
+        response.getWriter().print(json);
+    }
+
+    /**
+     * 달력 출력에 필요한 데이터를 json으로 전송.
+     * 
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     private void renderSchedule(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer doctorLicenseNo = parseInt(request.getParameter("dln"));
         if (doctorLicenseNo == null) {
@@ -165,7 +222,13 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
         response.getWriter().print(json);
     }
 
-    // timeTable - 예약 가능 시간
+    /**
+     * 타임 테이블에 필요한 데이터를 json으로 전송.
+     * 
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     private void renderTimeTable(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer doctorLicenseNo = parseInt(request.getParameter("dln"));
         String date = request.getParameter("date");
@@ -194,7 +257,7 @@ public class UserAppointmentAjaxServlet extends HttpServlet {
     // JSON 문자열 이스케이프 (HTML과 별도)
     private String escapeJson(String value) {
         if (value == null) return "";
-        return value
+        return value //
             .replace("\\", "\\\\") //
             .replace("\"", "\\\"") //
             .replace("\n", "\\n") //

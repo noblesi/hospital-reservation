@@ -26,7 +26,7 @@ public class MemberMyPageInfoServlet extends HttpServlet {
 		Boolean verified = (Boolean) request.getSession().getAttribute("userInfoVerified");
 
 		if (loginUser == null) {
-			response.sendRedirect(request.getContextPath() + "/member/login.do");
+			response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
 			return;
 		}// end if
 

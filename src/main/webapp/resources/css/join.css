@@ -9,6 +9,310 @@
     padding:60px 0 110px;
 }
 
+/* 일반회원 약관동의 아코디언 최종 override */
+.joinAgreeAccordion fieldset{
+    border:0;
+    padding:0;
+    margin:0;
+    display:flex;
+    flex-direction:column;
+}
+
+.joinAgreeAccordion fieldset > legend{
+    overflow:hidden;
+    position:absolute;
+    width:1px;
+    height:1px;
+    clip:rect(0, 0, 0, 0);
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox{
+    order:-1;
+    position:relative;
+    display:flex;
+    align-items:center;
+    min-height:86px;
+    padding:20px 60px 20px 62px;
+    margin:0 0 34px;
+    border:0;
+    border-radius:10px;
+    background:#f3f7ff;
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox input{
+    position:absolute;
+    left:24px;
+    top:50%;
+    width:24px;
+    height:24px;
+    transform:translateY(-50%);
+    accent-color:#005fe8;
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox label{
+    margin:0;
+    color:#0b1f4d;
+    font-size:20px;
+    font-weight:800;
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox label::after{
+    content:"필수 및 선택 약관에 모두 동의합니다.";
+    display:block;
+    margin-top:6px;
+    color:#66738a;
+    font-size:14px;
+    font-weight:500;
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox::after{
+    content:"⌄";
+    position:absolute;
+    right:24px;
+    top:50%;
+    color:#1e335f;
+    font-size:26px;
+    transform:translateY(-50%);
+}
+
+.joinAgreeAccordion .persInforWrap{
+    position:relative;
+    margin:0;
+    padding:22px 0 22px 62px;
+    border-bottom:1px solid #e5eaf3;
+}
+
+.joinAgreeAccordion .persInforWrap .contTextWrap{
+    padding-right:130px;
+}
+
+.joinAgreeAccordion .persInforWrap h4{
+    margin:0;
+    color:#0b1f4d;
+    font-size:19px;
+    font-weight:800;
+}
+
+.joinAgreeAccordion .persInforWrap h4::after{
+    content:"약관 내용을 확인해주세요.";
+    display:block;
+    margin-top:6px;
+    color:#6f7b91;
+    font-size:14px;
+    font-weight:500;
+}
+
+.joinAgreeAccordion .persInforWrap .checkWrap{
+    position:absolute;
+    left:14px;
+    top:23px;
+    padding:0;
+    text-align:left;
+}
+
+.joinAgreeAccordion .persInforWrap .checkWrap input{
+    width:22px;
+    height:22px;
+    accent-color:#005fe8;
+}
+
+.joinAgreeAccordion .persInforWrap .checkWrap label{
+    overflow:hidden;
+    position:absolute;
+    width:1px;
+    height:1px;
+    margin:0;
+    clip:rect(0, 0, 0, 0);
+}
+
+.joinAgreeAccordion .agreeToggle{
+    position:absolute;
+    right:0;
+    top:24px;
+    border:0;
+    background:transparent;
+    color:#005fe8;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.joinAgreeAccordion .agreeToggle::after{
+    content:"›";
+    margin-left:8px;
+    font-size:20px;
+    vertical-align:-1px;
+}
+
+.joinAgreeAccordion .persInforWrap.open .agreeToggle::after{
+    content:"⌄";
+    font-size:16px;
+}
+
+.joinAgreeAccordion .scrollBox{
+    display:none;
+    height:220px;
+    margin-top:18px;
+    border-radius:8px;
+}
+
+.joinAgreeAccordion .persInforWrap.open .scrollBox{
+    display:block;
+}
+
+/* =========================
+   STEP02 일반회원 약관동의 아코디언
+========================= */
+.joinAgreeAccordion fieldset{
+    border:0;
+    padding:0;
+    margin:0;
+    display:flex;
+    flex-direction:column;
+}
+
+.joinAgreeAccordion fieldset > legend{
+    overflow:hidden;
+    position:absolute;
+    width:1px;
+    height:1px;
+    clip:rect(0, 0, 0, 0);
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox{
+    order:-1;
+    position:relative;
+    display:flex;
+    align-items:center;
+    min-height:86px;
+    padding:20px 60px 20px 62px;
+    margin:0 0 34px;
+    border:0;
+    border-radius:10px;
+    background:#f3f7ff;
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox input{
+    position:absolute;
+    left:24px;
+    top:50%;
+    width:24px;
+    height:24px;
+    transform:translateY(-50%);
+    accent-color:#005fe8;
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox label{
+    margin:0;
+    color:#0b1f4d;
+    font-size:20px;
+    font-weight:800;
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox label::after{
+    content:"필수 및 선택 약관에 모두 동의합니다.";
+    display:block;
+    margin-top:6px;
+    color:#66738a;
+    font-size:14px;
+    font-weight:500;
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox::after{
+    content:"⌄";
+    position:absolute;
+    right:24px;
+    top:50%;
+    color:#1e335f;
+    font-size:26px;
+    transform:translateY(-50%);
+}
+
+.joinAgreeAccordion .persInforWrap{
+    position:relative;
+    margin:0;
+    padding:22px 0 22px 62px;
+    border-bottom:1px solid #e5eaf3;
+}
+
+.joinAgreeAccordion .persInforWrap .contTextWrap{
+    padding-right:130px;
+}
+
+.joinAgreeAccordion .persInforWrap h4{
+    margin:0;
+    color:#0b1f4d;
+    font-size:19px;
+    font-weight:800;
+}
+
+.joinAgreeAccordion .persInforWrap h4::after{
+    content:"약관 내용을 확인해주세요.";
+    display:block;
+    margin-top:6px;
+    color:#6f7b91;
+    font-size:14px;
+    font-weight:500;
+}
+
+.joinAgreeAccordion .persInforWrap .checkWrap{
+    position:absolute;
+    left:14px;
+    top:23px;
+    padding:0;
+    text-align:left;
+}
+
+.joinAgreeAccordion .persInforWrap .checkWrap input{
+    width:22px;
+    height:22px;
+    accent-color:#005fe8;
+}
+
+.joinAgreeAccordion .persInforWrap .checkWrap label{
+    overflow:hidden;
+    position:absolute;
+    width:1px;
+    height:1px;
+    margin:0;
+    clip:rect(0, 0, 0, 0);
+}
+
+.joinAgreeAccordion .agreeToggle{
+    position:absolute;
+    right:0;
+    top:24px;
+    border:0;
+    background:transparent;
+    color:#005fe8;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.joinAgreeAccordion .agreeToggle::after{
+    content:"›";
+    margin-left:8px;
+    font-size:20px;
+    vertical-align:-1px;
+}
+
+.joinAgreeAccordion .persInforWrap.open .agreeToggle::after{
+    content:"⌄";
+    font-size:16px;
+}
+
+.joinAgreeAccordion .scrollBox{
+    display:none;
+    height:220px;
+    margin-top:18px;
+    border-radius:8px;
+}
+
+.joinAgreeAccordion .persInforWrap.open .scrollBox{
+    display:block;
+}
+
 
 /* 회원가입 화면 제목 영역: 다른 회원 화면과 제목 크기/간격을 통일한다. */
 .contHeadingWrap{
@@ -219,12 +523,28 @@
 
 /* 안내 박스 */
 .joinStepDesc{
+    position:relative;
     padding:30px;
+    padding-right:330px;
     margin-bottom:30px;
     background:#f8f9fc;
     border:1px solid #ddd;
     font-size:16px;
     line-height:1.8;
+}
+
+.joinIntroImage{
+    position:absolute;
+    right:55px;
+    top:30px;
+    width:200px;
+    text-align:center;
+}
+
+.joinIntroImage img{
+    max-width:100%;
+    height:auto;
+    display:block;
 }
 
 .joinStepDesc p{
@@ -681,6 +1001,159 @@
 
 .joinCompleteWrap .btnBig{
     min-width:180px;
+}
+
+/* 일반회원 약관동의 아코디언
+   - joinAgreeCommon.jsp의 joinAgreeAccordion 클래스가 있는 화면에만 적용한다.
+   - 기존 약관 박스 구조는 유지하고, 화면에서는 아코디언 형태로 보이게 정리한다. */
+.joinAgreeAccordion fieldset{
+    border:0;
+    padding:0;
+    margin:0;
+    display:flex;
+    flex-direction:column;
+}
+
+.joinAgreeAccordion fieldset > legend{
+    overflow:hidden;
+    position:absolute;
+    width:1px;
+    height:1px;
+    clip:rect(0, 0, 0, 0);
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox{
+    order:-1;
+    position:relative;
+    display:flex;
+    align-items:center;
+    min-height:86px;
+    padding:20px 60px 20px 62px;
+    margin:0 0 34px;
+    border:0;
+    border-radius:10px;
+    background:#f3f7ff;
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox input{
+    position:absolute;
+    left:24px;
+    top:50%;
+    width:24px;
+    height:24px;
+    transform:translateY(-50%);
+    accent-color:#005fe8;
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox label{
+    margin:0;
+    color:#0b1f4d;
+    font-size:20px;
+    font-weight:800;
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox label::after{
+    content:"필수 및 선택 약관에 모두 동의합니다.";
+    display:block;
+    margin-top:6px;
+    color:#66738a;
+    font-size:14px;
+    font-weight:500;
+}
+
+.joinAgreeAccordion .boxTypeGray.checkAllBox::after{
+    content:"⌄";
+    position:absolute;
+    right:24px;
+    top:50%;
+    color:#1e335f;
+    font-size:26px;
+    transform:translateY(-50%);
+}
+
+.joinAgreeAccordion .persInforWrap{
+    position:relative;
+    margin:0;
+    padding:22px 0 22px 62px;
+    border-bottom:1px solid #e5eaf3;
+}
+
+.joinAgreeAccordion .persInforWrap .contTextWrap{
+    padding-right:130px;
+}
+
+.joinAgreeAccordion .persInforWrap h4{
+    margin:0;
+    color:#0b1f4d;
+    font-size:19px;
+    font-weight:800;
+}
+
+.joinAgreeAccordion .persInforWrap h4::after{
+    content:"약관 내용을 확인해주세요.";
+    display:block;
+    margin-top:6px;
+    color:#6f7b91;
+    font-size:14px;
+    font-weight:500;
+}
+
+.joinAgreeAccordion .persInforWrap .checkWrap{
+    position:absolute;
+    left:14px;
+    top:23px;
+    padding:0;
+    text-align:left;
+}
+
+.joinAgreeAccordion .persInforWrap .checkWrap input{
+    width:22px;
+    height:22px;
+    accent-color:#005fe8;
+}
+
+.joinAgreeAccordion .persInforWrap .checkWrap label{
+    overflow:hidden;
+    position:absolute;
+    width:1px;
+    height:1px;
+    margin:0;
+    clip:rect(0, 0, 0, 0);
+}
+
+.joinAgreeAccordion .agreeToggle{
+    position:absolute;
+    right:0;
+    top:24px;
+    border:0;
+    background:transparent;
+    color:#005fe8;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.joinAgreeAccordion .agreeToggle::after{
+    content:"›";
+    margin-left:8px;
+    font-size:20px;
+    vertical-align:-1px;
+}
+
+.joinAgreeAccordion .persInforWrap.open .agreeToggle::after{
+    content:"⌃";
+    font-size:16px;
+}
+
+.joinAgreeAccordion .scrollBox{
+    display:none;
+    height:220px;
+    margin-top:18px;
+    border-radius:8px;
+}
+
+.joinAgreeAccordion .persInforWrap.open .scrollBox{
+    display:block;
 }
 
 @media (max-width: 900px) {

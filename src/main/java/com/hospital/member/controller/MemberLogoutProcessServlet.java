@@ -25,7 +25,7 @@ public class MemberLogoutProcessServlet extends HttpServlet {
 
 		if (adminLogout) {
 			request.getSession(true).setAttribute("adminLoginMessage", "관리자 로그아웃이 완료되었습니다.");
-			response.sendRedirect(request.getContextPath() + "/admin/login.do");
+			response.sendRedirect(request.getContextPath() + "/views/admin/auth/adminLogin.jsp");
 			return;
 		}
 

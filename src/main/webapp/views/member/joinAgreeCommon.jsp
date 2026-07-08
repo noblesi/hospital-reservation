@@ -19,7 +19,7 @@
 <jsp:include page="/views/common/userHeader.jsp" />
 <jsp:include page="/views/common/userBreadcrumb.jsp" />
 
-<main id="content" class="memJoinContent">
+<main id="content" class="memJoinContent joinAgreeAccordion">
 
     <div class="contHeadingWrap">
         <h2>만 <span class="title">14세 이상</span> 회원가입</h2>
@@ -48,12 +48,15 @@
         <div class="contTextWrap">
             <em>한국중앙병원 홈페이지는 이용을 원하는 모든 분들께 무료로 제공되고 있습니다.</em>
         </div>
-        <p>단, 게시판 글 게재, 민원서비스, 진료예약 등 일부 컨텐츠는 한국중앙병원 온라인 회원에게만 제공하고 있습니다.</p>
+        <p>단, 게시판 글 게재, 민원서비스, 진료 예약 등 일부 콘텐츠는 한국중앙병원 온라인 회원에게만 제공하고 있습니다.</p>
         <p>한국중앙병원의 온라인 회원정책은 <em class="colorPoint">일반회원과 진료회원</em>으로 나뉘어 서비스 되고 있습니다.<br>
         웹회원으로 가입하는 경우, 차후 소정의 절차를 거쳐 진료회원으로 가입할 수 있습니다.</p>
-        <p>진료회원으로 가입하면 인터넷 진료예약 등 보다 다양한 서비스를 이용할 수 있습니다.</p>
+        <p>진료회원으로 가입하면 인터넷 진료 예약 등 보다 다양한 서비스를 이용할 수 있습니다.</p>
         <p>회원 가입을 하시려면 <em class="colorPoint">아래의 약관 및 개인정보 수집이용에 동의해주세요.</em><br>
         회원님의 개인정보보호와 더욱 안정된 서비스를 위해 최선을 다하겠습니다. 감사합니다.</p>
+   		<div class="joinIntroImage">
+       	 	<img src="<c:url value='/resources/images/security/agree_img.png' />" alt="회원가입 안내">
+    	</div>
     </div>
 
     <form>
@@ -86,7 +89,7 @@
                             <p>병원은 필요한 경우 관계 법령을 위배하지 않는 범위에서 약관을 변경할 수 있습니다.</p>
 
                             <strong>제4조 서비스의 내용</strong>
-                            <p>병원은 홈페이지를 통해 병원 안내, 진료예약, 게시판, 기타 병원이 정하는 서비스를 제공합니다.</p>
+                            <p>병원은 홈페이지를 통해 병원 안내, 진료 예약, 게시판, 기타 병원이 정하는 서비스를 제공합니다.</p>
                         </div>
                     </div>
                 </div>
@@ -105,7 +108,7 @@
                 <div class="scrollBox">
                     <div class="innerScroll">
                         <h3>이용목적</h3>
-                        <p>홈페이지 회원관리, 진료예약 등 각종 서비스 제공</p>
+                        <p>홈페이지 회원관리, 진료 예약 등 각종 서비스 제공</p>
 
                         <h3>수집 항목</h3>
                         <ul>
@@ -133,11 +136,11 @@
                 <div class="scrollBox">
                     <div class="innerScroll">
                         <h3>수집목적</h3>
-                        <p>진료예약, 진료내역 조회, 의료서비스 제공 및 본인 확인을 위하여 민감정보를 수집·이용합니다.</p>
+                        <p>진료 예약, 진료내역 조회, 의료서비스 제공 및 본인 확인을 위하여 민감정보를 수집·이용합니다.</p>
 
                         <h3>수집 항목</h3>
                         <ul>
-                            <li>진료예약 정보</li>
+                            <li>진료 예약 정보</li>
                             <li>진료과목 정보</li>
                             <li>진료내역 정보</li>
                         </ul>
@@ -157,7 +160,7 @@
 
             <div class="boxTypeGray checkAllBox">
                 <input type="checkbox" id="checkboxAll" title="이용약관, 개인정보 민감정보 수집,처리 방침 모두 동의">
-                <label for="checkboxAll">이용약관, 개인정보, 민감정보 수집 <b>모두</b> 동의합니다.</label>
+                <label for="checkboxAll">이용약관, 개인정보, 민감정보 수집 모두 동의합니다.</label>
             </div>
         </fieldset>
     </form>

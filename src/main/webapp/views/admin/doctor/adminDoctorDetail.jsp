@@ -23,20 +23,6 @@
 <meta charset="UTF-8">
 <title>관리자 의료진 등록/수정</title>
 
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-	crossorigin="anonymous">
-<script
-	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-	integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
-	integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
-	crossorigin="anonymous"></script>
-
 <!-- jQuery google API -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -66,27 +52,24 @@
 }
 
 .doctor-register-form {
-	/* --bg: #d6d8de; */
-	/* --input-bg: #f7f7f8; */
-	--input-border: #babdc5;
+	--bg: #fff;
+	--input-bg: #fff;
+	--input-border: #c7d6e8;
 	--text: #2f3137;
-	/* --primary: #6a70f2;
-	--primary-dark: #5961e9;
-	--secondary: #9a9eab;
-	--secondary-dark: #868b98;
-	--danger: #e06b6b;
-	--danger-dark: #d45a5a; */
+	--primary: #2763ba;
+	--primary-dark: #1f5198;
+	--secondary: #69707d;
+	--secondary-dark: #555c67;
+	--danger: #d45a5a;
+	--danger-dark: #b94848;
 	--scroll-track: #f5f5f7;
 	--scroll-thumb: #c8cbd4;
-	/* width: 100%;
-	max-width: 100%; */
 	background: var(--bg);
 	padding: 12px 14px 18px;
 	font-family: 'Noto Sans KR', sans-serif;
 	color: var(--text);
-	/* border: 1px solid rgba(0, 0, 0, .03); */
 	box-sizing: border-box;
-	overflow-x:auto; 
+	overflow-x:auto;
 }
 
 .doctor-register-form * {
@@ -94,7 +77,7 @@
 }
 
 .doctor-layout {
-	min-width: 860px;
+	min-width: 0;
 }
 
 .doctor-register-title {
@@ -107,16 +90,16 @@
 }
 
 .doctor-top-area {
-	width: 850px;
+	width: 100%;
 	display: grid;
-	grid-template-columns: minmax(404px, 1fr) 310px;
+	grid-template-columns: minmax(404px, 1fr) minmax(260px, 310px);
 	column-gap: 40px;
 	align-items: start;
 	margin-left: 6px;
 }
 
 .doctor-field-row {
-	width: 500px;
+	width: 100%;
 	display: grid;
 	grid-template-columns: 122px minmax(156px, 1fr) 100px;
 	align-items: center;
@@ -246,6 +229,11 @@
 	z-index: 0;
 }
 
+.doctor-photo-preview.has-image::before,
+.doctor-photo-preview.has-image::after {
+	display: none;
+}
+
 .doctor-photo-text {
 	position: absolute;
 	inset: 0;
@@ -259,7 +247,7 @@
 	text-align: center;
 }
 .doctor-mid-area{
-	width: 850px;
+	width: 100%;
 }
 .doctor-mid-area, .doctor-bottom-area {
 	margin-top: 26px;
@@ -309,6 +297,32 @@
 	height: 124px;
 }
 
+.doctor-schedule-section {
+	width: 100%;
+	max-width: 450px;
+}
+
+.doctor-schedule-section .doctor-scroll {
+	width: 100%;
+}
+
+.doctor-education-section {
+	width: 100%;
+	max-width: 320px;
+}
+
+.doctor-career-section {
+	width: 100%;
+}
+
+.doctor-list-title {
+	margin: 0;
+}
+
+.doctor-intro-content-title {
+	margin-bottom: 6px;
+}
+
 .doctor-schedule-row {
 	display: grid;
 	grid-template-columns: 68px 58px 36px 70px 36px 70px;
@@ -346,34 +360,46 @@
 }
 
 .doctor-plus-btn, .doctor-minus-btn {
+	appearance: none;
 	width: 28px;
 	height: 20px;
 	border: none;
 	border-radius: 5px;
-	color: #fff;
+	color: #fff !important;
+	background: #2763ba !important;
 	font-size: 16px;
 	font-weight: 700;
 	line-height: 1;
 	cursor: pointer;
 	padding: 0;
 	margin-right: 2px;
+	position: relative;
+	z-index: 1;
+	opacity: 1 !important;
+	visibility: visible !important;
+	transition: .15s ease;
 }
 
-.doctor-plus-btn {
-	background: var(--primary);
+.doctor-plus-btn,
+.doctor-minus-btn {
+	background: #2763ba !important;
 }
 
-.doctor-plus-btn:hover {
-	background: var(--primary-dark);
+.doctor-plus-btn:hover,
+.doctor-plus-btn:focus,
+.doctor-plus-btn:active,
+.doctor-minus-btn:hover,
+.doctor-minus-btn:focus,
+.doctor-minus-btn:active {
+	color: #fff !important;
+	background: #333 !important;
+	opacity: 1 !important;
+	visibility: visible !important;
+	transform: translateY(-1px);
 }
 
 .doctor-minus-btn {
-	background: var(--danger);
 	margin-left: 4px;
-}
-
-.doctor-minus-btn:hover {
-	background: var(--danger-dark);
 }
 
 .doctor-list-actions {
@@ -383,15 +409,15 @@
 }
 
 .doctor-edu-row {
-	/* display: grid; */
-	grid-template-columns: 50px 1fr;
+	display: grid;
+	grid-template-columns: 72px minmax(0, 1fr);
 	column-gap: 6px;
 	margin-bottom: 5px;
 }
 
 .doctor-career-row {
-	/* display: grid; */
-	grid-template-columns: 122px 1fr;
+	display: grid;
+	grid-template-columns: 122px minmax(0, 1fr);
 	column-gap: 6px;
 	margin-bottom: 5px;
 }
@@ -405,7 +431,7 @@
 }
 
 .doctor-actions {
-	width: 850px;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	gap: 12px;
@@ -418,11 +444,11 @@
 	font-size: 14px;
 }
 .doctor-left-form{
-	width: 520px;
+	width: 100%;
 }
 
 .doctor-intro-section{
-	width: 850px;
+	width: 100%;
 }
 
 @media ( max-width : 980px) {
@@ -437,17 +463,10 @@
 		justify-content: start;
 	}
 }
-.admin-card{
-	align-items: center;
-}
-.admin-search-area{
-	
-
-}
 .doctor-input {
-	align-items: center;
+	min-width: 0;
 }
-#
+
 @media ( max-width : 800px) {
 	.doctor-field-row {
 		grid-template-columns: 96px 1fr;
@@ -471,9 +490,9 @@
 		width: 100%;
 	}
 	[name="educationContent[]"] {
-		width: 400px;
+		width: 100%;
 	}
-	
+
 }
 #btnLicenseSearchTop {
 	text-align: left;
@@ -509,7 +528,14 @@
 		$('#detailImageUrl').change(function() {
 			previewImage(this, 'detailPreview');
 		});
-		
+
+		<c:if test="${not empty doctor.thumbnailUrl}">
+			setPreviewImage('thumbPreview', '<c:url value="/resources/images/doctors/${doctor.thumbnailUrl}" />');
+		</c:if>
+		<c:if test="${not empty doctor.detailImageUrl}">
+			setPreviewImage('detailPreview', '<c:url value="/resources/images/doctors/${doctor.detailImageUrl}" />');
+		</c:if>
+
 		//파라미터값이 존재하는지 여부
 		$.hasParams = function() {
 		    return window.location.search.length > 1;
@@ -519,7 +545,7 @@
 			$('#educationListScroll')
 					.append('<div class="doctor-edu-row">')
 					.append('<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" />')
-					.append('<input type="text" class="doctor-input" name="educationContent[]" style="width: 300px;" placeholder="학교와 학위를 입력해주세요..." />')
+					.append('<input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." />')
 					.append('<input type="hidden" name="educationNo[]" value=""/>')
 					.append('</div>');
 		});
@@ -539,7 +565,7 @@
 			$('#careerListScroll')
 					.append('<div class="doctor-career-row">')
 					.append('<input type="text" class="doctor-input" name="careerYear[]" placeholder="기간" />')
-					.append('<input type="text" class="doctor-input" name="careerContent[]" style="width: 500px;" placeholder="경력을 입력해주세요..." />')
+					.append('<input type="text" class="doctor-input" name="careerContent[]" placeholder="경력을 입력해주세요..." />')
 					.append('<input type="hidden" name="careerNo[]" value=""/>')
 					.append('</div>');
 		});
@@ -777,13 +803,18 @@
 
 		const reader = new FileReader();
 		reader.onload = function(e) {
-			const $target = $('#' + targetId);
-			$target.css('background-image', 'url(' + e.target.result + ')');
-			$target.find('.doctor-photo-text').hide();
+			setPreviewImage(targetId, e.target.result);
 		};
 		reader.readAsDataURL(file);
 	}
-	
+
+	function setPreviewImage(targetId, imageUrl) {
+		const $target = $('#' + targetId);
+		$target.css('background-image', 'url(' + imageUrl + ')');
+		$target.addClass('has-image');
+		$target.find('.doctor-photo-text').hide();
+	}
+
 </script>
 
 <link rel="stylesheet" href="<c:url value='/resources/css/admin-layout.css?v=${initParam.assetVersion}' />">
@@ -800,7 +831,7 @@
 			</div>
 
 			<section class="admin-card">
-				<form class="admin-search-area" action="<c:url value='/admin/doctor/form.do' />" method="post" name="doctorDetailFrm" id="doctorDetailFrm" onsubmit="return false;">
+				<form class="admin-search-area" action="<c:url value='/admin/doctor/form.do' />" method="post" enctype="multipart/form-data" name="doctorDetailFrm" id="doctorDetailFrm" onsubmit="return false;">
 					<div class="admin-view-area">
 						<div class="doctor-register-form">
 							<div class="doctor-layout">
@@ -874,6 +905,7 @@
 											</div>
 											<button type="button" class="doctor-btn doctor-btn-primary" id="thumbUploadBtn">썸네일 사진 등록</button>
 											<input type="file" id="thumbnailUrl" name="thumbnailUrl" accept="image/*" hidden />
+											<input type="hidden" name="currentThumbnailUrl" value="${doctor.thumbnailUrl}" />
 										</div>
 
 										<div class="doctor-photo-item">
@@ -882,14 +914,15 @@
 											</div>
 											<button type="button" class="doctor-btn doctor-btn-primary" id="detailUploadBtn">상세 사진 등록</button>
 											<input type="file" id="detailImageUrl" name="detailImageUrl" accept="image/*" hidden />
+											<input type="hidden" name="currentDetailImageUrl" value="${doctor.detailImageUrl}" />
 										</div>
 									</div>
 								</div>
 
 								<div class="doctor-mid-area">
-									<div class="doctor-schedule-section" style="width: 450px;">
+									<div class="doctor-schedule-section">
 										<div class="doctor-section-title">진료 가능 요일</div>
-										<div class="doctor-scroll doctor-schedule-scroll" id="scheduleList" style="width: 400px;">
+										<div class="doctor-scroll doctor-schedule-scroll" id="scheduleList">
 											<c:if test="${not empty scheduleDTOList }">
 											<c:forEach var="schedule" items="${ scheduleDTOList }">
 												<div class="doctor-schedule-row">
@@ -1093,9 +1126,9 @@
 											</div>
 										</div>
 
-										<div class="doctor-education-section" style="width: 300px;">
+										<div class="doctor-education-section">
 											<div class="doctor-list-head" >
-												<div class="doctor-section-title" style="margin-bottom: 0;">학력</div>
+												<div class="doctor-section-title doctor-list-title">학력</div>
 												<div class="doctor-list-actions">
 													<button type="button" class="doctor-plus-btn" id="addEducationBtn">+</button>
 													<button type="button" class="doctor-minus-btn" id="removeEducationBtn">-</button>
@@ -1106,13 +1139,13 @@
 												<c:forEach var="education" items="${ educationList }">
 													<div class="doctor-edu-row">
 														<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" value="${ education.educationYear }" /> 
-														<input type="text" class="doctor-input" name="educationContent[]" style="width: 300px;" placeholder="학교와 학위를 입력해주세요..." value="${ education.educationContent }" />
+														<input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." value="${ education.educationContent }" />
 														<input type="hidden" name="educationNo[]" value="${ education.educationNo }"/>
 													</div>
 												</c:forEach>
 												<div class="doctor-edu-row">
 													<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" /> 
-													<input type="text" class="doctor-input" name="educationContent[]" style="width: 300px;" placeholder="학교와 학위를 입력해주세요..." />
+													<input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." />
 													<input type="hidden" name="educationNo[]" value=""/>
 												</div>
 											</div>
@@ -1121,25 +1154,25 @@
 
 										<div class="doctor-bottom-area">
 											<div class="doctor-career-section">
-												<div class="doctor-list-head" style=" width: 800px;">
-													<div class="doctor-section-title" style="margin-bottom: 0;">경력</div>
+												<div class="doctor-list-head">
+													<div class="doctor-section-title doctor-list-title">경력</div>
 													<div class="doctor-list-actions">
 														<button type="button" class="doctor-plus-btn" id="addCareerBtn">+</button>
 														<button type="button" class="doctor-minus-btn" id="removeCareerBtn">-</button>
 													</div>
 												</div>
 
-												<div class="doctor-scroll doctor-history-scroll" id="careerListScroll" style=" width: 800px;">
+												<div class="doctor-scroll doctor-history-scroll" id="careerListScroll">
 													<c:forEach var="career" items="${ careerList }">
 														<div class="doctor-career-row">
 															<input type="text" class="doctor-input" name="careerYear[]" placeholder="기간" value="${ career.careerYear }" /> 
-															<input type="text" class="doctor-input" name="careerContent[]" style="width: 500px;" placeholder="경력을 입력해주세요..." value="${ career.careerContent }" />
+															<input type="text" class="doctor-input" name="careerContent[]" placeholder="경력을 입력해주세요..." value="${ career.careerContent }" />
 															<input type="hidden" name="careerNo[]" value="${ career.careerNo }"/>
 														</div>
 													</c:forEach>
 													<div class="doctor-career-row">
 														<input type="text" class="doctor-input"  name="careerYear[]" placeholder="기간" /> 
-														<input 	type="text" class="doctor-input" name="careerContent[]" style="width: 500px;"	placeholder="경력을 입력해주세요..." />
+														<input type="text" class="doctor-input" name="careerContent[]" placeholder="경력을 입력해주세요..." />
 														<input type="hidden" name="careerNo[]" value=""/>
 													</div>
 												</div>
@@ -1149,7 +1182,7 @@
 											<div class="doctor-section-title">소개 제목</div>
 											<input type="text" class="doctor-input doctor-intro-title" id="introTitle" name="introTitle" value="${doctor.introTitle}" />
 
-											<div class="doctor-section-title" style="margin-bottom: 6px;">소개글</div>
+											<div class="doctor-section-title doctor-intro-content-title">소개글</div>
 											<textarea class="doctor-textarea doctor-intro-text" id="introContent" name="introContent">${doctor.introContent}</textarea>
 										</div>
 

@@ -19,7 +19,7 @@
 <jsp:include page="/views/common/userHeader.jsp" />
 <jsp:include page="/views/common/userBreadcrumb.jsp" />
 
-<main id="content" class="memJoinContent">
+<main id="content" class="memJoinContent joinAgreeAccordion">
 
     <div class="contHeadingWrap">
         <h2>만 <span class="title child">14세 미만</span> 회원가입</h2>
@@ -48,18 +48,21 @@
         <div class="contTextWrap">
             <em>한국중앙병원 홈페이지는 이용을 원하는 모든 분들께 무료로 제공되고 있습니다.</em>
         </div>
-        <p>단, 게시판 글 게재, 민원서비스, 진료예약 등 일부 컨텐츠는 한국중앙병원 온라인 회원에게만 제공하고 있습니다.</p>
+        <p>단, 게시판 글 게재, 민원서비스, 진료 예약 등 일부 콘텐츠는 한국중앙병원 온라인 회원에게만 제공하고 있습니다.</p>
         <p>
             한국중앙병원의 온라인 회원정책은
             <em class="colorPoint">일반회원과 진료회원</em>으로 나뉘어 서비스 되고 있습니다.<br>
             웹회원으로 가입하는 경우, 차후 소정의 절차를 거쳐 진료회원으로 가입할 수 있습니다.
         </p>
-        <p>진료회원으로 가입하면 인터넷 진료예약 등 보다 다양한 서비스를 이용할 수 있습니다.</p>
+        <p>진료회원으로 가입하면 인터넷 진료 예약 등 보다 다양한 서비스를 이용할 수 있습니다.</p>
         <p>
             회원 가입을 하시려면
             <em class="colorPoint">아래의 약관 및 개인정보 수집이용에 동의해주세요.</em><br>
             회원님의 개인정보보호와 더욱 안정된 서비스를 위해 최선을 다하겠습니다. 감사합니다.
         </p>
+        <div class="joinIntroImage">
+            <img src="<c:url value='/resources/images/security/agree_img.png' />" alt="회원가입 안내">
+        </div>
     </div>
 
     <form>
@@ -101,7 +104,7 @@
                             <p><strong>제4조 서비스의 내용</strong></p>
                             <ul class="paddingList">
                                 <li>병원 안내 서비스</li>
-                                <li>진료예약 관련 서비스</li>
+                                <li>진료 예약 관련 서비스</li>
                                 <li>게시판 및 민원서비스</li>
                                 <li>기타 병원이 정하는 서비스</li>
                             </ul>
@@ -128,7 +131,7 @@
                 <div class="scrollBox">
                     <div class="innerScroll">
                         <h3>이용목적</h3>
-                        <p>홈페이지 회원관리, 진료예약 등 각종 서비스 제공</p>
+                        <p>홈페이지 회원관리, 진료 예약 등 각종 서비스 제공</p>
 
                         <h3>수집 항목</h3>
                         <ul>
@@ -157,11 +160,11 @@
                 <div class="scrollBox">
                     <div class="innerScroll">
                         <h3>수집목적</h3>
-                        <p>진료예약, 진료내역 조회, 의료서비스 제공 및 본인 확인을 위하여 민감정보를 수집·이용합니다.</p>
+                        <p>진료 예약, 진료내역 조회, 의료서비스 제공 및 본인 확인을 위하여 민감정보를 수집·이용합니다.</p>
 
                         <h3>수집 항목</h3>
                         <ul>
-                            <li>진료예약 정보</li>
+                            <li>진료 예약 정보</li>
                             <li>진료과목 정보</li>
                             <li>진료내역 정보</li>
                         </ul>
@@ -194,7 +197,7 @@
                         <ul>
                             <li>법정대리인은 아동의 회원가입에 동의합니다.</li>
                             <li>법정대리인은 아동의 개인정보 수집 및 이용에 동의합니다.</li>
-                            <li>법정대리인은 아동의 진료예약등 병원 홈페이지 서비스 이용에 동의합니다.</li>
+                            <li>법정대리인은 아동의 진료 예약 등 병원 홈페이지 서비스 이용에 동의합니다.</li>
                         </ul>
 
                         <h3>보유 및 이용기간</h3>

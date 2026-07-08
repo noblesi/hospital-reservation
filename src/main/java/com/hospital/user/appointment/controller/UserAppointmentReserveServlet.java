@@ -14,7 +14,7 @@ public class UserAppointmentReserveServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setAttribute("activeMenu", "hospital");
+		request.setAttribute("activeMenu", "guide");
 		request.setAttribute("depth1", "진료안내");
 		request.setAttribute("depth2", "인터넷 진료예약");
 
@@ -22,7 +22,7 @@ public class UserAppointmentReserveServlet extends HttpServlet {
 
 		// 사용자가 로그인 하지 않았으면 로그인 페이지로 이동시킨다.
 		if (UserAppointmentSessionUtil.isBlank(patientNo)) {
-			response.sendRedirect(request.getContextPath() + "/member/login.do");
+			response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
 			return;
 		}
 
