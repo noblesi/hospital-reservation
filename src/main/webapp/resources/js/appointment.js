@@ -425,7 +425,7 @@ function sendRequestAppointment() {
     form.append($("<input>", { type: "hidden", name: "appointmentTime",  value: $.trim(appointmentTime) }));
     form.append($("<input>", { type: "hidden", name: "requirement",      value: $("#requireTa").val() }));
     form.append($("<input>", { type: "hidden", name: "appointmentNo",    value: getAppointmentNo() }));
-	console.log(getAppointmentNo());
+	
     $("body").append(form);
     form.submit();
 }

@@ -137,7 +137,7 @@
 					</div>
 					<div class="inputRequireDiv">
 						<p class="inputDescript">아래 아프거나 불편하신 사항을 적어주세요.</p>
-						<textarea id="requireTa" placeholder="아프신 곳을 적어주세요." maxlength="500"></textarea>
+						<textarea id="requireTa" placeholder="아프신 곳을 적어주세요." maxlength="300"></textarea>
 					</div>
 					<div class="checkBar">
 						<div class="checkDiv">
