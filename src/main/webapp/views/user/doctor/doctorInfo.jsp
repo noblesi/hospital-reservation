@@ -112,7 +112,8 @@
 					</div>
 				</div>
 			</div>
-			<img class="doctorImg" alt="의료진 사진" src='<c:url value="/resources/images/doctors/${ udDTO.thumbnailUrl }" />'>
+			<c:set var="doctorThumbnail" value="${empty udDTO.thumbnailUrl ? 'doctor_default.png' : udDTO.thumbnailUrl}" />
+			<img class="doctorImg" alt="의료진 사진" src='<c:url value="/resources/images/doctors/${ doctorThumbnail }" />'>
 		</section>
 
 		<!-- 의료진 소개글 시작 -->

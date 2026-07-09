@@ -143,9 +143,10 @@ function buildDoctorHtml(data) {
 	// 필요 데이터 : thumbnailUrl, name, doctorLicenseNo, deptName, specialty, doctorLicenseNo
     $.each(data.doctors, function(i, doctor) {
         if (i % 2 === 0) html += "<div class='col'>";
+        var thumbnailUrl = doctor.thumbnailUrl || "doctor_default.png";
 
         html += "<li class='doctorLi'>"
-              + "<img class='doctorThumnail' src='../resources/images/doctors/" + doctor.thumbnailUrl + "'>"
+              + "<img class='doctorThumnail' src='../resources/images/doctors/" + thumbnailUrl + "'>"
               + "<div class='doctorInfoDiv'>"
               + "<h4 class='doctorName'>" + doctor.name
               + "<a href='" + getContextPath() +"/doctor/doctorInfo.do?dln=" + doctor.doctorLicenseNo + "'><i class='bi bi-search blueSearchIcon'></i></a></h4>"
