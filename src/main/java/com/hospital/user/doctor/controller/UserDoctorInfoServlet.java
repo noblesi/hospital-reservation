@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.hospital.user.appointment.UserAppointmentService;
+import com.hospital.user.doctor.UserDoctorService;
 
 public class UserDoctorInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private final UserAppointmentService userAppointmentService = new UserAppointmentService();
+	private final UserDoctorService userDoctorService = new UserDoctorService();
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -22,7 +23,7 @@ public class UserDoctorInfoServlet extends HttpServlet {
 		String paramDln = request.getParameter("dln");
 
 		if (paramDln == null || paramDln.isEmpty() || !paramDln.matches("\\d+")) {
-			response.sendRedirect(request.getContextPath() + "/views/member/login.jsp");
+			response.sendRedirect(request.getContextPath() + "/views/user/main.jsp");
 			return;
 		}
 
@@ -31,7 +32,7 @@ public class UserDoctorInfoServlet extends HttpServlet {
 		request.setAttribute("activeMenu", "treatment");
 		request.setAttribute("depth2", "의료진 안내");
 
-		request.setAttribute("udDTO", userAppointmentService.searchDoctorDetail(dln));
+		request.setAttribute("udDTO", userDoctorService.searchDoctorDetail(dln));
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/doctor/doctorInfo.jsp");
 		dispatcher.forward(request, response);
