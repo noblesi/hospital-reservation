@@ -144,7 +144,7 @@ public class AdminDoctorFormServlet extends HttpServlet {
 
 	private String saveDoctorImage(HttpServletRequest request, String partName, String currentFileParam, int doctorLicenseNo, String imageType)
 			throws IOException, ServletException {
-		String currentFileName = defaultValue(request.getParameter(currentFileParam), "");
+		String currentFileName = resolveCurrentFileName(request, currentFileParam, doctorLicenseNo);
 		Part imagePart = getUploadedFilePart(request, partName);
 		if (imagePart == null || imagePart.getSize() == 0) {
 			return defaultValue(currentFileName, DEFAULT_DOCTOR_IMAGE);
@@ -176,6 +176,24 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		}
 
 		return savedFileName;
+	}
+
+	private String resolveCurrentFileName(HttpServletRequest request, String currentFileParam, int doctorLicenseNo) {
+		String currentFileName = trimToNull(request.getParameter(currentFileParam));
+		if (currentFileName != null) {
+			return currentFileName;
+		}
+
+		if (!adminDoctorService.checkDoctorLicenseNo(doctorLicenseNo)) {
+			return "";
+		}
+
+		AdminDoctorFormDTO formDTO = adminDoctorService.searchDoctorDetail(doctorLicenseNo);
+		if (formDTO == null || formDTO.getDoctorDTO() == null) {
+			return "";
+		}
+
+		return defaultValue(formDTO.getDoctorDTO().getThumbnailUrl(), "");
 	}
 
 	private Part getUploadedFilePart(HttpServletRequest request, String partName) throws IOException, ServletException {
