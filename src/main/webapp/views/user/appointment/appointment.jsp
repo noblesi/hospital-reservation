@@ -60,17 +60,7 @@
 				</div>
 			</div>
 
-			<c:if test="${not empty changeAppointment}">
-				<div class="rsInfoWrap">
-					<h4 class="rsInfoTitle">현재 예약 정보</h4>
-					<p class="rsInfoElm">진료과 : <span><c:out value="${changeAppointment.deptName}" /></span></p>
-					<p class="rsInfoElm">의료진 : <span><c:out value="${changeAppointment.doctorName}" /></span></p>
-					<p class="rsInfoElm">진료일시 : <span><c:out value="${changeAppointment.appointmentDate} ${changeAppointment.appointmentTime}" /></span></p>
-					<p class="rsInfoElm">요청사항 : <span><c:out value="${changeAppointment.requirement}" /></span></p>
-					<p class="rsInfoElm">새 진료과, 의료진, 날짜와 시간을 선택하면 기존 예약이 변경됩니다.</p>
-				</div>
-				<textarea id="changeRequirementSeed" hidden><c:out value="${changeAppointment.requirement}" /></textarea>
-			</c:if>
+
 
 			<div class="deptWrap focusBorder">
 				<div class="searchBar">
@@ -102,14 +92,27 @@
 					</button>
 				</div>
 			</div>
-
-			<div class="rsInfoWrap">
-				<h4 class="rsInfoTitle">예약 정보 확인</h4>
-				<p class="rsInfoElm">환자명 : <span class="rsInfoName"><c:out value="${ loginUser.name }"/></span></p>
-				<p class="rsInfoElm">진료과 : <span class="rsInfoDept"></span></p>
-				<p class="rsInfoElm">의료진 : <span class="rsInfoDoctor"></span></p>
-				<p class="rsInfoElm"><span class="infoName">진료일시 : </span> <span class="rsInfoDate"></span></p>
-			</div>
+			
+			<c:if test="${not empty changeAppointment}">
+				<div class="rsInfoWrap">
+					<h4 class="rsInfoTitle">현재 예약 정보</h4>
+					<p class="rsInfoElm">환자명 : <span class="rsInfoName"><c:out value="${ loginUser.name }"/></span></p>
+					<p class="rsInfoElm">진료과 : <span class="rsInfoDept"><c:out value="${changeAppointment.deptName}" /></span></p>
+					<p class="rsInfoElm">의료진 : <span class="rsInfoDoctor"><c:out value="${changeAppointment.doctorName}" /></span></p>
+					<p class="rsInfoElm"><span class="infoName">진료일시 : </span> <span class="rsInfoDate"><c:out value="${changeAppointment.appointmentDate} ${changeAppointment.appointmentTime}" /></span></p>
+				</div>
+				<textarea id="changeRequirementSeed" style="display: none;"><c:out value="${changeAppointment.requirement}" /></textarea>
+			</c:if>
+			
+			<c:if test="${ empty changeAppointment }">
+				<div class="rsInfoWrap">
+					<h4 class="rsInfoTitle">예약 정보 확인</h4>
+					<p class="rsInfoElm">환자명 : <span class="rsInfoName"><c:out value="${ loginUser.name }"/></span></p>
+					<p class="rsInfoElm">진료과 : <span class="rsInfoDept"></span></p>
+					<p class="rsInfoElm">의료진 : <span class="rsInfoDoctor"></span></p>
+					<p class="rsInfoElm"><span class="infoName">진료일시 : </span> <span class="rsInfoDate"></span></p>
+				</div>
+			</c:if>
 
 			<div class="doctorListDiv">
 				<h2 class="doctorListTitle">의료진 목록</h2>
