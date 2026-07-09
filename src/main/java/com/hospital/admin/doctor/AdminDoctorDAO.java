@@ -535,6 +535,7 @@ public class AdminDoctorDAO {
 		try {
 			conn = DBConnection.getConnection();
 			
+
 			updateSql
 			.append("	update doctor_schedule		")
 			.append("	set  		")
@@ -542,7 +543,7 @@ public class AdminDoctorDAO {
 			.append("	end_time=?, 		")
 			.append("	status=?  		")
 			.append("	where doctor_license_no=? 		")
-			.append("	and day_of_week=? 		");
+			.append("	and day_of_week=? 				");
 			
 			
 			pstmt = conn.prepareStatement(updateSql.toString());
