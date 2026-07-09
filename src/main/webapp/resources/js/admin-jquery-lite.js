@@ -185,6 +185,10 @@
         });
     };
 
+    $.trim = function(value) {
+        return value == null ? "" : String(value).trim();
+    };
+
     $.hasParams = function() {
         return window.location.search.length > 1;
     };

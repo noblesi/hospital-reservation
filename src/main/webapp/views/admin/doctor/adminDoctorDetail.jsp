@@ -738,7 +738,7 @@
 				}
 				selEndNode.append(new Option(time,time,endTimeIsSelectFlag,endTimeIsSelectFlag));
 			});
-		} else if(status == "종일"){
+		} else if(status == "전일"){
 			elementShow(objIndex);
 			selStartNode.empty();
 			selEndNode.empty();
@@ -941,7 +941,7 @@
 														<select class="doctor-mini-select" name="ampm[]">
 															<option value="오전" ${schedule.status eq '오전' ? 'selected="selected"' : ''}>오전</option>
 															<option value="오후" ${schedule.status eq '오후' ? 'selected="selected"' : ''}>오후</option>
-															<option value="종일" ${schedule.status eq '종일' ? 'selected="selected"' : ''}>종일</option>
+															<option value="전일" ${schedule.status eq '전일' ? 'selected="selected"' : ''}>종일</option>
 															<option value="휴진" ${empty schedule.status or schedule.status eq '휴진' ? 'selected="selected"' : ''}>휴진</option>
 														</select>
 														<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
@@ -959,7 +959,7 @@
 													<select class="doctor-mini-select" name="ampm[]">
 														<option value="오전">오전</option>
 														<option value="오후">오후</option>
-														<option value="종일">종일</option>
+														<option value="전일">종일</option>
 														<option value="휴진" selected="selected">휴진</option>
 													</select>
 													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
@@ -974,7 +974,7 @@
 													<select class="doctor-mini-select" name="ampm[]">
 														<option value="오전">오전</option>
 														<option value="오후">오후</option>
-														<option value="종일">종일</option>
+														<option value="전일">종일</option>
 														<option value="휴진" selected="selected">휴진</option>
 													</select>
 													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
@@ -989,7 +989,7 @@
 													<select class="doctor-mini-select" name="ampm[]">
 														<option value="오전">오전</option>
 														<option value="오후">오후</option>
-														<option value="종일">종일</option>
+														<option value="전일">종일</option>
 														<option value="휴진" selected="selected">휴진</option>
 													</select>
 													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
@@ -1004,7 +1004,7 @@
 													<select class="doctor-mini-select" name="ampm[]">
 														<option value="오전">오전</option>
 														<option value="오후">오후</option>
-														<option value="종일">종일</option>
+														<option value="전일">종일</option>
 														<option value="휴진" selected="selected">휴진</option>
 													</select>
 													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
@@ -1019,7 +1019,7 @@
 													<select class="doctor-mini-select" name="ampm[]">
 														<option value="오전">오전</option>
 														<option value="오후">오후</option>
-														<option value="종일">종일</option>
+														<option value="전일">종일</option>
 														<option value="휴진" selected="selected">휴진</option>
 													</select>
 													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
@@ -1034,7 +1034,7 @@
 													<select class="doctor-mini-select" name="ampm[]">
 														<option value="오전">오전</option>
 														<option value="오후">오후</option>
-														<option value="종일">종일</option>
+														<option value="전일">종일</option>
 														<option value="휴진" selected="selected">휴진</option>
 													</select>
 													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
@@ -1049,7 +1049,7 @@
 													<select class="doctor-mini-select" name="ampm[]">
 														<option value="오전">오전</option>
 														<option value="오후">오후</option>
-														<option value="종일">종일</option>
+														<option value="전일">종일</option>
 														<option value="휴진" selected="selected">휴진</option>
 													</select>
 													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
