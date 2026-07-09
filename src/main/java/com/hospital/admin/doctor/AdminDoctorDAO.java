@@ -541,13 +541,13 @@ public class AdminDoctorDAO {
 			conn = DBConnection.getConnection();
 			
 			updateSql
-			.append("	update doctor_schedule		")
-			.append("	set day_of_week=?, 		")
-			.append("	start_time=?, 		")
-			.append("	end_time=?, 		")
-			.append("	status=?  		")
+			.append("	update doctor_schedule			")
+			.append("	set 		 					")
+			.append("	start_time=?, 					")
+			.append("	end_time=?, 					")
+			.append("	status=?  						")
 			.append("	where doctor_license_no=? 		")
-			.append("	and day_of_week=? 		");
+			.append("	and day_of_week=? 				");
 			
 			
 			pstmt = conn.prepareStatement(updateSql.toString());
