@@ -8,7 +8,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>로그인</title>
+<title>로그인 | KMCH 한국중앙병원</title>
 
 <link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 

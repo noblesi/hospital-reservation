@@ -5,7 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>한국중앙병원 | 진료 예약</title>
+	<title>진료예약 | KCMH 한국중앙병원</title>
 
 	<!-- Bootstrap CDN -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -26,7 +26,14 @@
 		window.hospitalAppointmentConfig = {
 			ajaxUrl: "${appointmentAjaxUrl}",
 			processUrl: "${appointmentProcessUrl}",
-			contextPath: "${pageContext.request.contextPath}"
+			appointmentNo: "${changeAppointment.appointmentNo}",
+			contextPath: "${pageContext.request.contextPath}",
+			changeAppointment: {
+				deptNo: "${changeAppointment.deptNo}",
+				doctorLicenseNo: "${changeAppointment.doctorLicenseNo}",
+				appointmentDate: "${changeAppointment.appointmentDate}",
+				appointmentTime: "${changeAppointment.appointmentTime}"
+			}
 		};
 	</script>
 	
@@ -41,12 +48,19 @@
 	<div id="mainWrap">
 		<div id="container">
 			<div class="conHeader">
-				<h2 class="title">인터넷 진료 예약</h2>
+				<h2 class="title">
+					<c:choose>
+						<c:when test="${not empty changeAppointment}">인터넷 진료 예약 변경</c:when>
+						<c:otherwise>인터넷 진료 예약</c:otherwise>
+					</c:choose>
+				</h2>
 				<div class="telDiv">
 					<img alt="" src="<c:url value='/resources/images/appointment/tel_icon.png' />" class="telIcon">
 					<strong class="tel">예약센터 1588-0000</strong>
 				</div>
 			</div>
+
+
 
 			<div class="deptWrap focusBorder">
 				<div class="searchBar">
@@ -78,14 +92,27 @@
 					</button>
 				</div>
 			</div>
-
-			<div class="rsInfoWrap">
-				<h4 class="rsInfoTitle">예약 정보 확인</h4>
-				<p class="rsInfoElm">환자명 : <span class="rsInfoName"><c:out value="${ loginUser.name }"/></span></p>
-				<p class="rsInfoElm">진료과 : <span class="rsInfoDept"></span></p>
-				<p class="rsInfoElm">의료진 : <span class="rsInfoDoctor"></span></p>
-				<p class="rsInfoElm"><span class="infoName">진료일시 : </span> <span class="rsInfoDate"></span></p>
-			</div>
+			
+			<c:if test="${not empty changeAppointment}">
+				<div class="rsInfoWrap">
+					<h4 class="rsInfoTitle">현재 예약 정보</h4>
+					<p class="rsInfoElm">환자명 : <span class="rsInfoName"><c:out value="${ loginUser.name }"/></span></p>
+					<p class="rsInfoElm">진료과 : <span class="rsInfoDept"><c:out value="${changeAppointment.deptName}" /></span></p>
+					<p class="rsInfoElm">의료진 : <span class="rsInfoDoctor"><c:out value="${changeAppointment.doctorName}" /></span></p>
+					<p class="rsInfoElm"><span class="infoName">진료일시 : </span> <span class="rsInfoDate"><c:out value="${changeAppointment.appointmentDate} ${changeAppointment.appointmentTime}" /></span></p>
+				</div>
+				<textarea id="changeRequirementSeed" style="display: none;"><c:out value="${changeAppointment.requirement}" /></textarea>
+			</c:if>
+			
+			<c:if test="${ empty changeAppointment }">
+				<div class="rsInfoWrap">
+					<h4 class="rsInfoTitle">예약 정보 확인</h4>
+					<p class="rsInfoElm">환자명 : <span class="rsInfoName"><c:out value="${ loginUser.name }"/></span></p>
+					<p class="rsInfoElm">진료과 : <span class="rsInfoDept"></span></p>
+					<p class="rsInfoElm">의료진 : <span class="rsInfoDoctor"></span></p>
+					<p class="rsInfoElm"><span class="infoName">진료일시 : </span> <span class="rsInfoDate"></span></p>
+				</div>
+			</c:if>
 
 			<div class="doctorListDiv">
 				<h2 class="doctorListTitle">의료진 목록</h2>
@@ -136,7 +163,7 @@
 					</div>
 					<div class="inputRequireDiv">
 						<p class="inputDescript">아래 아프거나 불편하신 사항을 적어주세요.</p>
-						<textarea id="requireTa" placeholder="아프신 곳을 적어주세요." maxlength="500"></textarea>
+						<textarea id="requireTa" placeholder="아프신 곳을 적어주세요." maxlength="300"></textarea>
 					</div>
 					<div class="checkBar">
 						<div class="checkDiv">
@@ -151,7 +178,7 @@
 
 		<div class="lastConfirmDiv">
 			<div class="lastConfirmHeader">
-				<h2 class="lastConfirmHeaderTitle"><span class="userName">회원</span>님 진료 예약하시겠습니까?</h2>
+				<h2 class="lastConfirmHeaderTitle"><span class="userName"><c:out value="${ loginUser.name }"/> 회원</span>님 진료 예약하시겠습니까?</h2>
 				<button class="modalXBtn">
 					<i class="bi bi-x-lg xIcon"></i>
 				</button>

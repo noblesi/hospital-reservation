@@ -102,7 +102,11 @@
                                 <td class="admin-table-actions">
                                     <form action="<c:url value='/admin/doctor/list.do' />" method="post" class="doctor-status-form">
                                         <input type="hidden" name="doctorLicenseNo" value="${doctor.doctorLicenseNo}">
-                                        <select name="statusCode" aria-label="의료진 상태">
+                                        <input type="hidden" name="deptNo" value="${searchDTO.deptNo}">
+                                        <input type="hidden" name="name" value="${searchDTO.name}">
+                                        <input type="hidden" name="positionCode" value="${searchDTO.positionCode}">
+                                        <input type="hidden" name="statusCode" value="${searchDTO.statusCode}">
+                                        <select name="rowStatusCode" aria-label="의료진 상태">
                                             <c:forEach var="status" items="${statusList}">
                                                 <option value="${status.statusCode}" ${doctor.statusCode eq status.statusCode ? 'selected' : ''}>
                                                     <c:out value="${status.statusName}" />

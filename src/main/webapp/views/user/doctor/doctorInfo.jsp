@@ -2,17 +2,6 @@
 <%@page import="com.hospital.user.doctor.UserDoctorService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/views/common/taglib.jsp"%>
-<%
-request.setAttribute("activeMenu", "treatment");
-request.setAttribute("depth2", "의료진 안내");
-
-int dln = Integer.parseInt(request.getParameter("dln"));
-
-UserDoctorService uds = new UserDoctorService();
-
-UserDoctorDTO udDTO = uds.searchDoctorDetail(dln);
-pageContext.setAttribute("udDTO", udDTO);
-%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -123,7 +112,8 @@ pageContext.setAttribute("udDTO", udDTO);
 					</div>
 				</div>
 			</div>
-			<img class="doctorImg" alt="의료진 사진" src='<c:url value="/resources/images/doctors/${ udDTO.thumbnailUrl }" />'>
+			<c:set var="doctorThumbnail" value="${empty udDTO.thumbnailUrl ? 'doctor_default.png' : udDTO.thumbnailUrl}" />
+			<img class="doctorImg" alt="의료진 사진" src='<c:url value="/resources/images/doctors/${ doctorThumbnail }" />' onerror="this.src='../resources/images/doctors/doctor_default.png'">
 		</section>
 
 		<!-- 의료진 소개글 시작 -->

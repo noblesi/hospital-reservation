@@ -36,6 +36,7 @@ import com.hospital.common.dto.DoctorScheduleDTO;
 public class AdminDoctorFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String DOCTOR_IMAGE_DIR = "/resources/images/doctors";
+	private static final String DEFAULT_DOCTOR_IMAGE = "doctor_default.png";
 	private static final DateTimeFormatter FILE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
 
 	private final AdminDoctorService adminDoctorService = new AdminDoctorService();
@@ -57,6 +58,7 @@ public class AdminDoctorFormServlet extends HttpServlet {
 			request.setAttribute("positionList", formDTO.getPositionList());
 			request.setAttribute("careerList", formDTO.getCareerList());
 			request.setAttribute("scheduleList", formDTO.getScheduleList());
+			request.setAttribute("scheduleDTOList", formDTO.getScheduleList());
 			request.setAttribute("educationList", formDTO.getEducationList());
 		} else {
 			AdminDoctorFormOptionDTO formOptions = adminDoctorService.getDoctorFormOptions();
@@ -135,7 +137,6 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		doctor.setIntroTitle(defaultValue(request.getParameter("introTitle"), ""));
 		doctor.setIntroContent(defaultValue(request.getParameter("introContent"), ""));
 		doctor.setThumbnailUrl(saveDoctorImage(request, "thumbnailUrl", "currentThumbnailUrl", doctorLicenseNo, "thumb"));
-		doctor.setDetailImageUrl(saveDoctorImage(request, "detailImageUrl", "currentDetailImageUrl", doctorLicenseNo, "detail"));
 		doctor.setSpecialty(defaultValue(request.getParameter("specialty"), ""));
 		doctor.setStatusCode(defaultValue(request.getParameter("statusCode"), "CLS"));
 		return doctor;
@@ -143,10 +144,10 @@ public class AdminDoctorFormServlet extends HttpServlet {
 
 	private String saveDoctorImage(HttpServletRequest request, String partName, String currentFileParam, int doctorLicenseNo, String imageType)
 			throws IOException, ServletException {
-		String currentFileName = defaultValue(request.getParameter(currentFileParam), "");
-		Part imagePart = request.getPart(partName);
+		String currentFileName = resolveCurrentFileName(request, currentFileParam, doctorLicenseNo);
+		Part imagePart = getUploadedFilePart(request, partName);
 		if (imagePart == null || imagePart.getSize() == 0) {
-			return currentFileName;
+			return defaultValue(currentFileName, DEFAULT_DOCTOR_IMAGE);
 		}
 
 		String originalFileName = Paths.get(defaultValue(imagePart.getSubmittedFileName(), "")).getFileName().toString();
@@ -175,6 +176,39 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		}
 
 		return savedFileName;
+	}
+
+	private String resolveCurrentFileName(HttpServletRequest request, String currentFileParam, int doctorLicenseNo) {
+		String currentFileName = trimToNull(request.getParameter(currentFileParam));
+		if (currentFileName != null) {
+			return currentFileName;
+		}
+
+		if (!adminDoctorService.checkDoctorLicenseNo(doctorLicenseNo)) {
+			return "";
+		}
+
+		AdminDoctorFormDTO formDTO = adminDoctorService.searchDoctorDetail(doctorLicenseNo);
+		if (formDTO == null || formDTO.getDoctorDTO() == null) {
+			return "";
+		}
+
+		return defaultValue(formDTO.getDoctorDTO().getThumbnailUrl(), "");
+	}
+
+	private Part getUploadedFilePart(HttpServletRequest request, String partName) throws IOException, ServletException {
+		for (Part part : request.getParts()) {
+			if (!partName.equals(part.getName())) {
+				continue;
+			}
+
+			String submittedFileName = defaultValue(part.getSubmittedFileName(), "");
+			if (part.getSize() > 0 && !submittedFileName.isEmpty()) {
+				return part;
+			}
+		}
+
+		return null;
 	}
 
 	private String getImageExtension(String fileName) {

@@ -1,20 +1,12 @@
-<%@page import="com.hospital.common.dto.DepartmentDTO"%>
-<%@page import="java.util.List"%>
-<%@page import="com.hospital.user.doctor.dto.UserDoctorDTO"%>
-<%@page import="com.hospital.user.doctor.UserDoctorService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/views/common/taglib.jsp"%>
-<%
-	List<DepartmentDTO> list = (List<DepartmentDTO>) request.getAttribute("departmentList");
-	pageContext.setAttribute("departmentList", list);
-%>
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>한국중앙병원 | 진료과목록</title>
+<title>진료과 목록 | KMCH 중앙병원</title>
 
 <!-- Bootstrap CDN -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -23,118 +15,39 @@
 <!-- Bootstrap Icons CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
-<!-- 외부 CSS -->
+<!-- 공통 CSS -->
 <link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/doctor/doctorInfo.css?v=${initParam.assetVersion}' />">
 
 <!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-<script type="text/javascript">
-	$(function() {
-		
-	});
-</script>
 </head>
-<style>
-#departmentListHead{
-	text-align: center;
-	vertical-align: center;
-}
-
-#departmentListContent{
-	margin-top: 40px;
-	text-align: center;
-	vertical-align: center;
-}
-
-td{
-	height: 120px;
-	text-align: center;
-	margin: 10px;
-}
-
-table {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-img{
-	position: absolute;
-	left: 43px;
-	top: 0px;
-	margin-top: 20px;
-}
-
-.hoverImg{
-	opacity: 0;
-}
-
-.rowWrap:hover .nomalImg {
-	opacity: 0;
-}
-
-.rowWrap:hover .hoverImg {
-	opacity: 1;
-}
-
-.rowWrap:hover .spanCls {
-	color: #2677BB;
-}
-
-.spanCls{
-	color: #9F9F9F;
-}
-
-.departmentListRow {
-	position: relative;
-	width: 140px;
-	height: 80px;
-}
-
-.rowWrap{
-	background-color: #f7fbff;
-	border-radius: 20px;
-	border: 1px solid #9F9F9F;
-}
-
-.rowWrap:hover {
-	border: 1px solid #2677BB;
-}
-
-</style>
 <body>
 	<c:import url="/views/common/userHeader.jsp" />
 	<c:import url="/views/common/userBreadcrumb.jsp" />
 
-	<main id="mainWrap">
-		<div id="departmentListHead">
+	<main id="mainWrap" class="department-list-main">
+		<div class="department-list-head">
 			<h3><span>진료과 목록</span></h3>
+			<p>진료과를 선택하면 해당 진료과 소개와 의료진 목록을 확인할 수 있습니다.</p>
 		</div>
-		<div id="departmentListContent">
-			<table>
-				<c:forEach var="deptDTO" items="${ departmentList }" varStatus="i">
-					<c:if test="${ i.count%5==1 }">
-						<tr>
-					</c:if>
-							<td>
-								<a href="<c:url value='/doctor/doctorList.do?deptNo=${ deptDTO.deptNo }'/>" > 
-									<div class="rowWrap">
-										<div name="departmentListRow[]" class="departmentListRow" >
-											<img name="deptImg[]" class="nomalImg" src="../resources/images/department/${ deptDTO.deptNo }.png"/><br>
-											<img name="deptImgHover[]" class="hoverImg" src="../resources/images/department/${ deptDTO.deptNo }_hover.png"/><br>
-										</div>
-										<div>
-											<span class="spanCls"><c:out value="${ deptDTO.deptName }"/></span>
-										</div>
-									</div>
-								</a>
-							</td>
-					<c:if test="${ i.count%5==0 }">
-						</tr>
-					</c:if>
-				</c:forEach>
-			</table>
+
+		<div class="department-list-grid">
+			<c:forEach var="deptDTO" items="${departmentList}">
+				<c:url var="doctorListUrl" value="/doctor/doctorList.do">
+					<c:param name="deptNo" value="${deptDTO.deptNo}" />
+				</c:url>
+				<a href="${doctorListUrl}" class="department-card">
+					<span class="department-card-icon">
+						<img class="department-icon department-icon-default" src="<c:url value='/resources/images/department/${deptDTO.deptNo}.png' />" alt="">
+						<img class="department-icon department-icon-hover" src="<c:url value='/resources/images/department/${deptDTO.deptNo}_hover.png' />" alt="">
+					</span>
+					<span class="department-card-name"><c:out value="${deptDTO.deptName}" /></span>
+				</a>
+			</c:forEach>
+			<c:if test="${empty departmentList}">
+				<p class="department-list-empty">조회 가능한 진료과가 없습니다.</p>
+			</c:if>
 		</div>
 	</main>
 

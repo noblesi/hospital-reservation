@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>한국중앙병원 | 진료 예약</title>
+<title>진료예약확인 | KCMH 한국중앙병원</title>
 
 <!-- Bootstrap CDN -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -58,7 +58,8 @@
 			<c:if test="${ not empty uasDTOList }">
 				<c:forEach var="uasDTO" items="${ uasDTOList }" varStatus="i">
 				<li class="apptListLi">
-					<img class="docImg" src='<c:url value="../resources/images/doctors/${ uasDTO.thumbnailUrl }"/>'>
+					<c:set var="doctorThumbnail" value="${empty uasDTO.thumbnailUrl ? 'doctor_default.png' : uasDTO.thumbnailUrl}" />
+					<img class="docImg" src='<c:url value="../resources/images/doctors/${ doctorThumbnail }"/>'>
 					<p class="docInfoText">
 						<span class="deptName"><c:out value="${ uasDTO.deptName }"/></span>
 						<span class="docName"><c:out value="${ uasDTO.doctorName }"/></span>
@@ -99,7 +100,7 @@
 			<p class="warnNotiP">
 				진료 예약 취소는 <span class="blue">진료일 이전(자정)</span>까지 가능합니다. (수납기록 및 검사예약이 없는 진료만 변경/취소 가능)<br>
 				예약 후, <span class="blue">해당 일정</span>으로 <span class="blue">타인</span>으로의 변경 요청은 불가합니다.<br>
-				예약이 조회되지 않은 경우에는 <span class="blue">예약센터(1577-0000)</span>나 해당 진료과로 문의해 주십시오.
+				예약이 조회되지 않은 경우에는 <span class="blue">예약센터(1588-0000)</span>나 해당 진료과로 문의해 주십시오.
 			</p>
 		</div>
 

@@ -8,12 +8,12 @@
 
   <context-param>
     <param-name>kakaoMapAppKey</param-name>
-    <param-value></param-value>
+    <param-value>a88bcf76e903776dbca6bad7d1badd17</param-value>
   </context-param>
 
   <context-param>
     <param-name>assetVersion</param-name>
-    <param-value>20260701</param-value>
+    <param-value>20260709</param-value>
   </context-param>
 
   <listener>
@@ -55,6 +55,7 @@
   </filter-mapping>
 
 	<welcome-file-list>
+		<welcome-file>main.do</welcome-file>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 		<welcome-file>index.htm</welcome-file>
@@ -443,6 +444,11 @@
   <servlet>
     <servlet-name>adminDoctorFormServlet</servlet-name>
     <servlet-class>com.hospital.admin.doctor.controller.AdminDoctorFormServlet</servlet-class>
+    <multipart-config>
+      <max-file-size>5242880</max-file-size>
+      <max-request-size>20971520</max-request-size>
+      <file-size-threshold>1048576</file-size-threshold>
+    </multipart-config>
   </servlet>
   <servlet-mapping>
     <servlet-name>adminDoctorFormServlet</servlet-name>

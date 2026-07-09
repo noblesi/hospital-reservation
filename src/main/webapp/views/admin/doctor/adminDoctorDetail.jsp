@@ -516,25 +516,18 @@
 			$('#thumbnailUrl').trigger('click');
 		});
 
-		$('#detailUploadBtn').click(function() {
-			$('#detailImageUrl').trigger('click');
-		});
-		
-
 		$('#thumbnailUrl').change(function() {
 			previewImage(this, 'thumbPreview');
 		});
 
-		$('#detailImageUrl').change(function() {
-			previewImage(this, 'detailPreview');
-		});
-
-		<c:if test="${not empty doctor.thumbnailUrl}">
-			setPreviewImage('thumbPreview', '<c:url value="/resources/images/doctors/${doctor.thumbnailUrl}" />');
-		</c:if>
-		<c:if test="${not empty doctor.detailImageUrl}">
-			setPreviewImage('detailPreview', '<c:url value="/resources/images/doctors/${doctor.detailImageUrl}" />');
-		</c:if>
+		<c:choose>
+			<c:when test="${not empty doctor.thumbnailUrl}">
+				setPreviewImage('thumbPreview', '<c:url value="/resources/images/doctors/${doctor.thumbnailUrl}" />');
+			</c:when>
+			<c:otherwise>
+				setPreviewImage('thumbPreview', '<c:url value="/resources/images/doctors/doctor_default.png" />');
+			</c:otherwise>
+		</c:choose>
 
 		//파라미터값이 존재하는지 여부
 		$.hasParams = function() {
@@ -907,8 +900,30 @@
 										</div>
 
 										<div class="doctor-field-row">
-											<label class="doctor-label" for="phoneNum">연락처</label> 
+											<label class="doctor-label" for="phoneNum">연락처</label>
 											<input type="text" class="doctor-input" id="phoneNum" name="phoneNum" value="${doctor.phoneNum}" />
+											<div></div>
+										</div>
+										<div class="doctor-field-row">
+											<label class="doctor-label" for="positionCode">직급</label>
+											<select class="doctor-select" id="positionCode" name="positionCode">
+												<c:forEach var="position" items="${positionList}">
+													<option value="${position.positionCode}" ${doctor.positionCode eq position.positionCode ? 'selected' : ''}>
+														<c:out value="${position.positionName}" />
+													</option>
+												</c:forEach>
+											</select>
+											<div></div>
+										</div>
+										<div class="doctor-field-row">
+											<label class="doctor-label" for="statusCode">상태</label>
+											<select class="doctor-select" id="statusCode" name="statusCode">
+												<c:forEach var="status" items="${statusList}">
+													<option value="${status.statusCode}" ${doctor.statusCode eq status.statusCode ? 'selected' : ''}>
+														<c:out value="${status.statusName}" />
+													</option>
+												</c:forEach>
+											</select>
 											<div></div>
 										</div>
 									</div>

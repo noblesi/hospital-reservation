@@ -40,7 +40,7 @@
 
     <div class="side-call">
         <p>대표전화</p>
-        <strong>1533-2600</strong>
+        <strong>1588-0000</strong>
         <span>
             평일 09:00 - 18:00<br>
             점심시간 12:30 - 13:30
