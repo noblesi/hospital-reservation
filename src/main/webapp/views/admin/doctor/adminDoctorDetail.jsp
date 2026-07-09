@@ -536,41 +536,33 @@
 		//education
 		$('#addEducationBtn').click(function() {
 			$('#educationListScroll')
-					.append('<div class="doctor-edu-row">')
-					.append('<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" />')
-					.append('<input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." />')
-					.append('<input type="hidden" name="educationNo[]" value=""/>')
-					.append('</div>');
+					.append('<div class="doctor-edu-row">'
+							+ '<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" />'
+							+ '<input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." />'
+							+ '<input type="hidden" name="educationNo[]" value=""/>'
+							+ '</div>');
 		});
-		
+
 		$('#removeEducationBtn').click(function() {
 			const $divRows = $('#educationListScroll .doctor-edu-row');
-			const $eduYearRows = $("[name='educationYear[]']");
-			const $eduConRows = $("[name='educationContent[]']");
-			if ($divRows.length > 1){
+			if ($divRows.length > 0){
 				$divRows.last().remove();
-				$eduYearRows.last().remove();
-				$eduConRows.last().remove();
 			}
 		});
 		/////career
 		$('#addCareerBtn').click(function() {
 			$('#careerListScroll')
-					.append('<div class="doctor-career-row">')
-					.append('<input type="text" class="doctor-input" name="careerYear[]" placeholder="기간" />')
-					.append('<input type="text" class="doctor-input" name="careerContent[]" placeholder="경력을 입력해주세요..." />')
-					.append('<input type="hidden" name="careerNo[]" value=""/>')
-					.append('</div>');
+					.append('<div class="doctor-career-row">'
+							+ '<input type="text" class="doctor-input" name="careerYear[]" placeholder="기간" />'
+							+ '<input type="text" class="doctor-input" name="careerContent[]" placeholder="경력을 입력해주세요..." />'
+							+ '<input type="hidden" name="careerNo[]" value=""/>'
+							+ '</div>');
 		});
 
 		$('#removeCareerBtn').click(function() {
 			const $divRows = $('#careerListScroll .doctor-career-row');
-			const $carPerRows = $("[name='careerYear[]']");
-			const $carConRows = $("[name='careerContent[]']");
-			if ($divRows.length > 1){
+			if ($divRows.length > 0){
 				$divRows.last().remove();
-				$carPerRows.last().remove();
-				$carConRows.last().remove();
 			}
 		});
 
@@ -1159,16 +1151,11 @@
 											<div class="doctor-scroll doctor-history-scroll" id="educationListScroll">
 												<c:forEach var="education" items="${ educationList }">
 													<div class="doctor-edu-row">
-														<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" value="${ education.educationYear }" /> 
+														<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" value="${ education.educationYear }" />
 														<input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." value="${ education.educationContent }" />
 														<input type="hidden" name="educationNo[]" value="${ education.educationNo }"/>
 													</div>
 												</c:forEach>
-												<div class="doctor-edu-row">
-													<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" /> 
-													<input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." />
-													<input type="hidden" name="educationNo[]" value=""/>
-												</div>
 											</div>
 										</div>
 									</div>
@@ -1191,11 +1178,6 @@
 															<input type="hidden" name="careerNo[]" value="${ career.careerNo }"/>
 														</div>
 													</c:forEach>
-													<div class="doctor-career-row">
-														<input type="text" class="doctor-input"  name="careerYear[]" placeholder="기간" /> 
-														<input type="text" class="doctor-input" name="careerContent[]" placeholder="경력을 입력해주세요..." />
-														<input type="hidden" name="careerNo[]" value=""/>
-													</div>
 												</div>
 											</div>
 										</div>
