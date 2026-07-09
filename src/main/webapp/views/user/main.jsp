@@ -74,6 +74,16 @@
             width:100%;
             height:180px;
             background:#f3f6fb;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .quick-icon img{
+            width:96px;
+            height:96px;
+            display:block;
+            object-fit:contain;
         }
 
         .quick-card h3{
