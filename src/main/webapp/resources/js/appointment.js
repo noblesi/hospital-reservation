@@ -146,7 +146,7 @@ function buildDoctorHtml(data) {
         var thumbnailUrl = doctor.thumbnailUrl || "doctor_default.png";
 
         html += "<li class='doctorLi'>"
-              + "<img class='doctorThumnail' src='../resources/images/doctors/" + thumbnailUrl + "'>"
+              + "<img class='doctorThumnail' src='../resources/images/doctors/" + thumbnailUrl + "' onerror=\"this.src='../resources/images/doctors/doctor_default.png'\">"
               + "<div class='doctorInfoDiv'>"
               + "<h4 class='doctorName'>" + doctor.name
               + "<a href='" + getContextPath() +"/doctor/doctorInfo.do?dln=" + doctor.doctorLicenseNo + "'><i class='bi bi-search blueSearchIcon'></i></a></h4>"
