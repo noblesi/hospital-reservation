@@ -37,6 +37,11 @@ public class AdminAuthFilter implements Filter {
 			return;
 		}
 
+		if (isAdminEntryRequest(httpRequest)) {
+			redirect(httpRequest, httpResponse, "/views/admin/auth/adminLogin.jsp");
+			return;
+		}
+
 		HttpSession session = httpRequest.getSession();
 		session.setAttribute("adminLoginMessage", "관리자 로그인 후 이용해 주세요.");
 		redirect(httpRequest, httpResponse, "/views/admin/auth/adminLogin.jsp");
@@ -63,6 +68,11 @@ public class AdminAuthFilter implements Filter {
 		return "/views/admin/auth/adminLogin.jsp".equals(path)
 				|| "/admin/login/process.do".equals(path)
 				|| "/admin/logout.do".equals(path);
+	}
+
+	private boolean isAdminEntryRequest(HttpServletRequest request) {
+		String path = request.getRequestURI().substring(request.getContextPath().length());
+		return "/admin".equals(path) || "/admin/".equals(path);
 	}
 
 	private boolean isAjaxRequest(HttpServletRequest request) {
