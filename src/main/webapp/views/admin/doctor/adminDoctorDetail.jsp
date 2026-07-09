@@ -884,6 +884,23 @@
 											<div></div>
 										</div>
 										<div class="doctor-field-row">
+											<label class="doctor-label" for="positionCode">직책</label> 
+											<select class="doctor-select" id="positionCode" name="positionCode">
+												<c:forEach var="position" items="${ positionList }">
+													<c:choose>
+														<c:when test="${ doctor.positionCode eq position.positionCode }">
+															<option value="${ position.positionCode }" selected="selected"><c:out value="${ position.positionName }"/></option>
+														</c:when>
+														<c:when test="${ doctor.positionCode ne position.positionCode }">
+															<option value="${ position.positionCode }"><c:out value="${ position.positionName }"/></option>
+														</c:when>
+													</c:choose>
+												</c:forEach>
+												
+											</select>
+											<div></div>
+										</div>
+										<div class="doctor-field-row">
 											<label class="doctor-label" for="specialty">전문분야</label> 
 											<input 	type="text" class="doctor-input" id="specialty" name="specialty" value="${doctor.specialty}" />
 											<div></div>
