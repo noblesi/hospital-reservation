@@ -56,7 +56,7 @@
                                 <td>${boardPost.postId}</td>
                                 <td class="text-left"><c:out value="${boardPost.title}" /></td>
                                 <td><c:out value="${boardPost.writerName}" /></td>
-                                <td><c:out value="${boardPost.createdAt}" /></td>
+                                <td><fmt:formatDate value="${boardPost.createdAt}" pattern="yyyy-MM-dd HH:mm" /></td>
                                 <td class="admin-table-actions">
                                     <c:url var="boardFormEditUrl" value="/admin/board/form.do">
                                         <c:param name="postId" value="${boardPost.postId}" />

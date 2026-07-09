@@ -34,7 +34,10 @@
 		
 		/* 예약 취소 */
 		$(".cancelAppointBtn").on("click", function() {
-			location.href = "${pageContext.request.contextPath}/appointment/cancel.do?appointmentNo=${uacDTO.appointmentNo}";
+			if(confirm("예약을 취소하시겠습니까?")) {
+				location.href = "${pageContext.request.contextPath}/appointment/cancel.do?appointmentNo=${uacDTO.appointmentNo}";
+				return;
+			}
 		});
 	});
 </script>
@@ -45,7 +48,7 @@
 	<c:import url="/views/common/userBreadcrumb.jsp" />
 
 	<div id="mainWrap">
-		<div id="container">
+		<div id="scsContainer">
 			<div class="conHeader">
 				<h2 class="title">인터넷 진료 예약</h2>
 
@@ -74,9 +77,9 @@
 					</tr>
 					<tr>
 						<th class="infoTh">연락처</th>
-						<td>
+						<td colspan="3">
 							<c:out value="${ uacDTO.phoneNumber }" />
-						<td>
+						</td>
 					</tr>
 					<tr>
 						<th class="infoTh">진료과</th>
@@ -103,6 +106,7 @@
 				<button class="cancelAppointBtn">예약 취소</button>
 				<button class="checkAppointListBtn">예약 현황 조회</button>
 			</div>
+			
 			<div class="noticeDiv">
 				<h2 class="subTitle">주의사항</h2>
 				<p class="warningNoti">
@@ -110,7 +114,7 @@
 				</p>
 				<h2 class="subTitle">준비사항</h2>
 				<img class="requiredDocImg" src="${pageContext.request.contextPath}/resources/images/appointment/requiredDoc.png">
-				<p class="requireP">
+				<p>
 					<span class="red">신환, 초진 진료</span>인 경우, <span class="red">요양급여의뢰서(진료의뢰서)</span>를 반드시 지참해야 합니다.<br> 본원은 2단계 요양급여를 제공하는 상급종합병원입니다.<br> 건강보험 환자는 1단계 요양급여를 제공하는 의료기관(의원급·병원급-한방포함)에서 발급한 요양급여의뢰서(진료의뢰서)를 제출해야 하며,<br> 의료급여 환자는 2차, 3차 의료급여기관(병원급 이상)에서 발급한 의료급여의뢰서를 제출해야만 요양급여를 받을 수 있습니다.<br>
 				</p>
 				<p>

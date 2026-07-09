@@ -5,6 +5,202 @@
 	padding: 58px 0 90px;
 }
 
+.department-list-main,
+.doctor-list-main {
+	max-width: 1080px;
+}
+
+.department-list-head,
+.doctor-list-head,
+.doctor-location-section h3 {
+	text-align: center;
+}
+
+.department-list-head h3,
+.doctor-list-head h3,
+.doctor-location-section h3,
+.doctor-department-copy h3 {
+	margin: 0;
+	color: #071b3a;
+	font-size: 30px;
+	font-weight: 800;
+	line-height: 1.35;
+}
+
+.department-list-head p,
+.doctor-department-copy p {
+	margin: 14px 0 0;
+	color: #59677d;
+	font-size: 16px;
+	line-height: 1.7;
+}
+
+.department-list-grid {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 18px;
+	margin-top: 36px;
+}
+
+.department-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 150px;
+	padding: 22px 14px;
+	border: 1px solid #d7e3f2;
+	border-radius: 8px;
+	background-color: #f7fbff;
+	color: #34445f;
+	text-decoration: none;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.department-card:hover,
+.department-card:focus {
+	border-color: #2763ba;
+	box-shadow: 0 10px 22px rgba(17, 42, 78, 0.1);
+	color: #2763ba;
+	transform: translateY(-2px);
+}
+
+.department-card-icon {
+	position: relative;
+	display: block;
+	width: 54px;
+	height: 54px;
+	margin-bottom: 16px;
+}
+
+.department-icon {
+	position: absolute;
+	inset: 0;
+	width: 54px;
+	height: 54px;
+	object-fit: contain;
+	transition: opacity 0.2s ease;
+}
+
+.department-icon-hover {
+	opacity: 0;
+}
+
+.department-card:hover .department-icon-default,
+.department-card:focus .department-icon-default {
+	opacity: 0;
+}
+
+.department-card:hover .department-icon-hover,
+.department-card:focus .department-icon-hover {
+	opacity: 1;
+}
+
+.department-card-name {
+	font-size: 16px;
+	font-weight: 800;
+}
+
+.department-list-empty,
+.doctor-list-empty {
+	grid-column: 1 / -1;
+	margin: 0;
+	padding: 36px;
+	border: 1px solid #dfe8f4;
+	border-radius: 8px;
+	background-color: #fff;
+	color: #59677d;
+	text-align: center;
+}
+
+.doctor-department-section {
+	padding: 32px 36px;
+	border: 1px solid #dfe8f4;
+	border-radius: 8px;
+	background-color: #f7fbff;
+	box-shadow: 0 10px 28px rgba(17, 42, 78, 0.06);
+}
+
+.doctor-list-section,
+.doctor-location-section {
+	margin-top: 38px;
+}
+
+.doctor-list-content {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 18px;
+	margin-top: 22px;
+}
+
+.doctor-card {
+	display: grid;
+	grid-template-columns: 150px minmax(0, 1fr);
+	gap: 22px;
+	align-items: center;
+	min-height: 206px;
+	padding: 18px;
+	border: 1px solid #dfe8f4;
+	border-radius: 8px;
+	background-color: #fff;
+	color: #34445f;
+	text-decoration: none;
+	box-shadow: 0 8px 20px rgba(17, 42, 78, 0.06);
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.doctor-card:hover,
+.doctor-card:focus {
+	border-color: #2763ba;
+	box-shadow: 0 12px 26px rgba(17, 42, 78, 0.12);
+	transform: translateY(-2px);
+}
+
+.doctor-card-image {
+	width: 150px;
+	height: 170px;
+	border-radius: 8px;
+	object-fit: cover;
+	background-color: #eef4fb;
+}
+
+.doctor-card-body {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.doctor-card-name {
+	color: #071b3a;
+	font-size: 21px;
+	font-weight: 800;
+}
+
+.doctor-card-label {
+	margin-top: 18px;
+	color: #2763ba;
+	font-size: 14px;
+	font-weight: 800;
+}
+
+.doctor-card-specialty {
+	margin-top: 6px;
+	color: #59677d;
+	line-height: 1.6;
+}
+
+.doctor-location-image {
+	display: block;
+	width: 100%;
+	max-width: 860px;
+	height: auto;
+	margin: 22px auto 0;
+	border: 1px solid #dfe8f4;
+	border-radius: 8px;
+	background-color: #fff;
+	box-shadow: 0 10px 24px rgba(17, 42, 78, 0.08);
+}
+
 #content {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) 360px;
@@ -205,6 +401,14 @@
 		padding: 44px 0 76px;
 	}
 
+	.department-list-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.doctor-list-content {
+		grid-template-columns: 1fr;
+	}
+
 	#content {
 		grid-template-columns: 1fr;
 		gap: 28px;
@@ -222,6 +426,39 @@
 	#mainWrap {
 		width: 94vw;
 		padding: 36px 0 64px;
+	}
+
+	.department-list-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px;
+	}
+
+	.department-card {
+		min-height: 132px;
+		padding: 18px 10px;
+	}
+
+	.doctor-department-section {
+		padding: 24px 20px;
+	}
+
+	.doctor-card {
+		grid-template-columns: 112px minmax(0, 1fr);
+		gap: 16px;
+		min-height: 164px;
+		padding: 14px;
+	}
+
+	.doctor-card-image {
+		width: 112px;
+		height: 136px;
+	}
+
+	.department-list-head h3,
+	.doctor-list-head h3,
+	.doctor-location-section h3,
+	.doctor-department-copy h3 {
+		font-size: 26px;
 	}
 
 	#content {

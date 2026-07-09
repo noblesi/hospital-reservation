@@ -75,27 +75,23 @@
                                 <td><c:out value="${appointment.appointmentDate}" /></td>
                                 <td><c:out value="${appointment.appointmentTime}" /></td>
                                 <td><c:out value="${appointment.status}" /></td>
-                                <td><c:out value="${appointment.createDate}" /></td>
+                                <td><fmt:formatDate value="${appointment.createDate}" pattern="yyyy-MM-dd HH:mm" /></td>
                                 <td class="admin-table-actions">
-                                    <form action="<c:url value='/admin/reservation/status.do' />" method="post">
-                                        <input type="hidden" name="appointmentNo" value="${appointment.appointmentNo}">
-                                        <select name="status">
-                                            <option value="예약대기" ${appointment.status eq '예약대기' ? 'selected' : ''}>예약대기</option>
-                                            <option value="예약완료" ${appointment.status eq '예약완료' ? 'selected' : ''}>예약완료</option>
-                                            <option value="예약취소" ${appointment.status eq '예약취소' ? 'selected' : ''}>예약취소</option>
-                                        </select>
-                                        <button type="submit">변경</button>
-                                    </form>
-                                    <form action="<c:url value='/admin/reservation/status.do' />" method="post">
-                                        <input type="hidden" name="appointmentNo" value="${appointment.appointmentNo}">
-                                        <input type="hidden" name="action" value="approve">
-                                        <button type="submit">승인</button>
-                                    </form>
-                                    <form action="<c:url value='/admin/reservation/status.do' />" method="post">
-                                        <input type="hidden" name="appointmentNo" value="${appointment.appointmentNo}">
-                                        <input type="hidden" name="action" value="cancel">
-                                        <button type="submit">취소</button>
-                                    </form>
+                                    <c:choose>
+                                        <c:when test="${appointment.status eq '예약취소'}">
+                                            <span>사용자 취소</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <form action="<c:url value='/admin/reservation/status.do' />" method="post">
+                                                <input type="hidden" name="appointmentNo" value="${appointment.appointmentNo}">
+                                                <select name="status">
+                                                    <option value="예약대기" ${appointment.status eq '예약대기' ? 'selected' : ''}>예약대기</option>
+                                                    <option value="예약완료" ${appointment.status eq '예약완료' ? 'selected' : ''}>예약완료</option>
+                                                </select>
+                                                <button type="submit">변경</button>
+                                            </form>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </td>
                             </tr>
                         </c:forEach>

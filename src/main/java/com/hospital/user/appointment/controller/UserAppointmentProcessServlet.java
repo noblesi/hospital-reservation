@@ -60,6 +60,7 @@ public class UserAppointmentProcessServlet extends HttpServlet {
         }
 
         UserAppointmentConfirmDTO uacDTO = userAppointmentService.reserveAppointment(modifyApptNo, patientNo, uarDTO);
+        
         if (uacDTO == null) {
             request.getSession().setAttribute("errorMessage", "이미 예약된 시간입니다. 다시 시도해주세요.");
             response.sendRedirect(request.getContextPath() + "/appointment/reserve.do");

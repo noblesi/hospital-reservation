@@ -100,7 +100,6 @@ public class AdminDoctorDAO {
 				doctorDTO.setStatusCode(rs.getString("status_code"));
 				doctorDTO.setIntroContent(rs.getString("intro_content"));
 				doctorDTO.setThumbnailUrl(rs.getString("thumbnail_url"));
-				doctorDTO.setDetailImageUrl(rs.getString("detail_image_url"));
 				doctorDTO.setSpecialty(rs.getString("specialty"));
 				
 				list.add(doctorDTO);
@@ -126,8 +125,8 @@ public class AdminDoctorDAO {
 
 		StringBuilder selectSql = new StringBuilder();
 		selectSql
-			.append("	select num, doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code		")
-			.append("	from (select rownum num, doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code from doctor)		")
+			.append("	select num, doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, create_date, specialty, status_code		")
+			.append("	from (select rownum num, doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, create_date, specialty, status_code from doctor)		")
 			.append("	where 1 = 1	"	);
 
 
@@ -191,7 +190,6 @@ public class AdminDoctorDAO {
 				doctorDTO.setIntroTitle(rs.getString("intro_title"));
 				doctorDTO.setIntroContent(rs.getString("intro_content"));
 				doctorDTO.setThumbnailUrl(rs.getString("thumbnail_url"));
-				doctorDTO.setDetailImageUrl(rs.getString("detail_image_url"));
 				doctorDTO.setSpecialty(rs.getString("specialty"));
 				
 				list.add(doctorDTO);
@@ -243,7 +241,6 @@ public class AdminDoctorDAO {
 				doctorDTO.setIntroTitle(rs.getString("intro_title"));
 				doctorDTO.setIntroContent(rs.getString("intro_content"));
 				doctorDTO.setThumbnailUrl(rs.getString("thumbnail_url"));
-				doctorDTO.setDetailImageUrl(rs.getString("detail_image_url"));
 				doctorDTO.setSpecialty(rs.getString("specialty"));
 				doctorDTO.setStatusCode(rs.getString("status_code"));
 			}// end if
@@ -270,8 +267,8 @@ public class AdminDoctorDAO {
 		try {
 			insertSql
 			.append("	insert all 	")
-			.append("	into doctor( doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, create_date, specialty, status_code)		")
-			.append("	values( ?, ?, ?, ?, ?, ?, ?, ?, ?,sysdate, ?, ? )		");
+			.append("	into doctor( doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, create_date, specialty, status_code)		")
+			.append("	values( ?, ?, ?, ?, ?, ?, ?, ?, sysdate, ?, ? )		");
 			
 			//career
 			for(int i =0; i < adminDoctorFormDTOTemp.getCareerList().size(); i++) {
@@ -299,7 +296,7 @@ public class AdminDoctorDAO {
 			
 			pstmt = conn.prepareStatement(insertSql.toString());
 			
-			//doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, detail_image_url, specialty, status_code
+			//doctor_license_no, dept_no, name, phone_num, position_code, intro_title, intro_content, thumbnail_url, specialty, status_code
 			pstmt.setInt(1, adminDoctorFormDTOTemp.getDoctorDTO().getDoctorLicenseNo());
 			pstmt.setString(2, adminDoctorFormDTOTemp.getDoctorDTO().getDeptNo());
 			pstmt.setString(3, adminDoctorFormDTOTemp.getDoctorDTO().getName());
@@ -308,11 +305,10 @@ public class AdminDoctorDAO {
 			pstmt.setString(6, adminDoctorFormDTOTemp.getDoctorDTO().getIntroTitle());
 			pstmt.setString(7, adminDoctorFormDTOTemp.getDoctorDTO().getIntroContent());
 			pstmt.setString(8, adminDoctorFormDTOTemp.getDoctorDTO().getThumbnailUrl());
-			pstmt.setString(9, adminDoctorFormDTOTemp.getDoctorDTO().getDetailImageUrl());
-			pstmt.setString(10, adminDoctorFormDTOTemp.getDoctorDTO().getSpecialty());
-			pstmt.setString(11, adminDoctorFormDTOTemp.getDoctorDTO().getStatusCode());
-			
-			int markCnt = 12;
+			pstmt.setString(9, adminDoctorFormDTOTemp.getDoctorDTO().getSpecialty());
+			pstmt.setString(10, adminDoctorFormDTOTemp.getDoctorDTO().getStatusCode());
+
+			int markCnt = 11;
 			
 			//career
 			for(int i =0; i < adminDoctorFormDTOTemp.getCareerList().size(); i++) {
@@ -360,7 +356,7 @@ public class AdminDoctorDAO {
 		updateSql
 		.append("	update doctor		")
 		.append("	set dept_No=?, name=?, phone_Num=?, position_Code=?, intro_Title=?,		")
-		.append("	intro_Content=?, thumbnail_Url=?, detail_Image_Url=?, specialty=?, status_Code=?		")
+		.append("	intro_Content=?, thumbnail_Url=?, specialty=?, status_Code=?		")
 		.append("	where doctor_License_No=?		");
 		
 		try {
@@ -374,10 +370,9 @@ public class AdminDoctorDAO {
 			pstmt.setString(5, doctorDTOTemp.getIntroTitle());
 			pstmt.setString(6, doctorDTOTemp.getIntroContent());
 			pstmt.setString(7, doctorDTOTemp.getThumbnailUrl());
-			pstmt.setString(8, doctorDTOTemp.getDetailImageUrl());
-			pstmt.setString(9, doctorDTOTemp.getSpecialty());
-			pstmt.setString(10, doctorDTOTemp.getStatusCode());
-			pstmt.setInt(11, doctorDTOTemp.getDoctorLicenseNo());
+			pstmt.setString(8, doctorDTOTemp.getSpecialty());
+			pstmt.setString(9, doctorDTOTemp.getStatusCode());
+			pstmt.setInt(10, doctorDTOTemp.getDoctorLicenseNo());
 			
 			updateCnt = pstmt.executeUpdate();
 			

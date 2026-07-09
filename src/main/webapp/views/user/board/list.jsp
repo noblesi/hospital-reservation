@@ -59,7 +59,7 @@
                                 </a>
                             </td>
                             <td><c:out value="${boardPost.writerName}" /></td>
-                            <td><c:out value="${boardPost.createdAt}" /></td>
+                            <td><fmt:formatDate value="${boardPost.createdAt}" pattern="yyyy-MM-dd HH:mm" /></td>
                             <td><c:out value="${boardPost.viewCount}" /></td>
                         </tr>
                     </c:forEach>

@@ -8,12 +8,12 @@
 
   <context-param>
     <param-name>kakaoMapAppKey</param-name>
-    <param-value></param-value>
+    <param-value>a88bcf76e903776dbca6bad7d1badd17</param-value>
   </context-param>
 
   <context-param>
     <param-name>assetVersion</param-name>
-    <param-value>20260701</param-value>
+    <param-value>20260709</param-value>
   </context-param>
 
   <listener>
@@ -316,6 +316,36 @@
     <servlet-name>appointmentSuccessServlet</servlet-name>
     <url-pattern>/appointment/success.do</url-pattern>
     <url-pattern>/appointment/appointmentSuccess.jsp</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>doctorInfoServlet</servlet-name>
+    <servlet-class>com.hospital.user.doctor.controller.UserDoctorInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>doctorInfoServlet</servlet-name>
+    <url-pattern>/doctor/doctorInfo.do</url-pattern>
+    <url-pattern>/doctor/doctorInfo.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>doctorListServlet</servlet-name>
+    <servlet-class>com.hospital.user.doctor.controller.UserDoctorListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>doctorListServlet</servlet-name>
+    <url-pattern>/doctor/doctorList.do</url-pattern>
+    <url-pattern>/doctor/doctorList.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>userDepartmentServlet</servlet-name>
+    <servlet-class>com.hospital.user.department.controller.UserDepartmentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>userDepartmentServlet</servlet-name>
+    <url-pattern>/department/departmentList.do</url-pattern>
+    <url-pattern>/department/departmentList.jsp</url-pattern>
   </servlet-mapping>
 
   <servlet>

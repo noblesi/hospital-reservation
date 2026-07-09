@@ -13,8 +13,7 @@
 	margin: 0px auto;
 }
 
-#container::after,
-.conHeader::after {
+#container::after, .conHeader::after {
 	content: "";
 	display: block;
 	clear: both;
@@ -139,8 +138,7 @@ ul {
 	float: left;
 }
 
-.btnNext,
-.btnPrev {
+.btnNext, .btnPrev {
 	width: 20px;
 	height: 20px;
 	border: none;
@@ -386,8 +384,8 @@ ul {
 .nextMonthBtn {
 	float: right;
 }
-.prevMonthBtn,
-.nextMonthBtn {
+
+.prevMonthBtn, .nextMonthBtn {
 	border: 0px;
 	background-color: #FFFFFF;
 	font-size: 30px;
@@ -395,7 +393,7 @@ ul {
 }
 
 .nowMonthTitle {
-	float:left;
+	float: left;
 	width: 135px;
 	height: 46px;
 	text-align: center;
@@ -420,15 +418,14 @@ ul {
 	font-weight: 400;
 }
 
-.calTab span,
-.ex {
-    display: inline-block; 
-    width: 33px; 
-    height: 35px;
-    line-height: 35px;
-    text-align: center;
-    border-radius: 50%;
-    margin: 0px 1px;
+.calTab span, .ex {
+	display: inline-block;
+	width: 33px;
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+	border-radius: 50%;
+	margin: 0px 1px;
 }
 
 .available {
@@ -448,7 +445,7 @@ ul {
 }
 
 .selectedDay {
-	color : #fff;
+	color: #fff;
 	background-color: #2763ba;
 }
 
@@ -457,8 +454,8 @@ ul {
 }
 
 .ex {
-	width: 25px; 
-    height: 25px;
+	width: 25px;
+	height: 25px;
 	margin-left: 10px;
 	position: relative;
 	top: 5px;
@@ -523,7 +520,7 @@ ul {
 }
 
 .conHeader {
-	grid-column: 1 / -1;
+	grid-column: 1/-1;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -532,8 +529,7 @@ ul {
 	margin-bottom: 0;
 }
 
-.title,
-.telDiv {
+.title, .telDiv {
 	float: none;
 }
 
@@ -565,30 +561,22 @@ ul {
 	font-size: 18px;
 }
 
-.deptWrap,
-.doctorListDiv,
-.rsInfoWrap,
-.scheduleDiv {
+.deptWrap, .doctorListDiv, .rsInfoWrap, .scheduleDiv {
 	float: none;
 	width: 100%;
 	margin-left: 0;
 }
 
-.deptWrap,
-.rsInfoWrap {
+.deptWrap, .rsInfoWrap {
 	height: auto;
 	min-height: 310px;
 }
 
-.doctorListDiv,
-.scheduleDiv {
+.doctorListDiv, .scheduleDiv {
 	margin-top: 0;
 }
 
-.deptWrap,
-.rsInfoWrap,
-.doctorListDiv,
-.scheduleCalDiv {
+.deptWrap, .rsInfoWrap, .doctorListDiv, .scheduleCalDiv {
 	border: 1px solid #dfe8f4;
 	border-radius: 8px;
 	box-shadow: 0 10px 28px rgba(17, 42, 78, 0.07);
@@ -609,10 +597,7 @@ ul {
 	border-bottom: 1px solid #edf1f6;
 }
 
-.sortRadioDiv,
-.dNameInputDiv,
-#searchBtn,
-#dNameInput {
+.sortRadioDiv, .dNameInputDiv, #searchBtn, #dNameInput {
 	float: none;
 	margin: 0;
 }
@@ -648,8 +633,7 @@ ul {
 	background: #2763ba;
 }
 
-.deptListDiv,
-.doctorListMain {
+.deptListDiv, .doctorListMain {
 	border-top-color: #2763ba;
 	border-bottom-color: #dfe8f4;
 }
@@ -661,14 +645,11 @@ ul {
 	align-items: center;
 }
 
-.btnPrev,
-.btnNext,
-.sliderWindow {
+.btnPrev, .btnNext, .sliderWindow {
 	float: none;
 }
 
-.btnPrev,
-.btnNext {
+.btnPrev, .btnNext {
 	margin-top: 0;
 }
 
@@ -694,7 +675,7 @@ ul {
 	color: #2763ba;
 }
 
-.selectDept {
+.selectDept, .selectDept:hover {
 	background: #2763ba;
 	color: #fff;
 	text-decoration: none;
@@ -712,7 +693,7 @@ ul {
 
 .rsInfoElm {
 	min-height: 36px;
-	padding: 5px 0;
+	padding: 10px 0;
 	border-top: 1px solid rgba(255, 255, 255, 0.18);
 	font-size: 16px;
 	line-height: 1.55;
@@ -724,8 +705,7 @@ ul {
 	margin-bottom: 0;
 }
 
-.doctorListTitle,
-.scheduleCalTitle {
+.doctorListTitle, .scheduleCalTitle {
 	color: #071b3a;
 }
 
@@ -790,8 +770,7 @@ ul {
 	border-color: #FFF;
 }
 
-.noResult,
-.result {
+.noResult, .result {
 	color: #6e7f98;
 	font-size: 18px;
 }
@@ -807,8 +786,7 @@ ul {
 	font-size: 21px;
 }
 
-.prevMonthBtn,
-.nextMonthBtn {
+.prevMonthBtn, .nextMonthBtn {
 	color: #2763ba;
 	cursor: pointer;
 }
@@ -817,8 +795,7 @@ ul {
 	color: #34445f;
 }
 
-.available,
-.available span {
+.available, .available span {
 	cursor: pointer;
 }
 
@@ -830,8 +807,7 @@ ul {
 	background-color: #ffe1e9;
 }
 
-.selectedDay,
-.selectedTime {
+.selectedDay, .selectedTime {
 	background-color: #2763ba;
 }
 
@@ -849,31 +825,24 @@ ul {
 	line-height: 30px;
 }
 
-#appointBtn,
-.confirmBtn,
-.lastConfrimBtn {
+#appointBtn, .confirmBtn, .lastConfrimBtn {
 	border-radius: 4px;
 	background: #2763ba;
 	font-weight: 800;
 	cursor: pointer;
 }
 
-#appointBtn:hover,
-.confirmBtn:hover,
-.lastConfrimBtn:hover {
+#appointBtn:hover, .confirmBtn:hover, .lastConfrimBtn:hover {
 	background: #1f529b;
 }
 
-.modalContent,
-.lastConfirmDiv {
+.modalContent, .lastConfirmDiv {
 	border-radius: 8px;
 	overflow: hidden;
 	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 }
 
-.modalHeader,
-.lastConfirmHeader,
-.modalXBtn {
+.modalHeader, .lastConfirmHeader, .modalXBtn {
 	background-color: #2763ba;
 }
 
@@ -906,10 +875,10 @@ ul {
 	top: 0px;
 	left: 0px;
 	width: 100%;
-    min-height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5); /* 화면을 어둡게 하는 가림막 효과 */
-    z-index: 9999;
+	min-height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5); /* 화면을 어둡게 하는 가림막 효과 */
+	z-index: 9999;
 }
 
 .modalOverlay.show {
@@ -1152,182 +1121,132 @@ ul {
 	height: 40px;
 }
 
-@media (max-width: 1200px) {
+@media ( max-width : 1200px) {
 	#container {
 		width: var(--user-page-width);
 		display: block;
 	}
-
-	.deptWrap,
-	.doctorListDiv,
-	.rsInfoWrap,
-	.scheduleDiv {
+	.deptWrap, .doctorListDiv, .rsInfoWrap, .scheduleDiv {
 		float: none;
 		width: 100%;
 		height: auto;
 		margin-left: 0;
 	}
-
-	.rsInfoWrap,
-	.scheduleDiv {
+	.rsInfoWrap, .scheduleDiv {
 		margin-top: 20px;
 	}
-
 	.rsInfoWrap {
 		min-height: 220px;
 		padding-bottom: 28px;
 	}
-
 	.doctorListDiv {
 		min-height: 520px;
 	}
-
 	.doctorListMain {
 		height: auto;
 		min-height: 420px;
 	}
-
 	.doctorUl {
 		height: auto;
 		max-height: 620px;
 	}
-
 	.scheduleCalDiv {
 		height: auto;
 		min-height: 380px;
 		padding-bottom: 24px;
 	}
-
-	.scheduleCal,
-	.moveMonthBar,
-	.calTab {
+	.scheduleCal, .moveMonthBar, .calTab {
 		width: min(100%, 320px);
 		margin-left: auto;
 		margin-right: auto;
 	}
-
 	#appointBtn {
 		width: 100%;
 		height: 64px;
 	}
-
-	.sliderWindow,
-	.sliderPage {
+	.sliderWindow, .sliderPage {
 		width: calc(100% - 40px);
 	}
-
 	.sliderWindow {
 		width: 100%;
 	}
-
 	.deptListDiv {
 		width: calc(100% - 50px);
 	}
 }
 
-@media (max-width: 760px) {
+@media ( max-width : 760px) {
 	.conHeader {
 		height: auto;
 		padding-top: 42px;
 		margin-bottom: 36px;
 	}
-
-	.title,
-	.telDiv,
-	.sortRadioDiv,
-	.dNameInputDiv {
+	.title, .telDiv, .sortRadioDiv, .dNameInputDiv {
 		float: none;
 	}
-
 	.title {
 		font-size: 32px;
 	}
-
 	.telDiv {
 		margin-top: 14px;
 	}
-
 	.deptWrap {
 		min-height: 380px;
 	}
-
 	.searchBar {
 		height: auto;
 		padding: 18px 20px 8px;
 	}
-
-	.sortRadioDiv,
-	.dNameInputDiv {
+	.sortRadioDiv, .dNameInputDiv {
 		margin: 0;
 	}
-
 	.dNameInputDiv {
 		display: flex;
 		margin-top: 14px;
 	}
-
 	#dNameInput {
 		flex: 1;
 		width: auto;
 		min-width: 0;
 	}
-
-	.sliderWindow,
-	.sliderPage {
+	.sliderWindow, .sliderPage {
 		width: calc(100% - 48px);
 	}
-
 	.sliderPage {
 		padding-left: 18px;
 	}
-
-	.slCol,
-	.doctorLi {
+	.slCol, .doctorLi {
 		width: 100%;
 	}
-
-	.doctorInfoDiv,
-	.doctorThumnail {
+	.doctorInfoDiv, .doctorThumnail {
 		float: none;
 	}
-
 	.doctorInfoDiv {
 		width: 100%;
 		height: auto;
 		margin-top: 12px;
 	}
-
 	.modalContent {
 		top: 24px;
 		min-height: 0;
 	}
-
-	.specialtyDiv,
-	.specialtyTitle,
-	.specialtyNotice,
-	.lastConfirmInfo {
+	.specialtyDiv, .specialtyTitle, .specialtyNotice, .lastConfirmInfo {
 		width: calc(100% - 32px);
 		height: auto;
 	}
-
 	.specialtyTop {
 		height: auto;
 		padding: 18px;
 	}
-
-	.exclamationIcon,
-	.specialtyTitle,
-	.specialtyNotice {
+	.exclamationIcon, .specialtyTitle, .specialtyNotice {
 		float: none;
 		line-height: 1.5;
 		margin: 0;
 	}
-
 	.lastConfirmHeaderTitle {
 		width: calc(100% - 44px);
 		font-size: 20px;
 	}
-
 	.lastConfirmInfoP {
 		font-size: 22px;
 	}

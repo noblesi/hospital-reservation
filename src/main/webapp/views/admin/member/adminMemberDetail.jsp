@@ -89,7 +89,7 @@
                         <c:forEach var="memo" items="${memoList}">
                             <tr>
                                 <td><c:out value="${memo.memoNo}" /></td>
-                                <td><c:out value="${memo.adminId}" /></td>
+                                <td><c:out value="${memo.adminName}" /></td>
                                 <td class="text-left"><c:out value="${memo.content}" /></td>
                                 <td><c:out value="${memo.createdAt}" /></td>
                                 <td class="admin-table-actions">

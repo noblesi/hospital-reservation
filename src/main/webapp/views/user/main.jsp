@@ -41,7 +41,7 @@
                             <a href="${noticeDetailUrl}">
                                 <c:out value="${notice.title}" />
                             </a>
-                            <span><c:out value="${notice.createdAt}" /></span>
+                            <span><fmt:formatDate value="${notice.createdAt}" pattern="yyyy-MM-dd HH:mm" /></span>
                         </li>
                     </c:forEach>
                     <c:if test="${empty recentNoticeList}">
@@ -64,7 +64,7 @@
                             <a href="${faqDetailUrl}">
                                 <c:out value="${faq.title}" />
                             </a>
-                            <span><c:out value="${faq.createdAt}" /></span>
+                            <span><fmt:formatDate value="${faq.createdAt}" pattern="yyyy-MM-dd HH:mm" /></span>
                         </li>
                     </c:forEach>
                     <c:if test="${empty recentFaqList}">
