@@ -43,8 +43,9 @@
 					<c:url var="doctorInfoUrl" value="/doctor/doctorInfo.do">
 						<c:param name="dln" value="${docDTO.doctorLicenseNo}" />
 					</c:url>
+					<c:set var="doctorThumbnail" value="${empty docDTO.thumbnailUrl ? 'doctor_default.png' : docDTO.thumbnailUrl}" />
 					<a href="${doctorInfoUrl}" class="doctor-card">
-						<img class="doctor-card-image" src="<c:url value='/resources/images/doctors/${docDTO.thumbnailUrl}' />" alt="${docDTO.name} 의료진 사진">
+						<img class="doctor-card-image" src="<c:url value='/resources/images/doctors/${doctorThumbnail}' />" alt="${docDTO.name} 의료진 사진">
 						<span class="doctor-card-body">
 							<strong class="doctor-card-name"><c:out value="${docDTO.name}" /></strong>
 							<span class="doctor-card-label">전문분야</span>

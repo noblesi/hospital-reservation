@@ -520,9 +520,14 @@
 			previewImage(this, 'thumbPreview');
 		});
 
-		<c:if test="${not empty doctor.thumbnailUrl}">
-			setPreviewImage('thumbPreview', '<c:url value="/resources/images/doctors/${doctor.thumbnailUrl}" />');
-		</c:if>
+		<c:choose>
+			<c:when test="${not empty doctor.thumbnailUrl}">
+				setPreviewImage('thumbPreview', '<c:url value="/resources/images/doctors/${doctor.thumbnailUrl}" />');
+			</c:when>
+			<c:otherwise>
+				setPreviewImage('thumbPreview', '<c:url value="/resources/images/doctors/doctor_default.png" />');
+			</c:otherwise>
+		</c:choose>
 
 		//파라미터값이 존재하는지 여부
 		$.hasParams = function() {
