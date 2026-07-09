@@ -537,7 +537,7 @@ public class AdminDoctorDAO {
 			
 			updateSql
 			.append("	update doctor_schedule		")
-			.append("	set day_of_week=?, 		")
+			.append("	set  		")
 			.append("	start_time=?, 		")
 			.append("	end_time=?, 		")
 			.append("	status=?  		")
