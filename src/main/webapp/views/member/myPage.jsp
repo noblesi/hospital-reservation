@@ -8,7 +8,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>마이페이지</title>
+<title>마이페이지 | KMCH 한국중앙병원</title>
 <link rel="stylesheet" href="<c:url value='/resources/css/sideBar.css' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/mypage.css?v=${initParam.assetVersion}' />">

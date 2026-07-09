@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>내 정보 관리</title>
+<title>내 정보 관리 | KMCH 한국중앙병원</title>
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/sideBar.css' />">
 <link rel="stylesheet"
