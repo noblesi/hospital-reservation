@@ -38,6 +38,7 @@ public class AdminDoctorFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String DOCTOR_IMAGE_DIR = "/resources/images/doctors";
 	private static final String DEFAULT_DOCTOR_IMAGE = "doctor_default.png";
+	private static final String UPLOADED_DOCTOR_IMAGE_PATH_ATTR = "uploadedDoctorImagePath";
 	private static final DateTimeFormatter FILE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
 
 	private final AdminDoctorService adminDoctorService = new AdminDoctorService();
@@ -109,6 +110,7 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		if (success) {
 			request.getSession().setAttribute("message", "의료진 정보를 저장했습니다.");
 		} else {
+			deleteUploadedDoctorImage(request);
 			request.getSession().setAttribute("errorMessage", "의료진 정보를 저장하지 못했습니다.");
 		}
 
@@ -174,8 +176,21 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		try (InputStream inputStream = imagePart.getInputStream()) {
 			Files.copy(inputStream, targetPath, StandardCopyOption.REPLACE_EXISTING);
 		}
+		request.setAttribute(UPLOADED_DOCTOR_IMAGE_PATH_ATTR, targetPath);
 
 		return savedFileName;
+	}
+
+	private void deleteUploadedDoctorImage(HttpServletRequest request) {
+		Object uploadedImagePath = request.getAttribute(UPLOADED_DOCTOR_IMAGE_PATH_ATTR);
+		if (!(uploadedImagePath instanceof Path)) {
+			return;
+		}
+
+		try {
+			Files.deleteIfExists((Path) uploadedImagePath);
+		} catch (IOException ignored) {
+		}
 	}
 
 	private Path resolveDoctorImageUploadDir() {
@@ -302,16 +317,11 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		String[] startTimes = request.getParameterValues("startTimeValue[]");
 		String[] endTimes = request.getParameterValues("endTimeValue[]");
 
-		if (statuses == null) {
-			return scheduleList;
-		}
-
-		int scheduleCount = Math.min(statuses.length, 7);
-		for (int i = 0; i < scheduleCount; i++) {
+		for (int i = 0; i < 7; i++) {
 			DoctorScheduleDTO schedule = new DoctorScheduleDTO();
 			schedule.setDoctorLicenseNo(doctorLicenseNo);
 			schedule.setDayOfWeek(i + 1);
-			schedule.setStatus(defaultValue(statuses[i], ""));
+			schedule.setStatus(defaultValue(valueAt(statuses, i), ""));
 			schedule.setStartTime(defaultValue(valueAt(startTimes, i), ""));
 			schedule.setEndTime(defaultValue(valueAt(endTimes, i), ""));
 			scheduleList.add(schedule);

@@ -914,10 +914,365 @@ public class AdminDoctorDAO {
 		} finally {
 			DBConnection.close(rs,pstmt,conn);
 		}// end try catch
-		
+
 		return insertCnt;
 	}// insertDoctorEducation
-	
+
+	public int updateDoctorForm(AdminDoctorFormDTO formDTO) {
+		Connection conn = null;
+		boolean originalAutoCommit = true;
+
+		try {
+			conn = DBConnection.getConnection();
+			originalAutoCommit = conn.getAutoCommit();
+			conn.setAutoCommit(false);
+
+			int doctorLicenseNo = formDTO.getDoctorDTO().getDoctorLicenseNo();
+			if (updateDoctor(conn, formDTO.getDoctorDTO()) != 1) {
+				conn.rollback();
+				return 0;
+			}
+
+			syncDoctorCareers(conn, doctorLicenseNo, formDTO.getCareerList());
+			syncDoctorEducations(conn, doctorLicenseNo, formDTO.getEducationList());
+			saveDoctorSchedules(conn, doctorLicenseNo, formDTO.getScheduleList());
+
+			conn.commit();
+			return 1;
+		} catch (SQLException e) {
+			rollback(conn);
+			LOGGER.log(Level.SEVERE, "관리자 의료진 정보 저장 실패", e);
+		} finally {
+			restoreAutoCommit(conn, originalAutoCommit);
+			DBConnection.close(conn);
+		}
+
+		return 0;
+	}
+
+	private int updateDoctor(Connection conn, DoctorDTO doctorDTO) throws SQLException {
+		StringBuilder updateSql = new StringBuilder();
+		updateSql
+				.append("	update doctor		")
+				.append("	set dept_No=?, name=?, phone_Num=?, position_Code=?, intro_Title=?,		")
+				.append("	intro_Content=?, thumbnail_Url=?, specialty=?, status_Code=?		")
+				.append("	where doctor_License_No=?		");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(updateSql.toString())) {
+			pstmt.setString(1, doctorDTO.getDeptNo());
+			pstmt.setString(2, doctorDTO.getName());
+			pstmt.setString(3, doctorDTO.getPhoneNum());
+			pstmt.setString(4, doctorDTO.getPositionCode());
+			pstmt.setString(5, doctorDTO.getIntroTitle());
+			pstmt.setString(6, doctorDTO.getIntroContent());
+			pstmt.setString(7, doctorDTO.getThumbnailUrl());
+			pstmt.setString(8, doctorDTO.getSpecialty());
+			pstmt.setString(9, doctorDTO.getStatusCode());
+			pstmt.setInt(10, doctorDTO.getDoctorLicenseNo());
+			return pstmt.executeUpdate();
+		}
+	}
+
+	private void syncDoctorCareers(Connection conn, int doctorLicenseNo, List<DoctorCareerDTO> careerList)
+			throws SQLException {
+		List<DoctorCareerDTO> originCareerList = selectDoctorCareerList(conn, doctorLicenseNo);
+		List<DoctorCareerDTO> currentCareerList = careerList == null ? new ArrayList<DoctorCareerDTO>() : careerList;
+
+		for (DoctorCareerDTO career : currentCareerList) {
+			if (career.getCareerNo() > 0 && selectDoctorCareerChk(conn, doctorLicenseNo, career.getCareerNo())) {
+				updateDoctorCareer(conn, doctorLicenseNo, career);
+			} else if (career.getCareerNo() == 0 && hasText(career.getCareerYear()) && hasText(career.getCareerContent())) {
+				insertDoctorCareer(conn, career);
+			}
+		}
+
+		for (DoctorCareerDTO originCareer : originCareerList) {
+			if (!containsCareerNo(currentCareerList, originCareer.getCareerNo())) {
+				deleteDoctorCareer(conn, doctorLicenseNo, originCareer.getCareerNo());
+			}
+		}
+	}
+
+	private void syncDoctorEducations(Connection conn, int doctorLicenseNo, List<DoctorEducationDTO> educationList)
+			throws SQLException {
+		List<DoctorEducationDTO> originEducationList = selectDoctorEducationList(conn, doctorLicenseNo);
+		List<DoctorEducationDTO> currentEducationList = educationList == null ? new ArrayList<DoctorEducationDTO>() : educationList;
+
+		for (DoctorEducationDTO education : currentEducationList) {
+			if (education.getEducationNo() > 0 && selectDoctorEducationChk(conn, doctorLicenseNo, education.getEducationNo())) {
+				updateDoctorEducation(conn, doctorLicenseNo, education);
+			} else if (education.getEducationNo() == 0 && hasText(education.getEducationYear()) && hasText(education.getEducationContent())) {
+				insertDoctorEducation(conn, education);
+			}
+		}
+
+		for (DoctorEducationDTO originEducation : originEducationList) {
+			if (!containsEducationNo(currentEducationList, originEducation.getEducationNo())) {
+				deleteDoctorEducation(conn, doctorLicenseNo, originEducation.getEducationNo());
+			}
+		}
+	}
+
+	private void saveDoctorSchedules(Connection conn, int doctorLicenseNo, List<DoctorScheduleDTO> scheduleList)
+			throws SQLException {
+		List<DoctorScheduleDTO> currentScheduleList = scheduleList == null ? new ArrayList<DoctorScheduleDTO>() : scheduleList;
+
+		for (DoctorScheduleDTO schedule : currentScheduleList) {
+			int updateCnt = updateDoctorSchedule(conn, doctorLicenseNo, schedule);
+			if (updateCnt == 0) {
+				insertDoctorSchedule(conn, schedule);
+			}
+		}
+	}
+
+	private List<DoctorCareerDTO> selectDoctorCareerList(Connection conn, int doctorLicenseNo) throws SQLException {
+		List<DoctorCareerDTO> list = new ArrayList<DoctorCareerDTO>();
+		StringBuilder selectSql = new StringBuilder();
+		selectSql
+				.append("	select * from doctor_career		")
+				.append("	where doctor_license_no = ?		");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(selectSql.toString())) {
+			pstmt.setInt(1, doctorLicenseNo);
+
+			try (ResultSet rs = pstmt.executeQuery()) {
+				while (rs.next()) {
+					DoctorCareerDTO career = new DoctorCareerDTO();
+					career.setCareerNo(rs.getInt("career_no"));
+					career.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
+					career.setCareerYear(rs.getString("career_year"));
+					career.setCareerContent(rs.getString("career_content"));
+					list.add(career);
+				}
+			}
+		}
+
+		return list;
+	}
+
+	private List<DoctorEducationDTO> selectDoctorEducationList(Connection conn, int doctorLicenseNo) throws SQLException {
+		List<DoctorEducationDTO> list = new ArrayList<DoctorEducationDTO>();
+		StringBuilder selectSql = new StringBuilder();
+		selectSql
+				.append("	select * from doctor_education		")
+				.append("	where doctor_license_no = ?		");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(selectSql.toString())) {
+			pstmt.setInt(1, doctorLicenseNo);
+
+			try (ResultSet rs = pstmt.executeQuery()) {
+				while (rs.next()) {
+					DoctorEducationDTO education = new DoctorEducationDTO();
+					education.setEducationNo(rs.getInt("education_no"));
+					education.setDoctorLicenseNo(rs.getInt("doctor_license_no"));
+					education.setEducationYear(rs.getString("education_year"));
+					education.setEducationContent(rs.getString("education_content"));
+					list.add(education);
+				}
+			}
+		}
+
+		return list;
+	}
+
+	private boolean selectDoctorCareerChk(Connection conn, int doctorLicenseNo, int careerNo) throws SQLException {
+		StringBuilder selectSql = new StringBuilder();
+		selectSql
+				.append("	select 1 from doctor_career		")
+				.append("	where doctor_license_no = ?	and career_no = ?	");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(selectSql.toString())) {
+			pstmt.setInt(1, doctorLicenseNo);
+			pstmt.setInt(2, careerNo);
+
+			try (ResultSet rs = pstmt.executeQuery()) {
+				return rs.next();
+			}
+		}
+	}
+
+	private boolean selectDoctorEducationChk(Connection conn, int doctorLicenseNo, int educationNo) throws SQLException {
+		StringBuilder selectSql = new StringBuilder();
+		selectSql
+				.append("	select 1 from doctor_education		")
+				.append("	where doctor_license_no = ?	and education_no = ?	");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(selectSql.toString())) {
+			pstmt.setInt(1, doctorLicenseNo);
+			pstmt.setInt(2, educationNo);
+
+			try (ResultSet rs = pstmt.executeQuery()) {
+				return rs.next();
+			}
+		}
+	}
+
+	private int insertDoctorCareer(Connection conn, DoctorCareerDTO career) throws SQLException {
+		StringBuilder insertSql = new StringBuilder();
+		insertSql
+				.append(" insert into doctor_career(career_no, doctor_license_no, career_year, career_content)		")
+				.append("	values(get_cSeq(),?,?,? )		");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(insertSql.toString())) {
+			pstmt.setInt(1, career.getDoctorLicenseNo());
+			pstmt.setString(2, career.getCareerYear());
+			pstmt.setString(3, career.getCareerContent());
+			return pstmt.executeUpdate();
+		}
+	}
+
+	private int updateDoctorCareer(Connection conn, int doctorLicenseNo, DoctorCareerDTO career) throws SQLException {
+		StringBuilder updateSql = new StringBuilder();
+		updateSql
+				.append("	update doctor_career		")
+				.append("	set career_year = ?, career_content = ?		")
+				.append("	where doctor_license_no = ? and career_no = ?		");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(updateSql.toString())) {
+			pstmt.setString(1, career.getCareerYear());
+			pstmt.setString(2, career.getCareerContent());
+			pstmt.setInt(3, doctorLicenseNo);
+			pstmt.setInt(4, career.getCareerNo());
+			return pstmt.executeUpdate();
+		}
+	}
+
+	private int deleteDoctorCareer(Connection conn, int doctorLicenseNo, int careerNo) throws SQLException {
+		StringBuilder deleteSql = new StringBuilder();
+		deleteSql
+				.append("	delete from doctor_career		")
+				.append("	where doctor_license_no=?		")
+				.append("	and career_no=?		");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(deleteSql.toString())) {
+			pstmt.setInt(1, doctorLicenseNo);
+			pstmt.setInt(2, careerNo);
+			return pstmt.executeUpdate();
+		}
+	}
+
+	private int insertDoctorEducation(Connection conn, DoctorEducationDTO education) throws SQLException {
+		StringBuilder insertSql = new StringBuilder();
+		insertSql
+				.append(" insert into doctor_education(education_no, doctor_license_no, education_year, education_content)		")
+				.append("	values(get_eSeq(),?,?,? )		");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(insertSql.toString())) {
+			pstmt.setInt(1, education.getDoctorLicenseNo());
+			pstmt.setString(2, education.getEducationYear());
+			pstmt.setString(3, education.getEducationContent());
+			return pstmt.executeUpdate();
+		}
+	}
+
+	private int updateDoctorEducation(Connection conn, int doctorLicenseNo, DoctorEducationDTO education)
+			throws SQLException {
+		StringBuilder updateSql = new StringBuilder();
+		updateSql
+				.append("	update doctor_education		")
+				.append("	set education_year = ?, education_content = ?		")
+				.append("	where doctor_license_no = ? and education_no = ?		");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(updateSql.toString())) {
+			pstmt.setString(1, education.getEducationYear());
+			pstmt.setString(2, education.getEducationContent());
+			pstmt.setInt(3, doctorLicenseNo);
+			pstmt.setInt(4, education.getEducationNo());
+			return pstmt.executeUpdate();
+		}
+	}
+
+	private int deleteDoctorEducation(Connection conn, int doctorLicenseNo, int educationNo) throws SQLException {
+		StringBuilder deleteSql = new StringBuilder();
+		deleteSql
+				.append("	delete from doctor_education		")
+				.append("	where doctor_license_no = ? and education_no = ?		");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(deleteSql.toString())) {
+			pstmt.setInt(1, doctorLicenseNo);
+			pstmt.setInt(2, educationNo);
+			return pstmt.executeUpdate();
+		}
+	}
+
+	private int updateDoctorSchedule(Connection conn, int doctorLicenseNo, DoctorScheduleDTO schedule) throws SQLException {
+		StringBuilder updateSql = new StringBuilder();
+		updateSql
+				.append("	update doctor_schedule		")
+				.append("	set start_time=?, end_time=?, status=?  		")
+				.append("	where doctor_license_no=? 		")
+				.append("	and day_of_week=? 				");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(updateSql.toString())) {
+			pstmt.setString(1, schedule.getStartTime());
+			pstmt.setString(2, schedule.getEndTime());
+			pstmt.setString(3, schedule.getStatus());
+			pstmt.setInt(4, doctorLicenseNo);
+			pstmt.setInt(5, schedule.getDayOfWeek());
+			return pstmt.executeUpdate();
+		}
+	}
+
+	private int insertDoctorSchedule(Connection conn, DoctorScheduleDTO schedule) throws SQLException {
+		StringBuilder insertSql = new StringBuilder();
+		insertSql
+				.append(" insert into doctor_schedule(schedule_no, doctor_license_no, day_of_week, start_time, end_time, status)		")
+				.append("	values(get_sSeq(),?,?,?,?,? )		");
+
+		try (PreparedStatement pstmt = conn.prepareStatement(insertSql.toString())) {
+			pstmt.setInt(1, schedule.getDoctorLicenseNo());
+			pstmt.setInt(2, schedule.getDayOfWeek());
+			pstmt.setString(3, schedule.getStartTime());
+			pstmt.setString(4, schedule.getEndTime());
+			pstmt.setString(5, schedule.getStatus());
+			return pstmt.executeUpdate();
+		}
+	}
+
+	private boolean containsCareerNo(List<DoctorCareerDTO> careerList, int careerNo) {
+		for (DoctorCareerDTO career : careerList) {
+			if (career.getCareerNo() == careerNo) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private boolean containsEducationNo(List<DoctorEducationDTO> educationList, int educationNo) {
+		for (DoctorEducationDTO education : educationList) {
+			if (education.getEducationNo() == educationNo) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void rollback(Connection conn) {
+		if (conn == null) {
+			return;
+		}
+
+		try {
+			conn.rollback();
+		} catch (SQLException e) {
+			LOGGER.log(Level.SEVERE, "관리자 의료진 정보 저장 rollback 실패", e);
+		}
+	}
+
+	private void restoreAutoCommit(Connection conn, boolean originalAutoCommit) {
+		if (conn == null) {
+			return;
+		}
+
+		try {
+			conn.setAutoCommit(originalAutoCommit);
+		} catch (SQLException e) {
+			LOGGER.log(Level.WARNING, "관리자 의료진 DB autoCommit 복구 실패", e);
+		}
+	}
+
 	public List<DoctorPositionDTO> selectDoctorPostionAllList(){
 		List<DoctorPositionDTO> list = new ArrayList<DoctorPositionDTO>();
 		
