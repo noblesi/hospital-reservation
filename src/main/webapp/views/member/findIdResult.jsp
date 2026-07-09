@@ -12,7 +12,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>아이디 찾기 결과</title>
+<title>아이디 찾기 결과 | KMCH 한국중앙병원</title>
 
 <link rel="stylesheet" href="<c:url value='/resources/css/user-layout.css?v=${initParam.assetVersion}' />">
 <link rel="stylesheet" href="<c:url value='/resources/css/find-account.css' />">
