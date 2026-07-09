@@ -145,13 +145,13 @@
         <section class="main-visual">
             <ul class="bxslider">
                 <li>
-                    <img src="<c:url value='/resources/images/common/banner_exam.png' />" alt="메인배너1">
+                    <img src="<c:url value='/resources/images/common/banner_main1.png' />" alt="메인배너1">
                 </li>
                 <li>
-                    <img src="<c:url value='/resources/images/common/banner_exam.png' />" alt="메인배너2">
+                    <img src="<c:url value='/resources/images/common/banner_main2.png' />" alt="메인배너2">
                 </li>
                 <li>
-                    <img src="<c:url value='/resources/images/common/banner_exam.png' />" alt="메인배너3">
+                    <img src="<c:url value='/resources/images/common/banner_main3.png' />" alt="메인배너3">
                 </li>
             </ul>
         </section>
