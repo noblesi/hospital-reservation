@@ -63,7 +63,7 @@ public class GetKey {
 		String deKey = "";
 		String key = "";
 
-		File file = new File("C:/qoeryqoeryqoe.txt");
+		File file = new File(AppConfig.getKeyFilePath());
 
 		if (!file.exists()) {
 			System.err.println("복호화 키 파일이 존재하지 않습니다.");

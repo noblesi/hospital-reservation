@@ -1,0 +1,5 @@
+-Dhospital.db.url=jdbc:oracle:thin:@DB_HOST:1521:orcl
+-Dhospital.db.username=DB_USER
+-Dhospital.db.password=DB_PASSWORD
+-Dhospital.key.file=C:/secure/qoeryqoeryqoe.txt
+-Dhospital.doctor.image.dir=C:/hospital/uploads/doctors

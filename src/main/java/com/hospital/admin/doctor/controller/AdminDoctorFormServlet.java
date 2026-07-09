@@ -27,6 +27,7 @@ import com.hospital.common.dto.DoctorCareerDTO;
 import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorEducationDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
+import com.hospital.common.util.AppConfig;
 
 @MultipartConfig(
 		fileSizeThreshold = 1024 * 1024,
@@ -156,12 +157,11 @@ public class AdminDoctorFormServlet extends HttpServlet {
 			throw new IllegalArgumentException("이미지 파일만 업로드할 수 있습니다.");
 		}
 
-		String realUploadPath = getServletContext().getRealPath(DOCTOR_IMAGE_DIR);
-		if (realUploadPath == null) {
+		Path uploadDir = resolveDoctorImageUploadDir();
+		if (uploadDir == null) {
 			throw new IOException("의료진 이미지 저장 경로를 찾을 수 없습니다.");
 		}
 
-		Path uploadDir = Paths.get(realUploadPath);
 		Files.createDirectories(uploadDir);
 
 		String savedFileName = "doctor_" + doctorLicenseNo + "_" + imageType + "_"
@@ -176,6 +176,16 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		}
 
 		return savedFileName;
+	}
+
+	private Path resolveDoctorImageUploadDir() {
+		String configuredUploadDir = AppConfig.getDoctorImageUploadDir(getServletContext());
+		if (configuredUploadDir != null) {
+			return Paths.get(configuredUploadDir).toAbsolutePath().normalize();
+		}
+
+		String realUploadPath = getServletContext().getRealPath(DOCTOR_IMAGE_DIR);
+		return realUploadPath == null ? null : Paths.get(realUploadPath).toAbsolutePath().normalize();
 	}
 
 	private String resolveCurrentFileName(HttpServletRequest request, String currentFileParam, int doctorLicenseNo) {
