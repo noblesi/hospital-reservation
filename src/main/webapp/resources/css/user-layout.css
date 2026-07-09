@@ -851,6 +851,10 @@ body {
     font-size: 14px;
 }
 
+.hospital-map-info span {
+    white-space: nowrap;
+}
+
 .hospital-location-summary {
     padding: 36px;
     display: flex;

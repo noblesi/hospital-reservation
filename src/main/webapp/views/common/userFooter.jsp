@@ -6,7 +6,7 @@
 				<div class="user-footer-inner">
 					<div class="footer-info">
 						<p>주소 : 서울특별시 중앙구 의료로 100 KMCH 한국중앙병원</p>
-						<p>대표전화 : 02-1234-5678</p>
+						<p>대표전화 : 1588-0000</p>
 						<p>COPYRIGHT 2026 KOREA MEDICAL CENTER HOSPITAL. ALL RIGHTS RESERVED.</p>
 					</div>
 

@@ -99,7 +99,7 @@
 			<p class="warnNotiP">
 				진료 예약 취소는 <span class="blue">진료일 이전(자정)</span>까지 가능합니다. (수납기록 및 검사예약이 없는 진료만 변경/취소 가능)<br>
 				예약 후, <span class="blue">해당 일정</span>으로 <span class="blue">타인</span>으로의 변경 요청은 불가합니다.<br>
-				예약이 조회되지 않은 경우에는 <span class="blue">예약센터(1577-0000)</span>나 해당 진료과로 문의해 주십시오.
+				예약이 조회되지 않은 경우에는 <span class="blue">예약센터(1588-0000)</span>나 해당 진료과로 문의해 주십시오.
 			</p>
 		</div>
 
