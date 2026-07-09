@@ -16,6 +16,11 @@
     <param-value>20260709</param-value>
   </context-param>
 
+  <context-param>
+    <param-name>doctorImageUploadDir</param-name>
+    <param-value></param-value>
+  </context-param>
+
   <listener>
     <listener-class>com.hospital.admin.appointment.listener.AppointmentStatusSchedulerListener</listener-class>
   </listener>
@@ -454,6 +459,15 @@
     <servlet-name>adminDoctorFormServlet</servlet-name>
     <url-pattern>/admin/doctor/form.do</url-pattern>
     <url-pattern>/admin/doctor/adminDoctorDetail.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>doctorImageServlet</servlet-name>
+    <servlet-class>com.hospital.admin.doctor.controller.DoctorImageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>doctorImageServlet</servlet-name>
+    <url-pattern>/resources/images/doctors/*</url-pattern>
   </servlet-mapping>
 
   <servlet>

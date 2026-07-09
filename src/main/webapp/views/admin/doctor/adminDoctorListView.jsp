@@ -17,7 +17,7 @@
         <main class="admin-content">
             <div class="admin-page-title">
                 <h2>의료진 관리</h2>
-                <p>진료과, 직급, 상태, 이름을 기준으로 의료진 목록을 확인하고 상태를 변경합니다.</p>
+                <p>진료과, 직급, 상태, 이름 기준으로 의료진 목록을 확인하고 상태를 변경합니다.</p>
             </div>
 
             <%@ include file="/views/common/message.jsp" %>

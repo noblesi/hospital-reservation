@@ -1,0 +1,122 @@
+Tomcat9 Windows Service 권한 설정 정리
+
+1. 먼저 Tomcat 서비스 실행 계정 확인
+
+1) Win + R
+2) services.msc 실행
+3) Apache Tomcat 9.0 Tomcat9 또는 Tomcat9 서비스 선택
+4) 우클릭 > 속성
+5) 로그온 탭 확인
+
+주로 아래 계정 중 하나로 실행됨.
+
+- Local System account
+- Network Service
+- Local Service
+- 별도 계정 예: .\tomcatuser
+
+
+2. 권한이 필요한 경로
+
+암호화 키 파일:
+
+C:\secure\qoeryqoeryqoe.txt
+
+필요 권한:
+
+- 읽기
+
+의료진 이미지 업로드 폴더:
+
+C:\hospital\uploads\doctors
+
+필요 권한:
+
+- 읽기
+- 쓰기
+- 수정
+
+
+3. GUI로 권한 부여
+
+1) 대상 폴더 우클릭
+2) 속성
+3) 보안 탭
+4) 편집
+5) 추가
+6) Tomcat 서비스 실행 계정 입력
+7) 필요한 권한 체크
+
+권장 권한:
+
+C:\secure
+- Tomcat 실행 계정에 읽기 권한
+
+C:\hospital\uploads\doctors
+- Tomcat 실행 계정에 수정 권한
+
+
+4. 명령어로 권한 부여
+
+관리자 권한 CMD 또는 PowerShell에서 실행.
+
+Tomcat이 Local System으로 실행되는 경우:
+
+icacls "C:\secure" /grant "SYSTEM:(OI)(CI)R"
+icacls "C:\secure\qoeryqoeryqoe.txt" /grant "SYSTEM:R"
+icacls "C:\hospital\uploads\doctors" /grant "SYSTEM:(OI)(CI)M"
+
+
+Tomcat이 Network Service로 실행되는 경우:
+
+icacls "C:\secure" /grant "NT AUTHORITY\NETWORK SERVICE:(OI)(CI)R"
+icacls "C:\secure\qoeryqoeryqoe.txt" /grant "NT AUTHORITY\NETWORK SERVICE:R"
+icacls "C:\hospital\uploads\doctors" /grant "NT AUTHORITY\NETWORK SERVICE:(OI)(CI)M"
+
+
+Tomcat이 별도 계정 .\tomcatuser로 실행되는 경우:
+
+icacls "C:\secure" /grant ".\tomcatuser:(OI)(CI)R"
+icacls "C:\secure\qoeryqoeryqoe.txt" /grant ".\tomcatuser:R"
+icacls "C:\hospital\uploads\doctors" /grant ".\tomcatuser:(OI)(CI)M"
+
+
+5. icacls 권한 의미
+
+R = Read, 읽기
+M = Modify, 수정
+OI = Object Inherit, 하위 파일에 상속
+CI = Container Inherit, 하위 폴더에 상속
+
+
+6. 확인 방법
+
+Tomcat 재시작 후 아래 기능 확인.
+
+1) 관리자 의료진 목록 접속
+2) 의료진 등록 또는 수정 접속
+3) 기존 의료진 썸네일 표시 확인
+4) 새 의료진 이미지 업로드 후 저장 확인
+5) 업로드된 이미지 URL 접근 확인
+
+이미지 URL 예:
+
+/resources/images/doctors/{파일명}
+
+
+7. 문제별 우선 확인
+
+의료진 저장 실패:
+- C:\secure\qoeryqoeryqoe.txt 파일 존재 여부
+- Tomcat 실행 계정의 키 파일 읽기 권한
+- hospital.key.file Java Option 적용 여부
+
+이미지 업로드 실패:
+- C:\hospital\uploads\doctors 폴더 존재 여부
+- Tomcat 실행 계정의 폴더 쓰기 권한
+- hospital.doctor.image.dir Java Option 적용 여부
+
+이미지 표시 실패:
+- 업로드 파일이 C:\hospital\uploads\doctors에 생성됐는지 확인
+- /resources/images/doctors/{파일명} URL 접근 확인
+- DoctorImageServlet 매핑 확인
