@@ -140,7 +140,7 @@ public class AdminDoctorService {
 			careerNo = careerList.get(i).getCareerNo();
 			if( adminDoctorDAO.selectDoctorCareerChk(doctorLicenseNo, careerNo) ) {
 				adminDoctorDAO.updateDoctorCareer(doctorLicenseNo, adminDoctorFormDTO.getCareerList().get(i) );
-			} else if(careerNo==0 && (!careerList.get(i).getCareerYear().isEmpty() || !careerList.get(i).getCareerContent().isEmpty()) ){
+			} else if(careerNo==0 && (careerList.get(i).getCareerYear() != null && careerList.get(i).getCareerContent() != null) ){
 				adminDoctorDAO.insertDoctorCareer(adminDoctorFormDTO.getCareerList().get(i));
 			} 
 		}// end for
