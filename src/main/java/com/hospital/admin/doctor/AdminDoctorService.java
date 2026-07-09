@@ -102,6 +102,7 @@ public class AdminDoctorService {
 		
 		return successFlag;
 	}
+	
 	public boolean modifyDoctor(AdminDoctorFormDTO formDTO) {
 		// 의료진 정보 수정
 		boolean successFlag = false;
@@ -169,7 +170,7 @@ public class AdminDoctorService {
 			educationNo = educationList.get(i).getEducationNo();
 			if( adminDoctorDAO.selectDoctorCareerChk(doctorLicenseNo, educationNo) ) {
 				adminDoctorDAO.updateDoctorEducation(doctorLicenseNo, educationList.get(i) );
-			} else if(educationNo==0 && (!educationList.get(i).getEducationYear().isEmpty() || !educationList.get(i).getEducationContent().isEmpty()) ){
+			} else if(educationNo==0 && (educationList.get(i).getEducationYear() != null && educationList.get(i).getEducationContent() != null)){
 				adminDoctorDAO.insertDoctorEducation(educationList.get(i));
 			} 
 		}// end for
@@ -254,7 +255,9 @@ public class AdminDoctorService {
 		boolean successflag = false;
 		int sucssessCnt = 0;
 		for(int i =0; i < list.size(); i++) {
-			sucssessCnt = adminDoctorDAO.updateDoctorEducation(doctorLicenseNoTemp, list.get(i));
+			if(list.get(i).getEducationYear()!=null && list.get(i).getEducationContent() != null) {
+				sucssessCnt = adminDoctorDAO.updateDoctorEducation(doctorLicenseNoTemp, list.get(i));
+			}// end if
 			if(sucssessCnt == 1) {
 				successflag = true;
 			} else {
@@ -263,7 +266,6 @@ public class AdminDoctorService {
 			}
 		}// end for
 		return successflag;
-		
 	}
 	public boolean saveDoctorCareer(int doctorLicenseNo, List<DoctorCareerDTO> careers){
 		// 경력 저장
@@ -272,7 +274,9 @@ public class AdminDoctorService {
 		boolean successflag = false;
 		int sucssessCnt = 0;
 		for(int i =0; i < list.size(); i++) {
-			sucssessCnt = adminDoctorDAO.updateDoctorCareer(doctorLicenseNoTemp, list.get(i));
+			if(list.get(i).getCareerYear()!=null && list.get(i).getCareerContent() != null) {
+				sucssessCnt = adminDoctorDAO.updateDoctorCareer(doctorLicenseNoTemp, list.get(i));
+			}
 			if(sucssessCnt == 1) {
 				successflag = true;
 			} else {
