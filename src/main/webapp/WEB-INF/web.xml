@@ -8,7 +8,7 @@
 
   <context-param>
     <param-name>kakaoMapAppKey</param-name>
-    <param-value></param-value>
+    <param-value>a88bcf76e903776dbca6bad7d1badd17</param-value>
   </context-param>
 
   <context-param>
