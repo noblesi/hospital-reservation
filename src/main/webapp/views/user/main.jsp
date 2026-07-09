@@ -74,6 +74,16 @@
             width:100%;
             height:180px;
             background:#f3f6fb;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .quick-icon img{
+            width:96px;
+            height:96px;
+            display:block;
+            object-fit:contain;
         }
 
         .quick-card h3{
@@ -84,6 +94,20 @@
         .main-board-grid{
             width:1200px;
             max-width:var(--user-page-width);
+        }
+        
+        .main-visual {
+        	position: relative;
+        }
+        
+        .quick-title {
+        	line-height: 85px;
+        }
+        
+        .btnImg {
+        	width: 100px;
+        	height: 100px;
+        	margin-top: 40px;
         }
 
         @media (max-width: 900px) {
@@ -130,13 +154,13 @@
         <section class="main-visual">
             <ul class="bxslider">
                 <li>
-                    <img src="<c:url value='/resources/images/common/banner_exam.png' />" alt="메인배너1">
+                    <img src="<c:url value='/resources/images/common/banner_main1.png' />" alt="메인배너1">
                 </li>
                 <li>
-                    <img src="<c:url value='/resources/images/common/banner_exam.png' />" alt="메인배너2">
+                    <img src="<c:url value='/resources/images/common/banner_main2.png' />" alt="메인배너2">
                 </li>
                 <li>
-                    <img src="<c:url value='/resources/images/common/banner_exam.png' />" alt="메인배너3">
+                    <img src="<c:url value='/resources/images/common/banner_main3.png' />" alt="메인배너3">
                 </li>
             </ul>
         </section>
@@ -145,28 +169,28 @@
         <section class="quick-menu">
             <a class="quick-card" href="<c:url value='/appointment/reserve.do' />">
                 <div class="quick-icon">
-                   	<img src="<c:url value='/resources/images/common/btn1.png' />" alt="진료예약">
+                   	<img class="btnImg" src="<c:url value='/resources/images/common/btn1.png' />" alt="진료예약">
            		</div>
                 <h3 class="quick-title">진료예약</h3>
             </a>
 
             <a class="quick-card" href="<c:url value='/appointment/list.do' />">
                 <div class="quick-icon">
-                	<img src="<c:url value='/resources/images/common/btn2.png' />" alt="예약조회">
+                	<img class="btnImg" src="<c:url value='/resources/images/common/btn2.png' />" alt="예약조회">
                 </div>
                 <h3 class="quick-title">예약조회</h3>
             </a>
 
             <a class="quick-card" href="<c:url value='/department/departmentList.do' />">
                 <div class="quick-icon">
-               		<img src="<c:url value='/resources/images/common/btn3.png' />" alt="진료과목">
+               		<img class="btnImg" src="<c:url value='/resources/images/common/btn3.png' />" alt="진료과목">
                 </div>
-                <h3 class="quick-title">진료과목</h3>
+                <h3 class="quick-title">진료과 목록</h3>
             </a>
 
             <a class="quick-card" href="<c:url value='/views/user/hospital/location.jsp' />">
                 <div class="quick-icon">
-               		<img src="<c:url value='/resources/images/common/btn4.png' />" alt="오시는길">
+               		<img class="btnImg" src="<c:url value='/resources/images/common/btn4.png' />" alt="오시는길">
                 </div>
                 <h3 class="quick-title">오시는길</h3>
             </a>

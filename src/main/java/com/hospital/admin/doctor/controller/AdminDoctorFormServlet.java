@@ -57,6 +57,7 @@ public class AdminDoctorFormServlet extends HttpServlet {
 			request.setAttribute("positionList", formDTO.getPositionList());
 			request.setAttribute("careerList", formDTO.getCareerList());
 			request.setAttribute("scheduleList", formDTO.getScheduleList());
+			request.setAttribute("scheduleDTOList", formDTO.getScheduleList());
 			request.setAttribute("educationList", formDTO.getEducationList());
 		} else {
 			AdminDoctorFormOptionDTO formOptions = adminDoctorService.getDoctorFormOptions();
