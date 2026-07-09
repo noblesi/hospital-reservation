@@ -21,6 +21,7 @@ public class UserDepartmentServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		try {
+			request.setAttribute("activeMenu", "treatment");
 			request.setAttribute("departmentList", userDepartmentService.searchDepartmentList());
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -47,7 +47,7 @@
             <nav class="user-gnb" aria-label="사용자 주요 메뉴">
                 <ul>
                     <li class="${activeMenu eq 'treatment' ? 'active' : ''}">
-                        <a href="<c:url value='/appointment/reserve.do' />">의료진소개</a>
+                        <a href="<c:url value='/department/departmentList.do' />">의료진소개</a>
                     </li>
                     <li class="${activeMenu eq 'guide' ? 'active' : ''}">
                         <a href="<c:url value='/appointment/reserve.do' />">진료 예약</a>
@@ -71,7 +71,7 @@
 
                 <div class="user-all-menu-grid">
                     <section>
-                        <a href="<c:url value='/appointment/reserve.do' />">의료진소개</a>
+                        <a href="<c:url value='/department/departmentList.do' />">의료진소개</a>
                     </section>
                     <section>
                         <a href="<c:url value='/appointment/reserve.do' />">진료 예약</a>

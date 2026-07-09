@@ -35,6 +35,7 @@ public class UserDoctorListServlet extends HttpServlet {
 
 		request.setAttribute("doctorList", list);
 		request.setAttribute("departmentDTO", departmentDTO);
+		request.setAttribute("activeMenu", "treatment");
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/doctor/doctorList.jsp");
 		dispatcher.forward(request, response);

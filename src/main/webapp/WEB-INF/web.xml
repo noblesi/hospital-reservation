@@ -13,7 +13,7 @@
 
   <context-param>
     <param-name>assetVersion</param-name>
-    <param-value>20260701</param-value>
+    <param-value>20260709</param-value>
   </context-param>
 
   <listener>
