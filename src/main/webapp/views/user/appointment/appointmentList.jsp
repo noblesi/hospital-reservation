@@ -59,7 +59,7 @@
 				<c:forEach var="uasDTO" items="${ uasDTOList }" varStatus="i">
 				<li class="apptListLi">
 					<c:set var="doctorThumbnail" value="${empty uasDTO.thumbnailUrl ? 'doctor_default.png' : uasDTO.thumbnailUrl}" />
-					<img class="docImg" src='<c:url value="../resources/images/doctors/${ doctorThumbnail }"/>'>
+					<img class="docImg" src='<c:url value="../resources/images/doctors/${ doctorThumbnail }"/>' onerror="this.src='../resources/images/doctors/doctor_default.png'">
 					<p class="docInfoText">
 						<span class="deptName"><c:out value="${ uasDTO.deptName }"/></span>
 						<span class="docName"><c:out value="${ uasDTO.doctorName }"/></span>
