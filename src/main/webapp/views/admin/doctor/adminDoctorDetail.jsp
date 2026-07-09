@@ -27,6 +27,11 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+<script>
+    if (!window.jQuery) {
+        document.write("<script src=\"<c:url value='/resources/js/admin-jquery-lite.js?v=${initParam.assetVersion}' />\"><\/script>");
+    }
+</script>
 <style type="text/css">
 #tabDeptInven {
 	border: 1px solid #000;
@@ -127,7 +132,7 @@
 	font-family: 'Noto Sans KR', sans-serif;
 	padding: 0 10px;
 	outline: none;
-	
+
 }
 
 .doctor-select {
@@ -503,7 +508,7 @@
 
 <script type="text/javascript">
 	$(function() {
-		
+
 		    // 폼 안의 input 태그에서 엔터키 입력을 감지
 		    $("#doctorDetailFrm").keydown(function(e) {
 		        if (e.which == 13) { // 13은 엔터키의 keyCode입니다.
@@ -537,8 +542,8 @@
 		$('#addEducationBtn').click(function() {
 			$('#educationListScroll')
 					.append('<div class="doctor-edu-row">'
-							+ '<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" />'
-							+ '<input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." />'
+							+ '<input type="text" class="doctor-input" name="educationYear[]" placeholder="연도" />'
+							+ '<input type="text" class="doctor-input" name="educationContent[]" placeholder="학력 내용을 입력하세요" />'
 							+ '<input type="hidden" name="educationNo[]" value=""/>'
 							+ '</div>');
 		});
@@ -554,7 +559,7 @@
 			$('#careerListScroll')
 					.append('<div class="doctor-career-row">'
 							+ '<input type="text" class="doctor-input" name="careerYear[]" placeholder="기간" />'
-							+ '<input type="text" class="doctor-input" name="careerContent[]" placeholder="경력을 입력해주세요..." />'
+							+ '<input type="text" class="doctor-input" name="careerContent[]" placeholder="경력 내용을 입력하세요" />'
 							+ '<input type="hidden" name="careerNo[]" value=""/>'
 							+ '</div>');
 		});
@@ -574,18 +579,18 @@
 
 		//for 과명 만큼 돌려야됨
 		//$("#department").append(`<option value=''></option>`);
-		
+
 		$("#deptNo").val($("#department option:selected").val());
-		
+
 		$("#department").change(function(){
 			$("#deptNo").val($("#department option:selected").val());
 		});
-		
+
 		$("#btnSubmit").click(function(){
-			
+
 			$("#doctorDetailFrm")[0].submit();
 		});
-		
+
 		$("[name='startTime[]']").change(function(){
 			var changeSelInd = $("[name='startTime[]']").index(this);
 			var changeTimevalue = $("[name='startTime[]']").eq(changeSelInd).val();
@@ -593,25 +598,25 @@
 			$("[name='startTimeValue[]']").eq(parseInt(changeSelInd)).val(changeTimevalue);
 			//alert("체인지"+$("[name='startTimeValue[]']").eq(changeSelInd).val() +" / " +$("[name='startTimeValue[]']").length);
 		});
-		
+
 		$("[name='endTime[]']").change(function(){
 			var changeSelInd = $("[name='endTime[]']").index(this);
 			var changeTimevalue = $("[name='endTime[]']").eq(changeSelInd).val();
-			
+
 			$("[name='endTimeValue[]']").eq(changeSelInd).val(changeTimevalue);
-			
+
 		});
-		
+
 		$("[name='ampm[]']").change(function(){
-			
+
 			var ChkVal = $(this).val();
 			var changeSelInd = $("[name='ampm[]']").index(this);
 			selectTimeSetting(changeSelInd);
 		});
-		
+
 		selectSetting();
 	}); //ready
-	
+
 	function chkNull() {
 		var licenseNo = $("#doctorLicenseNo").val();
 		if (licenseNo.length < 6) {
@@ -625,7 +630,7 @@
 			$('#doctorLicenseNo').focus();
 			return;
 		}
-		
+
 		if(licenseNo != null &&  licenseNo != ""){
 			licenseNo = $.trim(licenseNo);
 			var queryString ="doctorLicenseNo=" + licenseNo;
@@ -633,24 +638,24 @@
 		}
 		//alert('면허번호 조회: ' + licenseNo);
 	}
-	
+
 	function elementHide(objIndex){
 		$("[name='startTime[]']").eq(objIndex).hide();
 		$("[name='endTime[]']").eq(objIndex).hide();
 		$("[name='spanStartTime[]']").eq(objIndex).hide();
 		$("[name='spanEndTime[]']").eq(objIndex).hide();
 	}
-	
+
 	function elementShow(objIndex){
 		$("[name='startTime[]']").eq(objIndex).show();
 		$("[name='endTime[]']").eq(objIndex).show();
 		$("[name='spanStartTime[]']").eq(objIndex).show();
 		$("[name='spanEndTime[]']").eq(objIndex).show();
 	}
-	
+
 	function generateTimeArray(stime, etime) {
 	    let times = [];
-	    
+
 	    for (let h = stime; h < etime; h++) {
 	        for (let m = 0; m < 60; m += 30) {
 	            // padStart(2, '0')를 사용해 1자릿수 시간을 '09'처럼 2자릿수로 만듭니다.
@@ -661,7 +666,7 @@
 	    }
 	    return times;
 	}
-	
+
 	function selectTimeSetting(objIndex){
 		//alert("셀렉트 셋팅!");
 		var selStartNode = $("[name='startTime[]']").eq(objIndex);
@@ -671,17 +676,17 @@
 		var status = $("[name='ampm[]']").eq(objIndex).val();
 		var startTimeIsSelectFlag = false;
 		var endTimeIsSelectFlag = false;
-		
+
 		if(status == null){
 			return;
 		}
-				
+
 		if(status == "휴진"){
-			
+
 			elementHide(objIndex);
 			selStartNode.empty();
 			selEndNode.empty();
-			
+
 		} else if(status == "오전") {
 			elementShow(objIndex);
 			selStartNode.empty();
@@ -698,7 +703,7 @@
 				}
 				selStartNode.append(new Option(time,time,startTimeIsSelectFlag,startTimeIsSelectFlag));
 			});
-			
+
 			$.each(endTimeSet, function(i,time){
 				if(time == endIsSelected) {
 					endTimeIsSelectFlag = true;
@@ -721,10 +726,10 @@
 				} else {
 					startTimeIsSelectFlag = false;
 				}
-					
+
 				selStartNode.append(new Option(time,time,startTimeIsSelectFlag,startTimeIsSelectFlag));
 			});
-			
+
 			$.each(endTimeSet, function(i,time){
 				if(time == endIsSelected) {
 					endTimeIsSelectFlag = true;
@@ -733,7 +738,7 @@
 				}
 				selEndNode.append(new Option(time,time,endTimeIsSelectFlag,endTimeIsSelectFlag));
 			});
-		} else if(status == "전일"){
+		} else if(status == "종일"){
 			elementShow(objIndex);
 			selStartNode.empty();
 			selEndNode.empty();
@@ -747,10 +752,10 @@
 				} else {
 					startTimeIsSelectFlag = false;
 				}
-					
+
 				selStartNode.append(new Option(time,time,startTimeIsSelectFlag,startTimeIsSelectFlag));
 			});
-			
+
 			$.each(endTimeSet, function(i,time){
 				if(time == endIsSelected) {
 					endTimeIsSelectFlag = true;
@@ -761,26 +766,26 @@
 			});
 		}
 	}
-	
+
 	function selectSetting(){
 		var ampmArr = $("[name='ampm[]']");
 		//alert("셋팅 function"+ ampmArr.length);
-		
+
 		if(${ not empty scheduleDTOList }){
-			
+
 			for(var i = 0 ; i < ampmArr.length; i++){
 				selectTimeSetting(i);
 			}
 
 		} else {
-			
+
 			for(var i = 0 ; i < ampmArr.length; i++){
 				elementHide(i);
 			}
-			
+
 		}// end else if
 	}
-	
+
 	function previewImage(input, targetId) {
 		const file = input.files && input.files[0];
 		if (!file)
@@ -846,13 +851,13 @@
 											</c:if>
 										</div>
 										<div class="doctor-field-row">
-											<label class="doctor-label" for="name">이름</label> 
+											<label class="doctor-label" for="name">이름</label>
 											<input type="text" class="doctor-input" id="name" name="name" value="${doctor.name}" />
 											<div></div>
 										</div>
 
 										<div class="doctor-field-row">
-											<label class="doctor-label" for="department">진료과</label> 
+											<label class="doctor-label" for="department">진료과</label>
 											<input type="hidden" id="deptNo" name="deptNo" value=""/>
 											<select class="doctor-select" id="department" name="department">
 												<option value="">진료과 선택</option>
@@ -864,29 +869,12 @@
 														<option value="${ dept.deptNo }"><c:out value="${ dept.deptName }"/></option>
 													</c:if>
 												</c:forEach>
-												
+
 											</select>
 											<div></div>
 										</div>
 										<div class="doctor-field-row">
-											<label class="doctor-label" for="positionCode">직책</label> 
-											<select class="doctor-select" id="positionCode" name="positionCode">
-												<c:forEach var="position" items="${ positionList }">
-													<c:choose>
-														<c:when test="${ doctor.positionCode eq position.positionCode }">
-															<option value="${ position.positionCode }" selected="selected"><c:out value="${ position.positionName }"/></option>
-														</c:when>
-														<c:when test="${ doctor.positionCode ne position.positionCode }">
-															<option value="${ position.positionCode }"><c:out value="${ position.positionName }"/></option>
-														</c:when>
-													</c:choose>
-												</c:forEach>
-												
-											</select>
-											<div></div>
-										</div>
-										<div class="doctor-field-row">
-											<label class="doctor-label" for="specialty">전문분야</label> 
+											<label class="doctor-label" for="specialty">전문분야</label>
 											<input 	type="text" class="doctor-input" id="specialty" name="specialty" value="${doctor.specialty}" />
 											<div></div>
 										</div>
@@ -936,209 +924,142 @@
 									<div class="doctor-schedule-section">
 										<div class="doctor-section-title">진료 가능 요일</div>
 										<div class="doctor-scroll doctor-schedule-scroll" id="scheduleList">
-											<c:if test="${not empty scheduleDTOList }">
-											<c:forEach var="schedule" items="${ scheduleDTOList }">
-												<div class="doctor-schedule-row">
-													<c:choose>
-														<c:when test="${ schedule.dayOfWeek == 1 }">
-															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
-															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
-															<span class="doctor-inline-label">월</span>
-														</c:when>
-														<c:when test="${ schedule.dayOfWeek == 2 }">
-															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
-															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
-															<span class="doctor-inline-label">화</span>
-														</c:when>
-														<c:when test="${ schedule.dayOfWeek == 3 }">
-															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
-															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
-															<span class="doctor-inline-label">수</span>
-														</c:when>
-														<c:when test="${ schedule.dayOfWeek == 4 }">
-															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
-															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
-															<span class="doctor-inline-label">목</span>
-														</c:when>
-														<c:when test="${ schedule.dayOfWeek == 5 }">
-															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
-															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
-															<span class="doctor-inline-label">금</span>
-														</c:when>
-														<c:when test="${ schedule.dayOfWeek == 6 }">
-															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
-															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
-															<span class="doctor-inline-label">토</span>
-														</c:when>
-														<c:when test="${ schedule.dayOfWeek == 7 }">
-															<input type="hidden" name="startTimeValue[]" value="${ schedule.startTime }"/>
-															<input type="hidden" name="endTimeValue[]" value="${ schedule.endTime }"/>
-															<span class="doctor-inline-label">일</span>
-														</c:when>
-													</c:choose>
-													<select class="doctor-mini-select" name="ampm[]">
+											<c:if test="${not empty scheduleDTOList}">
+												<c:forEach var="schedule" items="${scheduleDTOList}">
+													<div class="doctor-schedule-row">
+														<input type="hidden" name="startTimeValue[]" value="${schedule.startTime}" />
+														<input type="hidden" name="endTimeValue[]" value="${schedule.endTime}" />
 														<c:choose>
-															<c:when test="${ schedule.status eq '오전' }">
-																<option value='오전' selected='selected'>오전</option>
-																<option value='오후'>오후</option>
-																<option value='전일'>전일</option>
-																<option value='휴진'>휴진</option>
-															</c:when>
-															<c:when test="${ schedule.status eq '오후' }">
-																<option value='오전'>오전</option>
-																<option value='오후' selected='selected'>오후</option>
-																<option value='전일'>전일</option>
-																<option value='휴진'>휴진</option>
-															</c:when>
-															<c:when test="${ schedule.status eq '전일' }">
-																<option value='오전'>오전</option>
-																<option value='오후'>오후</option>
-																<option value='전일' selected='selected'>전일</option>
-																<option value='휴진'>휴진</option>
-															</c:when>
-															<c:when test="${ schedule.status eq '휴진' }">
-																<option value='오전'>오전</option>
-																<option value='오후'>오후</option>
-																<option value='전일'>전일</option>
-																<option value='휴진' selected='selected'>휴진</option>
-															</c:when>
+															<c:when test="${schedule.dayOfWeek == 1}"><span class="doctor-inline-label">월</span></c:when>
+															<c:when test="${schedule.dayOfWeek == 2}"><span class="doctor-inline-label">화</span></c:when>
+															<c:when test="${schedule.dayOfWeek == 3}"><span class="doctor-inline-label">수</span></c:when>
+															<c:when test="${schedule.dayOfWeek == 4}"><span class="doctor-inline-label">목</span></c:when>
+															<c:when test="${schedule.dayOfWeek == 5}"><span class="doctor-inline-label">금</span></c:when>
+															<c:when test="${schedule.dayOfWeek == 6}"><span class="doctor-inline-label">토</span></c:when>
+															<c:when test="${schedule.dayOfWeek == 7}"><span class="doctor-inline-label">일</span></c:when>
 														</c:choose>
-													</select> 
-													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
-													<select class="doctor-mini-select" name="startTime[]">
-													</select> 
-													<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span> 
-													<select class="doctor-mini-select" name="endTime[]">
-													</select>
-												</div>
-											</c:forEach>
+														<select class="doctor-mini-select" name="ampm[]">
+															<option value="오전" ${schedule.status eq '오전' ? 'selected="selected"' : ''}>오전</option>
+															<option value="오후" ${schedule.status eq '오후' ? 'selected="selected"' : ''}>오후</option>
+															<option value="종일" ${schedule.status eq '종일' ? 'selected="selected"' : ''}>종일</option>
+															<option value="휴진" ${empty schedule.status or schedule.status eq '휴진' ? 'selected="selected"' : ''}>휴진</option>
+														</select>
+														<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
+														<select class="doctor-mini-select" name="startTime[]"></select>
+														<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span>
+														<select class="doctor-mini-select" name="endTime[]"></select>
+													</div>
+												</c:forEach>
 											</c:if>
-											<c:if test="${ empty scheduleDTOList }">
-														<div class="doctor-schedule-row">
-															<span class="doctor-inline-label">월</span>
-															<input type="hidden" name="startTimeValue[]" value=""/>
-															<input type="hidden" name="endTimeValue[]" value=""/>
-															<select class="doctor-mini-select" name="ampm[]">
-																<option value='오전'>오전</option>
-																<option value='오후'>오후</option>
-																<option value='전일'>전일</option>
-																<option value='휴진' selected='selected'>휴진</option>
-															</select>
-															<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
-															<select class="doctor-mini-select" name="startTime[]">
-															</select> 
-															<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span> 
-															<select class="doctor-mini-select" name="endTime[]">
-															</select>
-														</div>
-														
-														<div class="doctor-schedule-row">
-															<span class="doctor-inline-label">화</span>
-															<input type="hidden" name="startTimeValue[]" value=""/>
-															<input type="hidden" name="endTimeValue[]" value=""/>
-															<select class="doctor-mini-select" name="ampm[]">
-																<option value='오전'>오전</option>
-																<option value='오후'>오후</option>
-																<option value='전일'>전일</option>
-																<option value='휴진' selected='selected'>휴진</option>
-															</select>
-															<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
-															<select class="doctor-mini-select" name="startTime[]">
-															</select> 
-															<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span> 
-															<select class="doctor-mini-select" name="endTime[]">
-															</select>
-														</div>
-														<div class="doctor-schedule-row">
-															<span class="doctor-inline-label">수</span>
-															<input type="hidden" name="startTimeValue[]" value=""/>
-															<input type="hidden" name="endTimeValue[]" value=""/>
-															<select class="doctor-mini-select" name="ampm[]">
-																<option value='오전'>오전</option>
-																<option value='오후'>오후</option>
-																<option value='전일'>전일</option>
-																<option value='휴진' selected='selected'>휴진</option>
-															</select>
-															<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
-															<select class="doctor-mini-select" name="startTime[]">
-															</select> 
-															<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span> 
-															<select class="doctor-mini-select" name="endTime[]">
-															</select>
-														</div>	
-														<div class="doctor-schedule-row">
-															<span class="doctor-inline-label">목</span>
-															<input type="hidden" name="startTimeValue[]" value=""/>
-															<input type="hidden" name="endTimeValue[]" value=""/>
-															<select class="doctor-mini-select" name="ampm[]">
-																<option value='오전'>오전</option>
-																<option value='오후'>오후</option>
-																<option value='전일'>전일</option>
-																<option value='휴진' selected='selected'>휴진</option>
-															</select>
-															<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
-															<select class="doctor-mini-select" name="startTime[]">
-															</select> 
-															<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span> 
-															<select class="doctor-mini-select" name="endTime[]">
-															</select>
-															
-														</div>
-														<div class="doctor-schedule-row">
-															<span class="doctor-inline-label">금</span>
-															<input type="hidden" name="startTimeValue[]" value=""/>
-															<input type="hidden" name="endTimeValue[]" value=""/>
-															<select class="doctor-mini-select" name="ampm[]">
-																<option value='오전'>오전</option>
-																<option value='오후'>오후</option>
-																<option value='전일'>전일</option>
-																<option value='휴진' selected='selected'>휴진</option>
-															</select>
-															<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
-															<select class="doctor-mini-select" name="startTime[]">
-															</select> 
-															<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span> 
-															<select class="doctor-mini-select" name="endTime[]">
-															</select>
-														</div>
-														<div class="doctor-schedule-row">
-															<span class="doctor-inline-label">토</span>
-															<input type="hidden" name="startTimeValue[]" value=""/>
-															<input type="hidden" name="endTimeValue[]" value=""/>
-															<select class="doctor-mini-select" name="ampm[]">
-																<option value='오전'>오전</option>
-																<option value='오후'>오후</option>
-																<option value='전일'>전일</option>
-																<option value='휴진' selected='selected'>휴진</option>
-															</select>
-															<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
-															<select class="doctor-mini-select" name="startTime[]">
-															</select> 
-															<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span> 
-															<select class="doctor-mini-select" name="endTime[]">
-															</select>
-														</div>
-														<div class="doctor-schedule-row">
-															<span class="doctor-inline-label">일</span>
-															<input type="hidden" name="startTimeValue[]" value=""/>
-															<input type="hidden" name="endTimeValue[]" value=""/>
-															<select class="doctor-mini-select" name="ampm[]">
-																<option value='오전'>오전</option>
-																<option value='오후'>오후</option>
-																<option value='전일'>전일</option>
-																<option value='휴진' selected='selected'>휴진</option>
-															</select>
-															<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
-															<select class="doctor-mini-select" name="startTime[]">
-															</select> 
-															<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span> 
-															<select class="doctor-mini-select" name="endTime[]">
-															</select>
-														</div>
-												</c:if>
-											</div>
+											<c:if test="${empty scheduleDTOList}">
+												<div class="doctor-schedule-row">
+													<span class="doctor-inline-label">월</span>
+													<input type="hidden" name="startTimeValue[]" value="" />
+													<input type="hidden" name="endTimeValue[]" value="" />
+													<select class="doctor-mini-select" name="ampm[]">
+														<option value="오전">오전</option>
+														<option value="오후">오후</option>
+														<option value="종일">종일</option>
+														<option value="휴진" selected="selected">휴진</option>
+													</select>
+													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
+													<select class="doctor-mini-select" name="startTime[]"></select>
+													<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span>
+													<select class="doctor-mini-select" name="endTime[]"></select>
+												</div>
+												<div class="doctor-schedule-row">
+													<span class="doctor-inline-label">화</span>
+													<input type="hidden" name="startTimeValue[]" value="" />
+													<input type="hidden" name="endTimeValue[]" value="" />
+													<select class="doctor-mini-select" name="ampm[]">
+														<option value="오전">오전</option>
+														<option value="오후">오후</option>
+														<option value="종일">종일</option>
+														<option value="휴진" selected="selected">휴진</option>
+													</select>
+													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
+													<select class="doctor-mini-select" name="startTime[]"></select>
+													<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span>
+													<select class="doctor-mini-select" name="endTime[]"></select>
+												</div>
+												<div class="doctor-schedule-row">
+													<span class="doctor-inline-label">수</span>
+													<input type="hidden" name="startTimeValue[]" value="" />
+													<input type="hidden" name="endTimeValue[]" value="" />
+													<select class="doctor-mini-select" name="ampm[]">
+														<option value="오전">오전</option>
+														<option value="오후">오후</option>
+														<option value="종일">종일</option>
+														<option value="휴진" selected="selected">휴진</option>
+													</select>
+													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
+													<select class="doctor-mini-select" name="startTime[]"></select>
+													<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span>
+													<select class="doctor-mini-select" name="endTime[]"></select>
+												</div>
+												<div class="doctor-schedule-row">
+													<span class="doctor-inline-label">목</span>
+													<input type="hidden" name="startTimeValue[]" value="" />
+													<input type="hidden" name="endTimeValue[]" value="" />
+													<select class="doctor-mini-select" name="ampm[]">
+														<option value="오전">오전</option>
+														<option value="오후">오후</option>
+														<option value="종일">종일</option>
+														<option value="휴진" selected="selected">휴진</option>
+													</select>
+													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
+													<select class="doctor-mini-select" name="startTime[]"></select>
+													<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span>
+													<select class="doctor-mini-select" name="endTime[]"></select>
+												</div>
+												<div class="doctor-schedule-row">
+													<span class="doctor-inline-label">금</span>
+													<input type="hidden" name="startTimeValue[]" value="" />
+													<input type="hidden" name="endTimeValue[]" value="" />
+													<select class="doctor-mini-select" name="ampm[]">
+														<option value="오전">오전</option>
+														<option value="오후">오후</option>
+														<option value="종일">종일</option>
+														<option value="휴진" selected="selected">휴진</option>
+													</select>
+													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
+													<select class="doctor-mini-select" name="startTime[]"></select>
+													<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span>
+													<select class="doctor-mini-select" name="endTime[]"></select>
+												</div>
+												<div class="doctor-schedule-row">
+													<span class="doctor-inline-label">토</span>
+													<input type="hidden" name="startTimeValue[]" value="" />
+													<input type="hidden" name="endTimeValue[]" value="" />
+													<select class="doctor-mini-select" name="ampm[]">
+														<option value="오전">오전</option>
+														<option value="오후">오후</option>
+														<option value="종일">종일</option>
+														<option value="휴진" selected="selected">휴진</option>
+													</select>
+													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
+													<select class="doctor-mini-select" name="startTime[]"></select>
+													<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span>
+													<select class="doctor-mini-select" name="endTime[]"></select>
+												</div>
+												<div class="doctor-schedule-row">
+													<span class="doctor-inline-label">일</span>
+													<input type="hidden" name="startTimeValue[]" value="" />
+													<input type="hidden" name="endTimeValue[]" value="" />
+													<select class="doctor-mini-select" name="ampm[]">
+														<option value="오전">오전</option>
+														<option value="오후">오후</option>
+														<option value="종일">종일</option>
+														<option value="휴진" selected="selected">휴진</option>
+													</select>
+													<span class="doctor-inline-label" name="spanStartTime[]">시작 :</span>
+													<select class="doctor-mini-select" name="startTime[]"></select>
+													<span class="doctor-inline-label" name="spanEndTime[]">종료 :</span>
+													<select class="doctor-mini-select" name="endTime[]"></select>
+												</div>
+											</c:if>
 										</div>
-
+									</div>
 										<div class="doctor-education-section">
 											<div class="doctor-list-head" >
 												<div class="doctor-section-title doctor-list-title">학력</div>
@@ -1151,8 +1072,8 @@
 											<div class="doctor-scroll doctor-history-scroll" id="educationListScroll">
 												<c:forEach var="education" items="${ educationList }">
 													<div class="doctor-edu-row">
-														<input type="text" class="doctor-input" name="educationYear[]" placeholder="년도" value="${ education.educationYear }" />
-														<input type="text" class="doctor-input" name="educationContent[]" placeholder="학교와 학위를 입력해주세요..." value="${ education.educationContent }" />
+														<input type="text" class="doctor-input" name="educationYear[]" placeholder="연도" value="${ education.educationYear }" />
+														<input type="text" class="doctor-input" name="educationContent[]" placeholder="학력 내용을 입력하세요" value="${ education.educationContent }" />
 														<input type="hidden" name="educationNo[]" value="${ education.educationNo }"/>
 													</div>
 												</c:forEach>
@@ -1173,8 +1094,8 @@
 												<div class="doctor-scroll doctor-history-scroll" id="careerListScroll">
 													<c:forEach var="career" items="${ careerList }">
 														<div class="doctor-career-row">
-															<input type="text" class="doctor-input" name="careerYear[]" placeholder="기간" value="${ career.careerYear }" /> 
-															<input type="text" class="doctor-input" name="careerContent[]" placeholder="경력을 입력해주세요..." value="${ career.careerContent }" />
+															<input type="text" class="doctor-input" name="careerYear[]" placeholder="기간" value="${ career.careerYear }" />
+															<input type="text" class="doctor-input" name="careerContent[]" placeholder="경력 내용을 입력하세요" value="${ career.careerContent }" />
 															<input type="hidden" name="careerNo[]" value="${ career.careerNo }"/>
 														</div>
 													</c:forEach>
@@ -1194,7 +1115,7 @@
 											<button type="button" id="btnSubmit" name="btnSubmit" class="doctor-btn doctor-btn-primary">저장</button>
 											<button type="button" class="doctor-btn doctor-btn-secondary" id="doctorCancelBtn">취소</button>
 										</div>
-									
+
 								</div>
 							</div>
 						</div>
