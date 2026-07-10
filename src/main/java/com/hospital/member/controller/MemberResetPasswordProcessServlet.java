@@ -30,7 +30,7 @@ public class MemberResetPasswordProcessServlet extends HttpServlet {
 		}//end if
 		
 		if(newPassword == null || "".equals(newPassword.trim())) {
-			request.getSession().setAttribute("findPasswordMsg", "새 비밀번호를 입력해주세요,");
+			request.getSession().setAttribute("findPasswordMsg", "새 비밀번호를 입력해주세요.");
 			response.sendRedirect(request.getContextPath() + "/views/member/findPassword.jsp?reset=Y");
 			return;
 		}//end if

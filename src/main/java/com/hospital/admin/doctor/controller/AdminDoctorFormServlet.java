@@ -27,6 +27,7 @@ import com.hospital.common.dto.DoctorCareerDTO;
 import com.hospital.common.dto.DoctorDTO;
 import com.hospital.common.dto.DoctorEducationDTO;
 import com.hospital.common.dto.DoctorScheduleDTO;
+import com.hospital.common.util.AppConfig;
 
 @MultipartConfig(
 		fileSizeThreshold = 1024 * 1024,
@@ -37,6 +38,7 @@ public class AdminDoctorFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String DOCTOR_IMAGE_DIR = "/resources/images/doctors";
 	private static final String DEFAULT_DOCTOR_IMAGE = "doctor_default.png";
+	private static final String UPLOADED_DOCTOR_IMAGE_PATH_ATTR = "uploadedDoctorImagePath";
 	private static final DateTimeFormatter FILE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
 
 	private final AdminDoctorService adminDoctorService = new AdminDoctorService();
@@ -108,6 +110,7 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		if (success) {
 			request.getSession().setAttribute("message", "의료진 정보를 저장했습니다.");
 		} else {
+			deleteUploadedDoctorImage(request);
 			request.getSession().setAttribute("errorMessage", "의료진 정보를 저장하지 못했습니다.");
 		}
 
@@ -144,7 +147,7 @@ public class AdminDoctorFormServlet extends HttpServlet {
 
 	private String saveDoctorImage(HttpServletRequest request, String partName, String currentFileParam, int doctorLicenseNo, String imageType)
 			throws IOException, ServletException {
-		String currentFileName = defaultValue(request.getParameter(currentFileParam), "");
+		String currentFileName = resolveCurrentFileName(request, currentFileParam, doctorLicenseNo);
 		Part imagePart = getUploadedFilePart(request, partName);
 		if (imagePart == null || imagePart.getSize() == 0) {
 			return defaultValue(currentFileName, DEFAULT_DOCTOR_IMAGE);
@@ -156,12 +159,11 @@ public class AdminDoctorFormServlet extends HttpServlet {
 			throw new IllegalArgumentException("이미지 파일만 업로드할 수 있습니다.");
 		}
 
-		String realUploadPath = getServletContext().getRealPath(DOCTOR_IMAGE_DIR);
-		if (realUploadPath == null) {
+		Path uploadDir = resolveDoctorImageUploadDir();
+		if (uploadDir == null) {
 			throw new IOException("의료진 이미지 저장 경로를 찾을 수 없습니다.");
 		}
 
-		Path uploadDir = Paths.get(realUploadPath);
 		Files.createDirectories(uploadDir);
 
 		String savedFileName = "doctor_" + doctorLicenseNo + "_" + imageType + "_"
@@ -174,8 +176,49 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		try (InputStream inputStream = imagePart.getInputStream()) {
 			Files.copy(inputStream, targetPath, StandardCopyOption.REPLACE_EXISTING);
 		}
+		request.setAttribute(UPLOADED_DOCTOR_IMAGE_PATH_ATTR, targetPath);
 
 		return savedFileName;
+	}
+
+	private void deleteUploadedDoctorImage(HttpServletRequest request) {
+		Object uploadedImagePath = request.getAttribute(UPLOADED_DOCTOR_IMAGE_PATH_ATTR);
+		if (!(uploadedImagePath instanceof Path)) {
+			return;
+		}
+
+		try {
+			Files.deleteIfExists((Path) uploadedImagePath);
+		} catch (IOException ignored) {
+		}
+	}
+
+	private Path resolveDoctorImageUploadDir() {
+		String configuredUploadDir = AppConfig.getDoctorImageUploadDir(getServletContext());
+		if (configuredUploadDir != null) {
+			return Paths.get(configuredUploadDir).toAbsolutePath().normalize();
+		}
+
+		String realUploadPath = getServletContext().getRealPath(DOCTOR_IMAGE_DIR);
+		return realUploadPath == null ? null : Paths.get(realUploadPath).toAbsolutePath().normalize();
+	}
+
+	private String resolveCurrentFileName(HttpServletRequest request, String currentFileParam, int doctorLicenseNo) {
+		String currentFileName = trimToNull(request.getParameter(currentFileParam));
+		if (currentFileName != null) {
+			return currentFileName;
+		}
+
+		if (!adminDoctorService.checkDoctorLicenseNo(doctorLicenseNo)) {
+			return "";
+		}
+
+		AdminDoctorFormDTO formDTO = adminDoctorService.searchDoctorDetail(doctorLicenseNo);
+		if (formDTO == null || formDTO.getDoctorDTO() == null) {
+			return "";
+		}
+
+		return defaultValue(formDTO.getDoctorDTO().getThumbnailUrl(), "");
 	}
 
 	private Part getUploadedFilePart(HttpServletRequest request, String partName) throws IOException, ServletException {
@@ -274,16 +317,11 @@ public class AdminDoctorFormServlet extends HttpServlet {
 		String[] startTimes = request.getParameterValues("startTimeValue[]");
 		String[] endTimes = request.getParameterValues("endTimeValue[]");
 
-		if (statuses == null) {
-			return scheduleList;
-		}
-
-		int scheduleCount = Math.min(statuses.length, 7);
-		for (int i = 0; i < scheduleCount; i++) {
+		for (int i = 0; i < 7; i++) {
 			DoctorScheduleDTO schedule = new DoctorScheduleDTO();
 			schedule.setDoctorLicenseNo(doctorLicenseNo);
 			schedule.setDayOfWeek(i + 1);
-			schedule.setStatus(defaultValue(statuses[i], ""));
+			schedule.setStatus(defaultValue(valueAt(statuses, i), ""));
 			schedule.setStartTime(defaultValue(valueAt(startTimes, i), ""));
 			schedule.setEndTime(defaultValue(valueAt(endTimes, i), ""));
 			scheduleList.add(schedule);

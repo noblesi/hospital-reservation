@@ -75,15 +75,15 @@
                         <tr>
                             <th scope="row"><span class="required">*</span> 비밀번호</th>
                                 <td>
-                                    <input id="pass" name="pass" title="비밀번호"class="inputText" type="password">
-                                    <span class="desc">영문,숫자, 특수문자 조합으로 9~16자</span>
+                                    <input id="pass" name="pass" title="비밀번호" class="inputText" type="password">
+                                    <span class="desc">영문, 숫자, 특수문자 조합으로 9~16자</span>
                                     <p class="errorPass" role="alert"></p>
                                 </td>
                         </tr>
                         <tr>
                             <th scope="row"><span class="required">*</span> 비밀번호 확인</th>
                                 <td>
-                                    <input type="password" id="passConfirm"name="passConfirm" class="inputText" title="비밀번호 확인">
+                                    <input type="password" id="passConfirm" name="passConfirm" class="inputText" title="비밀번호 확인">
                                     <p class="error" role="alert"></p>
                                 </td>
                         </tr>

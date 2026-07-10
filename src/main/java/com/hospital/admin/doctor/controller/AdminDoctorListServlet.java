@@ -1,6 +1,8 @@
 package com.hospital.admin.doctor.controller;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -35,12 +37,14 @@ public class AdminDoctorListServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+
 		Integer doctorLicenseNo = parseInt(request.getParameter("doctorLicenseNo"));
-		String statusCode = request.getParameter("statusCode");
+		String statusCode = resolveRowStatusCode(request);
 
 		if(doctorLicenseNo == null || isBlank(statusCode)) {
 			request.getSession().setAttribute("errorMessage", "의료진 상태 변경 요청이 올바르지 않습니다.");
-			response.sendRedirect(request.getContextPath() + "/admin/doctor/list.do");
+			response.sendRedirect(buildListRedirectUrl(request));
 			return;
 		}// end if
 
@@ -51,7 +55,7 @@ public class AdminDoctorListServlet extends HttpServlet {
 			request.getSession().setAttribute("errorMessage", "의료진 상태를 변경하지 못했습니다.");
 		}// end if else
 
-		response.sendRedirect(request.getContextPath() + "/admin/doctor/list.do");
+		response.sendRedirect(buildListRedirectUrl(request));
 	}//doPost
 
 	private AdminDoctorSearchDTO createSearchDTO(HttpServletRequest request) {
@@ -74,6 +78,52 @@ public class AdminDoctorListServlet extends HttpServlet {
 	private String trimToNull(String value) {
 		return isBlank(value) ? null : value.trim();
 	}//trimToNull
+
+	private String resolveRowStatusCode(HttpServletRequest request) {
+		String rowStatusCode = request.getParameter("rowStatusCode");
+		if(!isBlank(rowStatusCode)) {
+			return rowStatusCode;
+		}// end if
+
+		String[] statusCodes = request.getParameterValues("statusCode");
+		if(statusCodes == null) {
+			return null;
+		}// end if
+
+		for(String statusCode : statusCodes) {
+			if(!isBlank(statusCode)) {
+				return statusCode;
+			}// end if
+		}// end for
+
+		return null;
+	}//resolveRowStatusCode
+
+	private String buildListRedirectUrl(HttpServletRequest request) {
+		String redirectUrl = request.getContextPath() + "/admin/doctor/list.do";
+		String queryString = buildRedirectQueryString(createSearchDTO(request));
+		return queryString.isEmpty() ? redirectUrl : redirectUrl + "?" + queryString;
+	}//buildListRedirectUrl
+
+	private String buildRedirectQueryString(AdminDoctorSearchDTO searchDTO) {
+		StringBuilder queryString = new StringBuilder();
+		appendQueryParam(queryString, "deptNo", searchDTO.getDeptNo());
+		appendQueryParam(queryString, "name", searchDTO.getName());
+		appendQueryParam(queryString, "positionCode", searchDTO.getPositionCode());
+		appendQueryParam(queryString, "statusCode", searchDTO.getStatusCode());
+		return queryString.length() > 0 ? queryString.substring(1) : "";
+	}//buildRedirectQueryString
+
+	private void appendQueryParam(StringBuilder queryString, String name, String value) {
+		if(isBlank(value)) {
+			return;
+		}// end if
+
+		queryString.append('&')
+				.append(name)
+				.append('=')
+				.append(URLEncoder.encode(value, StandardCharsets.UTF_8));
+	}//appendQueryParam
 
 	private boolean isBlank(String value) {
 		return value == null || value.trim().isEmpty();

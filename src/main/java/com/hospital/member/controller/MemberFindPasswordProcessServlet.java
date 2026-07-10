@@ -15,7 +15,7 @@ import com.hospital.member.dto.FindAccountDTO;
  * 비밀 번호 찾기에서 회원 정보를 확인하는 Servlet Controller
  * 
  * 기존 findPasswordProcess.jsp에서 처리하던 요청 파라미터 수집, 
- * 회원 검증, 비밀번호 재설정 화면 이동처리를 servlet으로 분리된다.
+ * 회원 검증, 비밀번호 재설정 화면 이동 처리를 Servlet으로 분리한다.
  * 
  */
 public class MemberFindPasswordProcessServlet extends HttpServlet{

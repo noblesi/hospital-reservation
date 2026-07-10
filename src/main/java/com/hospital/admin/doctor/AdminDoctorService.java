@@ -1,5 +1,6 @@
 package com.hospital.admin.doctor;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.hospital.admin.department.AdminDepartmentDAO;
 import com.hospital.admin.doctor.dto.AdminDoctorFormDTO;
@@ -93,8 +94,10 @@ public class AdminDoctorService {
 			doctorDTO.setPhoneNum(de.encrypt(doctorDTO.getPhoneNum()));
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 		adminDoctorFormDTO.setDoctorDTO(doctorDTO);
+		adminDoctorFormDTO.setScheduleList(normalizeScheduleList(doctorDTO.getDoctorLicenseNo(), adminDoctorFormDTO.getScheduleList()));
 		successCnt = adminDoctorDAO.insertDoctor(adminDoctorFormDTO);
 		if(successCnt > 0) {
 			successFlag = true;
@@ -102,103 +105,61 @@ public class AdminDoctorService {
 		
 		return successFlag;
 	}
+	
 	public boolean modifyDoctor(AdminDoctorFormDTO formDTO) {
 		// 의료진 정보 수정
-		boolean successFlag = false;
-		int successCnt = 0 ;
 		AdminDoctorFormDTO adminDoctorFormDTO = formDTO;
-		
 		DataEncryption de = new DataEncryption(GetKey.getKey());
 		DoctorDTO doctorDTO = adminDoctorFormDTO.getDoctorDTO();
-		
+
 		try {
 			doctorDTO.setPhoneNum(de.encrypt(doctorDTO.getPhoneNum()));
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
+
 		adminDoctorFormDTO.setDoctorDTO(doctorDTO);
-		
-		
-		successCnt = adminDoctorDAO.updateDoctor(adminDoctorFormDTO.getDoctorDTO());
-		int doctorLicenseNo = adminDoctorFormDTO.getDoctorDTO().getDoctorLicenseNo();
-		List<DoctorCareerDTO> originCareerList = adminDoctorDAO.selectDoctorCareerList(doctorLicenseNo);
-		List<DoctorEducationDTO> originEducationList = adminDoctorDAO.selectDoctorEducationList(doctorLicenseNo);
-		
-		List<DoctorCareerDTO> careerList = adminDoctorFormDTO.getCareerList();
-		List<DoctorEducationDTO> educationList = adminDoctorFormDTO.getEducationList();
-		List<DoctorScheduleDTO> scheduleList = adminDoctorFormDTO.getScheduleList();
-		
-		/////career///////////////////////////////////////////////////////////////
-		// 업데이트 또는 인설트 판단
-		
-		int careerNo = 0;
-		int originCareerNo = 0;
-		
-		boolean deleteCareerFlag = false;
-		for(int i = 0; i < careerList.size(); i++) {
-			careerNo = careerList.get(i).getCareerNo();
-			if( adminDoctorDAO.selectDoctorCareerChk(doctorLicenseNo, careerNo) ) {
-				adminDoctorDAO.updateDoctorCareer(doctorLicenseNo, adminDoctorFormDTO.getCareerList().get(i) );
-			} else if(careerNo==0 && (!careerList.get(i).getCareerYear().isEmpty() || !careerList.get(i).getCareerContent().isEmpty()) ){
-				adminDoctorDAO.insertDoctorCareer(adminDoctorFormDTO.getCareerList().get(i));
-			} 
-		}// end for
-		
-		for(int i =0; i < originCareerList.size(); i++ ) {
-			originCareerNo = originCareerList.get(i).getCareerNo();
-			deleteCareerFlag= false;
-			for(int j =0; j < careerList.size(); j++) {
-				if(originCareerList.get(i).getCareerNo() == careerList.get(j).getCareerNo()) {
-					j=careerList.size();
-					deleteCareerFlag=false;
-				} else if(j == careerList.size()-1) {
-					deleteCareerFlag= true;
-				}
-			}// end for
-			if(deleteCareerFlag) {
-				adminDoctorDAO.deleteDoctorCareers(doctorLicenseNo, originCareerNo);
-			}
-		}// end for
-		
-		//////education//////////////////////////////////////////////////////////////////////////////////
-		int educationNo = 0;
-		int originEducationNo = 0;
-		boolean deleteEducationFlag = false;
-		// 업데이트 또는 인설트 판단
-		for(int i = 0; i < educationList.size(); i++) {
-			educationNo = educationList.get(i).getEducationNo();
-			if( adminDoctorDAO.selectDoctorCareerChk(doctorLicenseNo, educationNo) ) {
-				adminDoctorDAO.updateDoctorEducation(doctorLicenseNo, educationList.get(i) );
-			} else if(educationNo==0 && (!educationList.get(i).getEducationYear().isEmpty() || !educationList.get(i).getEducationContent().isEmpty()) ){
-				adminDoctorDAO.insertDoctorEducation(educationList.get(i));
-			} 
-		}// end for
-		
-		for(int i =0; i < originEducationList.size(); i++ ) {
-			originEducationNo = originEducationList.get(i).getEducationNo();
-			deleteEducationFlag= false;
-			for(int j =0; j < educationList.size(); j++) {
-				if(originEducationList.get(i).getEducationNo() == originEducationList.get(j).getEducationNo()) {
-					j=educationList.size();
-					deleteEducationFlag=false;
-				} else if(j == educationList.size()-1) {
-					deleteEducationFlag= true;
-				}
-			}// end for
-			if(deleteEducationFlag) {
-				adminDoctorDAO.deleteDoctorCareers(doctorLicenseNo, originEducationNo);
-			}
-		}// end for
-		////////schedule///////////////////////////////////////////////////////////////////////////
-		//adminDoctorDAO.updateDoctorSchedules(doctorLicenseNo, scheduleList);
-		saveDoctorSchedule(doctorLicenseNo, scheduleList);
-				
-		if(successCnt > 0) {
-			successFlag = true;
-		}// end if
-		
-		return successFlag;
+		adminDoctorFormDTO.setScheduleList(normalizeScheduleList(doctorDTO.getDoctorLicenseNo(), adminDoctorFormDTO.getScheduleList()));
+		return adminDoctorDAO.updateDoctorForm(adminDoctorFormDTO) > 0;
 	}
+
+	private List<DoctorScheduleDTO> normalizeScheduleList(int doctorLicenseNo, List<DoctorScheduleDTO> schedules) {
+		List<DoctorScheduleDTO> normalizedSchedules = new ArrayList<DoctorScheduleDTO>();
+
+		for (int dayOfWeek = 1; dayOfWeek <= 7; dayOfWeek++) {
+			DoctorScheduleDTO schedule = findScheduleByDayOfWeek(schedules, dayOfWeek);
+			if (schedule == null) {
+				schedule = new DoctorScheduleDTO();
+				schedule.setDoctorLicenseNo(doctorLicenseNo);
+				schedule.setDayOfWeek(dayOfWeek);
+				schedule.setStatus("");
+				schedule.setStartTime("");
+				schedule.setEndTime("");
+			}
+			schedule.setDoctorLicenseNo(doctorLicenseNo);
+			schedule.setDayOfWeek(dayOfWeek);
+
+			normalizedSchedules.add(schedule);
+		}
+
+		return normalizedSchedules;
+	}
+
+	private DoctorScheduleDTO findScheduleByDayOfWeek(List<DoctorScheduleDTO> schedules, int dayOfWeek) {
+		if (schedules == null) {
+			return null;
+		}
+
+		for (DoctorScheduleDTO schedule : schedules) {
+			if (schedule != null && schedule.getDayOfWeek() == dayOfWeek) {
+				return schedule;
+			}
+		}
+
+		return null;
+	}
+
 	public boolean changeDoctorStatus(int doctorLicenseNo, String statusCode) {
 		// 의료진 상태 변경
 		boolean successFlag = false;
@@ -254,7 +215,9 @@ public class AdminDoctorService {
 		boolean successflag = false;
 		int sucssessCnt = 0;
 		for(int i =0; i < list.size(); i++) {
-			sucssessCnt = adminDoctorDAO.updateDoctorEducation(doctorLicenseNoTemp, list.get(i));
+			if(list.get(i).getEducationYear()!=null && list.get(i).getEducationContent() != null) {
+				sucssessCnt = adminDoctorDAO.updateDoctorEducation(doctorLicenseNoTemp, list.get(i));
+			}// end if
 			if(sucssessCnt == 1) {
 				successflag = true;
 			} else {
@@ -263,7 +226,6 @@ public class AdminDoctorService {
 			}
 		}// end for
 		return successflag;
-		
 	}
 	public boolean saveDoctorCareer(int doctorLicenseNo, List<DoctorCareerDTO> careers){
 		// 경력 저장
@@ -272,7 +234,9 @@ public class AdminDoctorService {
 		boolean successflag = false;
 		int sucssessCnt = 0;
 		for(int i =0; i < list.size(); i++) {
-			sucssessCnt = adminDoctorDAO.updateDoctorCareer(doctorLicenseNoTemp, list.get(i));
+			if(list.get(i).getCareerYear()!=null && list.get(i).getCareerContent() != null) {
+				sucssessCnt = adminDoctorDAO.updateDoctorCareer(doctorLicenseNoTemp, list.get(i));
+			}
 			if(sucssessCnt == 1) {
 				successflag = true;
 			} else {
