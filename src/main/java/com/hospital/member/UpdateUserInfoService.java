@@ -40,7 +40,7 @@ public class UpdateUserInfoService {
 			String dbPassword = uDAO.selectPassword(loginId);
 			/*
         	 *	마이페이지 들어가기전 비밀번호 입력 암호화 코드 추가
-        	 *  DB에 비밀번호가 암호화 되어 있으므로 입력된 비밀번호번호도 암호화 하여 
+		 *  DB에 비밀번호가 암호화되어 있으므로 입력된 비밀번호도 암호화하여
         	 *  DB의 비밀번호와 비교한다.
         	 *  2026.06.29 코드 추가 
         	 */

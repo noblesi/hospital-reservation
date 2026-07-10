@@ -36,7 +36,7 @@
             </div>
             <div class="hospital-location-summary">
                 <h3>방문 안내</h3>
-                <p>초진 및 예약 환자는 방문 전 예약 내역과 신분증을 확인해 주세요. 지도는 학습용 임시 좌표를 기준으로 제공될 예정입니다.</p>
+                <p>초진 및 예약 환자는 방문 전 예약 내역과 신분증을 확인해 주세요.</p>
                 <a class="main-primary-link" href="<c:url value='/appointment/reserve.do' />">진료 예약하기</a>
             </div>
         </section>

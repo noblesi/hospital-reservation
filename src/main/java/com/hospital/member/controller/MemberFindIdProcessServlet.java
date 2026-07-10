@@ -14,7 +14,7 @@ import com.hospital.member.dto.FindAccountDTO;
 /**
  * 아이디 찾기를 처리하는 Servlet Controller
  * 
- * 기존 findidProcess.jsp에서 처리하던 파라메터 수집, 아이디 조회,
+ * 기존 findidProcess.jsp에서 처리하던 파라미터 수집, 아이디 조회,
  * 결과화면 이동 처리를 Servlet으로 전환한다.
  */
 public class MemberFindIdProcessServlet extends HttpServlet{
