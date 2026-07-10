@@ -22,5 +22,5 @@ public class MinorMemberDTO {
 	private String relationship;
 	private String minorName;
 	private Date minorBirthDate;
-	private String minorGenderFm;
+	private String minorGenderFM;
 }//MinorMemberDTO
